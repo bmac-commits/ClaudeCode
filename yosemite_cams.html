@@ -738,18 +738,8 @@
 </header>
 
 <main>
-  <div class="refresh-bar">
-    <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feeds</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
-      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
-      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
-    </div>
-  </div>
-
-  <div class="cam-grid" id="camGrid"></div>
-
   <!-- Angler Information -->
-  <div style="margin-top: 32px;">
+  <div style="margin-bottom: 28px;">
     <div class="section-label">Angler Information · Merced River</div>
     <div class="angler-grid">
 
@@ -793,6 +783,16 @@
 
     </div>
   </div>
+
+  <div class="refresh-bar">
+    <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feeds</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
+      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
+      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
+    </div>
+  </div>
+
+  <div class="cam-grid" id="camGrid"></div>
 </main>
 
 <!-- Modal -->
