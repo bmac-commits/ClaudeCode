@@ -41,6 +41,24 @@
       align-items: center;
       gap: 14px;
       margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nps-logo {
+      height: 72px;
+      width: auto;
+      opacity: 0.92;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 500px) {
+      .nps-logo { height: 52px; }
     }
 
     .park-icon {
@@ -683,12 +701,15 @@
 
 <header>
   <div class="header-top">
-    <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 4L8 28h24L20 4z" fill="#4a7c59" opacity="0.9"/>
-      <path d="M14 28L6 36h28l-8-8H14z" fill="#8a9b8e" opacity="0.7"/>
-      <circle cx="20" cy="10" r="2" fill="#c8a94a" opacity="0.9"/>
-    </svg>
-    <h1>Yosemite <span>Live Cams</span></h1>
+    <div class="header-top-left">
+      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 4L8 28h24L20 4z" fill="#4a7c59" opacity="0.9"/>
+        <path d="M14 28L6 36h28l-8-8H14z" fill="#8a9b8e" opacity="0.7"/>
+        <circle cx="20" cy="10" r="2" fill="#c8a94a" opacity="0.9"/>
+      </svg>
+      <h1>Yosemite <span>Live Cams</span></h1>
+    </div>
+    <img class="nps-logo" src="https://centralca.cdn-anvilcms.net/media/images/2019/04/03/images/yosemite-logo.max-752x423.jpg" alt="Yosemite National Park" />
   </div>
   <p class="header-sub">Yosemite National Park — California, USA &nbsp;·&nbsp; All cameras refresh automatically every 60 seconds</p>
 
