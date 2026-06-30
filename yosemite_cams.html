@@ -598,6 +598,173 @@
       color: var(--red);
     }
 
+    /* ── Traffic Section ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .traffic-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+      .traffic-bottom { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(74,175,125,0.15); border-color: rgba(74,175,125,0.4); color: #4caf7d; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,155,142,0.15); border-color: rgba(138,155,142,0.4); color: var(--granite); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--green-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* Parking card */
+    .parking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .parking-lot {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .parking-lot-name {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-bottom: 3px;
+    }
+
+    .parking-lot-status {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .lot-open   { color: #4caf7d; }
+    .lot-full   { color: var(--red); }
+    .lot-closed { color: var(--granite); }
+
+    /* Alert tip card */
+    .tip-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .tip-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tip-body {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .tip-body strong { color: var(--green-light); }
+
+    /* Best times mini chart */
+    .best-times {
+      display: flex;
+      gap: 4px;
+      margin-top: 10px;
+      align-items: flex-end;
+      height: 36px;
+    }
+
+    .hour-bar {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      position: relative;
+      min-width: 0;
+    }
+
+    .hour-bar.low    { background: rgba(74,175,125,0.5);  height: 30%; }
+    .hour-bar.medium { background: rgba(200,169,74,0.5);  height: 60%; }
+    .hour-bar.high   { background: rgba(192,90,74,0.5);   height: 100%; }
+
+    .best-times-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
     /* ── Angler Section ── */
     .angler-grid {
       display: grid;
@@ -801,6 +968,98 @@
         <div id="cond2" class="angler-condition cond-good">⏳ Loading…</div>
         <div class="angler-updated" id="updated2"></div>
         <a class="angler-link" href="https://waterdata.usgs.gov/monitoring-location/USGS-11266500/#dataTypeId=continuous-00065-0&period=P7D" target="_blank">View 7-day chart ↗</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Traffic Section -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Park Entrance & Traffic Conditions</div>
+
+    <!-- 3 entrance cards -->
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Hwy 140 · Arch Rock Entrance</span>
+          <span class="traffic-badge badge-open" id="hwy140-badge">Open</span>
+        </div>
+        <div class="traffic-name">El Portal Road / All-Season Highway</div>
+        <div class="traffic-desc">Most reliable year-round route from Merced. Follows the Merced River through a scenic canyon.</div>
+        <div class="traffic-links">
+          <a class="traffic-link" href="https://yosemite.live" target="_blank">Live wait times ↗</a>
+          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=140" target="_blank">Caltrans status ↗</a>
+        </div>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Hwy 120 · Big Oak Flat Entrance</span>
+          <span class="traffic-badge badge-open" id="hwy120-badge">Open</span>
+        </div>
+        <div class="traffic-name">Big Oak Flat Road / Tioga Pass</div>
+        <div class="traffic-desc">Main route from the Bay Area via I-580. Also connects to Tioga Pass (seasonal — typically closes Oct–May).</div>
+        <div class="traffic-links">
+          <a class="traffic-link" href="https://yosemite.live" target="_blank">Live wait times ↗</a>
+          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=120" target="_blank">Caltrans status ↗</a>
+        </div>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Hwy 41 · South Entrance</span>
+          <span class="traffic-badge badge-open" id="hwy41-badge">Open</span>
+        </div>
+        <div class="traffic-name">Wawona Road / Fresno Route</div>
+        <div class="traffic-desc">Main route from Fresno and Southern California. Passes through Wawona and the Mariposa Grove of Giant Sequoias.</div>
+        <div class="traffic-links">
+          <a class="traffic-link" href="https://yosemite.live" target="_blank">Live wait times ↗</a>
+          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=41" target="_blank">Caltrans status ↗</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom row: parking + tips -->
+    <div class="traffic-bottom">
+
+      <!-- Valley Parking -->
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Valley Parking Lots</span>
+          <span class="traffic-badge badge-unknown" id="parking-badge">Loading…</span>
+        </div>
+        <div class="parking-grid" id="parkingGrid">
+          <div style="font-size:0.72rem;color:var(--text-dim);grid-column:1/-1">Fetching lot status…</div>
+        </div>
+        <div style="margin-top:10px;">
+          <a class="traffic-link" href="https://www.nps.gov/yose/planyourvisit/parking.htm" target="_blank">NPS parking guide ↗</a>
+        </div>
+      </div>
+
+      <!-- Best times + text alert -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="tip-card">
+          <div class="tip-title">⏰ Best Times to Enter</div>
+          <div class="tip-body">Arrive <strong>before 9 AM</strong> or <strong>after 4 PM</strong> to avoid peak congestion. Weekends June–August see 60+ min waits at all gates from 8 AM–5 PM.</div>
+          <div class="best-times">
+            <div class="hour-bar low" title="5–7 AM: Low"></div>
+            <div class="hour-bar low" title="7–8 AM: Low"></div>
+            <div class="hour-bar medium" title="8–9 AM: Building"></div>
+            <div class="hour-bar high" title="9 AM–12 PM: Peak"></div>
+            <div class="hour-bar high" title="12–2 PM: Peak"></div>
+            <div class="hour-bar high" title="2–4 PM: Peak"></div>
+            <div class="hour-bar medium" title="4–5 PM: Easing"></div>
+            <div class="hour-bar low" title="5–7 PM: Low"></div>
+            <div class="hour-bar low" title="7 PM+: Low"></div>
+          </div>
+          <div class="best-times-labels"><span>5 AM</span><span>9 AM</span><span>2 PM</span><span>7 PM</span></div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-title">📱 Live Traffic Alerts</div>
+          <div class="tip-body">Text <strong>YNPTRAFFIC</strong> to <strong>333111</strong> to receive real-time park traffic and parking alerts sent directly by the National Park Service.</div>
+        </div>
       </div>
 
     </div>
@@ -1048,6 +1307,39 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Parking Lots ──
+  async function loadParking() {
+    try {
+      const res = await fetch('https://developer.nps.gov/api/v1/parkinglots?parkCode=yose&limit=20&api_key=DEMO_KEY');
+      const d = await res.json();
+      const lots = (d.data || []).filter(l => l.name);
+      const grid = document.getElementById('parkingGrid');
+
+      if (!lots.length) throw new Error('no data');
+
+      const anyFull = lots.some(l => l.isOpen === 'false' || (l.spacesRemaining !== undefined && parseInt(l.spacesRemaining) === 0));
+      const badge = document.getElementById('parking-badge');
+      badge.textContent = anyFull ? 'Lots Full' : 'Space Available';
+      badge.className = 'traffic-badge ' + (anyFull ? 'badge-busy' : 'badge-open');
+
+      grid.innerHTML = lots.map(l => {
+        const isFull = l.isOpen === 'false' || (l.spacesRemaining !== undefined && parseInt(l.spacesRemaining) === 0);
+        const isClosed = l.isOpen === 'false' && l.spacesRemaining === undefined;
+        const cls = isClosed ? 'lot-closed' : isFull ? 'lot-full' : 'lot-open';
+        const label = isClosed ? 'Closed' : isFull ? 'Full' : 'Open';
+        return `<div class="parking-lot">
+          <div class="parking-lot-name">${l.name.replace('Parking', '').replace('Lot','').trim()}</div>
+          <div class="parking-lot-status ${cls}">${label}</div>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      document.getElementById('parkingGrid').innerHTML =
+        '<div style="font-size:0.72rem;color:var(--text-dim);grid-column:1/-1">Real-time lot data unavailable — <a class="traffic-link" href="https://www.nps.gov/yose/planyourvisit/parking.htm" target="_blank">check NPS site ↗</a></div>';
+      document.getElementById('parking-badge').textContent = 'See NPS';
+      document.getElementById('parking-badge').className = 'traffic-badge badge-unknown';
+    }
+  }
+
   // ── Angler / USGS River Data ──
   function riverCondition(cfs) {
     if (cfs < 100)  return { label: '🎣 Low — Easy Wading',       cls: 'cond-low' };
@@ -1211,6 +1503,7 @@
     loadWeather();
     loadAQI();
     loadAlerts();
+    loadParking();
     loadRiverData();
     startCountdown();
   }
@@ -1247,6 +1540,7 @@
   loadWeather();
   loadAQI();
   loadAlerts();
+  loadParking();
   loadRiverData();
   startCountdown();
 </script>
