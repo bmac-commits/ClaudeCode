@@ -380,8 +380,12 @@
     @media (max-width: 900px) {
       .cam-card.youtube { grid-column: span 1; }
       .cam-grid { grid-template-columns: 1fr; }
-      .weather-card { min-width: unset; width: 100%; }
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
       .forecast-strip { display: none; }
+      .angler-grid { grid-template-columns: 1fr; }
     }
 
     .cam-img-wrap {
@@ -575,6 +579,92 @@
       color: var(--red);
     }
 
+    /* ── Angler Section ── */
+    .angler-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .angler-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .angler-station {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+
+    .angler-metrics {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 12px;
+    }
+
+    .angler-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .angler-metric .metric-val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e8f0ea;
+      line-height: 1;
+    }
+
+    .angler-metric .metric-unit {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+    }
+
+    .angler-metric .metric-label {
+      font-size: 0.7rem;
+      color: var(--granite);
+      margin-top: 2px;
+    }
+
+    .angler-condition {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .cond-low       { background: rgba(74,122,155,0.15); border-color: rgba(74,122,155,0.4); color: #6aaac8; }
+    .cond-good      { background: rgba(74,175,125,0.15); border-color: rgba(74,175,125,0.4); color: #4caf7d; }
+    .cond-high      { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.4); color: var(--yellow); }
+    .cond-very-high { background: rgba(192,90,74,0.15);  border-color: rgba(192,90,74,0.4);  color: var(--red); }
+
+    .angler-updated {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .angler-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.68rem;
+      color: var(--green-light);
+      text-decoration: none;
+      opacity: 0.8;
+    }
+
+    .angler-link:hover { opacity: 1; text-decoration: underline; }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -657,6 +747,52 @@
   </div>
 
   <div class="cam-grid" id="camGrid"></div>
+
+  <!-- Angler Information -->
+  <div style="margin-top: 32px;">
+    <div class="section-label">Angler Information · Merced River</div>
+    <div class="angler-grid">
+
+      <div class="angler-card">
+        <div class="angler-station">Happy Isles Bridge · USGS 11264500</div>
+        <div class="angler-metrics">
+          <div class="angler-metric">
+            <span class="metric-val" id="flow1">--</span>
+            <span class="metric-unit">cfs</span>
+            <span class="metric-label">Streamflow</span>
+          </div>
+          <div class="angler-metric">
+            <span class="metric-val" id="gauge1">--</span>
+            <span class="metric-unit">ft</span>
+            <span class="metric-label">Gauge Height</span>
+          </div>
+        </div>
+        <div id="cond1" class="angler-condition cond-good">⏳ Loading…</div>
+        <div class="angler-updated" id="updated1"></div>
+        <a class="angler-link" href="https://waterdata.usgs.gov/monitoring-location/USGS-11264500/#dataTypeId=continuous-00065-0&period=P7D" target="_blank">View 7-day chart ↗</a>
+      </div>
+
+      <div class="angler-card">
+        <div class="angler-station">Pohono Bridge · USGS 11266500</div>
+        <div class="angler-metrics">
+          <div class="angler-metric">
+            <span class="metric-val" id="flow2">--</span>
+            <span class="metric-unit">cfs</span>
+            <span class="metric-label">Streamflow</span>
+          </div>
+          <div class="angler-metric">
+            <span class="metric-val" id="gauge2">--</span>
+            <span class="metric-unit">ft</span>
+            <span class="metric-label">Gauge Height</span>
+          </div>
+        </div>
+        <div id="cond2" class="angler-condition cond-good">⏳ Loading…</div>
+        <div class="angler-updated" id="updated2"></div>
+        <a class="angler-link" href="https://waterdata.usgs.gov/monitoring-location/USGS-11266500/#dataTypeId=continuous-00065-0&period=P7D" target="_blank">View 7-day chart ↗</a>
+      </div>
+
+    </div>
+  </div>
 </main>
 
 <!-- Modal -->
@@ -890,6 +1026,56 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Angler / USGS River Data ──
+  function riverCondition(cfs) {
+    if (cfs < 100)  return { label: '🎣 Low — Easy Wading',       cls: 'cond-low' };
+    if (cfs < 350)  return { label: '🎣 Good — Prime Conditions',  cls: 'cond-good' };
+    if (cfs < 700)  return { label: '⚠️ High — Difficult Wading',  cls: 'cond-high' };
+    return           { label: '🚫 Very High — Dangerous',          cls: 'cond-very-high' };
+  }
+
+  async function loadRiverData() {
+    try {
+      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11264500,11266500&parameterCd=00060,00065&format=json&period=PT2H';
+      const res = await fetch(url);
+      const d = await res.json();
+      const series = d.value.timeSeries;
+
+      const data = { '11264500': {}, '11266500': {} };
+      series.forEach(ts => {
+        const site = ts.sourceInfo.siteCode[0].value;
+        const code = ts.variable.variableCode[0].value;
+        const vals = ts.values[0].value;
+        if (!vals.length) return;
+        const latest = vals[vals.length - 1];
+        if (code === '00060') data[site].flow = parseFloat(latest.value);
+        if (code === '00065') data[site].gauge = parseFloat(latest.value);
+        data[site].time = latest.dateTime;
+      });
+
+      [['11264500', '1'], ['11266500', '2']].forEach(([site, n]) => {
+        const s = data[site];
+        if (s.flow !== undefined) {
+          document.getElementById('flow' + n).textContent = Math.round(s.flow).toLocaleString();
+          document.getElementById('gauge' + n).textContent = s.gauge?.toFixed(2) ?? '--';
+          const cond = riverCondition(s.flow);
+          const el = document.getElementById('cond' + n);
+          el.textContent = cond.label;
+          el.className = 'angler-condition ' + cond.cls;
+          if (s.time) {
+            const t = new Date(s.time);
+            document.getElementById('updated' + n).textContent =
+              'Updated ' + t.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+          }
+        }
+      });
+    } catch (e) {
+      ['1','2'].forEach(n => {
+        document.getElementById('cond' + n).textContent = 'Data unavailable';
+      });
+    }
+  }
+
   // ── Build camera grid ──
   function buildGrid() {
     const grid = document.getElementById('camGrid');
@@ -1003,6 +1189,7 @@
     loadWeather();
     loadAQI();
     loadAlerts();
+    loadRiverData();
     startCountdown();
   }
 
@@ -1038,6 +1225,7 @@
   loadWeather();
   loadAQI();
   loadAlerts();
+  loadRiverData();
   startCountdown();
 </script>
 </body>
