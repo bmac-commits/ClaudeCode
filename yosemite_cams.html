@@ -135,6 +135,51 @@
       width: 48px;
     }
 
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #e8f0ea;
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #4caf7d; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
     .forecast-strip {
       display: flex;
       gap: 10px;
@@ -572,6 +617,12 @@
         <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
         <div class="weather-detail-row"><span class="label">Elev.</span> <span>3,966 ft</span></div>
       </div>
+      <div class="aqi-block" id="aqiBlock">
+        <div class="aqi-label">Air Quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
       <div class="forecast-strip" id="forecastStrip"></div>
     </div>
 
@@ -772,6 +823,34 @@
     }
   }
 
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=37.7459&longitude=-119.5332&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
+      const res = await fetch(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
   // ── NPS Alerts ──
   async function loadAlerts() {
     const body = document.getElementById('alertsBody');
@@ -922,6 +1001,7 @@
       img.src = cam.url + '?_t=' + Date.now();
     });
     loadWeather();
+    loadAQI();
     loadAlerts();
     startCountdown();
   }
@@ -956,6 +1036,7 @@
   // ── Init ──
   buildGrid();
   loadWeather();
+  loadAQI();
   loadAlerts();
   startCountdown();
 </script>
