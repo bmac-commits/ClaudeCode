@@ -1214,10 +1214,11 @@
     return           { label: '🚫 Very High — Dangerous',          cls: 'cond-very-high' };
   }
 
-  async function loadRiverData() {
+  async function loadRiverData(attempt = 1) {
     try {
       const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11264500,11266500&parameterCd=00060,00065&format=json&period=PT2H';
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
       const series = d.value.timeSeries;
 
@@ -1250,8 +1251,13 @@
         }
       });
     } catch (e) {
+      if (attempt < 3) {
+        setTimeout(() => loadRiverData(attempt + 1), 3000 * attempt);
+        return;
+      }
       ['1','2'].forEach(n => {
         document.getElementById('cond' + n).textContent = 'Data unavailable';
+        document.getElementById('cond' + n).className = 'angler-condition';
       });
     }
   }
@@ -1405,7 +1411,6 @@
   loadWeather();
   loadAQI();
   loadAlerts();
-  loadParking();
   loadRiverData();
   startCountdown();
 </script>
