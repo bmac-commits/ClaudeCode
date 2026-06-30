@@ -782,6 +782,73 @@
       .angler-grid { grid-template-columns: 1fr; }
     }
 
+    /* ── Concessions ── */
+    .concession-area {
+      margin-bottom: 28px;
+    }
+
+    .concession-area-title {
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--granite);
+      margin-bottom: 8px;
+      padding-left: 2px;
+    }
+
+    .concession-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .concession-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .concession-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .concession-type {
+      font-size: 0.63rem;
+      color: var(--granite);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .concession-hours {
+      font-size: 0.72rem;
+      color: var(--green-light);
+      margin-top: 2px;
+    }
+
+    .concession-hours.closed {
+      color: var(--red);
+    }
+
+    .concession-note {
+      font-size: 0.63rem;
+      color: var(--text-dim);
+      margin-top: 1px;
+    }
+
+    @media (max-width: 600px) {
+      .concession-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 400px) {
+      .concession-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -948,6 +1015,130 @@
 
     </div>
 
+
+  </div>
+
+  <!-- Concessions -->
+  <div style="margin-bottom:0;">
+    <div class="section-label">Yosemite Valley Concession Information</div>
+
+    <!-- Yosemite Village -->
+    <div class="concession-area">
+      <div class="concession-area-title">Yosemite Village</div>
+      <div class="concession-grid">
+        <div class="concession-card">
+          <div class="concession-name">Village Store</div>
+          <div class="concession-type">Groceries &amp; Supplies</div>
+          <div class="concession-hours">8:00 AM – 10:00 PM daily</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Degnan's Kitchen</div>
+          <div class="concession-type">Deli &amp; Café</div>
+          <div class="concession-hours">7:00 AM – 6:00 PM daily</div>
+          <div class="concession-note">Breakfast 7–11 AM · Lunch 11:30 AM–6 PM</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Village Grill</div>
+          <div class="concession-type">Burgers &amp; Grilled Food</div>
+          <div class="concession-hours">11:00 AM – 6:00 PM daily</div>
+          <div class="concession-note">Seasonal · outdoor seating</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Ansel Adams Gallery</div>
+          <div class="concession-type">Art Gallery &amp; Photography</div>
+          <div class="concession-hours">9:00 AM – 5:00 PM daily</div>
+          <div class="concession-note">Closed Thanksgiving &amp; Christmas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Ahwahnee -->
+    <div class="concession-area">
+      <div class="concession-area-title">The Ahwahnee</div>
+      <div class="concession-grid">
+        <div class="concession-card">
+          <div class="concession-name">Ahwahnee Dining Room</div>
+          <div class="concession-type">Fine Dining</div>
+          <div class="concession-hours">7:00 AM – 9:00 PM daily</div>
+          <div class="concession-note">Breakfast · Lunch · Dinner · Reservations recommended</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Ahwahnee Bar</div>
+          <div class="concession-type">Bar &amp; Snacks</div>
+          <div class="concession-hours">11:00 AM – 11:00 PM daily</div>
+          <div class="concession-note">Year-round</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Ahwahnee Sweet Shop</div>
+          <div class="concession-type">Pastries &amp; Treats</div>
+          <div class="concession-hours">7:00 AM – 10:00 PM daily</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Ahwahnee Gift Shop</div>
+          <div class="concession-type">Gifts &amp; Souvenirs</div>
+          <div class="concession-hours">9:00 AM – 7:00 PM daily</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yosemite Valley Lodge -->
+    <div class="concession-area">
+      <div class="concession-area-title">Yosemite Valley Lodge</div>
+      <div class="concession-grid">
+        <div class="concession-card">
+          <div class="concession-name">Base Camp Eatery</div>
+          <div class="concession-type">Food Court</div>
+          <div class="concession-hours">7:00 AM – 9:00 PM daily</div>
+          <div class="concession-note">Year-round · Starbucks on-site</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Mountain Room</div>
+          <div class="concession-type">Dinner Restaurant</div>
+          <div class="concession-hours">5:30 PM – 9:00 PM daily</div>
+          <div class="concession-note">Views of Yosemite Falls · Year-round</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Mountain Room Lounge</div>
+          <div class="concession-type">Bar &amp; Appetizers</div>
+          <div class="concession-hours">4:30 PM – 11:00 PM daily</div>
+          <div class="concession-note">Year-round</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Valley Lodge Gift Shop</div>
+          <div class="concession-type">Gifts &amp; Supplies</div>
+          <div class="concession-hours">8:00 AM – 8:00 PM daily</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Half Dome Village (Curry Village) -->
+    <div class="concession-area">
+      <div class="concession-area-title">Half Dome Village (Curry Village)</div>
+      <div class="concession-grid">
+        <div class="concession-card">
+          <div class="concession-name">Curry Village Gift &amp; Grocery</div>
+          <div class="concession-type">Groceries &amp; Gifts</div>
+          <div class="concession-hours">8:00 AM – 8:00 PM daily</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Mountain Shop</div>
+          <div class="concession-type">Outdoor Gear</div>
+          <div class="concession-hours">8:30 AM – 6:00 PM daily</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Pizza Patio &amp; Bar</div>
+          <div class="concession-type">Pizza &amp; Drinks</div>
+          <div class="concession-hours">12:00 PM – 9:00 PM daily</div>
+          <div class="concession-note">Seasonal · outdoor seating</div>
+        </div>
+        <div class="concession-card">
+          <div class="concession-name">Curry Village Pavilion</div>
+          <div class="concession-type">Casual Dining</div>
+          <div class="concession-hours">7:00 AM – 9:00 PM daily</div>
+          <div class="concession-note">Breakfast · Dinner year-round</div>
+        </div>
+      </div>
+    </div>
 
   </div>
 
