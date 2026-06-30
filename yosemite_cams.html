@@ -782,76 +782,91 @@
       .angler-grid { grid-template-columns: 1fr; }
     }
 
-    /* ── Concessions ── */
-    .concession-wrap {
-      padding: 28px 0 8px;
+    /* ── Concessions Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .concession-table-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .ct-group {
+    .conc-group {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
       overflow: hidden;
     }
 
-    .ct-group-title {
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
       font-size: 0.62rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--green-light);
-      background: var(--surface2);
-      padding: 6px 10px;
+      font-weight: 400;
+      color: var(--granite);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--granite);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
       border-bottom: 1px solid var(--border);
     }
 
-    .ct-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 4px 8px;
-      padding: 5px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      align-items: baseline;
+    .conc-body {
+      padding: 4px 0;
     }
 
-    .ct-row:last-child { border-bottom: none; }
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
 
-    .ct-name {
-      font-size: 0.73rem;
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
       font-weight: 500;
       color: var(--text);
-      grid-column: 1;
-      grid-row: 1;
+      min-width: 160px;
     }
 
-    .ct-type {
-      font-size: 0.6rem;
+    .conc-type {
+      font-size: 0.65rem;
       color: var(--granite);
-      grid-column: 1;
-      grid-row: 2;
+      flex: 1;
     }
 
-    .ct-hours {
-      font-size: 0.68rem;
+    .conc-hrs {
+      font-size: 0.72rem;
       color: var(--green-light);
       white-space: nowrap;
-      grid-column: 2;
-      grid-row: 1 / 3;
-      align-self: center;
-      text-align: right;
-    }
-
-    @media (max-width: 900px) {
-      .concession-table-grid { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 500px) {
-      .concession-table-grid { grid-template-columns: 1fr; }
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
     }
 
     /* ── Footer ── */
@@ -1023,6 +1038,54 @@
 
   </div>
 
+  <!-- Concessions -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Yosemite Valley Concession Information</div>
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Yosemite Village<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Village Store</span><span class="conc-type">Groceries &amp; Supplies</span><span class="conc-hrs">8 AM – 10 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Degnan's Kitchen</span><span class="conc-type">Deli · Café</span><span class="conc-hrs">7 AM – 6 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Village Grill</span><span class="conc-type">Burgers · Seasonal</span><span class="conc-hrs">11 AM – 6 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Ansel Adams Gallery</span><span class="conc-type">Art · Photography</span><span class="conc-hrs">9 AM – 5 PM</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">The Ahwahnee<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Dining Room</span><span class="conc-type">Fine Dining</span><span class="conc-hrs">7 AM – 9 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Ahwahnee Bar</span><span class="conc-type">Bar · Snacks</span><span class="conc-hrs">11 AM – 11 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Sweet Shop</span><span class="conc-type">Pastries</span><span class="conc-hrs">7 AM – 10 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Gift Shop</span><span class="conc-type">Gifts · Souvenirs</span><span class="conc-hrs">9 AM – 7 PM</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Yosemite Valley Lodge<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Base Camp Eatery</span><span class="conc-type">Food Court · Starbucks</span><span class="conc-hrs">7 AM – 9 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Mountain Room</span><span class="conc-type">Dinner Restaurant</span><span class="conc-hrs">5:30 – 9 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Mountain Room Lounge</span><span class="conc-type">Bar · Appetizers</span><span class="conc-hrs">4:30 – 11 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Lodge Gift Shop</span><span class="conc-type">Gifts · Supplies</span><span class="conc-hrs">8 AM – 8 PM</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Half Dome Village (Curry Village)<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Gift &amp; Grocery</span><span class="conc-type">Groceries · Gifts</span><span class="conc-hrs">8 AM – 8 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Mountain Shop</span><span class="conc-type">Outdoor Gear</span><span class="conc-hrs">8:30 AM – 6 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Pizza Patio &amp; Bar</span><span class="conc-type">Pizza · Seasonal</span><span class="conc-hrs">12 – 9 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Curry Pavilion</span><span class="conc-type">Casual Dining</span><span class="conc-hrs">7 AM – 9 PM</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
   <div class="refresh-bar">
     <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feeds</div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
@@ -1032,46 +1095,6 @@
   </div>
 
   <div class="cam-grid" id="camGrid"></div>
-
-  <!-- Concessions -->
-  <div class="concession-wrap">
-    <div class="section-label">Yosemite Valley Concession Information</div>
-    <div class="concession-table-grid">
-
-      <div class="ct-group">
-        <div class="ct-group-title">Yosemite Village</div>
-        <div class="ct-row"><span class="ct-name">Village Store</span><span class="ct-type">Groceries</span><span class="ct-hours">8 AM – 10 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Degnan's Kitchen</span><span class="ct-type">Deli · Café</span><span class="ct-hours">7 AM – 6 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Village Grill</span><span class="ct-type">Burgers · Seasonal</span><span class="ct-hours">11 AM – 6 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Ansel Adams Gallery</span><span class="ct-type">Art · Photography</span><span class="ct-hours">9 AM – 5 PM</span></div>
-      </div>
-
-      <div class="ct-group">
-        <div class="ct-group-title">The Ahwahnee</div>
-        <div class="ct-row"><span class="ct-name">Dining Room</span><span class="ct-type">Fine Dining</span><span class="ct-hours">7 AM – 9 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Ahwahnee Bar</span><span class="ct-type">Bar · Snacks</span><span class="ct-hours">11 AM – 11 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Sweet Shop</span><span class="ct-type">Pastries</span><span class="ct-hours">7 AM – 10 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Gift Shop</span><span class="ct-type">Gifts · Souvenirs</span><span class="ct-hours">9 AM – 7 PM</span></div>
-      </div>
-
-      <div class="ct-group">
-        <div class="ct-group-title">Yosemite Valley Lodge</div>
-        <div class="ct-row"><span class="ct-name">Base Camp Eatery</span><span class="ct-type">Food Court · Starbucks</span><span class="ct-hours">7 AM – 9 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Mountain Room</span><span class="ct-type">Dinner Restaurant</span><span class="ct-hours">5:30 – 9 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Mountain Room Lounge</span><span class="ct-type">Bar · Appetizers</span><span class="ct-hours">4:30 – 11 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Lodge Gift Shop</span><span class="ct-type">Gifts · Supplies</span><span class="ct-hours">8 AM – 8 PM</span></div>
-      </div>
-
-      <div class="ct-group">
-        <div class="ct-group-title">Half Dome Village (Curry Village)</div>
-        <div class="ct-row"><span class="ct-name">Gift &amp; Grocery</span><span class="ct-type">Groceries · Gifts</span><span class="ct-hours">8 AM – 8 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Mountain Shop</span><span class="ct-type">Outdoor Gear</span><span class="ct-hours">8:30 AM – 6 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Pizza Patio &amp; Bar</span><span class="ct-type">Pizza · Seasonal</span><span class="ct-hours">12 – 9 PM</span></div>
-        <div class="ct-row"><span class="ct-name">Curry Pavilion</span><span class="ct-type">Casual Dining</span><span class="ct-hours">7 AM – 9 PM</span></div>
-      </div>
-
-    </div>
-  </div>
 
 </main>
 
