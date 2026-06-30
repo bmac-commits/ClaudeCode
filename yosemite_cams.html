@@ -606,16 +606,8 @@
       margin-bottom: 14px;
     }
 
-    .traffic-bottom {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
     @media (max-width: 900px) {
       .traffic-grid { grid-template-columns: 1fr; }
-      .traffic-bottom { grid-template-columns: 1fr; }
     }
 
     .traffic-card {
@@ -666,12 +658,6 @@
       margin-bottom: 10px;
     }
 
-    .traffic-links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
     .traffic-link {
       font-size: 0.68rem;
       color: var(--green-light);
@@ -680,60 +666,34 @@
     }
     .traffic-link:hover { opacity: 1; text-decoration: underline; }
 
-    /* Alert tip card */
-    .tip-card {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--green);
-      border-radius: 10px;
-      padding: 14px 18px;
-    }
-
-    .tip-title {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 5px;
+    .wait-time-row {
       display: flex;
       align-items: center;
-      gap: 6px;
-    }
-
-    .tip-body {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      line-height: 1.5;
-    }
-
-    .tip-body strong { color: var(--green-light); }
-
-    /* Best times mini chart */
-    .best-times {
-      display: flex;
-      gap: 4px;
+      gap: 14px;
+      flex-wrap: wrap;
       margin-top: 10px;
-      align-items: flex-end;
-      height: 36px;
     }
 
-    .hour-bar {
-      flex: 1;
-      border-radius: 3px 3px 0 0;
-      position: relative;
-      min-width: 0;
+    .wait-time-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(74,124,89,0.18);
+      border: 1px solid rgba(74,124,89,0.45);
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--green-light);
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
     }
-
-    .hour-bar.low    { background: rgba(74,175,125,0.5);  height: 30%; }
-    .hour-bar.medium { background: rgba(200,169,74,0.5);  height: 60%; }
-    .hour-bar.high   { background: rgba(192,90,74,0.5);   height: 100%; }
-
-    .best-times-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.6rem;
-      color: var(--text-dim);
-      margin-top: 4px;
+    .wait-time-btn:hover {
+      background: rgba(74,124,89,0.32);
+      border-color: rgba(74,124,89,0.7);
     }
+    .wait-icon { font-size: 0.85rem; }
+    .wait-arrow { opacity: 0.7; }
 
     /* ── Angler Section ── */
     .angler-grid {
@@ -957,9 +917,13 @@
         </div>
         <div class="traffic-name">El Portal Road / All-Season Highway</div>
         <div class="traffic-desc">Most reliable year-round route from Merced. Follows the Merced River through a scenic canyon.</div>
-        <div class="traffic-links">
-          <a class="traffic-link" href="https://yosemite.live" target="_blank">Live wait times ↗</a>
-          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=140" target="_blank">Caltrans status ↗</a>
+        <div class="wait-time-row">
+          <a class="wait-time-btn" href="https://yosemite.live" target="_blank">
+            <span class="wait-icon">🚗</span>
+            <span>Check Live Wait Time</span>
+            <span class="wait-arrow">↗</span>
+          </a>
+          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=140" target="_blank">Caltrans road status ↗</a>
         </div>
       </div>
 
@@ -970,9 +934,13 @@
         </div>
         <div class="traffic-name">Big Oak Flat Road / Tioga Pass</div>
         <div class="traffic-desc">Main route from the Bay Area via I-580. Also connects to Tioga Pass (seasonal — typically closes Oct–May).</div>
-        <div class="traffic-links">
-          <a class="traffic-link" href="https://yosemite.live" target="_blank">Live wait times ↗</a>
-          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=120" target="_blank">Caltrans status ↗</a>
+        <div class="wait-time-row">
+          <a class="wait-time-btn" href="https://yosemite.live" target="_blank">
+            <span class="wait-icon">🚗</span>
+            <span>Check Live Wait Time</span>
+            <span class="wait-arrow">↗</span>
+          </a>
+          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=120" target="_blank">Caltrans road status ↗</a>
         </div>
       </div>
 
@@ -983,38 +951,13 @@
         </div>
         <div class="traffic-name">Wawona Road / Fresno Route</div>
         <div class="traffic-desc">Main route from Fresno and Southern California. Passes through Wawona and the Mariposa Grove of Giant Sequoias.</div>
-        <div class="traffic-links">
-          <a class="traffic-link" href="https://yosemite.live" target="_blank">Live wait times ↗</a>
-          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=41" target="_blank">Caltrans status ↗</a>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Bottom row: parking + tips -->
-    <div class="traffic-bottom">
-
-      <!-- Best times + text alert -->
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <div class="tip-card">
-          <div class="tip-title">⏰ Best Times to Enter</div>
-          <div class="tip-body">Arrive <strong>before 9 AM</strong> or <strong>after 4 PM</strong> to avoid peak congestion. Weekends June–August see 60+ min waits at all gates from 8 AM–5 PM.</div>
-          <div class="best-times">
-            <div class="hour-bar low" title="5–7 AM: Low"></div>
-            <div class="hour-bar low" title="7–8 AM: Low"></div>
-            <div class="hour-bar medium" title="8–9 AM: Building"></div>
-            <div class="hour-bar high" title="9 AM–12 PM: Peak"></div>
-            <div class="hour-bar high" title="12–2 PM: Peak"></div>
-            <div class="hour-bar high" title="2–4 PM: Peak"></div>
-            <div class="hour-bar medium" title="4–5 PM: Easing"></div>
-            <div class="hour-bar low" title="5–7 PM: Low"></div>
-            <div class="hour-bar low" title="7 PM+: Low"></div>
-          </div>
-          <div class="best-times-labels"><span>5 AM</span><span>9 AM</span><span>2 PM</span><span>7 PM</span></div>
-        </div>
-        <div class="tip-card">
-          <div class="tip-title">📱 Live Traffic Alerts</div>
-          <div class="tip-body">Text <strong>YNPTRAFFIC</strong> to <strong>333111</strong> to receive real-time park traffic and parking alerts sent directly by the National Park Service.</div>
+        <div class="wait-time-row">
+          <a class="wait-time-btn" href="https://yosemite.live" target="_blank">
+            <span class="wait-icon">🚗</span>
+            <span>Check Live Wait Time</span>
+            <span class="wait-arrow">↗</span>
+          </a>
+          <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=41" target="_blank">Caltrans road status ↗</a>
         </div>
       </div>
 
