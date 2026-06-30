@@ -778,97 +778,6 @@
     .cond-high      { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.4); color: var(--yellow); }
     .cond-very-high { background: rgba(192,90,74,0.15);  border-color: rgba(192,90,74,0.4);  color: var(--red); }
 
-    /* ── Fishing Spots ── */
-    .fishing-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      margin-bottom: 28px;
-    }
-
-    .fishing-title {
-      font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-dim);
-      margin-bottom: 10px;
-    }
-
-    .fishing-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .fishing-spot {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
-    }
-
-    .fishing-spot-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .fishing-rank {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: rgba(74,124,89,0.25);
-      color: var(--green-light);
-      font-size: 0.62rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .fishing-name {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .fishing-desc {
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-
-    .fishing-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      border-top: 1px solid var(--border);
-      padding-top: 8px;
-    }
-
-    .fishing-meta-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.64rem;
-    }
-
-    .fishing-meta-label {
-      color: var(--granite);
-    }
-
-    .fishing-meta-val {
-      color: var(--text-dim);
-      text-align: right;
-    }
-
-    @media (max-width: 900px) {
-      .fishing-list { grid-template-columns: 1fr; }
-    }
-
     @media (max-width: 600px) {
       .angler-grid { grid-template-columns: 1fr; }
     }
@@ -1039,47 +948,7 @@
 
     </div>
 
-    <div class="fishing-card">
-      <div class="fishing-title">Top 3 Fishing Spots in the Valley</div>
-      <div class="fishing-list">
-        <div class="fishing-spot">
-          <div class="fishing-spot-header">
-            <div class="fishing-rank">1</div>
-            <div class="fishing-name">Happy Isles</div>
-          </div>
-          <div class="fishing-desc">Deep pools below the bridge, easy access from the shuttle stop.</div>
-          <div class="fishing-meta">
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Species</span><span class="fishing-meta-val">Rainbow trout</span></div>
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Best time</span><span class="fishing-meta-val">Early morning</span></div>
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Access</span><span class="fishing-meta-val">Easy · paved trail</span></div>
-          </div>
-        </div>
-        <div class="fishing-spot">
-          <div class="fishing-spot-header">
-            <div class="fishing-rank">2</div>
-            <div class="fishing-name">Sentinel Beach</div>
-          </div>
-          <div class="fishing-desc">Wide gravel bar, good wading in late summer flows.</div>
-          <div class="fishing-meta">
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Species</span><span class="fishing-meta-val">Rainbow, brown trout</span></div>
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Best time</span><span class="fishing-meta-val">Late afternoon</span></div>
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Access</span><span class="fishing-meta-val">Moderate · river trail</span></div>
-          </div>
-        </div>
-        <div class="fishing-spot">
-          <div class="fishing-spot-header">
-            <div class="fishing-rank">3</div>
-            <div class="fishing-name">Cathedral Beach</div>
-          </div>
-          <div class="fishing-desc">Quiet stretch with fewer crowds, good bank casting.</div>
-          <div class="fishing-meta">
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Species</span><span class="fishing-meta-val">Rainbow trout</span></div>
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Best time</span><span class="fishing-meta-val">Morning, dusk</span></div>
-            <div class="fishing-meta-row"><span class="fishing-meta-label">Access</span><span class="fishing-meta-val">Easy · roadside pullout</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 
   <div class="refresh-bar">
