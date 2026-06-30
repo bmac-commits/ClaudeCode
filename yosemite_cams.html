@@ -608,7 +608,7 @@
 
     .traffic-bottom {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 12px;
       margin-bottom: 28px;
     }
@@ -679,36 +679,6 @@
       opacity: 0.85;
     }
     .traffic-link:hover { opacity: 1; text-decoration: underline; }
-
-    /* Parking card */
-    .parking-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .parking-lot {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
-
-    .parking-lot-name {
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      margin-bottom: 3px;
-    }
-
-    .parking-lot-status {
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .lot-open   { color: #4caf7d; }
-    .lot-full   { color: var(--red); }
-    .lot-closed { color: var(--granite); }
 
     /* Alert tip card */
     .tip-card {
@@ -1024,20 +994,6 @@
     <!-- Bottom row: parking + tips -->
     <div class="traffic-bottom">
 
-      <!-- Valley Parking -->
-      <div class="traffic-card">
-        <div class="traffic-card-header">
-          <span class="traffic-route">Valley Parking Lots</span>
-          <span class="traffic-badge badge-unknown" id="parking-badge">Loading…</span>
-        </div>
-        <div class="parking-grid" id="parkingGrid">
-          <div style="font-size:0.72rem;color:var(--text-dim);grid-column:1/-1">Fetching lot status…</div>
-        </div>
-        <div style="margin-top:10px;">
-          <a class="traffic-link" href="https://www.nps.gov/yose/planyourvisit/parking.htm" target="_blank">NPS parking guide ↗</a>
-        </div>
-      </div>
-
       <!-- Best times + text alert -->
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div class="tip-card">
@@ -1307,39 +1263,6 @@
     body.classList.toggle('open', !isOpen);
   }
 
-  // ── Parking Lots ──
-  async function loadParking() {
-    try {
-      const res = await fetch('https://developer.nps.gov/api/v1/parkinglots?parkCode=yose&limit=20&api_key=DEMO_KEY');
-      const d = await res.json();
-      const lots = (d.data || []).filter(l => l.name);
-      const grid = document.getElementById('parkingGrid');
-
-      if (!lots.length) throw new Error('no data');
-
-      const anyFull = lots.some(l => l.isOpen === 'false' || (l.spacesRemaining !== undefined && parseInt(l.spacesRemaining) === 0));
-      const badge = document.getElementById('parking-badge');
-      badge.textContent = anyFull ? 'Lots Full' : 'Space Available';
-      badge.className = 'traffic-badge ' + (anyFull ? 'badge-busy' : 'badge-open');
-
-      grid.innerHTML = lots.map(l => {
-        const isFull = l.isOpen === 'false' || (l.spacesRemaining !== undefined && parseInt(l.spacesRemaining) === 0);
-        const isClosed = l.isOpen === 'false' && l.spacesRemaining === undefined;
-        const cls = isClosed ? 'lot-closed' : isFull ? 'lot-full' : 'lot-open';
-        const label = isClosed ? 'Closed' : isFull ? 'Full' : 'Open';
-        return `<div class="parking-lot">
-          <div class="parking-lot-name">${l.name.replace('Parking', '').replace('Lot','').trim()}</div>
-          <div class="parking-lot-status ${cls}">${label}</div>
-        </div>`;
-      }).join('');
-    } catch(e) {
-      document.getElementById('parkingGrid').innerHTML =
-        '<div style="font-size:0.72rem;color:var(--text-dim);grid-column:1/-1">Real-time lot data unavailable — <a class="traffic-link" href="https://www.nps.gov/yose/planyourvisit/parking.htm" target="_blank">check NPS site ↗</a></div>';
-      document.getElementById('parking-badge').textContent = 'See NPS';
-      document.getElementById('parking-badge').className = 'traffic-badge badge-unknown';
-    }
-  }
-
   // ── Angler / USGS River Data ──
   function riverCondition(cfs) {
     if (cfs < 100)  return { label: '🎣 Low — Easy Wading',       cls: 'cond-low' };
@@ -1503,7 +1426,6 @@
     loadWeather();
     loadAQI();
     loadAlerts();
-    loadParking();
     loadRiverData();
     startCountdown();
   }
