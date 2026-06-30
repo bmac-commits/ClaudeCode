@@ -699,64 +699,78 @@
     .angler-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 28px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
     .angler-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 16px 20px;
+      padding: 8px 12px;
+    }
+
+    .angler-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
     }
 
     .angler-station {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .angler-site {
+      font-size: 0.6rem;
       color: var(--text-dim);
-      margin-bottom: 10px;
+      margin-bottom: 4px;
     }
 
-    .angler-metrics {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 12px;
-    }
-
-    .angler-metric {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .angler-metric .metric-val {
-      font-size: 1.6rem;
+    .angler-stats {
+      font-size: 0.95rem;
       font-weight: 700;
       color: #e8f0ea;
-      line-height: 1;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
     }
 
-    .angler-metric .metric-unit {
-      font-size: 0.68rem;
+    .angler-stats .unit {
+      font-size: 0.56rem;
       color: var(--text-dim);
+      font-weight: 400;
     }
 
-    .angler-metric .metric-label {
-      font-size: 0.7rem;
-      color: var(--granite);
-      margin-top: 2px;
+    .angler-stats .sep {
+      color: var(--border);
+      font-weight: 400;
+      margin: 0 2px;
     }
+
+    .angler-link {
+      font-size: 0.6rem;
+      color: var(--green-light);
+      text-decoration: none;
+      opacity: 0.8;
+      white-space: nowrap;
+    }
+
+    .angler-link:hover { opacity: 1; text-decoration: underline; }
 
     .angler-condition {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
+      gap: 4px;
+      padding: 2px 7px;
       border-radius: 20px;
-      font-size: 0.72rem;
+      font-size: 0.58rem;
       font-weight: 600;
       border: 1px solid;
+      white-space: nowrap;
     }
 
     .cond-low       { background: rgba(74,122,155,0.15); border-color: rgba(74,122,155,0.4); color: #6aaac8; }
@@ -764,22 +778,65 @@
     .cond-high      { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.4); color: var(--yellow); }
     .cond-very-high { background: rgba(192,90,74,0.15);  border-color: rgba(192,90,74,0.4);  color: var(--red); }
 
-    .angler-updated {
-      font-size: 0.65rem;
+    /* ── Fishing Spots ── */
+    .fishing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+    }
+
+    .fishing-title {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       color: var(--text-dim);
-      margin-top: 8px;
+      margin-bottom: 10px;
     }
 
-    .angler-link {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 0.68rem;
+    .fishing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .fishing-spot {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .fishing-rank {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(74,124,89,0.25);
       color: var(--green-light);
-      text-decoration: none;
-      opacity: 0.8;
+      font-size: 0.62rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
 
-    .angler-link:hover { opacity: 1; text-decoration: underline; }
+    .fishing-name {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fishing-desc {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 600px) {
+      .angler-grid { grid-template-columns: 1fr; }
+    }
 
     /* ── Footer ── */
     footer {
@@ -924,43 +981,68 @@
     <div class="angler-grid">
 
       <div class="angler-card">
-        <div class="angler-station">Happy Isles Bridge · USGS 11264500</div>
-        <div class="angler-metrics">
-          <div class="angler-metric">
-            <span class="metric-val" id="flow1">--</span>
-            <span class="metric-unit">cfs</span>
-            <span class="metric-label">Streamflow</span>
-          </div>
-          <div class="angler-metric">
-            <span class="metric-val" id="gauge1">--</span>
-            <span class="metric-unit">ft</span>
-            <span class="metric-label">Gauge Height</span>
-          </div>
+        <div class="angler-card-header">
+          <span class="angler-station">Happy Isles Bridge</span>
+          <span id="cond1" class="angler-condition cond-good">⏳</span>
         </div>
-        <div id="cond1" class="angler-condition cond-good">⏳ Loading…</div>
-        <div class="angler-updated" id="updated1"></div>
-        <a class="angler-link" href="https://waterdata.usgs.gov/monitoring-location/USGS-11264500/#dataTypeId=continuous-00065-0&period=P7D" target="_blank">View 7-day chart ↗</a>
+        <div class="angler-site">USGS 11264500</div>
+        <div class="angler-stats">
+          <span><span id="flow1">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge1">--</span><span class="unit"> ft</span></span>
+        </div>
       </div>
 
       <div class="angler-card">
-        <div class="angler-station">Pohono Bridge · USGS 11266500</div>
-        <div class="angler-metrics">
-          <div class="angler-metric">
-            <span class="metric-val" id="flow2">--</span>
-            <span class="metric-unit">cfs</span>
-            <span class="metric-label">Streamflow</span>
-          </div>
-          <div class="angler-metric">
-            <span class="metric-val" id="gauge2">--</span>
-            <span class="metric-unit">ft</span>
-            <span class="metric-label">Gauge Height</span>
-          </div>
+        <div class="angler-card-header">
+          <span class="angler-station">Pohono Bridge</span>
+          <span id="cond2" class="angler-condition cond-good">⏳</span>
         </div>
-        <div id="cond2" class="angler-condition cond-good">⏳ Loading…</div>
-        <div class="angler-updated" id="updated2"></div>
-        <a class="angler-link" href="https://waterdata.usgs.gov/monitoring-location/USGS-11266500/#dataTypeId=continuous-00065-0&period=P7D" target="_blank">View 7-day chart ↗</a>
+        <div class="angler-site">USGS 11266500</div>
+        <div class="angler-stats">
+          <span><span id="flow2">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge2">--</span><span class="unit"> ft</span></span>
+        </div>
       </div>
 
+    </div>
+
+    <div class="fishing-card">
+      <div class="fishing-title">Top 5 Fishing Spots in the Valley</div>
+      <div class="fishing-list">
+        <div class="fishing-spot">
+          <div class="fishing-rank">1</div>
+          <div>
+            <div class="fishing-name">Happy Isles</div>
+            <div class="fishing-desc">Deep pools below the bridge, easy access from the shuttle stop.</div>
+          </div>
+        </div>
+        <div class="fishing-spot">
+          <div class="fishing-rank">2</div>
+          <div>
+            <div class="fishing-name">Sentinel Beach</div>
+            <div class="fishing-desc">Wide gravel bar, good wading in late summer flows.</div>
+          </div>
+        </div>
+        <div class="fishing-spot">
+          <div class="fishing-rank">3</div>
+          <div>
+            <div class="fishing-name">Cathedral Beach</div>
+            <div class="fishing-desc">Quiet stretch with fewer crowds, good bank casting.</div>
+          </div>
+        </div>
+        <div class="fishing-spot">
+          <div class="fishing-rank">4</div>
+          <div>
+            <div class="fishing-name">Pohono Bridge</div>
+            <div class="fishing-desc">Slower current near the bridge pilings, holds fish year-round.</div>
+          </div>
+        </div>
+        <div class="fishing-spot">
+          <div class="fishing-rank">5</div>
+          <div>
+            <div class="fishing-name">Swinging Bridge</div>
+            <div class="fishing-desc">Scenic riffles upstream of the footbridge, popular at dusk.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1208,10 +1290,10 @@
 
   // ── Angler / USGS River Data ──
   function riverCondition(cfs) {
-    if (cfs < 100)  return { label: '🎣 Low — Easy Wading',       cls: 'cond-low' };
-    if (cfs < 350)  return { label: '🎣 Good — Prime Conditions',  cls: 'cond-good' };
-    if (cfs < 700)  return { label: '⚠️ High — Difficult Wading',  cls: 'cond-high' };
-    return           { label: '🚫 Very High — Dangerous',          cls: 'cond-very-high' };
+    if (cfs < 100)  return { label: 'Low',       title: 'Low — Easy Wading',       cls: 'cond-low' };
+    if (cfs < 350)  return { label: 'Good',      title: 'Good — Prime Conditions',  cls: 'cond-good' };
+    if (cfs < 700)  return { label: 'High',      title: 'High — Difficult Wading',  cls: 'cond-high' };
+    return           { label: 'Very High', title: 'Very High — Dangerous',          cls: 'cond-very-high' };
   }
 
   async function loadRiverData(attempt = 1) {
@@ -1242,12 +1324,8 @@
           const cond = riverCondition(s.flow);
           const el = document.getElementById('cond' + n);
           el.textContent = cond.label;
+          el.title = cond.title;
           el.className = 'angler-condition ' + cond.cls;
-          if (s.time) {
-            const t = new Date(s.time);
-            document.getElementById('updated' + n).textContent =
-              'Updated ' + t.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
-          }
         }
       });
     } catch (e) {
