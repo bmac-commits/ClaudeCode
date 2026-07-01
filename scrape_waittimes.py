@@ -91,13 +91,9 @@ def scrape():
 
 def git_push(result):
     payload = json.dumps(result, indent=2) + "\n"
-    # Stash wait_times.json so pull --rebase doesn't fail on unstaged changes
-    subprocess.run(["git", "-C", str(REPO_DIR), "stash", "push", "-u",
-                    "-m", "scraper-temp", "--", "wait_times.json"],
-                   check=True, capture_output=True)
-    subprocess.run(["git", "-C", str(REPO_DIR), "pull", "--rebase", "--quiet"], check=True)
-    subprocess.run(["git", "-C", str(REPO_DIR), "stash", "drop"],
-                   check=True, capture_output=True)
+    # Pull before writing so there are no unstaged changes during rebase
+    subprocess.run(["git", "-C", str(REPO_DIR), "pull", "--rebase", "--quiet"],
+                   check=True)
     OUTPUT_FILE.write_text(payload)
     subprocess.run(["git", "-C", str(REPO_DIR), "add", "wait_times.json"], check=True)
     diff = subprocess.run(
