@@ -6,17 +6,17 @@
   <title>Yosemite Trip Dashboard + Live Cams</title>
   <style>
     :root {
-      --bg: #0e1410;
-      --surface: #141c16;
-      --surface2: #1c2820;
-      --border: #2a3d2e;
-      --green: #4a7c59;
-      --green-light: #6aab7a;
-      --granite: #8a9b8e;
-      --text: #d4e0d6;
-      --text-dim: #7a9080;
-      --yellow: #c8a94a;
-      --red: #c05a4a;
+      --bg: #f0ebe0;
+      --surface: #faf7f0;
+      --surface2: #e8e0d0;
+      --border: #d0c8b8;
+      --green: #3a5a28;
+      --green-light: #4a7a30;
+      --granite: #8a7a5a;
+      --text: #2d3d20;
+      --text-dim: #5a6a48;
+      --yellow: #c87820;
+      --red: #a03820;
       --blue: #4a7a9b;
     }
 
@@ -31,7 +31,7 @@
 
     /* ── Header ── */
     header {
-      background: linear-gradient(180deg, #0a0f0b 0%, var(--bg) 100%);
+      background: linear-gradient(180deg, #c8bfa8 0%, var(--bg) 100%);
       border-bottom: 1px solid var(--border);
       padding: 20px 24px 0;
     }
@@ -71,7 +71,7 @@
       font-size: 1.6rem;
       font-weight: 700;
       letter-spacing: -0.3px;
-      color: #e8f0ea;
+      color: var(--text);
     }
 
     header h1 span {
@@ -122,7 +122,7 @@
     .weather-temp {
       font-size: 2rem;
       font-weight: 700;
-      color: #e8f0ea;
+      color: var(--text);
       line-height: 1;
     }
 
@@ -176,7 +176,7 @@
       font-size: 1.8rem;
       font-weight: 700;
       line-height: 1;
-      color: #e8f0ea;
+      color: var(--text);
     }
 
     .aqi-cat {
@@ -410,7 +410,7 @@
       position: relative;
       width: 100%;
       aspect-ratio: 16/9;
-      background: #0a0e0b;
+      background: #2d3d20;
       overflow: hidden;
     }
 
@@ -544,7 +544,7 @@
     .modal-img-wrap {
       width: 100%;
       aspect-ratio: 16/9;
-      background: #0a0e0b;
+      background: #2d3d20;
     }
 
     .modal-img-wrap img {
@@ -877,7 +877,7 @@
     .angler-stats {
       font-size: 0.95rem;
       font-weight: 700;
-      color: #e8f0ea;
+      color: var(--text);
       display: flex;
       align-items: baseline;
       justify-content: space-between;
@@ -1039,7 +1039,6 @@
       </svg>
       <h1>Yosemite <span>Trip Dashboard + Live Cams</span></h1>
     </div>
-    <img class="nps-logo" src="yosemite_badge.png" alt="Yosemite National Park" />
   </div>
   <p class="header-sub">Yosemite National Park — California, USA &nbsp;·&nbsp; All cameras refresh automatically every 60 seconds</p>
 
