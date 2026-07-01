@@ -1,167 +1,130 @@
 #!/usr/bin/env python3
 """
 Scrapes Yosemite entrance wait times from yosemite.live.
-Uses curl_cffi to impersonate Chrome's TLS fingerprint and bypass Cloudflare.
+Runs locally (residential IP bypasses Cloudflare).
+Writes wait_times.json, then commits + pushes to GitHub.
 """
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from curl_cffi import requests
 
-OUTPUT_FILE = "wait_times.json"
-BASE_URL = "https://yosemite.live"
+REPO_DIR = Path(__file__).parent
+OUTPUT_FILE = REPO_DIR / "wait_times.json"
+URL = "https://yosemite.live"
 
-ENTRANCE_PATTERNS = {
-    "hwy140": ["arch rock", "140", "el portal"],
-    "hwy120": ["big oak flat", "120", "tioga"],
-    "hwy41":  ["south entrance", "41", "wawona"],
+ENTRANCE_MAP = {
+    "arch rock":      "hwy140",
+    "big oak flat":   "hwy120",
+    "south entrance": "hwy41",
 }
 
 
-def empty_result(error=None):
-    return {
+def scrape():
+    session = requests.Session(impersonate="chrome124")
+    r = session.get(URL, timeout=20)
+    r.raise_for_status()
+    html = r.text
+
+    result = {
         "updated": datetime.now(timezone.utc).isoformat(),
-        "error": error,
+        "error": None,
         "entrances": {
-            "hwy140": {"wait": None, "status": "unknown"},
-            "hwy120": {"wait": None, "status": "unknown"},
-            "hwy41":  {"wait": None, "status": "unknown"},
+            "hwy140": {"wait": None, "status": "unknown", "trend": None},
+            "hwy120": {"wait": None, "status": "unknown", "trend": None},
+            "hwy41":  {"wait": None, "status": "unknown", "trend": None},
         }
     }
 
-
-def parse_wait_minutes(text):
-    text = str(text).strip().lower()
-    if any(w in text for w in ["no wait", "0 min", "no delay"]):
-        return 0
-    m = re.search(r"(\d+)\s*(?:min|minute|m\b)", text)
-    if m:
-        return int(m.group(1))
-    # Plain number
-    m = re.search(r"^\d+$", text)
-    if m:
-        return int(text)
-    return None
-
-
-def parse_api_json(data):
-    """Parse /api/waittimes JSON into our schema."""
-    print(f"[api] Raw: {json.dumps(data)[:1500]}", file=sys.stderr)
-    result = empty_result()
-
-    # Try list shape: [{entrance, wait, status}, ...]
-    items = data if isinstance(data, list) else (
-        data.get("entrances") or data.get("data") or data.get("waitTimes") or []
+    cards = re.findall(
+        r'class="entrance-card"[^>]*>(.*?)</a>',
+        html, re.DOTALL
     )
 
-    if not isinstance(items, list) or not items:
-        # Try dict shape: {"arch_rock": {"wait": 15}, ...}
-        if isinstance(data, dict):
-            items = [{"entrance": k, **v} for k, v in data.items() if isinstance(v, dict)]
+    for card in cards:
+        name_m = re.search(r'class="entrance-name"[^>]*>([^<]+)<', card)
+        if not name_m:
+            continue
+        name = name_m.group(1).strip().lower()
 
-    for entry in items:
-        name = str(entry.get("entrance", entry.get("name", entry.get("location", "")))).lower()
-        wait_raw = (
-            entry.get("wait") or entry.get("waitTime") or
-            entry.get("wait_time") or entry.get("minutes") or
-            entry.get("delay")
-        )
-        status = str(entry.get("status", "open")).lower()
-
-        matched = None
-        for key, keywords in ENTRANCE_PATTERNS.items():
-            if any(k in name for k in keywords):
-                matched = key
+        key = None
+        for pattern, hwy_key in ENTRANCE_MAP.items():
+            if pattern in name:
+                key = hwy_key
                 break
+        if not key:
+            continue
 
-        if matched:
-            wait_min = None
-            if isinstance(wait_raw, (int, float)):
-                wait_min = int(wait_raw)
-            elif isinstance(wait_raw, str):
-                wait_min = parse_wait_minutes(wait_raw)
-            result["entrances"][matched] = {"wait": wait_min, "status": status}
+        wait_m = re.search(r'class="wait-value"[^>]*>\s*([<\d]+)\s*<', card)
+        wait_unit_m = re.search(r'class="wait-unit"[^>]*>([^<]+)<', card)
+        trend_m = re.search(r'class="trend-label"[^>]*>([^<]+)<', card)
+
+        wait_min = None
+        if wait_m:
+            raw = wait_m.group(1).strip()
+            if raw == "<1":
+                wait_min = 0
+            else:
+                try:
+                    wait_min = int(raw)
+                except ValueError:
+                    pass
+
+        unit = wait_unit_m.group(1).strip().lower() if wait_unit_m else "min"
+        trend = trend_m.group(1).strip() if trend_m else None
+
+        if "hour" in unit and wait_min is not None:
+            wait_min *= 60
+
+        status = "open" if wait_min is not None else "unknown"
+        result["entrances"][key] = {
+            "wait": wait_min,
+            "status": status,
+            "trend": trend,
+        }
 
     return result
 
 
-def parse_html_page(html):
-    """Extract wait times from the rendered page text."""
-    result = empty_result()
-
-    # Strip tags for text analysis
-    text = re.sub(r"<[^>]+>", " ", html)
-    text = re.sub(r"\s+", " ", text)
-    print(f"[html] Text snippet: {text[:1000]}", file=sys.stderr)
-
-    lines = re.split(r"[.\n]", text)
-    current_entrance = None
-
-    for line in lines:
-        line_l = line.lower().strip()
-        for key, keywords in ENTRANCE_PATTERNS.items():
-            if any(k in line_l for k in keywords):
-                current_entrance = key
-                break
-        wait_min = parse_wait_minutes(line)
-        if wait_min is not None and current_entrance:
-            prev = result["entrances"][current_entrance].get("wait")
-            if prev is None:
-                result["entrances"][current_entrance]["wait"] = wait_min
-                result["entrances"][current_entrance]["status"] = "open"
-
-    return result
+def git_push(result):
+    OUTPUT_FILE.write_text(json.dumps(result, indent=2) + "\n")
+    subprocess.run(["git", "-C", str(REPO_DIR), "pull", "--rebase", "--quiet"], check=True)
+    subprocess.run(["git", "-C", str(REPO_DIR), "add", "wait_times.json"], check=True)
+    diff = subprocess.run(
+        ["git", "-C", str(REPO_DIR), "diff", "--cached", "--quiet"]
+    )
+    if diff.returncode == 0:
+        print("[git] No changes, skipping commit")
+        return
+    subprocess.run(
+        ["git", "-C", str(REPO_DIR), "commit", "-m", "chore: update wait times [skip ci]"],
+        check=True
+    )
+    subprocess.run(["git", "-C", str(REPO_DIR), "push"], check=True)
+    print("[git] Pushed wait_times.json")
 
 
 def main():
-    session = requests.Session(impersonate="chrome124")
-
-    result = empty_result()
-
-    # 1. Try JSON API endpoint
     try:
-        r = session.get(f"{BASE_URL}/api/waittimes", timeout=20)
-        print(f"[api] Status: {r.status_code}", file=sys.stderr)
-        if r.status_code == 200:
-            try:
-                data = r.json()
-                result = parse_api_json(data)
-                print("[main] Got data from API endpoint", file=sys.stderr)
-                result["updated"] = datetime.now(timezone.utc).isoformat()
-                _save(result)
-                return
-            except Exception as e:
-                print(f"[api] JSON parse error: {e}", file=sys.stderr)
+        result = scrape()
+        print(json.dumps(result, indent=2))
+        git_push(result)
     except Exception as e:
-        print(f"[api] Request error: {e}", file=sys.stderr)
-
-    # 2. Fall back to homepage HTML
-    try:
-        r = session.get(BASE_URL, timeout=25)
-        print(f"[html] Status: {r.status_code}", file=sys.stderr)
-        if r.status_code == 200:
-            html = r.text
-            if "just a moment" in html.lower() or "cloudflare" in html[:500].lower():
-                print("[html] Cloudflare challenge page received", file=sys.stderr)
-                result["error"] = "cloudflare_challenge"
-            else:
-                result = parse_html_page(html)
-                print("[main] Got data from HTML page", file=sys.stderr)
-        else:
-            result["error"] = f"http_{r.status_code}"
-    except Exception as e:
-        print(f"[html] Request error: {e}", file=sys.stderr)
-        result["error"] = str(e)
-
-    result["updated"] = datetime.now(timezone.utc).isoformat()
-    _save(result)
-
-
-def _save(result):
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(result, f, indent=2)
-    print(json.dumps(result, indent=2))
+        print(f"[error] {e}", file=sys.stderr)
+        result = {
+            "updated": datetime.now(timezone.utc).isoformat(),
+            "error": str(e),
+            "entrances": {
+                "hwy140": {"wait": None, "status": "unknown", "trend": None},
+                "hwy120": {"wait": None, "status": "unknown", "trend": None},
+                "hwy41":  {"wait": None, "status": "unknown", "trend": None},
+            }
+        }
+        git_push(result)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

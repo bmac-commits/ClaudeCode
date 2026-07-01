@@ -1861,21 +1861,22 @@
         // Remove all state classes
         pill.classList.remove('wait-unknown', 'wait-none', 'wait-medium', 'wait-high');
 
-        if (d.error === 'cloudflare_challenge' || wait === null || wait === undefined) {
+        const trend = entry?.trend || '';
+        if (wait === null || wait === undefined) {
           pill.classList.add('wait-unknown');
           pill.textContent = '⏱ Wait data unavailable';
         } else if (wait === 0) {
           pill.classList.add('wait-none');
-          pill.textContent = '✓ No wait';
+          pill.textContent = `✓ No wait ${trend}`.trim();
         } else if (wait <= 15) {
           pill.classList.add('wait-none');
-          pill.textContent = `⏱ ~${wait} min wait`;
+          pill.textContent = `⏱ ${wait} min wait ${trend}`.trim();
         } else if (wait <= 30) {
           pill.classList.add('wait-medium');
-          pill.textContent = `⏱ ~${wait} min wait`;
+          pill.textContent = `⏱ ${wait} min wait ${trend}`.trim();
         } else {
           pill.classList.add('wait-high');
-          pill.textContent = `⏱ ~${wait} min wait`;
+          pill.textContent = `⏱ ${wait} min wait ${trend}`.trim();
         }
 
         if (ageEl) {

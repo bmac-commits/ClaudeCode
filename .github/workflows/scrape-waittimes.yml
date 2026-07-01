@@ -1,9 +1,9 @@
 name: Scrape Yosemite Wait Times
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
   workflow_dispatch:
+  # Scraper runs locally via macOS LaunchAgent (residential IP bypasses Cloudflare)
+  # schedule disabled
 
 permissions:
   contents: write
