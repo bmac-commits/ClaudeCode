@@ -1,9 +1,18 @@
 {
-  "updated": "2026-07-01T00:00:00Z",
-  "error": null,
+  "updated": "2026-07-01T16:20:45.818104+00:00",
+  "error": "Page.goto: Timeout 40000ms exceeded.\nCall log:\n  - navigating to \"https://yosemite.live/\", waiting until \"networkidle\"\n",
   "entrances": {
-    "hwy140": {"wait": null, "status": "unknown"},
-    "hwy120": {"wait": null, "status": "unknown"},
-    "hwy41":  {"wait": null, "status": "unknown"}
+    "hwy140": {
+      "wait": null,
+      "status": "unknown"
+    },
+    "hwy120": {
+      "wait": null,
+      "status": "unknown"
+    },
+    "hwy41": {
+      "wait": null,
+      "status": "unknown"
+    }
   }
 }
