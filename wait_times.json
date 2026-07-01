@@ -1,0 +1,9 @@
+{
+  "updated": "2026-07-01T00:00:00Z",
+  "error": null,
+  "entrances": {
+    "hwy140": {"wait": null, "status": "unknown"},
+    "hwy120": {"wait": null, "status": "unknown"},
+    "hwy41":  {"wait": null, "status": "unknown"}
+  }
+}

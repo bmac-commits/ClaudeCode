@@ -716,6 +716,53 @@
     .wait-icon { font-size: 0.85rem; }
     .wait-arrow { opacity: 0.7; }
 
+    .wait-inline {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .wait-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(74,124,89,0.15);
+      color: var(--green);
+      border: 1px solid rgba(74,124,89,0.3);
+    }
+    .wait-pill.wait-high {
+      background: rgba(160,56,32,0.12);
+      color: var(--red);
+      border-color: rgba(160,56,32,0.3);
+    }
+    .wait-pill.wait-medium {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+    .wait-pill.wait-none {
+      background: rgba(74,124,89,0.15);
+      color: var(--green);
+      border-color: rgba(74,124,89,0.3);
+    }
+    .wait-pill.wait-unknown {
+      background: var(--surface2);
+      color: var(--text-dim);
+      border-color: var(--border);
+      font-weight: 500;
+    }
+    .wait-freshness {
+      font-size: 0.67rem;
+      color: var(--text-dim);
+      opacity: 0.75;
+    }
+
     /* ── Entry Fees ── */
     .fee-bar {
       background: var(--surface2);
@@ -1144,6 +1191,10 @@
         </div>
         <div class="traffic-name">El Portal Road / All-Season Highway</div>
         <div class="traffic-desc">Most reliable year-round route from Merced. Follows the Merced River through a scenic canyon.</div>
+        <div class="wait-inline">
+          <span class="wait-pill wait-unknown" id="wait-hwy140">⏱ Loading…</span>
+          <span class="wait-freshness" id="wait-hwy140-age"></span>
+        </div>
         <div class="wait-time-row">
           <a class="wait-time-btn" href="https://yosemite.live" target="_blank">
             <span class="wait-icon">🚗</span>
@@ -1161,6 +1212,10 @@
         </div>
         <div class="traffic-name">Big Oak Flat Road / Tioga Pass</div>
         <div class="traffic-desc">Main route from the Bay Area via I-580. Also connects to Tioga Pass (seasonal — typically closes Oct–May).</div>
+        <div class="wait-inline">
+          <span class="wait-pill wait-unknown" id="wait-hwy120">⏱ Loading…</span>
+          <span class="wait-freshness" id="wait-hwy120-age"></span>
+        </div>
         <div class="wait-time-row">
           <a class="wait-time-btn" href="https://yosemite.live" target="_blank">
             <span class="wait-icon">🚗</span>
@@ -1178,6 +1233,10 @@
         </div>
         <div class="traffic-name">Wawona Road / Fresno Route</div>
         <div class="traffic-desc">Main route from Fresno and Southern California. Passes through Wawona and the Mariposa Grove of Giant Sequoias.</div>
+        <div class="wait-inline">
+          <span class="wait-pill wait-unknown" id="wait-hwy41">⏱ Loading…</span>
+          <span class="wait-freshness" id="wait-hwy41-age"></span>
+        </div>
         <div class="wait-time-row">
           <a class="wait-time-btn" href="https://yosemite.live" target="_blank">
             <span class="wait-icon">🚗</span>
@@ -1774,12 +1833,75 @@
     if (e.key === 'Escape') closeModal(null, true);
   });
 
+  // ── Wait Times ──
+  async function loadWaitTimes() {
+    const KEYS = ['hwy140', 'hwy120', 'hwy41'];
+    try {
+      const res = await fetch('wait_times.json?_=' + Date.now());
+      if (!res.ok) throw new Error('fetch failed');
+      const d = await res.json();
+
+      const updatedAt = d.updated ? new Date(d.updated) : null;
+      const ageMin = updatedAt ? Math.round((Date.now() - updatedAt.getTime()) / 60000) : null;
+      const ageLabel = ageMin === null ? '' :
+        ageMin < 1 ? 'just updated' :
+        ageMin < 60 ? `updated ${ageMin} min ago` :
+        `updated ${Math.round(ageMin/60)}h ago`;
+
+      const stale = ageMin !== null && ageMin > 20;
+
+      for (const key of KEYS) {
+        const pill = document.getElementById('wait-' + key);
+        const ageEl = document.getElementById('wait-' + key + '-age');
+        if (!pill) continue;
+
+        const entry = d.entrances?.[key];
+        const wait = entry?.wait;
+
+        // Remove all state classes
+        pill.classList.remove('wait-unknown', 'wait-none', 'wait-medium', 'wait-high');
+
+        if (d.error === 'cloudflare_challenge' || wait === null || wait === undefined) {
+          pill.classList.add('wait-unknown');
+          pill.textContent = '⏱ Wait data unavailable';
+        } else if (wait === 0) {
+          pill.classList.add('wait-none');
+          pill.textContent = '✓ No wait';
+        } else if (wait <= 15) {
+          pill.classList.add('wait-none');
+          pill.textContent = `⏱ ~${wait} min wait`;
+        } else if (wait <= 30) {
+          pill.classList.add('wait-medium');
+          pill.textContent = `⏱ ~${wait} min wait`;
+        } else {
+          pill.classList.add('wait-high');
+          pill.textContent = `⏱ ~${wait} min wait`;
+        }
+
+        if (ageEl) {
+          ageEl.textContent = stale ? `⚠ ${ageLabel}` : ageLabel;
+          ageEl.style.color = stale ? 'var(--yellow)' : '';
+        }
+      }
+    } catch (e) {
+      for (const key of KEYS) {
+        const pill = document.getElementById('wait-' + key);
+        if (pill) {
+          pill.classList.remove('wait-unknown', 'wait-none', 'wait-medium', 'wait-high');
+          pill.classList.add('wait-unknown');
+          pill.textContent = '⏱ Wait data unavailable';
+        }
+      }
+    }
+  }
+
   // ── Init ──
   buildGrid();
   loadWeather();
   loadAQI();
   loadAlerts();
   loadRiverData();
+  loadWaitTimes();
   startCountdown();
 </script>
 </body>
