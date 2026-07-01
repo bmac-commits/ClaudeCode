@@ -795,11 +795,20 @@
       padding: 14px 16px;
     }
 
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
     .transport-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
     }
 
     .transport-title {
@@ -856,6 +865,13 @@
     }
 
     .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--granite);
+      transition: transform 0.2s;
+    }
 
     @media (max-width: 600px) {
       .transport-grid { grid-template-columns: 1fr; }
@@ -1202,24 +1218,26 @@
     <div class="section-label">Valley Transportation</div>
     <div class="transport-grid">
 
-      <div class="transport-card">
-        <div class="transport-header">
+      <details class="transport-card">
+        <summary class="transport-header">
           <span class="transport-title">Valley Shuttle System</span>
           <span class="transport-badge">Free</span>
-        </div>
+          <span class="transport-chevron">▾</span>
+        </summary>
         <div class="transport-row"><span class="transport-key">Hours</span><span class="transport-val highlight">7:00 AM – 10:00 PM daily</span></div>
         <div class="transport-row"><span class="transport-key">Valleywide Route</span><span class="transport-val">19 stops · every 22–32 min</span></div>
         <div class="transport-row"><span class="transport-key">East Valley Route</span><span class="transport-val">9 stops · every 18–22 min</span></div>
         <div class="transport-row"><span class="transport-key">Key Stops</span><span class="transport-val">Visitor Center, Curry Village, Ahwahnee, Valley Lodge, Happy Isles</span></div>
         <div class="transport-row"><span class="transport-key">Glacier Point / Tuolumne</span><span class="transport-val">Seasonal · check NPS for dates</span></div>
         <a class="transport-link" href="https://www.nps.gov/yose/planyourvisit/publictransportation.htm" target="_blank">NPS shuttle map &amp; schedule ↗</a>
-      </div>
+      </details>
 
-      <div class="transport-card">
-        <div class="transport-header">
+      <details class="transport-card">
+        <summary class="transport-header">
           <span class="transport-title">Bike Rentals</span>
           <span class="transport-badge">Apr – Oct</span>
-        </div>
+          <span class="transport-chevron">▾</span>
+        </summary>
         <div class="transport-row"><span class="transport-key">Half Day</span><span class="transport-val highlight">$30</span></div>
         <div class="transport-row"><span class="transport-key">Full Day</span><span class="transport-val highlight">$40</span></div>
         <div class="transport-row"><span class="transport-key">Locations</span><span class="transport-val">Curry Village · Valley Lodge · Yosemite Village</span></div>
@@ -1227,7 +1245,7 @@
         <div class="transport-row"><span class="transport-key">ADA / Accessible</span><span class="transport-val">Reserve via 209-372-1208</span></div>
         <div class="transport-row"><span class="transport-key">Includes</span><span class="transport-val">Helmet · child trailers at Curry &amp; Lodge</span></div>
         <a class="transport-link" href="https://www.travelyosemite.com/things-to-do/biking" target="_blank">More biking info ↗</a>
-      </div>
+      </details>
 
     </div>
   </div>
