@@ -695,6 +695,151 @@
     .wait-icon { font-size: 0.85rem; }
     .wait-arrow { opacity: 0.7; }
 
+    /* ── Entry Fees ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--granite);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--granite);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Valley Transportation ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(74,175,125,0.15);
+      color: #4caf7d;
+      border: 1px solid rgba(74,175,125,0.3);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--granite);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--green-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--green-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── Angler Section ── */
     .angler-grid {
       display: grid;
@@ -1001,6 +1146,63 @@
           </a>
           <a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=41" target="_blank">Caltrans road status ↗</a>
         </div>
+      </div>
+
+    </div>
+
+    <!-- Entry Fees -->
+    <div class="fee-bar">
+      <span class="fee-bar-label">Entry Fees · 7-day pass</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$35</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$30</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Foot / Bike</span><span class="fee-price">$20</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Under 16</span><span class="fee-price">Free</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">America the Beautiful</span><span class="fee-price">$80/yr</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Senior (62+)</span><span class="fee-price">$20/yr</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Non-US Resident</span><span class="fee-price">+$100 pp</span></div>
+      </div>
+      <span class="fee-note">No cash accepted · Card only</span>
+    </div>
+
+  </div>
+
+  <!-- Valley Transportation -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Valley Transportation</div>
+    <div class="transport-grid">
+
+      <div class="transport-card">
+        <div class="transport-header">
+          <span class="transport-title">Valley Shuttle System</span>
+          <span class="transport-badge">Free</span>
+        </div>
+        <div class="transport-row"><span class="transport-key">Hours</span><span class="transport-val highlight">7:00 AM – 10:00 PM daily</span></div>
+        <div class="transport-row"><span class="transport-key">Valleywide Route</span><span class="transport-val">19 stops · every 22–32 min</span></div>
+        <div class="transport-row"><span class="transport-key">East Valley Route</span><span class="transport-val">9 stops · every 18–22 min</span></div>
+        <div class="transport-row"><span class="transport-key">Key Stops</span><span class="transport-val">Visitor Center, Curry Village, Ahwahnee, Valley Lodge, Happy Isles</span></div>
+        <div class="transport-row"><span class="transport-key">Glacier Point / Tuolumne</span><span class="transport-val">Seasonal · check NPS for dates</span></div>
+        <a class="transport-link" href="https://www.nps.gov/yose/planyourvisit/publictransportation.htm" target="_blank">NPS shuttle map &amp; schedule ↗</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="transport-header">
+          <span class="transport-title">Bike Rentals</span>
+          <span class="transport-badge">Apr – Oct</span>
+        </div>
+        <div class="transport-row"><span class="transport-key">Half Day</span><span class="transport-val highlight">$30</span></div>
+        <div class="transport-row"><span class="transport-key">Full Day</span><span class="transport-val highlight">$40</span></div>
+        <div class="transport-row"><span class="transport-key">Locations</span><span class="transport-val">Curry Village · Valley Lodge · Yosemite Village</span></div>
+        <div class="transport-row"><span class="transport-key">Availability</span><span class="transport-val">First-come, first-served</span></div>
+        <div class="transport-row"><span class="transport-key">ADA / Accessible</span><span class="transport-val">Reserve via 209-372-1208</span></div>
+        <div class="transport-row"><span class="transport-key">Includes</span><span class="transport-val">Helmet · child trailers at Curry &amp; Lodge</span></div>
+        <a class="transport-link" href="https://www.travelyosemite.com/things-to-do/biking" target="_blank">More biking info ↗</a>
       </div>
 
     </div>
