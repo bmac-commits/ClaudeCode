@@ -1262,7 +1262,7 @@
         </div>
         <div class="angler-site">USGS 11264500</div>
         <div class="angler-stats">
-          <span><span id="flow1">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge1">--</span><span class="unit"> ft</span></span>
+          <span><span id="flow1">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge1">--</span><span class="unit"> ft</span><span class="sep">&middot;</span><span id="temp1">--</span><span class="unit">°F</span></span>
         </div>
       </div>
 
@@ -1273,7 +1273,7 @@
         </div>
         <div class="angler-site">USGS 11266500</div>
         <div class="angler-stats">
-          <span><span id="flow2">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge2">--</span><span class="unit"> ft</span></span>
+          <span><span id="flow2">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge2">--</span><span class="unit"> ft</span><span class="sep">&middot;</span><span id="temp2">--</span><span class="unit">°F</span></span>
         </div>
       </div>
 
@@ -1583,7 +1583,7 @@
 
   async function loadRiverData(attempt = 1) {
     try {
-      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11264500,11266500&parameterCd=00060,00065&format=json&period=PT2H';
+      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11264500,11266500&parameterCd=00060,00065,00010&format=json&period=PT2H';
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
@@ -1598,6 +1598,7 @@
         const latest = vals[vals.length - 1];
         if (code === '00060') data[site].flow = parseFloat(latest.value);
         if (code === '00065') data[site].gauge = parseFloat(latest.value);
+        if (code === '00010') data[site].tempC = parseFloat(latest.value);
         data[site].time = latest.dateTime;
       });
 
@@ -1606,6 +1607,10 @@
         if (s.flow !== undefined) {
           document.getElementById('flow' + n).textContent = Math.round(s.flow).toLocaleString();
           document.getElementById('gauge' + n).textContent = s.gauge?.toFixed(2) ?? '--';
+          if (s.tempC !== undefined) {
+            const tempF = (s.tempC * 9/5 + 32).toFixed(1);
+            document.getElementById('temp' + n).textContent = tempF;
+          }
           const cond = riverCondition(s.flow);
           const el = document.getElementById('cond' + n);
           el.textContent = cond.label;
