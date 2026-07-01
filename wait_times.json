@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-01T16:20:45.818104+00:00",
-  "error": "Page.goto: Timeout 40000ms exceeded.\nCall log:\n  - navigating to \"https://yosemite.live/\", waiting until \"networkidle\"\n",
+  "updated": "2026-07-01T16:22:21.835368+00:00",
+  "error": "http_403",
   "entrances": {
     "hwy140": {
       "wait": null,
