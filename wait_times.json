@@ -1,21 +1,21 @@
 {
-  "updated": "2026-07-01T16:26:32.187266+00:00",
-  "error": "Command '['git', '-C', '/Users/bryanmcclain/ClaudeCode', 'pull', '--rebase', '--quiet']' returned non-zero exit status 128.",
+  "updated": "2026-07-01T16:27:13.853826+00:00",
+  "error": null,
   "entrances": {
     "hwy140": {
-      "wait": null,
-      "status": "unknown",
-      "trend": null
+      "wait": 2,
+      "status": "open",
+      "trend": "\u2192 Steady"
     },
     "hwy120": {
-      "wait": null,
-      "status": "unknown",
-      "trend": null
+      "wait": 1,
+      "status": "open",
+      "trend": "\u2193 Wait times falling"
     },
     "hwy41": {
-      "wait": null,
-      "status": "unknown",
-      "trend": null
+      "wait": 2,
+      "status": "open",
+      "trend": "\u2192 Steady"
     }
   }
 }
