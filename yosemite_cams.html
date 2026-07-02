@@ -36,6 +36,27 @@
       padding: 20px 24px 0;
     }
 
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 6px 12px 6px 8px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin: 16px 0 0 24px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .back-link:hover {
+      background: var(--surface2);
+      border-color: var(--green);
+      color: var(--text);
+    }
+
     .header-top {
       display: flex;
       align-items: center;
@@ -1116,6 +1137,10 @@
 <body>
 
 <header>
+  <a class="back-link" href="index.html">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    All Parks
+  </a>
   <div class="header-top">
     <div class="header-top-left">
       <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
