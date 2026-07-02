@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redwood Live Cams &amp; Trip Dashboard</title>
+  <style>
+    :root {
+      --bg: #e8ece6;
+      --surface: #f6f8f4;
+      --surface2: #dce4d8;
+      --border: #c2cebc;
+      --forest: #1f6b52;
+      --forest-light: #2f9670;
+      --bark: #6b5a45;
+      --text: #22301f;
+      --text-dim: #556652;
+      --yellow: #b8860a;
+      --red: #a03820;
+      --blue: #4a7a9b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #a8c4a0 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .map-download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover {
+      background: var(--surface2);
+      border-color: var(--forest);
+    }
+
+    .park-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.9;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--forest-light);
+    }
+
+    .header-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    /* ── Info Bar (weather + alerts toggle) ── */
+    .info-bar {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin-bottom: -1px;
+    }
+
+    /* ── Weather Card ── */
+    .weather-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+      min-width: 340px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .weather-detail-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weather-detail-row .label {
+      color: var(--bark);
+      width: 48px;
+    }
+
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-strip {
+      display: flex;
+      gap: 10px;
+      margin-left: 8px;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .forecast-day .day-name {
+      color: var(--text-dim);
+    }
+
+    .forecast-day .day-icon {
+      font-size: 1.1rem;
+    }
+
+    .forecast-day .day-hi {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .forecast-day .day-lo {
+      color: var(--text-dim);
+    }
+
+    /* ── Alerts Card ── */
+    .alerts-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      flex: 1;
+      min-width: 280px;
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .alerts-header:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .alerts-header.open {
+      border-bottom-color: var(--border);
+    }
+
+    .alerts-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .alert-count {
+      background: var(--yellow);
+      color: #1a1200;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .alert-count.zero {
+      background: var(--forest-light);
+      color: #0a1a0d;
+    }
+
+    .alerts-chevron {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .alerts-header.open .alerts-chevron {
+      transform: rotate(180deg);
+    }
+
+    .alerts-body {
+      display: none;
+      padding: 10px 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .alerts-body.open {
+      display: block;
+    }
+
+    .alert-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item .alert-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+
+    .alert-item .alert-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .alert-item .alert-desc {
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .alerts-loading {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding: 8px 0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 20px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Camera Grid ── */
+    .cam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 16px;
+    }
+
+    .cam-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+
+    .cam-card:hover {
+      border-color: var(--forest);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 900px) {
+      .cam-grid { grid-template-columns: 1fr; }
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    .cam-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #22301f;
+      overflow: hidden;
+    }
+
+    .cam-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: opacity 0.3s;
+    }
+
+    .cam-img-wrap img.loading {
+      opacity: 0.4;
+    }
+
+    .cam-error {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+    }
+
+    .cam-error .err-icon { font-size: 1.6rem; }
+
+    .cam-footer {
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cam-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .cam-meta {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 1px;
+    }
+
+    .cam-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .status-dot.live { background: var(--forest-light); box-shadow: 0 0 4px var(--forest-light); }
+    .status-dot.error { background: var(--red); }
+
+    /* ── Refresh bar ── */
+    .refresh-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .refresh-info {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .refresh-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--forest);
+      color: var(--forest-light);
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-inner {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .modal-img-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #22301f;
+    }
+
+    .modal-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .modal-source {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .modal-close {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ── Entrances Section ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--bark); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--forest-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Entry Fees / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--bark);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--bark);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Notice Bar (callouts) ── */
+    .notice-bar {
+      background: rgba(184,134,10,0.13);
+      border: 1px solid rgba(184,134,10,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(184,40,28,0.13);
+      border-color: rgba(184,40,28,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--forest-light); }
+
+    /* ── Angler / River Section ── */
+    .angler-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .angler-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+    }
+
+    .angler-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .angler-station {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .angler-site {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .angler-stats {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .angler-stats .unit {
+      font-size: 0.56rem;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .angler-stats .sep {
+      color: var(--border);
+      font-weight: 400;
+      margin: 0 2px;
+    }
+
+    .angler-link {
+      font-size: 0.6rem;
+      color: var(--forest-light);
+      text-decoration: none;
+      opacity: 0.8;
+      white-space: nowrap;
+    }
+
+    .angler-link:hover { opacity: 1; text-decoration: underline; }
+
+    .angler-condition {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-size: 0.58rem;
+      font-weight: 600;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .cond-low       { background: rgba(74,122,155,0.15); border-color: rgba(74,122,155,0.4); color: #6aaac8; }
+    .cond-good      { background: rgba(74,175,125,0.15); border-color: rgba(74,175,125,0.4); color: #4caf7d; }
+    .cond-high      { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.4); color: var(--yellow); }
+    .cond-very-high { background: rgba(192,90,74,0.15);  border-color: rgba(192,90,74,0.4);  color: var(--red); }
+
+    @media (max-width: 600px) {
+      .angler-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Campground Accordion ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--bark);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--forest-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--forest-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--bark);
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Landmarks Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .conc-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--bark);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--bark);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 170px;
+    }
+
+    .conc-type {
+      font-size: 0.65rem;
+      color: var(--bark);
+      flex: 1;
+    }
+
+    .conc-hrs {
+      font-size: 0.72rem;
+      color: var(--forest-light);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--forest-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-top-left">
+      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 3v34" stroke="#6b5a45" stroke-width="3.4" stroke-linecap="round" opacity="0.9"/>
+        <path d="M19 3v34" stroke="#1f6b52" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+        <path d="M19 12c-3-1.4-5-4-5-7" stroke="#2f9670" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.8"/>
+        <path d="M19 20c3-1.4 5-4 5-7" stroke="#2f9670" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.8"/>
+        <path d="M19 26c-2.6-1.2-4.4-3.4-4.4-6" stroke="#2f9670" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.7"/>
+        <ellipse cx="19" cy="37" rx="9" ry="2.2" fill="#c2cebc" opacity="0.6"/>
+      </svg>
+      <h1>Redwood <span>Live Cams &amp; Trip Dashboard</span></h1>
+    </div>
+    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/redwood-map.pdf" target="_blank" download>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Park Map PDF
+    </a>
+  </div>
+  <p class="header-sub">Redwood National and State Parks — California, USA &nbsp;·&nbsp; A joint NPS &amp; California State Parks cooperative unit since 1994 &nbsp;·&nbsp; Camera and conditions data refresh automatically every 60 seconds</p>
+
+  <div class="info-bar">
+    <!-- Weather -->
+    <div class="weather-card" id="weatherCard">
+      <div class="weather-main">
+        <div class="weather-icon" id="wxIcon">⏳</div>
+        <div>
+          <div class="weather-temp" id="wxTemp">--°F</div>
+          <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        </div>
+      </div>
+      <div class="weather-details" id="wxDetails">
+        <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+        <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+        <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        <div class="weather-detail-row"><span class="label">Elev.</span> <span>0 – 3,170 ft</span></div>
+      </div>
+      <div class="aqi-block" id="aqiBlock">
+        <div class="aqi-label">Air Quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
+      <div class="forecast-strip" id="forecastStrip"></div>
+    </div>
+
+    <!-- NPS Alerts -->
+    <div class="alerts-card">
+      <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="alerts-title">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L1 13h12L7 1z" stroke="#b8860a" stroke-width="1.4" fill="none"/>
+            <line x1="7" y1="6" x2="7" y2="9" stroke="#b8860a" stroke-width="1.4"/>
+            <circle cx="7" cy="11" r="0.6" fill="#b8860a"/>
+          </svg>
+          NPS Alerts &amp; Advisories
+          <span class="alert-count zero" id="alertCount">–</span>
+        </div>
+        <span class="alerts-chevron" id="alertsChevron">▼</span>
+      </div>
+      <div class="alerts-body" id="alertsBody">
+        <div class="alerts-loading">Loading advisories…</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Access Notices -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Access Notices</div>
+    <div class="notice-bar" style="margin-bottom: 10px;">
+      <span class="notice-icon">🛣️</span>
+      <span><strong>Bald Hills Rd, Coastal Drive &amp; Cal-Barrel Rd</strong> are narrow, winding backcountry roads with seasonal and weather-related closures — they are <strong>unsuitable for RVs, trailers, or vehicles over ~20 ft</strong>. Check current conditions before driving them. <a href="https://www.nps.gov/redw/planyourvisit/conditions.htm" target="_blank">NPS current conditions ↗</a></span>
+    </div>
+    <div class="notice-bar">
+      <span class="notice-icon">🎫</span>
+      <span><strong>Tall Trees Grove</strong> requires a free permit to access the gated access road (available at park visitor centers or online). <strong>Fern Canyon</strong> often requires a timed-entry reservation during peak summer months for vehicle access. Plan ahead — both are easy to miss without advance permits. <a href="https://www.nps.gov/redw/planyourvisit/fees.htm" target="_blank">Permit &amp; reservation info ↗</a></span>
+    </div>
+  </div>
+
+  <!-- Access & Fees -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Access &amp; Fees</div>
+
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Main Corridor</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
+        </div>
+        <div class="traffic-name">US-101, running the length of the park</div>
+        <div class="traffic-desc">The primary route through Redwood National and State Parks, connecting Orick, Klamath &amp; Crescent City. Most park units are accessed directly off US-101.</div>
+        <div class="traffic-tip">💡 No entrance gate on US-101 itself — this is a through-highway, not a gated park boundary.</div>
+        <a class="traffic-link" href="https://www.nps.gov/redw/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Scenic Alternate</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
+        </div>
+        <div class="traffic-name">Newton B. Drury Scenic Parkway</div>
+        <div class="traffic-desc">A slower, old-growth-lined alternate to US-101 through Prairie Creek Redwoods SP — passes Elk Prairie and connects to Davison Rd / Gold Bluffs Beach &amp; Fern Canyon.</div>
+        <div class="traffic-tip">💡 Worth the detour — this is where most elk sightings happen.</div>
+        <a class="traffic-link" href="https://www.nps.gov/redw/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Fee Structure</span>
+          <span class="traffic-badge badge-unknown">Split Model</span>
+        </div>
+        <div class="traffic-name">National park land is free — state park units charge day-use</div>
+        <div class="traffic-desc">Redwood National Park has no entrance fee. The co-managed state park units (Jedediah Smith, Del Norte Coast &amp; Prairie Creek) charge separate day-use fees at their developed areas.</div>
+        <div class="traffic-tip">💡 America the Beautiful passes are honored at the state park day-use areas too.</div>
+        <a class="traffic-link" href="https://www.parks.ca.gov/?page_id=25783" target="_blank">CA State Parks fee info ↗</a>
+      </div>
+
+    </div>
+
+    <!-- Fee Notice (split model, no live wait times) -->
+    <div class="traffic-tip" style="margin-top: -2px;">
+      💡 No live wait-time data exists for this park. Redwood National Park itself is entirely fee-free. The three California State Parks units layered within it — Jedediah Smith Redwoods, Del Norte Coast Redwoods &amp; Prairie Creek Redwoods — each charge an approximate <strong>$8–$12 per vehicle</strong> day-use fee at their developed areas (exact current pricing varies by unit; see the CA State Parks fee page below rather than relying on a fixed number here).
+    </div>
+
+    <div class="fee-bar">
+      <span class="fee-bar-label">Fees</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Redwood National Park</span><span class="fee-price">Free</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">State Park Day-Use (approx.)</span><span class="fee-price">$8–$12/vehicle</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">America the Beautiful</span><span class="fee-price">Honored at SP units</span></div>
+      </div>
+      <span class="fee-note"><a class="traffic-link" href="https://www.parks.ca.gov/?page_id=25783" target="_blank">Current CA State Parks fees ↗</a></span>
+    </div>
+
+  </div>
+
+  <!-- Rivers / Live Gauge Data -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">River Conditions · Redwood Creek</div>
+    <div class="angler-grid">
+
+      <div class="angler-card">
+        <div class="angler-card-header">
+          <span class="angler-station">Redwood Creek at Orick</span>
+          <span id="cond1" class="angler-condition cond-good">⏳</span>
+        </div>
+        <div class="angler-site">USGS 11482500</div>
+        <div class="angler-stats">
+          <span><span id="flow1">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge1">--</span><span class="unit"> ft</span><span class="sep">&middot;</span><span id="temp1">--</span><span class="unit">°F</span></span>
+        </div>
+      </div>
+
+      <div class="angler-card">
+        <div class="angler-card-header">
+          <span class="angler-station">Redwood Creek above Panther Creek</span>
+          <span id="cond2" class="angler-condition cond-good">⏳</span>
+        </div>
+        <div class="angler-site">USGS 11482120</div>
+        <div class="angler-stats">
+          <span><span id="flow2">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge2">--</span><span class="unit"> ft</span></span>
+        </div>
+      </div>
+
+    </div>
+    <a class="angler-link" href="https://waterdata.usgs.gov/ca/nwis/current/?type=flow" target="_blank">USGS California real-time streamflow ↗</a>
+  </div>
+
+  <!-- Campground Availability -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Campground Availability</div>
+    <div class="transport-grid">
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Elk Prairie</span>
+          <span class="transport-badge">Reservation Recommended</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">75</span></div>
+        <div class="transport-row"><span class="transport-key">Unit</span><span class="transport-val">Prairie Creek Redwoods SP</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Near elk viewing meadow &amp; old-growth trails</span></div>
+        <a class="transport-link" href="https://www.reservecalifornia.com/" target="_blank">Book via ReserveCalifornia ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Gold Bluffs Beach</span>
+          <span class="transport-badge">Reservation Recommended</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">~26</span></div>
+        <div class="transport-row"><span class="transport-key">Unit</span><span class="transport-val">Prairie Creek Redwoods SP</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Beachfront · unpaved access road via Davison Rd, no RVs/trailers</span></div>
+        <a class="transport-link" href="https://www.reservecalifornia.com/" target="_blank">Book via ReserveCalifornia ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Jedediah Smith</span>
+          <span class="transport-badge">Reservation Recommended</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">~89</span></div>
+        <div class="transport-row"><span class="transport-key">Unit</span><span class="transport-val">Jedediah Smith Redwoods SP</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Along the Smith River, near Stout Grove</span></div>
+        <a class="transport-link" href="https://www.reservecalifornia.com/" target="_blank">Book via ReserveCalifornia ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Mill Creek</span>
+          <span class="transport-badge fcfs">Seasonal · Summer Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">~145</span></div>
+        <div class="transport-row"><span class="transport-key">Unit</span><span class="transport-val">Del Norte Coast Redwoods SP</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Summer only</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Largest campground in the parks · closed off-season</span></div>
+        <a class="transport-link" href="https://www.reservecalifornia.com/" target="_blank">Book via ReserveCalifornia ↗</a>
+      </details>
+
+    </div>
+    <div class="notice-bar" style="margin-top: 12px;">
+      <span class="notice-icon">⛺</span>
+      <span>Redwood National Park itself has <strong>no developed drive-in campground</strong> — only backcountry/primitive camping, which requires a permit. All four developed campgrounds above are operated by California State Parks. <a href="https://www.nps.gov/redw/planyourvisit/campgrounds.htm" target="_blank">NPS camping info ↗</a></span>
+    </div>
+  </div>
+
+  <!-- Landmarks -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Landmarks &amp; Groves</div>
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">Orick / South<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Thomas H. Kuchel Visitor Center</span><span class="conc-type">Main south visitor center · Pacific Ocean view</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row"><span class="conc-name">Tall Trees Grove</span><span class="conc-type">Among the tallest trees on Earth · gated road, free permit required</span><span class="conc-hrs">Permit req.</span></div>
+          <div class="conc-row"><span class="conc-name">Redwood Creek Trail</span><span class="conc-type">Easy-moderate · follows Redwood Creek</span><span class="conc-hrs">Varies</span></div>
+          <div class="conc-row"><span class="conc-name">Lady Bird Johnson Grove</span><span class="conc-type">Easy · 1.4 mi loop, dedicated in 1969</span><span class="conc-hrs">~1 hr</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Prairie Creek Area<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Fern Canyon</span><span class="conc-type">Fern-draped 50 ft walls · timed entry often required in summer</span><span class="conc-hrs">Seasonal res.</span></div>
+          <div class="conc-row"><span class="conc-name">Gold Bluffs Beach</span><span class="conc-type">Wild beach · unpaved access road</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row"><span class="conc-name">Elk Prairie</span><span class="conc-type">Reliable Roosevelt elk viewing meadow</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row"><span class="conc-name">Newton B. Drury Scenic Parkway</span><span class="conc-type">Old-growth scenic drive, alt. to US-101</span><span class="conc-hrs">~10 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Klamath Area<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Klamath River Overlook</span><span class="conc-type">Whale watching &amp; ocean bluff views</span><span class="conc-hrs">~20 min</span></div>
+          <div class="conc-row"><span class="conc-name">Coastal Drive</span><span class="conc-type">Scenic loop above the coast · seasonal/weather closures, no RVs</span><span class="conc-hrs">~30–45 min</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Crescent City / Del Norte<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Battery Point Lighthouse</span><span class="conc-type">Historic 1856 lighthouse · tidal access island</span><span class="conc-hrs">Tide-dependent</span></div>
+          <div class="conc-row"><span class="conc-name">Enderts Beach</span><span class="conc-type">Tide pools &amp; coastal views</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Crescent Beach</span><span class="conc-type">Easy beach access, sunset spot</span><span class="conc-hrs">~30 min</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Jedediah Smith Area<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Stout Grove</span><span class="conc-type">Easy · iconic old-growth grove near Smith River</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row"><span class="conc-name">Simpson-Reed Grove</span><span class="conc-type">Easy · 0.8 mi interpretive loop</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row"><span class="conc-name">Smith River</span><span class="conc-type">California's largest undammed river · swimming &amp; fishing</span><span class="conc-hrs">Varies</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Stargazing -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Redwood National and State Parks has no official IDA/DarkSky International certification, but is informally recognized as one of the darker sky locations on the California coast — the low population density along this stretch of US-101, combined with towering canopy cover, keeps light pollution unusually low for a coastal park. Coastal fog can obscure views, so check conditions first; open meadows like <strong>Elk Prairie</strong> and beach areas away from Crescent City tend to offer the clearest sightlines. Best on new-moon nights — bring a red flashlight to preserve night vision and dress warmly, as coastal nights are damp and cool year-round. <a href="https://www.nps.gov/redw/planyourvisit/stargazing.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="refresh-bar">
+    <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feed</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
+      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
+      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
+    </div>
+  </div>
+
+  <div class="cam-grid" id="camGrid"></div>
+
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <div class="modal-img-wrap" id="modalImgWrap"></div>
+    <div class="modal-footer">
+      <div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-source" id="modalSource"></div>
+      </div>
+      <div class="modal-close" onclick="closeModal(null, true)">✕</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Sources: National Park Service · California State Parks · Redwood Parks Conservancy · USGS</span>
+  <span>Weather: Open-Meteo (Kuchel Visitor Center, Orick) · Alerts: NPS Data API</span>
+</footer>
+
+<script>
+  // ── Camera definitions ──
+  // Note: Redwood has the strongest live-cam coverage of the parks in this
+  // dashboard series — 4 confirmed working NPS-hosted feeds spanning the
+  // full length of the park, from the coast at Orick to Jedediah Smith
+  // near the Oregon border. No shuttle/bike-share system exists here, so
+  // (as with Death Valley) that section is simply omitted rather than
+  // faked.
+  const CAMS = [
+    {
+      id: 'kvc-pacific',
+      name: 'Kuchel Visitor Center',
+      meta: 'Pacific Ocean view from the visitor center',
+      source: 'NPS · Redwood Parks Conservancy',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-redw/KVC_Pacific_Ocean.jpg',
+    },
+    {
+      id: 'elk-prairie',
+      name: 'Elk Prairie',
+      meta: 'Elk viewing area, Prairie Creek Redwoods SP / Newton B. Drury Parkway',
+      source: 'NPS · Redwood Parks Conservancy',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-redw/Elk_Prairie.jpg',
+    },
+    {
+      id: 'jed-smith',
+      name: 'Jedediah Smith Redwoods',
+      meta: 'Campground & old-growth forest view',
+      source: 'NPS · Redwood Parks Conservancy',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-redw/Jed_Smith.jpg',
+    },
+    {
+      id: 'bald-hills',
+      name: 'Bald Hills / Redwood Creek',
+      meta: 'View from Schoolhouse Peak Lookout',
+      source: 'NPS · Redwood Parks Conservancy',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-redw/Bald_Hills.jpg',
+    },
+  ];
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=41.2868&longitude=-124.0910' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=5';
+      const res = await fetch(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Kuchel Visitor Center';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      // 5-day forecast
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=41.2868&longitude=-124.0910&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
+      const res = await fetch(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=redw&limit=20&api_key=DEMO_KEY');
+      const d = await res.json();
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── River / USGS Gauge Data ──
+  function riverCondition(cfs) {
+    if (cfs < 100)  return { label: 'Low',       title: 'Low — Easy Wading',       cls: 'cond-low' };
+    if (cfs < 350)  return { label: 'Good',      title: 'Good — Prime Conditions',  cls: 'cond-good' };
+    if (cfs < 700)  return { label: 'High',      title: 'High — Difficult Wading',  cls: 'cond-high' };
+    return           { label: 'Very High', title: 'Very High — Dangerous',          cls: 'cond-very-high' };
+  }
+
+  async function loadRiverData(attempt = 1) {
+    try {
+      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11482500,11482120&parameterCd=00060,00065,00010&format=json&period=PT2H';
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const d = await res.json();
+      const series = d.value.timeSeries;
+
+      const data = { '11482500': {}, '11482120': {} };
+      series.forEach(ts => {
+        const site = ts.sourceInfo.siteCode[0].value;
+        const code = ts.variable.variableCode[0].value;
+        const vals = ts.values[0].value;
+        if (!vals.length) return;
+        const latest = vals[vals.length - 1];
+        if (code === '00060') data[site].flow = parseFloat(latest.value);
+        if (code === '00065') data[site].gauge = parseFloat(latest.value);
+        if (code === '00010') data[site].tempC = parseFloat(latest.value);
+        data[site].time = latest.dateTime;
+      });
+
+      [['11482500', '1'], ['11482120', '2']].forEach(([site, n]) => {
+        const s = data[site];
+        if (s.flow !== undefined) {
+          document.getElementById('flow' + n).textContent = Math.round(s.flow).toLocaleString();
+          document.getElementById('gauge' + n).textContent = s.gauge?.toFixed(2) ?? '--';
+          if (s.tempC !== undefined) {
+            const tempF = (s.tempC * 9/5 + 32).toFixed(1);
+            document.getElementById('temp' + n).textContent = tempF;
+          }
+          const cond = riverCondition(s.flow);
+          const el = document.getElementById('cond' + n);
+          el.textContent = cond.label;
+          el.title = cond.title;
+          el.className = 'angler-condition ' + cond.cls;
+        } else {
+          // Not all Redwood Creek gauges report every parameter continuously —
+          // handle missing data gracefully rather than showing a broken value.
+          const el = document.getElementById('cond' + n);
+          el.textContent = 'No current data';
+          el.className = 'angler-condition';
+        }
+      });
+    } catch (e) {
+      if (attempt < 3) {
+        setTimeout(() => loadRiverData(attempt + 1), 3000 * attempt);
+        return;
+      }
+      ['1','2'].forEach(n => {
+        document.getElementById('cond' + n).textContent = 'Data unavailable';
+        document.getElementById('cond' + n).className = 'angler-condition';
+      });
+    }
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+  }
+
+  // ── Build camera grid ──
+  function buildGrid() {
+    const grid = document.getElementById('camGrid');
+    grid.innerHTML = '';
+    CAMS.forEach(cam => {
+      const card = document.createElement('div');
+      card.className = 'cam-card';
+      card.dataset.id = cam.id;
+
+      card.innerHTML = `
+        <div class="cam-img-wrap" onclick="openModal('${cam.id}')">
+          <img
+            id="img-${cam.id}"
+            src="${cam.url}?_t=${Date.now()}"
+            alt="${cam.name}"
+            class="loading"
+            onerror="camError('${cam.id}')"
+            onload="camLoaded('${cam.id}')"
+          />
+          <div class="cam-error" id="err-${cam.id}">
+            <span class="err-icon">📵</span>
+            <span>Feed unavailable</span>
+          </div>
+        </div>
+        <div class="cam-footer">
+          <div>
+            <div class="cam-name">${cam.name}</div>
+            <div class="cam-meta">${cam.meta} · ${cam.source}</div>
+          </div>
+          <div class="cam-status">
+            <div class="status-dot" id="dot-${cam.id}"></div>
+            <span id="status-${cam.id}">Loading…</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function camLoaded(id) {
+    const img = document.getElementById('img-' + id);
+    if (img) img.classList.remove('loading');
+    const dot = document.getElementById('dot-' + id);
+    if (dot) { dot.className = 'status-dot live'; }
+    const st = document.getElementById('status-' + id);
+    if (st) st.textContent = 'Live';
+  }
+
+  function camError(id) {
+    const img = document.getElementById('img-' + id);
+    if (img) img.style.display = 'none';
+    const err = document.getElementById('err-' + id);
+    if (err) err.style.display = 'flex';
+    const dot = document.getElementById('dot-' + id);
+    if (dot) dot.className = 'status-dot error';
+    const st = document.getElementById('status-' + id);
+    if (st) st.textContent = 'Offline';
+  }
+
+  // ── Auto-refresh countdown ──
+  let refreshTimer = 60;
+  let countdownInterval;
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    refreshTimer = 60;
+    countdownInterval = setInterval(() => {
+      refreshTimer--;
+      document.getElementById('lastRefresh').textContent = `Refreshing in ${refreshTimer}s`;
+      if (refreshTimer <= 0) {
+        refreshAll();
+      }
+    }, 1000);
+  }
+
+  function refreshAll() {
+    CAMS.forEach(cam => {
+      const img = document.getElementById('img-' + cam.id);
+      if (!img) return;
+      img.style.display = 'block';
+      const err = document.getElementById('err-' + cam.id);
+      if (err) err.style.display = 'none';
+      img.classList.add('loading');
+      const dot = document.getElementById('dot-' + cam.id);
+      if (dot) { dot.className = 'status-dot'; }
+      const st = document.getElementById('status-' + cam.id);
+      if (st) st.textContent = 'Loading…';
+      img.src = cam.url + '?_t=' + Date.now();
+    });
+    loadWeather();
+    loadAQI();
+    loadAlerts();
+    loadRiverData();
+    loadMoonPhase();
+    startCountdown();
+  }
+
+  // ── Modal ──
+  let modalCam = null;
+
+  function openModal(id) {
+    const cam = CAMS.find(c => c.id === id);
+    if (!cam) return;
+    modalCam = cam;
+    document.getElementById('modalTitle').textContent = cam.name;
+    document.getElementById('modalSource').textContent = cam.meta + ' · ' + cam.source;
+    const wrap = document.getElementById('modalImgWrap');
+    wrap.innerHTML = `<img src="${cam.url}?_t=${Date.now()}" alt="${cam.name}" />`;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e, force) {
+    if (!force && e && e.target !== document.getElementById('modal')) return;
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modalImgWrap').innerHTML = '';
+    document.body.style.overflow = '';
+    modalCam = null;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Init ──
+  buildGrid();
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadRiverData();
+  loadMoonPhase();
+  startCountdown();
+</script>
+</body>
+</html>

@@ -326,6 +326,35 @@
       <circle cx="50" cy="34" r="17" fill="#fff" opacity="0.95"/>
       <path d="M8 80c11-7 21-7 31 0s21 7 31 0s21-7 22 0" stroke="#fff" stroke-width="5.5" fill="none" stroke-linecap="round" opacity="0.85"/>
     </svg>`,
+    redwood: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 8 L58 88 L42 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M50 8 L38 32 M50 8 L62 32" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+      <path d="M50 28 L34 52 M50 28 L66 52" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    </svg>`,
+    sequoia: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M38 88 L44 16 Q50 6 56 16 L62 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M42 60 L58 60 L60 88 L40 88 Z" fill="#fff" opacity="0.35"/>
+    </svg>`,
+    kingsCanyon: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 82 L26 30 L40 54 L54 20 L70 50 L96 82 Z" fill="#fff" opacity="0.95"/>
+      <path d="M40 54l-6 9h12z" fill="#fff" opacity="0.3"/>
+      <path d="M54 20l-7 12 7 6 7-6z" fill="#fff" opacity="0.3"/>
+    </svg>`,
+    lassenVolcanic: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 82 L40 28 L48 40 L52 40 L60 28 L86 82 Z" fill="#fff" opacity="0.95"/>
+      <path d="M46 20c2-4 0-8-3-10 3 1 7 4 6 9" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.65"/>
+      <path d="M58 16c2-4 0-8-3-10 3 1 7 4 6 9" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+    </svg>`,
+    pinnacles: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 84 L18 46 L28 84 Z" fill="#fff" opacity="0.75"/>
+      <path d="M30 84 L46 14 L60 84 Z" fill="#fff" opacity="0.95"/>
+      <path d="M62 84 L74 40 L84 84 Z" fill="#fff" opacity="0.75"/>
+    </svg>`,
+    channelIslands: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 58c8-10 22-16 40-16s32 6 40 16c-6 4-24 8-40 8s-34-4-40-8z" fill="#fff" opacity="0.95"/>
+      <path d="M6 74c8-5 16-5 24 0s16 5 24 0s16-5 24 0s16 5 22 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M6 86c8-5 16-5 24 0s16 5 24 0s16-5 24 0s16 5 22 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.4"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -358,6 +387,66 @@
       desc: 'Extreme heat safety guidance, entrance & campground info, landmark guide, Gold-Tier Dark Sky stargazing, and a live Furnace Creek cam.',
       features: 'Heat Safety · Live Cam · Landmarks',
       href: 'death_valley_cams.html',
+    },
+    {
+      name: 'Redwood',
+      states: ['California'],
+      accent: '#2dd4a7',
+      grad: 'linear-gradient(135deg, #0f3d2e 0%, #1f7a5c 55%, #2dd4a7 100%)',
+      icon: ICONS.redwood,
+      desc: '4 live cameras across the park, real-time flow on Redwood Creek, split NPS/state-park entrance info, and the tallest trees on Earth.',
+      features: '4 Live Cams · River Flow · Ancient Groves',
+      href: 'redwood_cams.html',
+    },
+    {
+      name: 'Sequoia',
+      states: ['California'],
+      accent: '#f0653f',
+      grad: 'linear-gradient(135deg, #4a1f12 0%, #a8431f 55%, #f0653f 100%)',
+      icon: ICONS.sequoia,
+      desc: 'A live Giant Forest cam, real-time Kaweah River flow, extreme elevation safety guidance, and the world’s largest tree by volume.',
+      features: 'Live Cam · River Flow · Altitude Safety',
+      href: 'sequoia_cams.html',
+    },
+    {
+      name: 'Kings Canyon',
+      states: ['California'],
+      accent: '#7dd3fc',
+      grad: 'linear-gradient(135deg, #0f2d3d 0%, #2d6a8a 55%, #7dd3fc 100%)',
+      icon: ICONS.kingsCanyon,
+      desc: 'Grant Grove & Cedar Grove trip info, seasonal road status, and California’s deepest canyon — administered jointly with neighboring Sequoia.',
+      features: 'Landmarks · Campgrounds · Seasonal Roads',
+      href: 'kings_canyon_cams.html',
+    },
+    {
+      name: 'Lassen Volcanic',
+      states: ['California'],
+      accent: '#ef4444',
+      grad: 'linear-gradient(135deg, #2d1210 0%, #8a2a1a 55%, #ef4444 100%)',
+      icon: ICONS.lassenVolcanic,
+      desc: 'Live geothermal hazard guidance, active hydrothermal areas, seasonal road status, and a live volcano-view camera.',
+      features: 'Live Cam · Geothermal Safety · Volcano',
+      href: 'lassen_volcanic_cams.html',
+    },
+    {
+      name: 'Pinnacles',
+      states: ['California'],
+      accent: '#eab308',
+      grad: 'linear-gradient(135deg, #4a3410 0%, #a87a1f 55%, #eab308 100%)',
+      icon: ICONS.pinnacles,
+      desc: 'Gold-Tier Dark Sky stargazing, live cave status, talus caves, and California condors — plus a critical two-entrance travel warning.',
+      features: 'Dark Sky · Cave Status · Condors',
+      href: 'pinnacles_cams.html',
+    },
+    {
+      name: 'Channel Islands',
+      states: ['California'],
+      accent: '#22d3ee',
+      grad: 'linear-gradient(135deg, #0a2d3d 0%, #1a6a8a 55%, #22d3ee 100%)',
+      icon: ICONS.channelIslands,
+      desc: 'Ferry & boat access info, live tide predictions, boat-in campgrounds, and California’s own “Galapagos” — no roads, no cars.',
+      features: 'Ferry Access · Tide Data · 5 Islands',
+      href: 'channel_islands_cams.html',
     },
   ];
 

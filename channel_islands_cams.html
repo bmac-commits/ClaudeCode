@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Channel Islands Live Cams &amp; Trip Dashboard</title>
+  <style>
+    :root {
+      --bg: #e6edf0;
+      --surface: #f5f9fa;
+      --surface2: #d8e4e8;
+      --border: #b8ccd2;
+      --ocean: #1a6b8a;
+      --ocean-light: #2f93b8;
+      --rock: #7a8f95;
+      --text: #1c2e33;
+      --text-dim: #52686e;
+      --yellow: #b8860a;
+      --red: #a03820;
+      --blue: #4a7a9b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #7ab0c4 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .map-download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover {
+      background: var(--surface2);
+      border-color: var(--ocean);
+    }
+
+    .park-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.9;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--ocean-light);
+    }
+
+    .header-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    /* ── Info Bar (weather + alerts toggle) ── */
+    .info-bar {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin-bottom: -1px;
+    }
+
+    /* ── Weather Card ── */
+    .weather-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+      min-width: 340px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .weather-detail-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weather-detail-row .label {
+      color: var(--rock);
+      width: 48px;
+    }
+
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-strip {
+      display: flex;
+      gap: 10px;
+      margin-left: 8px;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .forecast-day .day-name {
+      color: var(--text-dim);
+    }
+
+    .forecast-day .day-icon {
+      font-size: 1.1rem;
+    }
+
+    .forecast-day .day-hi {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .forecast-day .day-lo {
+      color: var(--text-dim);
+    }
+
+    /* ── Alerts Card ── */
+    .alerts-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      flex: 1;
+      min-width: 280px;
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .alerts-header:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .alerts-header.open {
+      border-bottom-color: var(--border);
+    }
+
+    .alerts-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .alert-count {
+      background: var(--yellow);
+      color: #1a1200;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .alert-count.zero {
+      background: #7c8a5c;
+      color: #0a1a0d;
+    }
+
+    .alerts-chevron {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .alerts-header.open .alerts-chevron {
+      transform: rotate(180deg);
+    }
+
+    .alerts-body {
+      display: none;
+      padding: 10px 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .alerts-body.open {
+      display: block;
+    }
+
+    .alert-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item .alert-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+
+    .alert-item .alert-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .alert-item .alert-desc {
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .alerts-loading {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding: 8px 0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 20px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    /* ── Refresh bar ── */
+    .refresh-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .refresh-info {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .refresh-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--ocean);
+      color: var(--ocean-light);
+    }
+
+    /* ── Ferry & Boat Access Section (repurposed .traffic-grid/.traffic-card) ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--rock); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--ocean-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Fees / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rock);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--rock);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Notice Bar ── */
+    .notice-bar {
+      background: rgba(74,122,155,0.13);
+      border: 1px solid rgba(74,122,155,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(160,56,32,0.13);
+      border-color: rgba(160,56,32,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--ocean-light); }
+
+    /* ── Tide Card ── */
+    .tide-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tide-icon {
+      font-size: 2rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .tide-list {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .tide-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 80px;
+    }
+
+    .tide-type {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rock);
+    }
+
+    .tide-type.high { color: var(--ocean-light); }
+    .tide-type.low { color: var(--yellow); }
+
+    .tide-time {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .tide-height {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .tide-note {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      max-width: 260px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 700px) {
+      .tide-note { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; max-width: none; width: 100%; }
+    }
+
+    /* ── Watch Live link-out card ── */
+    .cam-linkout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cam-linkout-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .cam-linkout-text {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .cam-linkout-text strong {
+      color: var(--text);
+    }
+
+    /* ── Campground Accordion ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--rock);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--ocean-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--ocean-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Landmarks Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .conc-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--rock);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 170px;
+    }
+
+    .conc-type {
+      font-size: 0.65rem;
+      color: var(--rock);
+      flex: 1;
+    }
+
+    .conc-hrs {
+      font-size: 0.72rem;
+      color: var(--ocean-light);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--ocean-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-top-left">
+      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 22c2-6 8-10 14-10s11 4 13 10c-4 2-9 3-13.5 3S9 24 6 22z" fill="#1a6b8a" opacity="0.85"/>
+        <path d="M2 29c4-1.6 8-1.6 12 0s8 1.6 12 0s8-1.6 12 0" stroke="#2f93b8" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.85"/>
+        <path d="M2 34c4-1.4 8-1.4 12 0s8 1.4 12 0s8-1.4 12 0" stroke="#2f93b8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.55"/>
+      </svg>
+      <h1>Channel Islands <span>Live Cams &amp; Trip Dashboard</span></h1>
+    </div>
+    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/channel-islands-map.pdf" target="_blank" download>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Park Map PDF
+    </a>
+  </div>
+  <p class="header-sub">Channel Islands National Park — California, USA &nbsp;·&nbsp; Camera and conditions data refresh automatically every 60 seconds</p>
+
+  <div class="info-bar">
+    <!-- Weather -->
+    <div class="weather-card" id="weatherCard">
+      <div class="weather-main">
+        <div class="weather-icon" id="wxIcon">⏳</div>
+        <div>
+          <div class="weather-temp" id="wxTemp">--°F</div>
+          <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        </div>
+      </div>
+      <div class="weather-details" id="wxDetails">
+        <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+        <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+        <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        <div class="weather-detail-row"><span class="label">Elev.</span> <span>Sea level – 2,429 ft (Devils Pk)</span></div>
+      </div>
+      <div class="aqi-block" id="aqiBlock">
+        <div class="aqi-label">Air Quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
+      <div class="forecast-strip" id="forecastStrip"></div>
+    </div>
+
+    <!-- NPS Alerts -->
+    <div class="alerts-card">
+      <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="alerts-title">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L1 13h12L7 1z" stroke="#b8860a" stroke-width="1.4" fill="none"/>
+            <line x1="7" y1="6" x2="7" y2="9" stroke="#b8860a" stroke-width="1.4"/>
+            <circle cx="7" cy="11" r="0.6" fill="#b8860a"/>
+          </svg>
+          NPS Alerts &amp; Advisories
+          <span class="alert-count zero" id="alertCount">–</span>
+        </div>
+        <span class="alerts-chevron" id="alertsChevron">▼</span>
+      </div>
+      <div class="alerts-body" id="alertsBody">
+        <div class="alerts-loading">Loading advisories…</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Mainland weather proxy notice -->
+  <div style="margin-bottom: 28px;">
+    <div class="notice-bar">
+      <span class="notice-icon">⛴️</span>
+      <span>The weather &amp; air quality data above is measured at the <strong>Robert J. Lagomarsino Visitor Center</strong> (Ventura Harbor, mainland gateway) — <strong>not on the islands themselves</strong>. The five park islands sit 11–70 miles offshore and typically run cooler, windier, and foggier than the mainland reading suggests. Check conditions again once you're aboard the ferry.</span>
+    </div>
+  </div>
+
+  <!-- Ferry & Boat Access (replaces the standard highway-entrance section — this park has no roads) -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Ferry &amp; Boat Access</div>
+
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Primary Departure</span>
+          <span class="traffic-badge badge-open">Year-Round Service</span>
+        </div>
+        <div class="traffic-name">Ventura Harbor — Island Packers</div>
+        <div class="traffic-desc">Official NPS concessioner ferry. Serves Santa Cruz Island &amp; Anacapa Island, the two most-visited islands. Round-trip fares run roughly $63–$100/adult depending on island &amp; season.</div>
+        <div class="traffic-tip">💡 The park's $30/adult landing fee is bundled into your ferry ticket price — no separate payment needed.</div>
+        <a class="traffic-link" href="https://islandpackers.com" target="_blank">islandpackers.com ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Secondary Departure</span>
+          <span class="traffic-badge badge-busy">Limited Service</span>
+        </div>
+        <div class="traffic-name">Oxnard Harbor — Island Packers</div>
+        <div class="traffic-desc">Additional Island Packers departures, typically fewer sailings than Ventura Harbor. Good alternate if Ventura is sold out.</div>
+        <div class="traffic-tip">💡 Confirm which harbor your specific trip departs from when booking — Island Packers runs both.</div>
+        <a class="traffic-link" href="https://islandpackers.com" target="_blank">islandpackers.com ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Outer Islands</span>
+          <span class="traffic-badge badge-unknown">Seasonal / Weather-Limited</span>
+        </div>
+        <div class="traffic-name">Santa Rosa, San Miguel &amp; Santa Barbara Islands</div>
+        <div class="traffic-desc">Farther offshore, more exposed crossings. Service is seasonal and often paused entirely in winter due to weather. Reservations are essential.</div>
+        <div class="traffic-tip">💡 Always check islandpackers.com for the current schedule before planning a trip to an outer island.</div>
+        <a class="traffic-link" href="https://islandpackers.com" target="_blank">islandpackers.com ↗</a>
+      </div>
+
+    </div>
+
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">🛥️</span>
+      <span>There is <strong>no entrance fee at all</strong> if you arrive by your own private boat or plane — the $30/adult fee only applies to (and is bundled into) commercial ferry tickets. Private plane access is via the <strong>Santa Rosa Island airstrip</strong> by special arrangement. There are no roads, no cars, and no drive-in entrance anywhere in this park.</span>
+    </div>
+
+    <div class="fee-bar">
+      <span class="fee-bar-label">Ferry Fares · Round-Trip, Adult</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Santa Cruz / Anacapa</span><span class="fee-price">~$63–$100</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Outer Islands</span><span class="fee-price">Varies, seasonal</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Landing Fee</span><span class="fee-price">Bundled into fare</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Own Boat / Plane</span><span class="fee-price">Free</span></div>
+      </div>
+      <span class="fee-note">Book via islandpackers.com</span>
+    </div>
+  </div>
+
+  <!-- Tide Predictions -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Today's Tides — Santa Barbara Station</div>
+    <div class="tide-card">
+      <div class="tide-icon">🌊</div>
+      <div class="tide-list" id="tideList">
+        <div class="tide-item"><span class="tide-type">Loading</span><span class="tide-time">--</span></div>
+      </div>
+      <div class="tide-note">Nearest NOAA reference tide station (Santa Barbara, #9411340) — actual island tide times shift slightly by location. Useful for planning <strong>tidepooling</strong>, a headline activity here; low tide exposes the richest tidepools.</div>
+    </div>
+  </div>
+
+  <!-- Watch Live link-out (no embeddable still-image cam exists for this park) -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Live Camera Feed</div>
+    <div class="cam-linkout">
+      <span class="cam-linkout-icon">📡</span>
+      <div class="cam-linkout-text">
+        <strong>No embeddable live still-image camera is available for Channel Islands.</strong> NPS lists 6 webcams on their site, but they're page-embedded video players rather than a raw hotlinkable JPG endpoint (unlike Redwood, Lassen, or Sequoia's clean image feeds). The closest live-video alternative — the explore.org bald eagle cam on Santa Cruz Island — is also a JS video player, not something that can be embedded as a simple auto-refreshing image. Rather than fake it, this links straight to NPS's own webcam page.
+      </div>
+      <a class="transport-link" style="margin-top:0;" href="https://www.nps.gov/chis/learn/photosmultimedia/webcams.htm" target="_blank">Watch Live on NPS.gov ↗</a>
+    </div>
+  </div>
+
+  <!-- Campgrounds -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Campgrounds — All Boat-In / Hike-In Only</div>
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">⛺</span>
+      <span>Every campground is <strong>boat-in or fly-in only</strong>, reservable exclusively through Recreation.gov — there is no first-come/first-served option and no RV or car camping anywhere in the park. Camping fee is <strong>$15/night</strong> (separate from the ferry's bundled landing fee). Sites are open roughly year-round wherever ferry service runs.</span>
+    </div>
+    <div class="transport-grid">
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Scorpion Ranch</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Island</span><span class="transport-val">Santa Cruz Island</span></div>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">~31</span></div>
+        <div class="transport-row"><span class="transport-key">Water</span><span class="transport-val">Potable water available</span></div>
+        <div class="transport-row"><span class="transport-key">Access</span><span class="transport-val">~0.5 mi walk from pier</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Largest &amp; most popular campground in the park</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/233350" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Anacapa Island</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Island</span><span class="transport-val">Anacapa Island</span></div>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">7 · capacity 30</span></div>
+        <div class="transport-row"><span class="transport-key">Water</span><span class="transport-val">None — pack in all water</span></div>
+        <div class="transport-row"><span class="transport-key">Access</span><span class="transport-val">157-step stairway from landing cove</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Not for anyone with mobility concerns</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/233349" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Water Canyon</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Island</span><span class="transport-val">Santa Rosa Island</span></div>
+        <div class="transport-row"><span class="transport-key">Water</span><span class="transport-val">Potable water available</span></div>
+        <div class="transport-row"><span class="transport-key">Access</span><span class="transport-val">Near Water Canyon Beach</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Windy island — stake down tents well</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/233351" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">San Miguel / Cuyler Harbor</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Island</span><span class="transport-val">San Miguel Island</span></div>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">9 primitive · capacity 30</span></div>
+        <div class="transport-row"><span class="transport-key">Water</span><span class="transport-val">None — pack in all water</span></div>
+        <div class="transport-row"><span class="transport-key">Access</span><span class="transport-val">1-mile uphill hike from the beach</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Most remote &amp; weather-exposed campground</span></div>
+        <a class="transport-link" href="https://www.nps.gov/chis/planyourvisit/camping.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Santa Barbara Island</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Island</span><span class="transport-val">Santa Barbara Island</span></div>
+        <div class="transport-row"><span class="transport-key">Water</span><span class="transport-val">None — pack in all water</span></div>
+        <div class="transport-row"><span class="transport-key">Access</span><span class="transport-val">~1 mile uphill hike from Landing Cove</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Small campground above the cove; smallest of the 5 islands</span></div>
+        <a class="transport-link" href="https://www.nps.gov/chis/planyourvisit/camping.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Landmarks by Island -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Landmarks by Island</div>
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">Anacapa Island<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Arch Rock</span><span class="conc-type">Iconic natural sea arch, best seen from the boat</span><span class="conc-hrs">Viewpoint</span></div>
+          <div class="conc-row"><span class="conc-name">Anacapa Lighthouse</span><span class="conc-type">Historic lighthouse, still active</span><span class="conc-hrs">Self-guided</span></div>
+          <div class="conc-row"><span class="conc-name">Seabird Rookery</span><span class="conc-type">One of the largest seabird colonies on the Pacific coast</span><span class="conc-hrs">Spring nesting season</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Santa Cruz Island<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Painted Cave</span><span class="conc-type">One of the world's largest sea caves — best by kayak/boat tour</span><span class="conc-hrs">Tour required</span></div>
+          <div class="conc-row"><span class="conc-name">Scorpion Canyon</span><span class="conc-type">Easy canyon trail near the campground &amp; pier</span><span class="conc-hrs">~1–2 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Potato Harbor</span><span class="conc-type">Moderate coastal bluff hike, dramatic overlook</span><span class="conc-hrs">~2–3 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Devils Peak</span><span class="conc-type">Park's highest point</span><span class="conc-hrs">2,429 ft</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Santa Rosa Island<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Torrey Pines Grove</span><span class="conc-type">One of only two native Torrey pine groves on Earth</span><span class="conc-hrs">Self-guided</span></div>
+          <div class="conc-row"><span class="conc-name">Water Canyon Beach</span><span class="conc-type">Long, wide sandy beach near the campground</span><span class="conc-hrs">Self-guided</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">San Miguel Island<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Point Bennett</span><span class="conc-type">Largest pinniped haul-out concentration in the world</span><span class="conc-hrs">Ranger-guided hike only</span></div>
+          <div class="conc-row"><span class="conc-name">Caliche Forest</span><span class="conc-type">Ghostly calcified plant-root cast formations</span><span class="conc-hrs">Ranger-guided hike only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Santa Barbara Island<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Seabird Colonies</span><span class="conc-type">Smallest island, dense nesting seabird populations</span><span class="conc-hrs">Spring nesting season</span></div>
+          <div class="conc-row"><span class="conc-name">Spring Wildflowers</span><span class="conc-type">Vivid island wildflower bloom, weather-dependent</span><span class="conc-hrs">Feb–Apr, variable</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Stargazing -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Channel Islands has no formal DarkSky International certification, but NPS has documented it as having <strong>among the darkest skies of any national park in the contiguous U.S.</strong> since monitoring began around 1992 — the surrounding ocean keeps light pollution far lower than most mainland parks. <strong>Scorpion Anchorage</strong> (Santa Cruz Island campground) is cited as the best on-island stargazing spot. Best on new-moon nights — bring a red flashlight to preserve night vision and dress warm, ocean nights get cold and damp fast. <a href="https://www.nps.gov/chis/planyourvisit/stargazing.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="refresh-bar">
+    <div class="section-label" style="flex:1; margin-bottom:0;">Conditions</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
+      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
+      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Sources: National Park Service · Island Packers · NOAA CO-OPS · Recreation.gov</span>
+  <span>Weather: Open-Meteo (Ventura Harbor / Mainland Gateway) · Alerts: NPS Data API · Tides: NOAA Station 9411340</span>
+</footer>
+
+<script>
+  // Note: Channel Islands has no confirmed embeddable live still-image camera.
+  // NPS lists 6 webcams at nps.gov/chis/learn/photosmultimedia/webcams.htm, but
+  // they are page-embedded video players, not raw <img>-able JPG endpoints like
+  // Redwood/Lassen/Sequoia. The closest live-video alternative (explore.org bald
+  // eagle cam) is also a JS video player, not embeddable as a simple auto-
+  // refreshing image. Rather than fabricate a src or fake a .cam-grid, this
+  // dashboard uses a plain honest link-out card instead (see .cam-linkout above).
+  // There is also no .traffic-grid "Park Entrances" section here in the usual
+  // sense — Channel Islands has no roads or drive-in entrance at all, so that
+  // section has been repurposed into "Ferry & Boat Access" using the same
+  // .traffic-card visual language but describing boat departures, not highways.
+  // Likewise there is no USGS river gauge (no permanent streams on the islands),
+  // so a NOAA tide-prediction widget stands in for the river-conditions widget
+  // used on other park dashboards — tides matter here for tidepooling timing.
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=33.9868&longitude=-119.9113' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=5';
+      const res = await fetch(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Mainland Visitor Center / Gateway';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      // 5-day forecast
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=33.9868&longitude=-119.9113&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
+      const res = await fetch(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=chis&limit=20&api_key=DEMO_KEY');
+      const d = await res.json();
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── Tide Predictions (NOAA CO-OPS, Santa Barbara station 9411340) ──
+  async function loadTides() {
+    const list = document.getElementById('tideList');
+    try {
+      const url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter' +
+        '?station=9411340&product=predictions&datum=MLLW&time_zone=lst_ldt' +
+        '&units=english&interval=hilo&format=json&date=today';
+      const res = await fetch(url);
+      const d = await res.json();
+      const preds = d.predictions || [];
+
+      if (preds.length === 0) {
+        list.innerHTML = '<div class="tide-item"><span class="tide-type">No Data</span><span class="tide-time">--</span></div>';
+        return;
+      }
+
+      list.innerHTML = preds.map(p => {
+        const isHigh = p.type === 'H';
+        const timePart = p.t.split(' ')[1];
+        let [hh, mm] = timePart.split(':').map(Number);
+        const ampm = hh >= 12 ? 'PM' : 'AM';
+        const hh12 = ((hh + 11) % 12) + 1;
+        const timeStr = `${hh12}:${String(mm).padStart(2, '0')} ${ampm}`;
+        return `
+          <div class="tide-item">
+            <span class="tide-type ${isHigh ? 'high' : 'low'}">${isHigh ? 'High Tide' : 'Low Tide'}</span>
+            <span class="tide-time">${timeStr}</span>
+            <span class="tide-height">${parseFloat(p.v).toFixed(1)} ft</span>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      list.innerHTML = '<div class="tide-item"><span class="tide-type">Unavailable</span><span class="tide-time">--</span></div>';
+    }
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+  }
+
+  // ── Auto-refresh countdown ──
+  let refreshTimer = 60;
+  let countdownInterval;
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    refreshTimer = 60;
+    countdownInterval = setInterval(() => {
+      refreshTimer--;
+      document.getElementById('lastRefresh').textContent = `Refreshing in ${refreshTimer}s`;
+      if (refreshTimer <= 0) {
+        refreshAll();
+      }
+    }, 1000);
+  }
+
+  function refreshAll() {
+    loadWeather();
+    loadAQI();
+    loadAlerts();
+    loadTides();
+    loadMoonPhase();
+    startCountdown();
+  }
+
+  // ── Init ──
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadTides();
+  loadMoonPhase();
+  startCountdown();
+</script>
+</body>
+</html>

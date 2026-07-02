@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kings Canyon Live Cams &amp; Trip Dashboard</title>
+  <style>
+    :root {
+      --bg: #e8edf0;
+      --surface: #f7fafb;
+      --surface2: #d9e2e6;
+      --border: #bccbd1;
+      --alpine: #3d6b7a;
+      --alpine-light: #5a92a3;
+      --granite: #8a8f8a;
+      --text: #22303a;
+      --text-dim: #566670;
+      --yellow: #b8860a;
+      --red: #a03820;
+      --blue: #4a7a9b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #a8c0c8 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .map-download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover {
+      background: var(--surface2);
+      border-color: var(--alpine);
+    }
+
+    .park-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.9;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--alpine-light);
+    }
+
+    .header-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    /* ── Info Bar (weather + alerts toggle) ── */
+    .info-bar {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin-bottom: -1px;
+    }
+
+    /* ── Weather Card ── */
+    .weather-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+      min-width: 340px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .weather-detail-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weather-detail-row .label {
+      color: var(--granite);
+      width: 48px;
+    }
+
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-strip {
+      display: flex;
+      gap: 10px;
+      margin-left: 8px;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .forecast-day .day-name {
+      color: var(--text-dim);
+    }
+
+    .forecast-day .day-icon {
+      font-size: 1.1rem;
+    }
+
+    .forecast-day .day-hi {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .forecast-day .day-lo {
+      color: var(--text-dim);
+    }
+
+    /* ── Alerts Card ── */
+    .alerts-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      flex: 1;
+      min-width: 280px;
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .alerts-header:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .alerts-header.open {
+      border-bottom-color: var(--border);
+    }
+
+    .alerts-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .alert-count {
+      background: var(--yellow);
+      color: #1a1200;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .alert-count.zero {
+      background: var(--alpine-light);
+      color: #0a1a0d;
+    }
+
+    .alerts-chevron {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .alerts-header.open .alerts-chevron {
+      transform: rotate(180deg);
+    }
+
+    .alerts-body {
+      display: none;
+      padding: 10px 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .alerts-body.open {
+      display: block;
+    }
+
+    .alert-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item .alert-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+
+    .alert-item .alert-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .alert-item .alert-desc {
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .alerts-loading {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding: 8px 0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 20px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    /* ── Refresh bar ── */
+    .refresh-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .refresh-info {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .refresh-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--alpine);
+      color: var(--alpine-light);
+    }
+
+    /* ── Entrances Section ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--granite); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--alpine-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Entry Fees / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--granite);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--granite);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Notice Bar (seasonal closures, etc.) ── */
+    .notice-bar {
+      background: rgba(184,134,10,0.13);
+      border: 1px solid rgba(184,134,10,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(184,40,28,0.13);
+      border-color: rgba(184,40,28,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--alpine-light); }
+
+    /* ── Campground Accordion ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--granite);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--alpine-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--alpine-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--granite);
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Landmarks Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .conc-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--granite);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--granite);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 170px;
+    }
+
+    .conc-type {
+      font-size: 0.65rem;
+      color: var(--granite);
+      flex: 1;
+    }
+
+    .conc-hrs {
+      font-size: 0.72rem;
+      color: var(--alpine-light);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--alpine-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    footer a { color: var(--alpine-light); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-top-left">
+      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 30l7-16 5 7 6-13 5 9 4-6 9 19H2z" fill="#8a8f8a" opacity="0.85"/>
+        <path d="M2 30l7-16 5 7 6-13 5 9" stroke="#3d6b7a" stroke-width="1.6" stroke-linejoin="round" fill="none" opacity="0.9"/>
+        <path d="M14 21l2.5-2 2.5 2" stroke="#f7fafb" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+        <path d="M2 34.5c4-1.4 8-1.4 12 0s8 1.4 12 0s8-1.4 12 0" stroke="#5a92a3" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6"/>
+      </svg>
+      <h1>Kings Canyon <span>Live Cams &amp; Trip Dashboard</span></h1>
+    </div>
+    <a class="map-download-btn" href="https://www.nps.gov/seki/planyourvisit/maps.htm" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Park Maps
+    </a>
+  </div>
+  <p class="header-sub">Kings Canyon National Park — California, USA &nbsp;·&nbsp; Camera and conditions data refresh automatically every 60 seconds</p>
+
+  <div class="info-bar">
+    <!-- Weather -->
+    <div class="weather-card" id="weatherCard">
+      <div class="weather-main">
+        <div class="weather-icon" id="wxIcon">⏳</div>
+        <div>
+          <div class="weather-temp" id="wxTemp">--°F</div>
+          <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        </div>
+      </div>
+      <div class="weather-details" id="wxDetails">
+        <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+        <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+        <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        <div class="weather-detail-row"><span class="label">Elev.</span> <span>~4,600 – 13,000+ ft</span></div>
+      </div>
+      <div class="aqi-block" id="aqiBlock">
+        <div class="aqi-label">Air Quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
+      <div class="forecast-strip" id="forecastStrip"></div>
+    </div>
+
+    <!-- NPS Alerts -->
+    <div class="alerts-card">
+      <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="alerts-title">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L1 13h12L7 1z" stroke="#b8860a" stroke-width="1.4" fill="none"/>
+            <line x1="7" y1="6" x2="7" y2="9" stroke="#b8860a" stroke-width="1.4"/>
+            <circle cx="7" cy="11" r="0.6" fill="#b8860a"/>
+          </svg>
+          NPS Alerts &amp; Advisories
+          <span class="alert-count zero" id="alertCount">–</span>
+        </div>
+        <span class="alerts-chevron" id="alertsChevron">▼</span>
+      </div>
+      <div class="alerts-body" id="alertsBody">
+        <div class="alerts-loading">Loading advisories…</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Seasonal Road Closure -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Seasonal Access Notice</div>
+    <div class="notice-bar">
+      <span class="notice-icon">🚧</span>
+      <span><strong>Cedar Grove Road (Hwy 180 into the canyon floor) closes every winter</strong> — typically mid-November through May, weather dependent. Only <strong>Grant Grove</strong> stays reachable year-round via Hwy 180. If you're planning a visit to Zumwalt Meadow, Roaring River Falls, or Road's End, check current road status before you go. <a href="https://www.nps.gov/seki/planyourvisit/conditions.htm" target="_blank">NPS road conditions ↗</a></span>
+    </div>
+  </div>
+
+  <!-- Park Entrance & Fees -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Park Entrance &amp; Fees</div>
+
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Main Entrance</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
+        </div>
+        <div class="traffic-name">Big Stump Entrance Station, Hwy 180</div>
+        <div class="traffic-desc">The only entrance station for Kings Canyon, reached via Hwy 180 from Fresno. Leads directly into Grant Grove Village.</div>
+        <div class="traffic-tip">💡 One fee covers both Kings Canyon &amp; Sequoia National Parks — no separate payment needed if continuing on to Sequoia via Generals Highway. No live wait-time data is published for this station.</div>
+        <a class="traffic-link" href="https://www.nps.gov/seki/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">To Sequoia</span>
+          <span class="traffic-badge badge-open">Seasonal Conditions Vary</span>
+        </div>
+        <div class="traffic-name">Generals Highway</div>
+        <div class="traffic-desc">Connects Grant Grove to the Giant Forest / Lodgepole area of Sequoia National Park — the two parks are administered jointly and share this connecting road.</div>
+        <div class="traffic-tip">💡 Chains or 4WD may be required in winter above ~5,000 ft. Check conditions before driving between the parks.</div>
+        <a class="traffic-link" href="https://www.nps.gov/seki/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Cedar Grove</span>
+          <span class="traffic-badge badge-closed">Closed in Winter</span>
+        </div>
+        <div class="traffic-name">Hwy 180 Canyon Floor Road</div>
+        <div class="traffic-desc">The road from Grant Grove down into the canyon floor (Cedar Grove, Zumwalt Meadow, Road's End). Closes seasonally each year.</div>
+        <div class="traffic-tip">💡 Typically closed ~mid-November to ~May, weather dependent. Grant Grove remains accessible year-round even when this stretch is shut.</div>
+        <a class="traffic-link" href="https://www.nps.gov/seki/planyourvisit/conditions.htm" target="_blank">Current conditions ↗</a>
+      </div>
+
+    </div>
+
+    <!-- Entry Fees -->
+    <div class="fee-bar">
+      <span class="fee-bar-label">Entry Fees · 7-day pass</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$35</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$30</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Per Person (foot/bike)</span><span class="fee-price">$20</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">SEKI Annual Pass</span><span class="fee-price">$70/yr</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">America the Beautiful</span><span class="fee-price">$80/yr</span></div>
+      </div>
+      <span class="fee-note">Covers both Kings Canyon &amp; Sequoia</span>
+    </div>
+    <div style="font-size:0.68rem;color:var(--granite);margin-top:6px;">Alerts and entrance fees are shared with neighboring Sequoia National Park — Kings Canyon and Sequoia are administered as one NPS unit (SEKI). Visiting nearby? <a class="traffic-link" href="sequoia_cams.html">See the Sequoia dashboard →</a></div>
+
+  </div>
+
+  <!-- Campground Availability -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Campground Availability</div>
+    <div class="transport-grid">
+
+      <details class="transport-card" open>
+        <summary class="transport-header">
+          <span class="transport-title">Azalea</span>
+          <span class="transport-badge">Mixed: First-Come + Reservable</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Area</span><span class="transport-val">Grant Grove</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">~6,500 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val highlight">Year-round — only KC campground open in winter</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Closest camping to Grant Grove Village &amp; General Grant Tree</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232449" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Sentinel</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">82</span></div>
+        <div class="transport-row"><span class="transport-key">Area</span><span class="transport-val">Cedar Grove</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Seasonal — closes with Cedar Grove Rd</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Along the South Fork Kings River, canyon floor</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232448" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Sheep Creek</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">111</span></div>
+        <div class="transport-row"><span class="transport-key">Area</span><span class="transport-val">Cedar Grove</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Seasonal — closes with Cedar Grove Rd</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Quieter alternative near Sentinel</span></div>
+        <a class="transport-link" href="https://www.nps.gov/seki/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Moraine</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">~120</span></div>
+        <div class="transport-row"><span class="transport-key">Area</span><span class="transport-val">Cedar Grove — largest KC campground</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Seasonal — closes with Cedar Grove Rd</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Scenic canyon &amp; river views</span></div>
+        <a class="transport-link" href="https://www.nps.gov/seki/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Sunset</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Area</span><span class="transport-val">Grant Grove</span></div>
+        <div class="transport-row"><span class="transport-key">Size</span><span class="transport-val">Large</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Seasonal</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Near Panoramic Point &amp; Grant Grove Village</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232447" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Landmarks -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Landmarks</div>
+    <div style="font-size:0.72rem;color:var(--text-dim);margin-bottom:12px;line-height:1.5;">
+      Note: the 2020–2021 KNP Complex and other wildfires killed roughly 19% of the world's giant sequoias parkwide. Groves listed below remain open to visitors; check current NPS alerts for any localized closures.
+    </div>
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">Grant Grove<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">General Grant Tree</span><span class="conc-type">Easy paved loop · "Nation's Christmas Tree"</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row"><span class="conc-name">Grant Grove Village</span><span class="conc-type">Visitor center, market &amp; lodging hub</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row"><span class="conc-name">Redwood Mountain Grove</span><span class="conc-type">Largest sequoia grove in the world · less-visited, longer hike</span><span class="conc-hrs">Half-day</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Cedar Grove / Canyon Floor<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Zumwalt Meadow</span><span class="conc-type">Easy 1.5 mi loop · classic canyon views</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Roaring River Falls</span><span class="conc-type">Easy · short paved path to waterfall</span><span class="conc-hrs">~15 min</span></div>
+          <div class="conc-row"><span class="conc-name">Knapp's Cabin</span><span class="conc-type">Easy · historic 1920s storage cabin</span><span class="conc-hrs">~10 min</span></div>
+          <div class="conc-row"><span class="conc-name">Roads End</span><span class="conc-type">Wilderness permit station &amp; backcountry trailheads</span><span class="conc-hrs">Seasonal</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Stargazing -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Kings Canyon is not an IDA-certified Dark Sky Park, but its high elevation and distance from Central Valley light pollution make for genuinely dark skies. The park co-hosts the annual <strong>Sequoia &amp; Kings Canyon Dark Sky Festival</strong> with neighboring Sequoia National Park. Best viewing is on new-moon nights away from Grant Grove Village lighting — bring a red flashlight to preserve night vision. <a href="https://www.nps.gov/seki/planyourvisit/darksky.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="refresh-bar">
+    <div class="section-label" style="flex:1; margin-bottom:0;">Conditions Data</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
+      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
+      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Sources: National Park Service · Recreation.gov</span>
+  <span>Weather: Open-Meteo (Grant Grove) · Alerts: NPS Data API</span>
+</footer>
+
+<script>
+  // ── Cameras & Rivers ──
+  // Unlike Yosemite/Redwood, no live webcam with a clean embeddable image URL
+  // exists for Kings Canyon as of this build. The only SEKI-wide NPS cam
+  // (Giant Forest) is physically in Sequoia, and the closest local option
+  // (ALERTCalifornia) is a JS map viewer, not a hotlinkable image — so the
+  // live-cam grid/section is omitted entirely rather than faked.
+  //
+  // Live river data is also omitted: multiple candidate USGS Kings River
+  // gauge sites were checked and none are currently reporting live IV data
+  // within or near the park. The active downstream sites (e.g. Pine Flat Dam)
+  // are well outside the park in the San Joaquin Valley and not relevant here.
+  // This mirrors the Joshua Tree dashboard's thinner data profile — honest
+  // omission rather than fabricated data.
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=36.7399&longitude=-118.9626' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=5';
+      const res = await fetch(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Grant Grove';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      // 5-day forecast
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=36.7399&longitude=-118.9626&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
+      const res = await fetch(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=seki&limit=20&api_key=DEMO_KEY');
+      const d = await res.json();
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+  }
+
+  // ── Auto-refresh countdown ──
+  let refreshTimer = 60;
+  let countdownInterval;
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    refreshTimer = 60;
+    countdownInterval = setInterval(() => {
+      refreshTimer--;
+      document.getElementById('lastRefresh').textContent = `Refreshing in ${refreshTimer}s`;
+      if (refreshTimer <= 0) {
+        refreshAll();
+      }
+    }, 1000);
+  }
+
+  function refreshAll() {
+    loadWeather();
+    loadAQI();
+    loadAlerts();
+    loadMoonPhase();
+    startCountdown();
+  }
+
+  // ── Init ──
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadMoonPhase();
+  startCountdown();
+</script>
+</body>
+</html>
