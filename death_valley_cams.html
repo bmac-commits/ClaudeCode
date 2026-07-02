@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yosemite Live Cams &amp; Trip Dashboard</title>
+  <title>Death Valley Live Cams &amp; Trip Dashboard</title>
   <style>
     :root {
-      --bg: #f0ebe0;
-      --surface: #faf7f0;
-      --surface2: #e8e0d0;
-      --border: #d0c8b8;
-      --green: #3a5a28;
-      --green-light: #4a7a30;
-      --granite: #8a7a5a;
-      --text: #2d3d20;
-      --text-dim: #5a6a48;
-      --yellow: #c87820;
-      --red: #a03820;
+      --bg: #ede6d6;
+      --surface: #faf6ec;
+      --surface2: #e8dcc0;
+      --border: #d4c4a0;
+      --amber: #b8601a;
+      --amber-light: #d8822e;
+      --rock: #9c8a6a;
+      --text: #362a1c;
+      --text-dim: #6e5c42;
+      --yellow: #c9930a;
+      --red: #b8281c;
       --blue: #4a7a9b;
+      --sage: #7c8a5c;
+      --salt: #cfc6ad;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,7 +33,7 @@
 
     /* ── Header ── */
     header {
-      background: linear-gradient(180deg, #c8bfa8 0%, var(--bg) 100%);
+      background: linear-gradient(180deg, #e8b878 0%, var(--bg) 100%);
       border-bottom: 1px solid var(--border);
       padding: 20px 24px 0;
     }
@@ -67,24 +69,13 @@
     }
     .map-download-btn:hover {
       background: var(--surface2);
-      border-color: var(--green);
-    }
-
-    .nps-logo {
-      height: 83px;
-      width: auto;
-      opacity: 0.92;
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 500px) {
-      .nps-logo { height: 60px; }
+      border-color: var(--amber);
     }
 
     .park-icon {
       width: 40px;
       height: 40px;
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
     header h1 {
@@ -95,7 +86,7 @@
     }
 
     header h1 span {
-      color: var(--green-light);
+      color: var(--amber-light);
     }
 
     .header-sub {
@@ -169,7 +160,7 @@
     }
 
     .weather-detail-row .label {
-      color: var(--granite);
+      color: var(--rock);
       width: 48px;
     }
 
@@ -211,7 +202,7 @@
       text-align: center;
     }
 
-    .aqi-good    { color: #4caf7d; }
+    .aqi-good    { color: #6a9c4a; }
     .aqi-moderate { color: #c8a94a; }
     .aqi-usg     { color: #e07840; }
     .aqi-unhealthy { color: #c05a4a; }
@@ -274,7 +265,7 @@
     }
 
     .alerts-header:hover {
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.15);
     }
 
     .alerts-header.open {
@@ -302,7 +293,7 @@
     }
 
     .alert-count.zero {
-      background: var(--green);
+      background: var(--sage);
       color: #0a1a0d;
     }
 
@@ -408,38 +399,25 @@
     }
 
     .cam-card:hover {
-      border-color: var(--green);
+      border-color: var(--amber);
       transform: translateY(-1px);
     }
 
-    .cam-card.youtube {
-      grid-column: 1 / -1;
-    }
-
     @media (max-width: 900px) {
-      .cam-card.youtube { grid-column: span 1; }
       .cam-grid { grid-template-columns: 1fr; }
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
       .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
       .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
       .aqi-value { font-size: 1.3rem; }
       .forecast-strip { display: none; }
-      .angler-grid { grid-template-columns: 1fr; }
     }
 
     .cam-img-wrap {
       position: relative;
       width: 100%;
       aspect-ratio: 16/9;
-      background: #2d3d20;
+      background: #362a1c;
       overflow: hidden;
-    }
-
-    .cam-img-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
     }
 
     .cam-img-wrap img {
@@ -504,7 +482,7 @@
       flex-shrink: 0;
     }
 
-    .status-dot.live { background: var(--green-light); box-shadow: 0 0 4px var(--green-light); }
+    .status-dot.live { background: var(--amber-light); box-shadow: 0 0 4px var(--amber-light); }
     .status-dot.error { background: var(--red); }
 
     /* ── Refresh bar ── */
@@ -532,8 +510,8 @@
     }
 
     .refresh-btn:hover {
-      border-color: var(--green);
-      color: var(--green-light);
+      border-color: var(--amber);
+      color: var(--amber-light);
     }
 
     /* ── Modal ── */
@@ -565,7 +543,7 @@
     .modal-img-wrap {
       width: 100%;
       aspect-ratio: 16/9;
-      background: #2d3d20;
+      background: #362a1c;
     }
 
     .modal-img-wrap img {
@@ -573,12 +551,6 @@
       height: 100%;
       object-fit: contain;
       display: block;
-    }
-
-    .modal-img-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
     }
 
     .modal-footer {
@@ -619,7 +591,7 @@
       color: var(--red);
     }
 
-    /* ── Traffic Section ── */
+    /* ── Entrances Section ── */
     .traffic-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -660,10 +632,10 @@
       border: 1px solid;
     }
 
-    .badge-open    { background: rgba(74,175,125,0.15); border-color: rgba(74,175,125,0.4); color: #4caf7d; }
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
     .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
     .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
-    .badge-unknown { background: rgba(138,155,142,0.15); border-color: rgba(138,155,142,0.4); color: var(--granite); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--rock); }
 
     .traffic-name {
       font-size: 0.88rem;
@@ -679,92 +651,27 @@
       margin-bottom: 10px;
     }
 
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
     .traffic-link {
       font-size: 0.68rem;
-      color: var(--green-light);
+      color: var(--amber-light);
       text-decoration: none;
       opacity: 0.85;
     }
     .traffic-link:hover { opacity: 1; text-decoration: underline; }
 
-    .wait-time-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .wait-time-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(74,124,89,0.18);
-      border: 1px solid rgba(74,124,89,0.45);
-      border-radius: 7px;
-      padding: 6px 12px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--green-light);
-      text-decoration: none;
-      transition: background 0.15s, border-color 0.15s;
-    }
-    .wait-time-btn:hover {
-      background: rgba(74,124,89,0.32);
-      border-color: rgba(74,124,89,0.7);
-    }
-    .wait-icon { font-size: 0.85rem; }
-    .wait-arrow { opacity: 0.7; }
-
-    .wait-inline {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-top: 8px;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-    .wait-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 9px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      background: rgba(74,124,89,0.15);
-      color: var(--green);
-      border: 1px solid rgba(74,124,89,0.3);
-      white-space: nowrap;
-    }
-    .wait-pill.wait-high {
-      background: rgba(160,56,32,0.12);
-      color: var(--red);
-      border-color: rgba(160,56,32,0.3);
-    }
-    .wait-pill.wait-medium {
-      background: rgba(200,120,32,0.15);
-      color: var(--yellow);
-      border-color: rgba(200,120,32,0.35);
-    }
-    .wait-pill.wait-none {
-      background: rgba(74,124,89,0.15);
-      color: var(--green);
-      border-color: rgba(74,124,89,0.3);
-    }
-    .wait-pill.wait-unknown {
-      background: var(--surface2);
-      color: var(--text-dim);
-      border-color: var(--border);
-      font-weight: 500;
-    }
-    .wait-freshness {
-      font-size: 0.67rem;
-      color: var(--text-dim);
-      opacity: 0.75;
-    }
-
-    /* ── Entry Fees ── */
+    /* ── Entry Fees / Stat Bar ── */
     .fee-bar {
       background: var(--surface2);
       border: 1px solid var(--border);
@@ -781,7 +688,7 @@
       font-size: 0.62rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: var(--granite);
+      color: var(--rock);
       margin-right: 14px;
       white-space: nowrap;
     }
@@ -819,7 +726,7 @@
 
     .fee-note {
       font-size: 0.62rem;
-      color: var(--granite);
+      color: var(--rock);
       margin-left: auto;
       white-space: nowrap;
     }
@@ -829,7 +736,29 @@
       .fee-bar-label { width: 100%; margin-bottom: 2px; }
     }
 
-    /* ── Valley Transportation ── */
+    /* ── Notice Bar (Heat Safety, etc.) ── */
+    .notice-bar {
+      background: rgba(184,134,10,0.13);
+      border: 1px solid rgba(184,134,10,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(184,40,28,0.13);
+      border-color: rgba(184,40,28,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--amber-light); }
+
+    /* ── Campground Accordion ── */
     .transport-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -871,9 +800,15 @@
       padding: 2px 8px;
       border-radius: 20px;
       font-weight: 600;
-      background: rgba(74,175,125,0.15);
-      color: #4caf7d;
-      border: 1px solid rgba(74,175,125,0.3);
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
     }
 
     .transport-row {
@@ -881,7 +816,7 @@
       justify-content: space-between;
       align-items: baseline;
       padding: 5px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
       gap: 8px;
     }
 
@@ -889,7 +824,7 @@
 
     .transport-key {
       font-size: 0.7rem;
-      color: var(--granite);
+      color: var(--rock);
       flex-shrink: 0;
     }
 
@@ -900,7 +835,7 @@
     }
 
     .transport-val.highlight {
-      color: var(--green-light);
+      color: var(--amber-light);
       font-weight: 500;
     }
 
@@ -908,7 +843,7 @@
       display: inline-block;
       margin-top: 10px;
       font-size: 0.68rem;
-      color: var(--green-light);
+      color: var(--amber-light);
       opacity: 0.8;
       text-decoration: none;
     }
@@ -917,8 +852,8 @@
 
     .transport-chevron {
       margin-left: auto;
-      font-size: 1.1rem;
-      color: var(--granite);
+      font-size: 0.75rem;
+      color: var(--rock);
       transition: transform 0.2s;
     }
 
@@ -926,94 +861,7 @@
       .transport-grid { grid-template-columns: 1fr; }
     }
 
-    /* ── Angler Section ── */
-    .angler-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .angler-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 12px;
-    }
-
-    .angler-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2px;
-    }
-
-    .angler-station {
-      font-size: 0.68rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .angler-site {
-      font-size: 0.6rem;
-      color: var(--text-dim);
-      margin-bottom: 4px;
-    }
-
-    .angler-stats {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text);
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .angler-stats .unit {
-      font-size: 0.56rem;
-      color: var(--text-dim);
-      font-weight: 400;
-    }
-
-    .angler-stats .sep {
-      color: var(--border);
-      font-weight: 400;
-      margin: 0 2px;
-    }
-
-    .angler-link {
-      font-size: 0.6rem;
-      color: var(--green-light);
-      text-decoration: none;
-      opacity: 0.8;
-      white-space: nowrap;
-    }
-
-    .angler-link:hover { opacity: 1; text-decoration: underline; }
-
-    .angler-condition {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 7px;
-      border-radius: 20px;
-      font-size: 0.58rem;
-      font-weight: 600;
-      border: 1px solid;
-      white-space: nowrap;
-    }
-
-    .cond-low       { background: rgba(74,122,155,0.15); border-color: rgba(74,122,155,0.4); color: #6aaac8; }
-    .cond-good      { background: rgba(74,175,125,0.15); border-color: rgba(74,175,125,0.4); color: #4caf7d; }
-    .cond-high      { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.4); color: var(--yellow); }
-    .cond-very-high { background: rgba(192,90,74,0.15);  border-color: rgba(192,90,74,0.4);  color: var(--red); }
-
-    @media (max-width: 600px) {
-      .angler-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ── Concessions Accordion ── */
+    /* ── Landmarks / Trailhead Accordion ── */
     .conc-accordion {
       display: flex;
       flex-direction: column;
@@ -1045,14 +893,14 @@
     .conc-count {
       font-size: 0.62rem;
       font-weight: 400;
-      color: var(--granite);
+      color: var(--rock);
       margin-left: 2px;
     }
 
     .conc-chevron {
       margin-left: auto;
       font-size: 0.75rem;
-      color: var(--granite);
+      color: var(--rock);
       transition: transform 0.2s;
     }
 
@@ -1071,7 +919,7 @@
       align-items: baseline;
       gap: 8px;
       padding: 6px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
@@ -1080,24 +928,69 @@
       font-size: 0.76rem;
       font-weight: 500;
       color: var(--text);
-      min-width: 160px;
+      min-width: 170px;
     }
 
     .conc-type {
       font-size: 0.65rem;
-      color: var(--granite);
+      color: var(--rock);
       flex: 1;
     }
 
     .conc-hrs {
       font-size: 0.72rem;
-      color: var(--green-light);
+      color: var(--amber-light);
       white-space: nowrap;
     }
 
     @media (max-width: 500px) {
       .conc-name { min-width: 120px; }
       .conc-type { display: none; }
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--amber-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
     }
 
     /* ── Footer ── */
@@ -1119,18 +1012,19 @@
   <div class="header-top">
     <div class="header-top-left">
       <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 4L8 28h24L20 4z" fill="#4a7c59" opacity="0.9"/>
-        <path d="M14 28L6 36h28l-8-8H14z" fill="#8a9b8e" opacity="0.7"/>
-        <circle cx="20" cy="10" r="2" fill="#c8a94a" opacity="0.9"/>
+        <circle cx="21" cy="11" r="6" fill="#d8822e" opacity="0.9"/>
+        <path d="M3 25l6-9 5 6 6-10 8 13H3z" fill="#9c8a6a" opacity="0.85"/>
+        <path d="M3 31c4-1.6 8-1.6 12 0s8 1.6 12 0s8-1.6 12 0" stroke="#cfc6ad" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.85"/>
+        <path d="M3 35.5c4-1.4 8-1.4 12 0s8 1.4 12 0s8-1.4 12 0" stroke="#cfc6ad" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6"/>
       </svg>
-      <h1>Yosemite <span>Live Cams &amp; Trip Dashboard</span></h1>
+      <h1>Death Valley <span>Live Cams &amp; Trip Dashboard</span></h1>
     </div>
-    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/yosemite-map.pdf" target="_blank" download>
+    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/death-valley-printable-map.pdf" target="_blank" download>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Park Map PDF
     </a>
   </div>
-  <p class="header-sub">Yosemite National Park — California, USA &nbsp;·&nbsp; All cameras refresh automatically every 60 seconds</p>
+  <p class="header-sub">Death Valley National Park — California &amp; Nevada, USA &nbsp;·&nbsp; Camera and conditions data refresh automatically every 60 seconds</p>
 
   <div class="info-bar">
     <!-- Weather -->
@@ -1146,7 +1040,7 @@
         <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
         <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
         <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
-        <div class="weather-detail-row"><span class="label">Elev.</span> <span>3,966 ft</span></div>
+        <div class="weather-detail-row"><span class="label">Elev.</span> <span>-282 – 11,049 ft</span></div>
       </div>
       <div class="aqi-block" id="aqiBlock">
         <div class="aqi-label">Air Quality</div>
@@ -1162,9 +1056,9 @@
       <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
         <div class="alerts-title">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L1 13h12L7 1z" stroke="#c8a94a" stroke-width="1.4" fill="none"/>
-            <line x1="7" y1="6" x2="7" y2="9" stroke="#c8a94a" stroke-width="1.4"/>
-            <circle cx="7" cy="11" r="0.6" fill="#c8a94a"/>
+            <path d="M7 1L1 13h12L7 1z" stroke="#c9930a" stroke-width="1.4" fill="none"/>
+            <line x1="7" y1="6" x2="7" y2="9" stroke="#c9930a" stroke-width="1.4"/>
+            <circle cx="7" cy="11" r="0.6" fill="#c9930a"/>
           </svg>
           NPS Alerts &amp; Advisories
           <span class="alert-count zero" id="alertCount">–</span>
@@ -1179,59 +1073,64 @@
 </header>
 
 <main>
-  <!-- Angler Information -->
+  <!-- Extreme Heat Safety -->
   <div style="margin-bottom: 28px;">
-    <div class="section-label">Park Entrance & Traffic Conditions</div>
+    <div class="section-label">⚠️ Extreme Heat Safety</div>
+    <div class="notice-bar danger">
+      <span class="notice-icon">🌡️</span>
+      <span>Death Valley holds the record for the hottest temperature ever reliably recorded on Earth — <strong>134°F in July 1913</strong> — and summer highs regularly top 120°F. Heat kills 1–3 visitors most years. <strong>Avoid hiking below 4,000 ft elevation after 10 AM</strong> from May–September, carry at least <strong>1 gallon of water per person per day</strong>, eat salty snacks, and never leave kids or pets in a parked vehicle. Rescue helicopters cannot safely fly once temperatures exceed roughly 120°F — plan trips accordingly. <a href="https://www.nps.gov/deva/planyourvisit/safety.htm" target="_blank">NPS heat safety info ↗</a></span>
+    </div>
+    <div class="fee-bar">
+      <span class="fee-bar-label">Quick Stats</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Hottest Recorded</span><span class="fee-price">134°F</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Avg. July High</span><span class="fee-price">~116°F</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Lowest Point (Badwater)</span><span class="fee-price">-282 ft</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Highest Point (Telescope Pk)</span><span class="fee-price">11,049 ft</span></div>
+      </div>
+    </div>
+  </div>
 
-    <!-- 3 entrance cards -->
+  <!-- Park Entrances & Fees -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Park Entrances &amp; Fees</div>
+
     <div class="traffic-grid">
 
       <div class="traffic-card">
         <div class="traffic-card-header">
-          <span class="traffic-route">Hwy 140 · Arch Rock Entrance</span>
-          <span class="traffic-badge badge-open" id="hwy140-badge">Open</span>
+          <span class="traffic-route">West Entrance</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
         </div>
-        <div class="traffic-name">El Portal Road / All-Season Highway</div>
-        <div class="traffic-desc">Most reliable year-round route from Merced. Follows the Merced River through a scenic canyon.</div>
-        <div class="wait-inline">
-          <span class="wait-pill wait-unknown" id="wait-hwy140">⏱ Loading…</span>
-          <span class="wait-freshness" id="wait-hwy140-age"></span>
-        </div>
-        <div class="wait-time-row">
-<a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=140" target="_blank">Caltrans road status ↗</a>
-        </div>
+        <div class="traffic-name">SR-190, via Olancha / Lone Pine (US-395)</div>
+        <div class="traffic-desc">Crosses Towne Pass into the park, past Stovepipe Wells and on to Furnace Creek. Most common approach from the Owens Valley / Eastern Sierra side.</div>
+        <div class="traffic-tip">💡 Entrance is a cashless automated pay kiosk — no staffed gate, no wait-time data. Pay online at Recreation.gov before you go if you can.</div>
+        <a class="traffic-link" href="https://www.nps.gov/deva/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
       </div>
 
       <div class="traffic-card">
         <div class="traffic-card-header">
-          <span class="traffic-route">Hwy 120 · Big Oak Flat Entrance</span>
-          <span class="traffic-badge badge-open" id="hwy120-badge">Open</span>
+          <span class="traffic-route">East Entrance</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
         </div>
-        <div class="traffic-name">Big Oak Flat Road / Tioga Pass</div>
-        <div class="traffic-desc">Main route from the Bay Area via I-580. Also connects to Tioga Pass (seasonal — typically closes Oct–May).</div>
-        <div class="wait-inline">
-          <span class="wait-pill wait-unknown" id="wait-hwy120">⏱ Loading…</span>
-          <span class="wait-freshness" id="wait-hwy120-age"></span>
-        </div>
-        <div class="wait-time-row">
-<a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=120" target="_blank">Caltrans road status ↗</a>
-        </div>
+        <div class="traffic-name">SR-190, via Death Valley Junction / Pahrump, NV</div>
+        <div class="traffic-desc">Closest approach to Zabriskie Point and Furnace Creek from Las Vegas — the most common route for Vegas-based day trips.</div>
+        <div class="traffic-tip">💡 About 2 hours from Las Vegas. Fill up on gas before entering — in-park fuel is expensive.</div>
+        <a class="traffic-link" href="https://www.nps.gov/deva/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
       </div>
 
       <div class="traffic-card">
         <div class="traffic-card-header">
-          <span class="traffic-route">Hwy 41 · South Entrance</span>
-          <span class="traffic-badge badge-open" id="hwy41-badge">Open</span>
+          <span class="traffic-route">South Entrance</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
         </div>
-        <div class="traffic-name">Wawona Road / Fresno Route</div>
-        <div class="traffic-desc">Main route from Fresno and Southern California. Passes through Wawona and the Mariposa Grove of Giant Sequoias.</div>
-        <div class="wait-inline">
-          <span class="wait-pill wait-unknown" id="wait-hwy41">⏱ Loading…</span>
-          <span class="wait-freshness" id="wait-hwy41-age"></span>
-        </div>
-        <div class="wait-time-row">
-<a class="traffic-link" href="https://roads.dot.ca.gov/?roadnumber=41" target="_blank">Caltrans road status ↗</a>
-        </div>
+        <div class="traffic-name">SR-127 / SR-178, via Baker &amp; Shoshone</div>
+        <div class="traffic-desc">Enters near Badwater Road, the lowest and hottest part of the park. Good route from I-15 / the Baker "world's tallest thermometer" side.</div>
+        <div class="traffic-tip">💡 Long, remote drive with little cell service — top off water and gas in Baker or Shoshone.</div>
+        <a class="traffic-link" href="https://www.nps.gov/deva/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
       </div>
 
     </div>
@@ -1240,144 +1139,138 @@
     <div class="fee-bar">
       <span class="fee-bar-label">Entry Fees · 7-day pass</span>
       <div class="fee-items">
-        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$35</span></div>
+        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$30</span></div>
         <div class="fee-divider"></div>
-        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$30</span></div>
+        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$25</span></div>
         <div class="fee-divider"></div>
-        <div class="fee-item"><span class="fee-type">Foot / Bike</span><span class="fee-price">$20</span></div>
+        <div class="fee-item"><span class="fee-type">Foot / Bike (16+)</span><span class="fee-price">$15</span></div>
         <div class="fee-divider"></div>
         <div class="fee-item"><span class="fee-type">Under 16</span><span class="fee-price">Free</span></div>
         <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Death Valley Annual Pass</span><span class="fee-price">$55/yr</span></div>
+        <div class="fee-divider"></div>
         <div class="fee-item"><span class="fee-type">America the Beautiful</span><span class="fee-price">$80/yr</span></div>
-        <div class="fee-divider"></div>
-        <div class="fee-item"><span class="fee-type">Senior (62+)</span><span class="fee-price">$20/yr</span></div>
-        <div class="fee-divider"></div>
-        <div class="fee-item"><span class="fee-type">Non-US Resident</span><span class="fee-price">+$100 pp</span></div>
       </div>
-      <span class="fee-note">No cash accepted · Card only</span>
+      <span class="fee-note">Card only · No cash accepted onsite</span>
     </div>
 
   </div>
 
-  <!-- Valley Transportation -->
+  <!-- Campground Availability -->
   <div style="margin-bottom: 28px;">
-    <div class="section-label">Valley Transportation</div>
+    <div class="section-label">Campground Availability</div>
     <div class="transport-grid">
 
       <details class="transport-card">
         <summary class="transport-header">
-          <span class="transport-title">Valley Shuttle System</span>
-          <span class="transport-badge">Free</span>
+          <span class="transport-title">Furnace Creek</span>
+          <span class="transport-badge">Reservation Only</span>
           <span class="transport-chevron">▾</span>
         </summary>
-        <div class="transport-row"><span class="transport-key">Hours</span><span class="transport-val highlight">7:00 AM – 10:00 PM daily</span></div>
-        <div class="transport-row"><span class="transport-key">Valleywide Route</span><span class="transport-val">19 stops · every 22–32 min</span></div>
-        <div class="transport-row"><span class="transport-key">East Valley Route</span><span class="transport-val">9 stops · every 18–22 min</span></div>
-        <div class="transport-row"><span class="transport-key">Key Stops</span><span class="transport-val">Visitor Center, Curry Village, Ahwahnee, Valley Lodge, Happy Isles</span></div>
-        <div class="transport-row"><span class="transport-key">Glacier Point / Tuolumne</span><span class="transport-val">Seasonal · check NPS for dates</span></div>
-        <a class="transport-link" href="https://www.nps.gov/yose/planyourvisit/publictransportation.htm" target="_blank">NPS shuttle map &amp; schedule ↗</a>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">136</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">-196 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Closest to Visitor Center &amp; only campground with year-round hookups nearby</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232486" target="_blank">Book on Recreation.gov ↗</a>
       </details>
 
       <details class="transport-card">
         <summary class="transport-header">
-          <span class="transport-title">Bike Rentals</span>
-          <span class="transport-badge">Apr – Oct</span>
+          <span class="transport-title">Mesquite Spring</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
           <span class="transport-chevron">▾</span>
         </summary>
-        <div class="transport-row"><span class="transport-key">Half Day</span><span class="transport-val highlight">$30</span></div>
-        <div class="transport-row"><span class="transport-key">Full Day</span><span class="transport-val highlight">$40</span></div>
-        <div class="transport-row"><span class="transport-key">Locations</span><span class="transport-val">Curry Village · Valley Lodge · Yosemite Village</span></div>
-        <div class="transport-row"><span class="transport-key">Availability</span><span class="transport-val">First-come, first-served</span></div>
-        <div class="transport-row"><span class="transport-key">ADA / Accessible</span><span class="transport-val">Reserve via 209-372-1208</span></div>
-        <div class="transport-row"><span class="transport-key">Includes</span><span class="transport-val">Helmet · child trailers at Curry &amp; Lodge</span></div>
-        <a class="transport-link" href="https://www.travelyosemite.com/things-to-do/biking" target="_blank">More biking info ↗</a>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">30</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">1,800 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Northern park, near Ubehebe Crater &amp; Scotty's Castle Rd — quiet &amp; cooler</span></div>
+        <a class="transport-link" href="https://www.nps.gov/deva/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Stovepipe Wells</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">190</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">-107 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Oct–Apr (closed in summer heat)</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Near Mesquite Flat Sand Dunes &amp; the village general store</span></div>
+        <a class="transport-link" href="https://www.nps.gov/deva/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Panamint Range Campgrounds</span>
+          <span class="transport-badge fcfs">Free · First-Come</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Wildrose</span><span class="transport-val">4,100 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Thorndike</span><span class="transport-val">7,400 ft · high-clearance rec.</span></div>
+        <div class="transport-row"><span class="transport-key">Mahogany Flat</span><span class="transport-val">8,200 ft · high-clearance rec.</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Primitive, no water · 20–30°F cooler than the valley floor</span></div>
+        <a class="transport-link" href="https://www.nps.gov/deva/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
       </details>
 
     </div>
   </div>
 
-  <!-- Angler Section -->
+  <!-- Landmarks & Trailheads -->
   <div style="margin-bottom: 28px;">
-    <div class="section-label">Angler Information · Merced River</div>
-    <div class="angler-grid">
-
-      <div class="angler-card">
-        <div class="angler-card-header">
-          <span class="angler-station">Happy Isles Bridge</span>
-          <span id="cond1" class="angler-condition cond-good">⏳</span>
-        </div>
-        <div class="angler-site">USGS 11264500</div>
-        <div class="angler-stats">
-          <span><span id="flow1">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge1">--</span><span class="unit"> ft</span><span class="sep">&middot;</span><span id="temp1">--</span><span class="unit">°F</span></span>
-        </div>
-      </div>
-
-      <div class="angler-card">
-        <div class="angler-card-header">
-          <span class="angler-station">Pohono Bridge</span>
-          <span id="cond2" class="angler-condition cond-good">⏳</span>
-        </div>
-        <div class="angler-site">USGS 11266500</div>
-        <div class="angler-stats">
-          <span><span id="flow2">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge2">--</span><span class="unit"> ft</span></span>
-        </div>
-      </div>
-
-    </div>
-
-
-  </div>
-
-  <!-- Concessions -->
-  <div style="margin-bottom: 28px;">
-    <div class="section-label">Yosemite Valley Concession Information</div>
+    <div class="section-label">Landmarks &amp; Trailheads</div>
     <div class="conc-accordion">
 
-      <details class="conc-group">
-        <summary class="conc-summary">Yosemite Village<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+      <details class="conc-group" open>
+        <summary class="conc-summary">Badwater Road<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Village Store</span><span class="conc-type">Groceries &amp; Supplies</span><span class="conc-hrs">8 AM – 10 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Degnan's Kitchen</span><span class="conc-type">Deli · Café</span><span class="conc-hrs">7 AM – 6 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Village Grill</span><span class="conc-type">Burgers · Seasonal</span><span class="conc-hrs">11 AM – 6 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Ansel Adams Gallery</span><span class="conc-type">Art · Photography</span><span class="conc-hrs">9 AM – 5 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Badwater Basin</span><span class="conc-type">Easy boardwalk · lowest point in N. America</span><span class="conc-hrs">-282 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Artist's Palette</span><span class="conc-type">Scenic one-way drive · colorful mineral hills</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row"><span class="conc-name">Devil's Golf Course</span><span class="conc-type">Jagged salt crystal formations</span><span class="conc-hrs">~15 min</span></div>
+          <div class="conc-row"><span class="conc-name">Natural Bridge</span><span class="conc-type">Moderate · 1.4 mi round trip canyon hike</span><span class="conc-hrs">~1 hr</span></div>
         </div>
       </details>
 
       <details class="conc-group">
-        <summary class="conc-summary">The Ahwahnee<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+        <summary class="conc-summary">Central / Furnace Creek Area<span class="conc-count">5 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dining Room</span><span class="conc-type">Fine Dining</span><span class="conc-hrs">7 AM – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Ahwahnee Bar</span><span class="conc-type">Bar · Snacks</span><span class="conc-hrs">11 AM – 11 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Sweet Shop</span><span class="conc-type">Pastries</span><span class="conc-hrs">7 AM – 10 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Gift Shop</span><span class="conc-type">Gifts · Souvenirs</span><span class="conc-hrs">9 AM – 7 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Zabriskie Point</span><span class="conc-type">Easy overlook · classic badlands sunrise view</span><span class="conc-hrs">~15 min</span></div>
+          <div class="conc-row"><span class="conc-name">Golden Canyon</span><span class="conc-type">Moderate · 3 mi round trip to Red Cathedral</span><span class="conc-hrs">~2 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Dante's View</span><span class="conc-type">Easy overlook · 5,475 ft, views to Telescope Peak</span><span class="conc-hrs">~20 min</span></div>
+          <div class="conc-row"><span class="conc-name">Harmony Borax Works</span><span class="conc-type">Easy · historic 20-mule-team borax site</span><span class="conc-hrs">~20 min</span></div>
+          <div class="conc-row"><span class="conc-name">Mesquite Flat Sand Dunes</span><span class="conc-type">Easy · rolling dunes, best at sunrise/sunset</span><span class="conc-hrs">~1 hr</span></div>
         </div>
       </details>
 
       <details class="conc-group">
-        <summary class="conc-summary">Yosemite Valley Lodge<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
+        <summary class="conc-summary">Northern Park — High-Clearance / 4WD<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Base Camp Eatery</span><span class="conc-type">Food Court · Starbucks</span><span class="conc-hrs">7 AM – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Mountain Room</span><span class="conc-type">Dinner Restaurant</span><span class="conc-hrs">5:30 – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Mountain Room Lounge</span><span class="conc-type">Bar · Appetizers</span><span class="conc-hrs">4:30 – 11 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Lodge Gift Shop</span><span class="conc-type">Gifts · Supplies</span><span class="conc-hrs">8 AM – 8 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Racetrack Playa</span><span class="conc-type">Sailing stones · rough 27-mi gravel road</span><span class="conc-hrs">4WD required</span></div>
+          <div class="conc-row"><span class="conc-name">Ubehebe Crater</span><span class="conc-type">Easy rim walk · 600 ft volcanic crater</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row"><span class="conc-name">Titus Canyon</span><span class="conc-type">Scenic one-way drive through narrow canyon</span><span class="conc-hrs">High-clearance rec.</span></div>
         </div>
       </details>
 
-      <details class="conc-group">
-        <summary class="conc-summary">Half Dome Village (Curry Village)<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
-        <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gift &amp; Grocery</span><span class="conc-type">Groceries · Gifts</span><span class="conc-hrs">8 AM – 8 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Mountain Shop</span><span class="conc-type">Outdoor Gear</span><span class="conc-hrs">8:30 AM – 6 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Pizza Patio &amp; Bar</span><span class="conc-type">Pizza · Seasonal</span><span class="conc-hrs">12 – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Curry Pavilion</span><span class="conc-type">Casual Dining</span><span class="conc-hrs">7 AM – 9 PM</span></div>
-        </div>
-      </details>
+    </div>
+  </div>
 
+  <!-- Stargazing -->
+  <div style="margin-bottom: 28px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Death Valley is the <strong>largest Gold-Tier International Dark Sky Park</strong> in the U.S. — the highest designation for night sky quality. Best viewing spots are <strong>Harmony Borax Works, Mesquite Flat Sand Dunes &amp; Ubehebe Crater</strong>, all far from the faint glow of Furnace Creek. Best on new-moon nights — bring a red flashlight to preserve night vision and layer up, as desert nights get cold fast. <a href="https://www.nps.gov/deva/planyourvisit/stargazing.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
     </div>
   </div>
 
   <div class="refresh-bar">
-    <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feeds</div>
+    <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feed</div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
       <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
       <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
@@ -1403,92 +1296,23 @@
 </div>
 
 <footer>
-  <span>Sources: Yosemite Conservancy · National Park Service · USGS · Tenaya at Yosemite · Big Creek Inn</span>
-  <span>Weather: Open-Meteo (Yosemite Valley) · Alerts: NPS Data API</span>
+  <span>Sources: National Park Service · Roundshot Live Cam Network · Recreation.gov</span>
+  <span>Weather: Open-Meteo (Furnace Creek) · Alerts: NPS Data API</span>
 </footer>
 
 <script>
   // ── Camera definitions ──
+  // Note: unlike Yosemite, there is no dense webcam/traffic-cam network at
+  // Death Valley. This third-party Roundshot panorama near Furnace Creek is
+  // the only confirmed live public feed for the park.
   const CAMS = [
     {
-      id: 'yosfalls-yt',
-      name: 'Yosemite Falls',
-      meta: 'Live Stream 24/7',
-      source: 'YouTube',
-      type: 'youtube',
-      embedId: 'vk62QErdX4Q',
-    },
-    {
-      id: 'half-dome',
-      name: 'Half Dome',
-      meta: 'Yosemite Valley',
-      source: 'Yosemite Conservancy',
+      id: 'furnace-creek',
+      name: 'Furnace Creek Panorama',
+      meta: 'Panoramic view over the Death Valley floor & Panamint Range',
+      source: 'Roundshot Live Cam Network',
       type: 'img',
-      url: 'https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-halfdome/latest.jpg',
-    },
-    {
-      id: 'yosfalls-img',
-      name: 'Yosemite Falls',
-      meta: 'Still Camera',
-      source: 'Yosemite Conservancy',
-      type: 'img',
-      url: 'https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-yosfalls/latest.jpg',
-    },
-    {
-      id: 'high-sierra',
-      name: 'High Sierra / Sentinel Dome',
-      meta: 'Tuolumne Region',
-      source: 'Yosemite Conservancy',
-      type: 'img',
-      url: 'https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-sentinel/latest.jpg',
-    },
-    {
-      id: 'turtleback',
-      name: 'Turtleback Dome & Air Quality',
-      meta: 'Yosemite Valley',
-      source: 'National Park Service',
-      type: 'img',
-      url: 'https://www.nps.gov/featurecontent/ard/webcams/images/yoselarge.jpg',
-    },
-    {
-      id: 'el-capitan',
-      name: 'El Capitan',
-      meta: 'Yosemite Valley',
-      source: 'Yosemite Conservancy',
-      type: 'img',
-      url: 'https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-turtleback/latest.jpg',
-    },
-    {
-      id: 'badger-pass',
-      name: 'Badger Pass Ski Area',
-      meta: 'Glacier Point Road',
-      source: 'Yosemite Hospitality',
-      type: 'img',
-      url: 'https://cs1.pixelcaster.com/aramark/yosemite-ski.jpg',
-    },
-    {
-      id: 'happy-isles',
-      name: 'Merced River at Happy Isles',
-      meta: 'Flood Gauge Camera',
-      source: 'USGS',
-      type: 'img',
-      url: 'https://usgs-nims-images.s3.amazonaws.com/overlay/CA_Merced_River_at_Happy_Isles_Bridge_Yosemite/CA_Merced_River_at_Happy_Isles_Bridge_Yosemite_newest.jpg',
-    },
-    {
-      id: 'tenaya-lodge',
-      name: 'Tenaya Lodge',
-      meta: 'Fish Camp (Park Entrance)',
-      source: 'Tenaya at Yosemite',
-      type: 'img',
-      url: 'https://cs1.pixelcaster.com/live/tenaya/tenaya.jpg',
-    },
-    {
-      id: 'big-creek',
-      name: 'Big Creek Meadow',
-      meta: 'Fish Camp',
-      source: 'Big Creek Inn',
-      type: 'img',
-      url: 'https://www.yosemiteinn.com/meadowcam/mdw/MDW_HD00001.jpg',
+      url: 'https://weatherok.roundshot.com/cams/81',
     },
   ];
 
@@ -1514,7 +1338,7 @@
   async function loadWeather() {
     try {
       const url = 'https://api.open-meteo.com/v1/forecast' +
-        '?latitude=37.7459&longitude=-119.5332' +
+        '?latitude=36.4653&longitude=-116.8656' +
         '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
         '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
         '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=5';
@@ -1525,7 +1349,7 @@
 
       document.getElementById('wxIcon').textContent = info.icon;
       document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
-      document.getElementById('wxDesc').textContent = info.desc + ' · Yosemite Valley';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Furnace Creek';
       document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
       document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
       document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
@@ -1556,7 +1380,7 @@
   async function loadAQI() {
     try {
       const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
-        '?latitude=37.7459&longitude=-119.5332&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
+        '?latitude=36.4653&longitude=-116.8656&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
       const res = await fetch(url);
       const d = await res.json();
       const aqi = d.current.us_aqi;
@@ -1585,7 +1409,7 @@
     const body = document.getElementById('alertsBody');
     const countEl = document.getElementById('alertCount');
     try {
-      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=yose&limit=20&api_key=DEMO_KEY');
+      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=deva&limit=20&api_key=DEMO_KEY');
       const d = await res.json();
       const alerts = d.data || [];
       countEl.textContent = alerts.length;
@@ -1619,61 +1443,25 @@
     body.classList.toggle('open', !isOpen);
   }
 
-  // ── Angler / USGS River Data ──
-  function riverCondition(cfs) {
-    if (cfs < 100)  return { label: 'Low',       title: 'Low — Easy Wading',       cls: 'cond-low' };
-    if (cfs < 350)  return { label: 'Good',      title: 'Good — Prime Conditions',  cls: 'cond-good' };
-    if (cfs < 700)  return { label: 'High',      title: 'High — Difficult Wading',  cls: 'cond-high' };
-    return           { label: 'Very High', title: 'Very High — Dangerous',          cls: 'cond-very-high' };
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
   }
 
-  async function loadRiverData(attempt = 1) {
-    try {
-      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11264500,11266500&parameterCd=00060,00065,00010&format=json&period=PT2H';
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const d = await res.json();
-      const series = d.value.timeSeries;
-
-      const data = { '11264500': {}, '11266500': {} };
-      series.forEach(ts => {
-        const site = ts.sourceInfo.siteCode[0].value;
-        const code = ts.variable.variableCode[0].value;
-        const vals = ts.values[0].value;
-        if (!vals.length) return;
-        const latest = vals[vals.length - 1];
-        if (code === '00060') data[site].flow = parseFloat(latest.value);
-        if (code === '00065') data[site].gauge = parseFloat(latest.value);
-        if (code === '00010') data[site].tempC = parseFloat(latest.value);
-        data[site].time = latest.dateTime;
-      });
-
-      [['11264500', '1'], ['11266500', '2']].forEach(([site, n]) => {
-        const s = data[site];
-        if (s.flow !== undefined) {
-          document.getElementById('flow' + n).textContent = Math.round(s.flow).toLocaleString();
-          document.getElementById('gauge' + n).textContent = s.gauge?.toFixed(2) ?? '--';
-          if (s.tempC !== undefined) {
-            const tempF = (s.tempC * 9/5 + 32).toFixed(1);
-            document.getElementById('temp' + n).textContent = tempF;
-          }
-          const cond = riverCondition(s.flow);
-          const el = document.getElementById('cond' + n);
-          el.textContent = cond.label;
-          el.title = cond.title;
-          el.className = 'angler-condition ' + cond.cls;
-        }
-      });
-    } catch (e) {
-      if (attempt < 3) {
-        setTimeout(() => loadRiverData(attempt + 1), 3000 * attempt);
-        return;
-      }
-      ['1','2'].forEach(n => {
-        document.getElementById('cond' + n).textContent = 'Data unavailable';
-        document.getElementById('cond' + n).className = 'angler-condition';
-      });
-    }
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
   }
 
   // ── Build camera grid ──
@@ -1682,55 +1470,34 @@
     grid.innerHTML = '';
     CAMS.forEach(cam => {
       const card = document.createElement('div');
-      card.className = 'cam-card' + (cam.type === 'youtube' ? ' youtube' : '');
+      card.className = 'cam-card';
       card.dataset.id = cam.id;
 
-      if (cam.type === 'youtube') {
-        card.innerHTML = `
-          <div class="cam-img-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/${cam.embedId}?autoplay=1&mute=1&controls=1&rel=0"
-              allow="autoplay; encrypted-media"
-              allowfullscreen
-            ></iframe>
+      card.innerHTML = `
+        <div class="cam-img-wrap" onclick="openModal('${cam.id}')">
+          <img
+            id="img-${cam.id}"
+            src="${cam.url}?_t=${Date.now()}"
+            alt="${cam.name}"
+            class="loading"
+            onerror="camError('${cam.id}')"
+            onload="camLoaded('${cam.id}')"
+          />
+          <div class="cam-error" id="err-${cam.id}">
+            <span class="err-icon">📵</span>
+            <span>Feed unavailable</span>
           </div>
-          <div class="cam-footer">
-            <div>
-              <div class="cam-name">${cam.name}</div>
-              <div class="cam-meta">${cam.meta} · ${cam.source}</div>
-            </div>
-            <div class="cam-status">
-              <div class="status-dot live"></div>
-              <span>Live Stream</span>
-            </div>
-          </div>`;
-      } else {
-        card.innerHTML = `
-          <div class="cam-img-wrap" onclick="openModal('${cam.id}')">
-            <img
-              id="img-${cam.id}"
-              src="${cam.url}?_t=${Date.now()}"
-              alt="${cam.name}"
-              class="loading"
-              onerror="camError('${cam.id}')"
-              onload="camLoaded('${cam.id}')"
-            />
-            <div class="cam-error" id="err-${cam.id}">
-              <span class="err-icon">📵</span>
-              <span>Feed unavailable</span>
-            </div>
+        </div>
+        <div class="cam-footer">
+          <div>
+            <div class="cam-name">${cam.name}</div>
+            <div class="cam-meta">${cam.meta} · ${cam.source}</div>
           </div>
-          <div class="cam-footer">
-            <div>
-              <div class="cam-name">${cam.name}</div>
-              <div class="cam-meta">${cam.meta} · ${cam.source}</div>
-            </div>
-            <div class="cam-status">
-              <div class="status-dot" id="dot-${cam.id}"></div>
-              <span id="status-${cam.id}">Loading…</span>
-            </div>
-          </div>`;
-      }
+          <div class="cam-status">
+            <div class="status-dot" id="dot-${cam.id}"></div>
+            <span id="status-${cam.id}">Loading…</span>
+          </div>
+        </div>`;
       grid.appendChild(card);
     });
   }
@@ -1773,7 +1540,6 @@
 
   function refreshAll() {
     CAMS.forEach(cam => {
-      if (cam.type !== 'img') return;
       const img = document.getElementById('img-' + cam.id);
       if (!img) return;
       img.style.display = 'block';
@@ -1789,7 +1555,7 @@
     loadWeather();
     loadAQI();
     loadAlerts();
-    loadRiverData();
+    loadMoonPhase();
     startCountdown();
   }
 
@@ -1798,7 +1564,7 @@
 
   function openModal(id) {
     const cam = CAMS.find(c => c.id === id);
-    if (!cam || cam.type === 'youtube') return;
+    if (!cam) return;
     modalCam = cam;
     document.getElementById('modalTitle').textContent = cam.name;
     document.getElementById('modalSource').textContent = cam.meta + ' · ' + cam.source;
@@ -1820,76 +1586,12 @@
     if (e.key === 'Escape') closeModal(null, true);
   });
 
-  // ── Wait Times ──
-  async function loadWaitTimes() {
-    const KEYS = ['hwy140', 'hwy120', 'hwy41'];
-    try {
-      const res = await fetch('wait_times.json?_=' + Date.now());
-      if (!res.ok) throw new Error('fetch failed');
-      const d = await res.json();
-
-      const updatedAt = d.updated ? new Date(d.updated) : null;
-      const ageMin = updatedAt ? Math.round((Date.now() - updatedAt.getTime()) / 60000) : null;
-      const ageLabel = ageMin === null ? '' :
-        ageMin < 1 ? 'just updated' :
-        ageMin < 60 ? `updated ${ageMin} min ago` :
-        `updated ${Math.round(ageMin/60)}h ago`;
-
-      const stale = ageMin !== null && ageMin > 20;
-
-      for (const key of KEYS) {
-        const pill = document.getElementById('wait-' + key);
-        const ageEl = document.getElementById('wait-' + key + '-age');
-        if (!pill) continue;
-
-        const entry = d.entrances?.[key];
-        const wait = entry?.wait;
-
-        // Remove all state classes
-        pill.classList.remove('wait-unknown', 'wait-none', 'wait-medium', 'wait-high');
-
-        const trend = entry?.trend || '';
-        if (wait === null || wait === undefined) {
-          pill.classList.add('wait-unknown');
-          pill.textContent = '⏱ Wait data unavailable';
-        } else if (wait === 0) {
-          pill.classList.add('wait-none');
-          pill.textContent = `✓ No wait ${trend}`.trim();
-        } else if (wait <= 15) {
-          pill.classList.add('wait-none');
-          pill.textContent = `⏱ ${wait} min wait ${trend}`.trim();
-        } else if (wait <= 30) {
-          pill.classList.add('wait-medium');
-          pill.textContent = `⏱ ${wait} min wait ${trend}`.trim();
-        } else {
-          pill.classList.add('wait-high');
-          pill.textContent = `⏱ ${wait} min wait ${trend}`.trim();
-        }
-
-        if (ageEl) {
-          ageEl.textContent = stale ? `⚠ ${ageLabel}` : ageLabel;
-          ageEl.style.color = stale ? 'var(--yellow)' : '';
-        }
-      }
-    } catch (e) {
-      for (const key of KEYS) {
-        const pill = document.getElementById('wait-' + key);
-        if (pill) {
-          pill.classList.remove('wait-unknown', 'wait-none', 'wait-medium', 'wait-high');
-          pill.classList.add('wait-unknown');
-          pill.textContent = '⏱ Wait data unavailable';
-        }
-      }
-    }
-  }
-
   // ── Init ──
   buildGrid();
   loadWeather();
   loadAQI();
   loadAlerts();
-  loadRiverData();
-  loadWaitTimes();
+  loadMoonPhase();
   startCountdown();
 </script>
 </body>

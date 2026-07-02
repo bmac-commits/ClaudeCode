@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ocean Pong</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(180deg, #0077b6 0%, #00b4d8 40%, #90e0ef 75%, #caf0f8 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+    canvas {
+      border: 2px solid rgba(255,255,255,0.6);
+      box-shadow: 0 0 40px rgba(0,180,216,0.5);
+      position: relative;
+      z-index: 1;
+    }
+    #title {
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      position: relative;
+      z-index: 1;
+    }
+    #message {
+      margin-top: 16px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 140px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50% 50% 0 0 / 80px 80px 0 0;
+      animation: wave-move linear infinite;
+    }
+    .wave:nth-child(1) { animation-duration: 6s;  opacity: 0.4; bottom: 0px; }
+    .wave:nth-child(2) { animation-duration: 9s;  opacity: 0.3; bottom: 20px; animation-delay: -3s; }
+    .wave:nth-child(3) { animation-duration: 12s; opacity: 0.2; bottom: 40px; animation-delay: -6s; }
+    @keyframes wave-move {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div id="title">Ocean Pong</div>
+  <canvas id="pong" width="800" height="500"></canvas>
+  <div id="message">W/S — Left Paddle &nbsp;|&nbsp; ↑/↓ — Right Paddle &nbsp;|&nbsp; SPACE — Start/Pause</div>
+
+  <script>
+    const canvas = document.getElementById('pong');
+    const ctx = canvas.getContext('2d');
+
+    const W = canvas.width;
+    const H = canvas.height;
+    const PADDLE_W = 12;
+    const PADDLE_H = 80;
+    const BALL_SIZE = 10;
+    const PADDLE_SPEED = 6;
+    const WIN_SCORE = 7;
+
+    const state = {
+      running: false,
+      over: false,
+      left: { y: H / 2 - PADDLE_H / 2, score: 0, up: false, down: false },
+      right: { y: H / 2 - PADDLE_H / 2, score: 0, up: false, down: false },
+      ball: { x: W / 2, y: H / 2, vx: 0, vy: 0 },
+    };
+
+    function resetBall(direction = 1) {
+      state.ball.x = W / 2;
+      state.ball.y = H / 2;
+      const angle = (Math.random() * 40 - 20) * (Math.PI / 180);
+      const speed = 5;
+      state.ball.vx = direction * speed * Math.cos(angle);
+      state.ball.vy = speed * Math.sin(angle);
+    }
+
+    function clampPaddle(paddle) {
+      paddle.y = Math.max(0, Math.min(H - PADDLE_H, paddle.y));
+    }
+
+    function update() {
+      if (!state.running || state.over) return;
+
+      // Move paddles
+      if (state.left.up)   state.left.y  -= PADDLE_SPEED;
+      if (state.left.down) state.left.y  += PADDLE_SPEED;
+      if (state.right.up)   state.right.y -= PADDLE_SPEED;
+      if (state.right.down) state.right.y += PADDLE_SPEED;
+      clampPaddle(state.left);
+      clampPaddle(state.right);
+
+      // Move ball
+      state.ball.x += state.ball.vx;
+      state.ball.y += state.ball.vy;
+
+      // Top/bottom bounce
+      if (state.ball.y <= 0) { state.ball.y = 0; state.ball.vy *= -1; }
+      if (state.ball.y + BALL_SIZE >= H) { state.ball.y = H - BALL_SIZE; state.ball.vy *= -1; }
+
+      // Left paddle collision
+      if (
+        state.ball.x <= 30 + PADDLE_W &&
+        state.ball.x >= 30 &&
+        state.ball.y + BALL_SIZE >= state.left.y &&
+        state.ball.y <= state.left.y + PADDLE_H
+      ) {
+        state.ball.x = 30 + PADDLE_W;
+        const hit = (state.ball.y + BALL_SIZE / 2 - (state.left.y + PADDLE_H / 2)) / (PADDLE_H / 2);
+        const speed = Math.hypot(state.ball.vx, state.ball.vy) + 0.2;
+        const angle = hit * 60 * (Math.PI / 180);
+        state.ball.vx = speed * Math.cos(angle);
+        state.ball.vy = speed * Math.sin(angle);
+      }
+
+      // Right paddle collision
+      const rx = W - 30 - PADDLE_W;
+      if (
+        state.ball.x + BALL_SIZE >= rx &&
+        state.ball.x + BALL_SIZE <= rx + PADDLE_W &&
+        state.ball.y + BALL_SIZE >= state.right.y &&
+        state.ball.y <= state.right.y + PADDLE_H
+      ) {
+        state.ball.x = rx - BALL_SIZE;
+        const hit = (state.ball.y + BALL_SIZE / 2 - (state.right.y + PADDLE_H / 2)) / (PADDLE_H / 2);
+        const speed = Math.hypot(state.ball.vx, state.ball.vy) + 0.2;
+        const angle = hit * 60 * (Math.PI / 180);
+        state.ball.vx = -speed * Math.cos(angle);
+        state.ball.vy = speed * Math.sin(angle);
+      }
+
+      // Scoring
+      if (state.ball.x < 0) {
+        state.right.score++;
+        if (state.right.score >= WIN_SCORE) { state.over = true; return; }
+        resetBall(1);
+      }
+      if (state.ball.x > W) {
+        state.left.score++;
+        if (state.left.score >= WIN_SCORE) { state.over = true; return; }
+        resetBall(-1);
+      }
+    }
+
+    let waveTime = 0;
+
+    function drawOceanBackground() {
+      // Sky gradient
+      const sky = ctx.createLinearGradient(0, 0, 0, H * 0.5);
+      sky.addColorStop(0, '#87ceeb');
+      sky.addColorStop(1, '#b0e0f5');
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, W, H * 0.5);
+
+      // Sun
+      ctx.save();
+      const sunGlow = ctx.createRadialGradient(W * 0.75, 70, 5, W * 0.75, 70, 55);
+      sunGlow.addColorStop(0, 'rgba(255,240,100,0.95)');
+      sunGlow.addColorStop(0.4, 'rgba(255,200,50,0.4)');
+      sunGlow.addColorStop(1, 'rgba(255,180,0,0)');
+      ctx.fillStyle = sunGlow;
+      ctx.beginPath();
+      ctx.arc(W * 0.75, 70, 55, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Ocean gradient
+      const ocean = ctx.createLinearGradient(0, H * 0.45, 0, H);
+      ocean.addColorStop(0, '#0096c7');
+      ocean.addColorStop(0.4, '#0077b6');
+      ocean.addColorStop(1, '#023e8a');
+      ctx.fillStyle = ocean;
+      ctx.fillRect(0, H * 0.45, W, H * 0.55);
+
+      // Horizon blend
+      const horizon = ctx.createLinearGradient(0, H * 0.42, 0, H * 0.52);
+      horizon.addColorStop(0, 'rgba(135,206,235,0)');
+      horizon.addColorStop(1, 'rgba(0,150,199,0)');
+      ctx.fillStyle = horizon;
+      ctx.fillRect(0, H * 0.42, W, H * 0.1);
+
+      // Animated ocean waves
+      for (let layer = 0; layer < 4; layer++) {
+        const yBase = H * (0.48 + layer * 0.13);
+        const amp = 5 + layer * 3;
+        const speed = 0.8 + layer * 0.3;
+        const alpha = 0.12 + layer * 0.06;
+        ctx.beginPath();
+        ctx.moveTo(0, yBase);
+        for (let x = 0; x <= W; x += 4) {
+          const y = yBase + Math.sin((x / 80) + waveTime * speed) * amp
+                          + Math.sin((x / 40) + waveTime * speed * 1.3) * (amp * 0.4);
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(W, H);
+        ctx.lineTo(0, H);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+      }
+
+      // Sun reflection on water
+      ctx.save();
+      const reflGrad = ctx.createLinearGradient(W * 0.6, H * 0.48, W * 0.9, H);
+      reflGrad.addColorStop(0, 'rgba(255,240,150,0.25)');
+      reflGrad.addColorStop(1, 'rgba(255,240,150,0)');
+      ctx.fillStyle = reflGrad;
+      ctx.beginPath();
+      ctx.moveTo(W * 0.72, H * 0.48);
+      ctx.lineTo(W * 0.78, H * 0.48);
+      ctx.lineTo(W, H);
+      ctx.lineTo(W * 0.5, H);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      waveTime += 0.02;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      drawOceanBackground();
+
+      // Dashed center line
+      ctx.setLineDash([10, 14]);
+      ctx.strokeStyle = '#444';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(W / 2, 0);
+      ctx.lineTo(W / 2, H);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Scores
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 64px Courier New';
+      ctx.textAlign = 'center';
+      ctx.fillText(state.left.score, W / 2 - 80, 80);
+      ctx.fillText(state.right.score, W / 2 + 80, 80);
+
+      // Paddles
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(30, state.left.y, PADDLE_W, PADDLE_H);
+      ctx.fillRect(W - 30 - PADDLE_W, state.right.y, PADDLE_W, PADDLE_H);
+
+      // Ball
+      ctx.fillRect(state.ball.x, state.ball.y, BALL_SIZE, BALL_SIZE);
+
+      // Overlay messages
+      if (!state.running && !state.over) {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#fff';
+        ctx.font = '20px Courier New';
+        ctx.textAlign = 'center';
+        ctx.fillText('Press SPACE to start', W / 2, H / 2 + 30);
+      }
+
+      if (state.over) {
+        const winner = state.left.score >= WIN_SCORE ? 'LEFT' : 'RIGHT';
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 40px Courier New';
+        ctx.fillText(`${winner} PLAYER WINS!`, W / 2, H / 2 - 20);
+        ctx.font = '20px Courier New';
+        ctx.fillText('Press SPACE to play again', W / 2, H / 2 + 30);
+      }
+    }
+
+    // Music
+    let audioCtx = null;
+    let musicPlaying = false;
+    let musicTimeout = null;
+
+    // Hawaiian pentatonic melody with [frequency, duration] pairs
+    const melody = [
+      [392.00, 0.5], [440.00, 0.25], [392.00, 0.25], [523.25, 0.6],
+      [493.88, 0.4], [440.00, 0.25], [392.00, 0.7],
+      [349.23, 0.25], [392.00, 0.25], [440.00, 0.5],
+      [392.00, 0.25], [349.23, 0.25], [293.66, 0.8],
+      [329.63, 0.3], [349.23, 0.3], [392.00, 0.5],
+      [440.00, 0.3], [523.25, 0.3], [493.88, 0.7],
+      [440.00, 0.25], [392.00, 0.25], [349.23, 0.9],
+    ];
+    let melodyIndex = 0;
+
+    function playNote(freq, time, duration) {
+      // Ukulele-like pluck: triangle wave + vibrato LFO
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+
+      lfo.frequency.setValueAtTime(5.5, time);
+      lfoGain.gain.setValueAtTime(5, time);
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.frequency);
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, time);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      // Pluck envelope: fast attack, slow exponential decay
+      gain.gain.setValueAtTime(0, time);
+      gain.gain.linearRampToValueAtTime(0.13, time + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + duration + 0.3);
+
+      lfo.start(time);
+      lfo.stop(time + duration + 0.3);
+      osc.start(time);
+      osc.stop(time + duration + 0.3);
+    }
+
+    function scheduleMusic() {
+      if (!musicPlaying) return;
+      const [freq, dur] = melody[melodyIndex % melody.length];
+      playNote(freq, audioCtx.currentTime, dur);
+      melodyIndex++;
+      musicTimeout = setTimeout(scheduleMusic, dur * 1000);
+    }
+
+    function startMusic() {}
+    function stopMusic() {}
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (state.over) {
+          state.over = false;
+          state.left.score = 0;
+          state.right.score = 0;
+          state.left.y = H / 2 - PADDLE_H / 2;
+          state.right.y = H / 2 - PADDLE_H / 2;
+          resetBall(1);
+          state.running = true;
+          startMusic();
+        } else if (!state.running) {
+          resetBall(1);
+          state.running = true;
+          startMusic();
+        } else {
+          state.running = false;
+          stopMusic();
+        }
+      }
+      if (e.code === 'KeyW')      state.left.up   = true;
+      if (e.code === 'KeyS')      state.left.down = true;
+      if (e.code === 'ArrowUp')   { e.preventDefault(); state.right.up   = true; }
+      if (e.code === 'ArrowDown') { e.preventDefault(); state.right.down = true; }
+    });
+
+    document.addEventListener('keyup', e => {
+      if (e.code === 'KeyW')      state.left.up   = false;
+      if (e.code === 'KeyS')      state.left.down = false;
+      if (e.code === 'ArrowUp')   state.right.up   = false;
+      if (e.code === 'ArrowDown') state.right.down = false;
+    });
+
+    loop();
+  </script>
+</body>
+</html>
