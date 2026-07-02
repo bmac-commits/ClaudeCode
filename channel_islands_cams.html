@@ -671,33 +671,49 @@
       .tide-note { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; max-width: none; width: 100%; }
     }
 
-    /* ── Watch Live link-out card ── */
-    .cam-linkout {
+    /* ── Live Bald Eagle Nest Cams (YouTube embeds) ── */
+    .yt-cam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 16px;
+    }
+
+    .yt-cam-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
+      overflow: hidden;
     }
 
-    .cam-linkout-icon {
-      font-size: 1.8rem;
-      flex-shrink: 0;
+    .yt-cam-frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #0d1a1e;
     }
 
-    .cam-linkout-text {
-      flex: 1;
-      min-width: 220px;
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      line-height: 1.5;
+    .yt-cam-frame-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
-    .cam-linkout-text strong {
+    .yt-cam-footer {
+      padding: 10px 14px;
+    }
+
+    .yt-cam-name {
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
+    }
+
+    .yt-cam-meta {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 1px;
     }
 
     /* ── Campground Accordion ── */
@@ -1099,15 +1115,68 @@
     </div>
   </div>
 
-  <!-- Watch Live link-out (no embeddable still-image cam exists for this park) -->
+  <!-- Live Camera Feed — all 7 NPS webcams, embedded directly from their YouTube streams -->
   <div style="margin-bottom: 28px;">
     <div class="section-label">Live Camera Feed</div>
-    <div class="cam-linkout">
-      <span class="cam-linkout-icon">📡</span>
-      <div class="cam-linkout-text">
-        <strong>No embeddable live still-image camera is available for Channel Islands.</strong> NPS lists 6 webcams on their site, but they're page-embedded video players rather than a raw hotlinkable JPG endpoint (unlike Redwood, Lassen, or Sequoia's clean image feeds). The closest live-video alternative — the explore.org bald eagle cam on Santa Cruz Island — is also a JS video player, not something that can be embedded as a simple auto-refreshing image. Rather than fake it, this links straight to NPS's own webcam page.
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">🦅</span>
+      <span>6 official NPS live cameras for the park, hosted in partnership with <strong>Explore.org</strong>. Wildlife feeds may go quiet outside nesting season or when a nest happens to be empty. <a href="https://www.nps.gov/chis/learn/photosmultimedia/webcams.htm" target="_blank">NPS webcam page ↗</a></span>
+    </div>
+    <div class="yt-cam-grid">
+      <div class="yt-cam-card">
+        <div class="yt-cam-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/rnTsOesC6hE?rel=0" title="Sauces Canyon Nest — Live Bald Eagle Cam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="yt-cam-footer">
+          <div class="yt-cam-name">Sauces Canyon Nest</div>
+          <div class="yt-cam-meta">Santa Cruz Island · Bald eagle nest</div>
+        </div>
       </div>
-      <a class="transport-link" style="margin-top:0;" href="https://www.nps.gov/chis/learn/photosmultimedia/webcams.htm" target="_blank">Watch Live on NPS.gov ↗</a>
+      <div class="yt-cam-card">
+        <div class="yt-cam-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/aaUERtNMn7o?rel=0" title="Anacapa Landing Cove — Live Cam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="yt-cam-footer">
+          <div class="yt-cam-name">Anacapa Landing Cove</div>
+          <div class="yt-cam-meta">Anacapa Island · Harbor / landing view</div>
+        </div>
+      </div>
+      <div class="yt-cam-card">
+        <div class="yt-cam-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/f5Rjm5tiEkU?rel=0" title="Mount Diablo — Live Cam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="yt-cam-footer">
+          <div class="yt-cam-name">Mount Diablo</div>
+          <div class="yt-cam-meta">Santa Cruz Island · Scenic overlook</div>
+        </div>
+      </div>
+      <div class="yt-cam-card">
+        <div class="yt-cam-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/OAJF1Ie1m_Q?rel=0" title="Anacapa Ocean — Live Cam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="yt-cam-footer">
+          <div class="yt-cam-name">Anacapa Ocean</div>
+          <div class="yt-cam-meta">Anacapa Island · Ocean / kelp forest view</div>
+        </div>
+      </div>
+      <div class="yt-cam-card">
+        <div class="yt-cam-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/YmZv8Pfwum4?rel=0" title="Anacapa Peregrine Falcon — Live Cam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="yt-cam-footer">
+          <div class="yt-cam-name">Peregrine Falcon Nest</div>
+          <div class="yt-cam-meta">Anacapa Island · Peregrine falcon nest</div>
+        </div>
+      </div>
+      <div class="yt-cam-card">
+        <div class="yt-cam-frame-wrap">
+          <iframe src="https://www.youtube.com/embed/OtbWimuJQ_A?rel=0" title="San Miguel Island Ranger Station — Live Cam" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="yt-cam-footer">
+          <div class="yt-cam-name">Ranger Station</div>
+          <div class="yt-cam-meta">San Miguel Island</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1273,13 +1342,12 @@
 </footer>
 
 <script>
-  // Note: Channel Islands has no confirmed embeddable live still-image camera.
-  // NPS lists 6 webcams at nps.gov/chis/learn/photosmultimedia/webcams.htm, but
-  // they are page-embedded video players, not raw <img>-able JPG endpoints like
-  // Redwood/Lassen/Sequoia. The closest live-video alternative (explore.org bald
-  // eagle cam) is also a JS video player, not embeddable as a simple auto-
-  // refreshing image. Rather than fabricate a src or fake a .cam-grid, this
-  // dashboard uses a plain honest link-out card instead (see .cam-linkout above).
+  // Note: Channel Islands has no confirmed embeddable live still-image camera
+  // (no raw <img>-able JPG endpoint like Redwood/Lassen/Sequoia). It does have
+  // 6 real live YouTube streams though — NPS's official park webcams,
+  // hosted via Explore.org, embedded directly (see .yt-cam-grid above), sourced
+  // from the iframe embeds on each camera's own page linked from
+  // nps.gov/chis/learn/photosmultimedia/webcams.htm.
   // There is also no .traffic-grid "Park Entrances" section here in the usual
   // sense — Channel Islands has no roads or drive-in entrance at all, so that
   // section has been repurposed into "Ferry & Boat Access" using the same
