@@ -91,9 +91,6 @@ def scrape():
 
 def git_push(result):
     payload = json.dumps(result, indent=2) + "\n"
-    # Pull before writing so there are no unstaged changes during rebase
-    subprocess.run(["git", "-C", str(REPO_DIR), "pull", "--rebase", "--quiet"],
-                   check=True)
     OUTPUT_FILE.write_text(payload)
     subprocess.run(["git", "-C", str(REPO_DIR), "add", "wait_times.json"], check=True)
     diff = subprocess.run(
@@ -104,6 +101,16 @@ def git_push(result):
         return
     subprocess.run(
         ["git", "-C", str(REPO_DIR), "commit", "-m", "chore: update wait times [skip ci]"],
+        check=True
+    )
+    # Commit our own change first, then merge (not rebase) remote history in.
+    # Rebase requires the *entire* working tree to be clean, so it collides
+    # with unrelated in-progress edits elsewhere in this repo (e.g. an active
+    # Claude Code session). Merge only cares about the paths it touches, so
+    # committing wait_times.json first and merging keeps this resilient to
+    # unrelated uncommitted files sitting around.
+    subprocess.run(
+        ["git", "-C", str(REPO_DIR), "pull", "--no-rebase", "--no-edit", "-X", "ours", "--quiet"],
         check=True
     )
     subprocess.run(["git", "-C", str(REPO_DIR), "push"], check=True)
