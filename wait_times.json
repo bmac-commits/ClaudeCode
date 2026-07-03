@@ -1,15 +1,15 @@
 {
-  "updated": "2026-07-03T14:26:25.352047+00:00",
+  "updated": "2026-07-03T14:36:27.626472+00:00",
   "error": null,
   "entrances": {
     "hwy140": {
-      "wait": 2,
+      "wait": 1,
       "status": "open",
-      "trend": "\u2192 Steady"
+      "trend": "\u2193 Wait times falling"
     },
     "hwy120": {
-      "wait": null,
-      "status": "unknown",
+      "wait": 1,
+      "status": "open",
       "trend": "\u2192 Steady"
     },
     "hwy41": {
