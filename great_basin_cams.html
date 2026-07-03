@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Great Basin National Park</title>
+  <style>
+    :root {
+      --bg: #e8e6f0;
+      --surface: #f7f6fb;
+      --surface2: #ddd8ec;
+      --border: #c4bcdc;
+      --indigo: #4a3a8a;
+      --indigo-light: #6f5ab8;
+      --rock: #8a7f9c;
+      --text: #241e3a;
+      --text-dim: #5c5270;
+      --yellow: #b8860a;
+      --red: #a03820;
+      --blue: #4a7a9b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #8878c4 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 6px 12px 6px 8px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin: 8px 0 14px 10px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .back-link:hover {
+      background: var(--surface2);
+      border-color: var(--indigo);
+      color: var(--text);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .map-download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover {
+      background: var(--surface2);
+      border-color: var(--indigo);
+    }
+
+    .park-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.9;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--indigo-light);
+    }
+
+    .header-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    /* ── Info Bar (weather + alerts toggle) ── */
+    .info-bar {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin-bottom: -1px;
+    }
+
+    /* ── Weather Card ── */
+    .weather-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+      min-width: 340px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .weather-detail-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weather-detail-row .label {
+      color: var(--rock);
+      width: 48px;
+    }
+
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-strip {
+      display: flex;
+      gap: 10px;
+      margin-left: 8px;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .forecast-day .day-name {
+      color: var(--text-dim);
+    }
+
+    .forecast-day .day-icon {
+      font-size: 1.1rem;
+    }
+
+    .forecast-day .day-hi {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .forecast-day .day-lo {
+      color: var(--text-dim);
+    }
+
+    /* ── Alerts Card ── */
+    .alerts-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      flex: 1;
+      min-width: 280px;
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .alerts-header:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .alerts-header.open {
+      border-bottom-color: var(--border);
+    }
+
+    .alerts-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .alert-count {
+      background: var(--yellow);
+      color: #1a1200;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .alert-count.zero {
+      background: #7c8a5c;
+      color: #0a1a0d;
+    }
+
+    .alerts-chevron {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .alerts-header.open .alerts-chevron {
+      transform: rotate(180deg);
+    }
+
+    .alerts-body {
+      display: none;
+      padding: 10px 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .alerts-body.open {
+      display: block;
+    }
+
+    .alert-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item .alert-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+
+    .alert-item .alert-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .alert-item .alert-desc {
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .alerts-loading {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding: 8px 0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 20px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    /* ── Entrances Section ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--rock); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--indigo-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Fee / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rock);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--rock);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Notice Bar ── */
+    .notice-bar {
+      background: rgba(184,134,10,0.13);
+      border: 1px solid rgba(184,134,10,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(160,56,32,0.13);
+      border-color: rgba(160,56,32,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--indigo-light); }
+
+    /* ── Campground Accordion ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--rock);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--indigo-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--indigo-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Landmarks / Concessions Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .conc-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--rock);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 170px;
+    }
+
+    .conc-type {
+      font-size: 0.65rem;
+      color: var(--rock);
+      flex: 1;
+    }
+
+    .conc-hrs {
+      font-size: 0.72rem;
+      color: var(--indigo-light);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
+
+    /* ── River / Angler Grid ── */
+    .angler-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .angler-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .angler-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .angler-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 4px 0;
+      font-size: 0.75rem;
+    }
+
+    .angler-key {
+      color: var(--rock);
+    }
+
+    .angler-val {
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .angler-val.highlight {
+      color: var(--indigo-light);
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--indigo-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    All Parks
+  </a>
+  <div class="header-top">
+    <div class="header-top-left">
+      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 32 L16 12 L22 22 L27 14 L36 32 Z" fill="#6f5ab8" opacity="0.9"/>
+        <path d="M27 6 l1.6 3.4 3.4 1.6-3.4 1.6-1.6 3.4-1.6-3.4-3.4-1.6 3.4-1.6z" fill="#4a3a8a" opacity="0.85"/>
+        <circle cx="9" cy="9" r="1.1" fill="#4a3a8a" opacity="0.7"/>
+        <circle cx="34" cy="16" r="0.8" fill="#4a3a8a" opacity="0.6"/>
+      </svg>
+      <h1>Great Basin <span>National Park</span></h1>
+    </div>
+    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/great-basin-map.pdf" target="_blank" download>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Park Map PDF
+    </a>
+  </div>
+  <p class="header-sub">Great Basin National Park — Nevada, USA &nbsp;·&nbsp; Camera and conditions data refresh automatically every 60 seconds</p>
+
+  <div class="info-bar">
+    <!-- Weather -->
+    <div class="weather-card" id="weatherCard">
+      <div class="weather-main">
+        <div class="weather-icon" id="wxIcon">⏳</div>
+        <div>
+          <div class="weather-temp" id="wxTemp">--°F</div>
+          <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        </div>
+      </div>
+      <div class="weather-details" id="wxDetails">
+        <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+        <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+        <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        <div class="weather-detail-row"><span class="label">Elev.</span> <span>5,000 – 13,063 ft</span></div>
+      </div>
+      <div class="aqi-block" id="aqiBlock">
+        <div class="aqi-label">Air Quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
+      <div class="forecast-strip" id="forecastStrip"></div>
+    </div>
+
+    <!-- NPS Alerts -->
+    <div class="alerts-card">
+      <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="alerts-title">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L1 13h12L7 1z" stroke="#b8860a" stroke-width="1.4" fill="none"/>
+            <line x1="7" y1="6" x2="7" y2="9" stroke="#b8860a" stroke-width="1.4"/>
+            <circle cx="7" cy="11" r="0.6" fill="#b8860a"/>
+          </svg>
+          NPS Alerts &amp; Advisories
+          <span class="alert-count zero" id="alertCount">–</span>
+        </div>
+        <span class="alerts-chevron" id="alertsChevron">▼</span>
+      </div>
+      <div class="alerts-body" id="alertsBody">
+        <div class="alerts-loading">Loading advisories…</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Wheeler Peak Altitude Safety -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">High-Altitude Hiking Safety</div>
+    <div class="notice-bar danger">
+      <span class="notice-icon">⛰️</span>
+      <span>Great Basin has one of the largest elevation ranges of any national park — the valley floor sits around 5,000 ft while <strong>Wheeler Peak tops out at 13,063 ft</strong>. The summit trail climbs well above treeline with no shelter from sun, wind, or lightning. <strong>Afternoon thunderstorms build fast in summer</strong> — start before sunrise and be off the exposed ridgeline by early afternoon. Watch for symptoms of altitude sickness (headache, nausea, dizziness) and turn back if they appear; there is no quick descent from the upper mountain. <a href="https://www.nps.gov/grba/planyourvisit/safety.htm" target="_blank">NPS safety info ↗</a></span>
+    </div>
+    <div class="fee-bar">
+      <span class="fee-bar-label">Quick Stats</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Valley Floor</span><span class="fee-price">~5,000 ft</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Wheeler Peak Summit</span><span class="fee-price">13,063 ft</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Summit Trail</span><span class="fee-price">~8.6 mi RT</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Nearest Fuel</span><span class="fee-price">Baker, NV</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Park Entrance & Lehman Caves Tours -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Park Entrance &amp; Cave Tours</div>
+
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Main Access</span>
+          <span class="traffic-badge badge-open">No Entrance Fee</span>
+        </div>
+        <div class="traffic-name">NV-487, off US-50 near Baker, NV</div>
+        <div class="traffic-desc">Great Basin is one of the few national parks with no entrance fee at all. It's also one of the most remote — reached via US-50, "The Loneliest Road in America."</div>
+        <div class="traffic-tip">💡 There is no gas station inside the park. Fill up at Baker Sinclair in Baker, NV before heading in — it's the only fuel for miles.</div>
+        <a class="traffic-link" href="https://www.nps.gov/grba/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Lehman Caves</span>
+          <span class="traffic-badge badge-busy">Ticketed Tours</span>
+        </div>
+        <div class="traffic-name">Guided tours only, timed entry</div>
+        <div class="traffic-desc">The cave itself is only accessible on a ranger-led tour — no self-guided entry. Tickets sell out in summer; book ahead on Recreation.gov.</div>
+        <div class="traffic-tip">💡 Tour temperature stays around 50°F year-round — bring a light jacket even in summer.</div>
+        <a class="traffic-link" href="https://www.nps.gov/grba/planyourvisit/lehman-caves-tour-tickets.htm" target="_blank">Book cave tours ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Wheeler Peak Scenic Drive</span>
+          <span class="traffic-badge badge-unknown">Seasonal</span>
+        </div>
+        <div class="traffic-name">12 mi, roughly June – October</div>
+        <div class="traffic-desc">Climbs from the valley floor to nearly 10,000 ft near the Wheeler Peak trailhead. Closes with the first heavy snow and reopens once plowed in early summer.</div>
+        <div class="traffic-tip">💡 Check current road status before you go — closure timing varies year to year with snowpack.</div>
+        <a class="traffic-link" href="https://www.nps.gov/grba/planyourvisit/conditions.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+    </div>
+
+    <!-- Cave Tour Fees -->
+    <div class="fee-bar">
+      <span class="fee-bar-label">Lehman Caves Tour Tickets</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Gothic Palace (30 min)</span><span class="fee-price">$8 / $4</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Lodge Room (60 min)</span><span class="fee-price">$12 / $6</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Parachute Shield (60 min)</span><span class="fee-price">$12 / $6</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Grand Palace (90 min)</span><span class="fee-price">$15 / $8</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Wild Caving (3 hrs)</span><span class="fee-price">$40</span></div>
+      </div>
+      <span class="fee-note">Adult / Youth · Senior &amp; Access Pass 50% off</span>
+    </div>
+
+  </div>
+
+  <!-- Campgrounds -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Campgrounds</div>
+    <div class="transport-grid">
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Lower Lehman Creek</span>
+          <span class="transport-badge">Year-Round</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">9</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">~7,300 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Price</span><span class="transport-val">$20/night</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Only campground open all year</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232461" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Upper Lehman Creek</span>
+          <span class="transport-badge">Reservable in Season</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">23</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">~7,500 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Price</span><span class="transport-val">$20/night</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Peak-season reservations, first-come off-season</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232461" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Wheeler Peak</span>
+          <span class="transport-badge fcfs">Seasonal · High Elevation</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">37 (26 RV)</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">~10,000 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Price</span><span class="transport-val">$20/night</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Closes as early as September with snow</span></div>
+        <a class="transport-link" href="https://www.nps.gov/grba/planyourvisit/campground-information.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Baker Creek</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">37</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">No advance reservations — arrive early on weekends</span></div>
+        <a class="transport-link" href="https://www.nps.gov/grba/planyourvisit/campground-information.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Grey Cliffs</span>
+          <span class="transport-badge">Standard &amp; Group Sites</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">16 standard + 4 group</span></div>
+        <div class="transport-row"><span class="transport-key">Price</span><span class="transport-val">$20 standard / $30 group</span></div>
+        <a class="transport-link" href="https://www.nps.gov/grba/planyourvisit/campground-information.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Landmarks & Trailheads -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Landmarks &amp; Trailheads</div>
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">Lehman Caves &amp; Visitor Center Area<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lehman Caves</span><span class="conc-type">Guided tour only · marble cave, ticketed</span><span class="conc-hrs">30–90 min tours</span></div>
+          <div class="conc-row"><span class="conc-name">Mountain View Nature Trail</span><span class="conc-type">Easy · loop near visitor center</span><span class="conc-hrs">~30 min</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">High Country &amp; Wheeler Peak<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Wheeler Peak Trail</span><span class="conc-type">Strenuous · summit, 13,063 ft</span><span class="conc-hrs">~8.6 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Bristlecone Pine Trail</span><span class="conc-type">Moderate · some of the oldest trees on Earth</span><span class="conc-hrs">2.8 mi RT</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Remote &amp; Backcountry<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lexington Arch</span><span class="conc-type">Remote · limestone arch, rough access road</span><span class="conc-hrs">High-clearance rec.</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Rivers -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Stream Flow</div>
+    <div class="angler-grid" id="anglerGrid">
+      <div class="angler-card">
+        <div class="angler-name">Lehman Creek near Baker, NV</div>
+        <div class="angler-row"><span class="angler-key">Flow</span><span class="angler-val highlight" id="flow-10243260">Loading…</span></div>
+        <div class="angler-row"><span class="angler-key">Gauge Height</span><span class="angler-val" id="gauge-10243260">Loading…</span></div>
+        <div class="angler-row"><span class="angler-key">Water Temp</span><span class="angler-val" id="temp-10243260">Loading…</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stargazing -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Great Basin is an <strong>International Dark Sky Park, Gold Tier</strong> — the highest designation — and home to the <strong>Great Basin Observatory</strong>, the only research-grade observatory inside a US national park. The park hosts an annual <strong>Astronomy Festival</strong> each September plus regular ranger-led night-sky programs. Best on new-moon nights — bring a red flashlight to preserve night vision, and dress warm even in summer, as high-elevation nights get cold fast. <a href="https://www.nps.gov/grba/planyourvisit/astronomy.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concessions -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Concession Information</div>
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">🏪</span>
+      <span>Great Basin is one of the least-visited parks in the lower 48, and services are minimal — the small town of <strong>Baker, NV</strong> just outside the park has a gas station, a couple of restaurants, and a general store if you need supplies beyond what's listed here.</span>
+    </div>
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Lehman Caves Visitor Center<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">WNPA Bookstore &amp; Gift Shop</span><span class="conc-type">Books · Maps · Gifts</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row"><span class="conc-name">Seasonal Café</span><span class="conc-type">Light fare</span><span class="conc-hrs">May–mid Oct · 8 AM–3 PM</span></div>
+        </div>
+      </details>
+
+    </div>
+    <a class="transport-link" href="https://www.nps.gov/grba/planyourvisit/goodsandservices.htm" target="_blank">NPS goods &amp; services info ↗</a>
+  </div>
+
+</main>
+
+<footer>
+  <span>Sources: National Park Service · USGS · Recreation.gov · Western National Parks Association</span>
+  <span>Weather: Open-Meteo (Lehman Caves) · Alerts: NPS Data API · Streamflow: USGS Site 10243260</span>
+</footer>
+
+<script>
+  // Note: Great Basin has no live webcam of any kind — confirmed not part of the
+  // NPS Air Resources webcam network, and its only camera program is motion-
+  // activated wildlife trail cameras producing static (not live) photos. No
+  // .cam-grid is built here rather than fabricate a feed. There is also no
+  // Baker Creek USGS gauge (only Lehman Creek reports live), so only one
+  // stream-flow card is shown rather than the two originally expected.
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=39.0056&longitude=-114.2203' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=5';
+      const res = await fetch(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Lehman Caves';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=39.0056&longitude=-114.2203&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
+      const res = await fetch(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=grba&limit=20&api_key=DEMO_KEY');
+      const d = await res.json();
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── USGS Stream Flow (Lehman Creek) ──
+  async function loadStreamFlow() {
+    const siteId = '10243260';
+    try {
+      const res = await fetch(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
+      const d = await res.json();
+      const series = d.value.timeSeries || [];
+
+      const paramMap = { '00060': `flow-${siteId}`, '00065': `gauge-${siteId}`, '00010': `temp-${siteId}` };
+      const found = new Set();
+
+      series.forEach(ts => {
+        const code = ts.variable.variableCode[0].value;
+        const elId = paramMap[code];
+        if (!elId) return;
+        const val = ts.values[0].value[0]?.value;
+        if (val === undefined) return;
+        found.add(code);
+        const el = document.getElementById(elId);
+        if (!el) return;
+        if (code === '00060') el.textContent = `${parseFloat(val).toFixed(1)} cfs`;
+        if (code === '00065') el.textContent = `${parseFloat(val).toFixed(2)} ft`;
+        if (code === '00010') el.textContent = `${(parseFloat(val) * 9/5 + 32).toFixed(1)}°F`;
+      });
+
+      Object.entries(paramMap).forEach(([code, elId]) => {
+        if (!found.has(code)) {
+          const el = document.getElementById(elId);
+          if (el) el.textContent = 'No current data';
+        }
+      });
+    } catch (e) {
+      ['flow', 'gauge', 'temp'].forEach(prefix => {
+        const el = document.getElementById(`${prefix}-${siteId}`);
+        if (el) el.textContent = 'Unavailable';
+      });
+    }
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+  }
+
+  // ── Init ──
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadStreamFlow();
+  loadMoonPhase();
+</script>
+</body>
+</html>

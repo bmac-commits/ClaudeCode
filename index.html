@@ -347,6 +347,12 @@
       <path d="M6 74c8-5 16-5 24 0s16 5 24 0s16-5 24 0s16 5 22 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.7"/>
       <path d="M6 86c8-5 16-5 24 0s16 5 24 0s16-5 24 0s16 5 22 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.4"/>
     </svg>`,
+    greatBasin: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 82 L34 32 L44 50 L58 26 L90 82 Z" fill="#fff" opacity="0.95"/>
+      <path d="M68 14 l3.4 7.2 7.2 3.4-7.2 3.4-3.4 7.2-3.4-7.2-7.2-3.4 7.2-3.4z" fill="#fff" opacity="0.9"/>
+      <circle cx="22" cy="20" r="2.2" fill="#fff" opacity="0.65"/>
+      <circle cx="84" cy="34" r="1.6" fill="#fff" opacity="0.55"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -439,6 +445,16 @@
       desc: 'Ferry & boat access info, live tide predictions, boat-in campgrounds, and California’s own “Galapagos” — no roads, no cars.',
       features: 'Ferry Access · Tide Data · 5 Islands',
       href: 'channel_islands_cams.html',
+    },
+    {
+      name: 'Great Basin',
+      states: ['Nevada'],
+      accent: '#a78bfa',
+      grad: 'linear-gradient(135deg, #241c4a 0%, #4a3a8a 55%, #a78bfa 100%)',
+      icon: ICONS.greatBasin,
+      desc: 'Gold-Tier Dark Sky stargazing, the only research-grade observatory in a US national park, Wheeler Peak altitude safety, and Lehman Caves tours.',
+      features: 'Dark Sky · Free Entry · Lehman Caves',
+      href: 'great_basin_cams.html',
     },
   ];
 
