@@ -145,8 +145,8 @@
 
     .park-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
     }
 
     .pc {
@@ -171,7 +171,7 @@
 
     .pc-media {
       position: relative;
-      height: 108px;
+      height: 60px;
       background: var(--grad);
       display: flex;
       align-items: center;
@@ -195,8 +195,8 @@
     }
 
     .pc-media svg {
-      width: 40px;
-      height: 40px;
+      width: 26px;
+      height: 26px;
       position: relative;
       transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
     }
@@ -207,66 +207,57 @@
 
     .pc-state {
       position: absolute;
-      top: 9px;
-      left: 9px;
-      font-size: 0.56rem;
+      top: 7px;
+      left: 7px;
+      font-size: 0.5rem;
       font-weight: 700;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
       color: #fff;
       background: rgba(0,0,0,0.28);
       backdrop-filter: blur(6px);
-      padding: 3px 8px;
+      padding: 2px 6px;
       border-radius: 100px;
     }
 
     .pc-body {
-      padding: 14px 14px 16px;
+      padding: 9px 11px 11px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 3px;
       flex: 1;
     }
 
     .pc-name {
-      font-size: 1rem;
+      font-size: 0.84rem;
       font-weight: 700;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.2px;
     }
 
     .pc-name span {
-      display: block;
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      margin-top: 2px;
+      display: none;
     }
 
     .pc-desc {
-      font-size: 0.74rem;
-      color: var(--text-dim);
-      line-height: 1.4;
-      flex: 1;
+      display: none;
     }
 
     .pc-features {
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      color: var(--text-faint);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      text-transform: none;
+      color: var(--text-dim);
     }
 
     .pc-cta {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.76rem;
+      gap: 4px;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--accent);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .pc-cta svg {
