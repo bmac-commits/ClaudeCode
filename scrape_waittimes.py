@@ -4,10 +4,12 @@ Scrapes Yosemite entrance wait times from yosemite.live.
 Runs locally (residential IP bypasses Cloudflare).
 Writes wait_times.json, then commits + pushes to GitHub.
 """
+import html as html_lib
 import json
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from curl_cffi import requests
@@ -23,11 +25,14 @@ ENTRANCE_MAP = {
 }
 
 
-def scrape():
+def scrape_once():
     session = requests.Session(impersonate="chrome124")
     r = session.get(URL, timeout=20)
     r.raise_for_status()
-    html = r.text
+    # The site HTML-escapes "<1" as "&lt;1" for quiet entrances (the most
+    # common state) — unescape before parsing or every sub-minute reading
+    # silently fails to match and gets reported as unavailable.
+    html = html_lib.unescape(r.text)
 
     result = {
         "updated": datetime.now(timezone.utc).isoformat(),
@@ -89,6 +94,22 @@ def scrape():
     return result
 
 
+def all_unknown(result):
+    return all(e["wait"] is None for e in result["entrances"].values())
+
+
+def scrape():
+    # Redundancy layer 1: a single fetch can land on a half-rendered page or
+    # transient site hiccup. Retry once before treating it as a real failure.
+    result = scrape_once()
+    if all_unknown(result):
+        time.sleep(5)
+        retry = scrape_once()
+        if not all_unknown(retry):
+            return retry
+    return result
+
+
 def git_push(result):
     payload = json.dumps(result, indent=2) + "\n"
     OUTPUT_FILE.write_text(payload)
@@ -121,6 +142,22 @@ def main():
     try:
         result = scrape()
         print(json.dumps(result, indent=2))
+
+        # Redundancy layer 2: if this run found nothing usable but the last
+        # published data did, keep serving the last-known-good values instead
+        # of overwriting them with a wall of nulls. The dashboard's own
+        # staleness warning (⚠ updated Xh ago) already handles telling
+        # visitors the data is aging, which is far more useful than showing
+        # "unavailable" for what's usually a transient/one-off scrape miss.
+        if all_unknown(result) and OUTPUT_FILE.exists():
+            try:
+                previous = json.loads(OUTPUT_FILE.read_text())
+                if not all_unknown(previous):
+                    print("[digest] New scrape had no data; keeping last-known-good wait_times.json")
+                    return
+            except (json.JSONDecodeError, KeyError):
+                pass
+
         git_push(result)
     except Exception as e:
         print(f"[error] {e}", file=sys.stderr)
@@ -133,6 +170,14 @@ def main():
                 "hwy41":  {"wait": None, "status": "unknown", "trend": None},
             }
         }
+        if OUTPUT_FILE.exists():
+            try:
+                previous = json.loads(OUTPUT_FILE.read_text())
+                if not all_unknown(previous):
+                    print("[digest] Scrape errored; keeping last-known-good wait_times.json")
+                    sys.exit(1)
+            except (json.JSONDecodeError, KeyError):
+                pass
         git_push(result)
         sys.exit(1)
 
