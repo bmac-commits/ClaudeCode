@@ -1848,10 +1848,23 @@
   });
 
   // ── Wait Times ──
+  // Fetched from raw.githubusercontent.com rather than the relative path.
+  // GitHub Pages' own build+CDN pipeline has repeatedly lagged 30-40+ min
+  // behind pushes under frequent-update load (undocumented build-rate
+  // limit), even though the underlying git data was current. Raw content
+  // is served directly from git blob storage — no Pages "build" step to
+  // queue or fail — and reflects new pushes within seconds. Falls back to
+  // the relative path if the raw fetch fails for any reason.
   async function loadWaitTimes() {
     const KEYS = ['hwy140', 'hwy120', 'hwy41'];
     try {
-      const res = await fetch('wait_times.json?_=' + Date.now());
+      let res;
+      try {
+        res = await fetch('https://raw.githubusercontent.com/bmac-commits/ClaudeCode/main/wait_times.json?_=' + Date.now());
+        if (!res.ok) throw new Error('raw fetch failed');
+      } catch (rawErr) {
+        res = await fetch('wait_times.json?_=' + Date.now());
+      }
       if (!res.ok) throw new Error('fetch failed');
       const d = await res.json();
 
