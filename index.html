@@ -358,6 +358,19 @@
       <ellipse cx="50" cy="54" rx="32" ry="19" fill="#fff" opacity="0.95"/>
       <circle cx="36" cy="50" r="3.6" fill="#fff" opacity="0.5"/>
     </svg>`,
+    mountRainier: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 82 L34 22 L46 42 L58 16 L92 82 Z" fill="#fff" opacity="0.95"/>
+      <path d="M46 42l-8 12h16z" fill="#fff" opacity="0.3"/>
+      <path d="M58 16l-9 15 9 8 9-8z" fill="#fff" opacity="0.5"/>
+    </svg>`,
+    olympic: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 64 L34 26 L44 42 L56 20 L82 64 Z" fill="#fff" opacity="0.9"/>
+      <path d="M4 78c9-5 18-5 27 0s18 5 27 0s18-5 27 0s18 5 11 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+    </svg>`,
+    northCascades: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 80 L22 40 L32 54 L44 26 L54 26 L66 50 L96 80 Z" fill="#fff" opacity="0.95"/>
+      <path d="M4 88c10-5 18-5 26 0s18 5 26 0s18-5 26 0s18 5 18 0" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.5"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -471,9 +484,39 @@
       features: 'Live Cam · Lake Level · Winter Safety',
       href: 'crater_lake_cams.html',
     },
+    {
+      name: 'Mount Rainier',
+      states: ['Washington'],
+      accent: '#5a96b8',
+      grad: 'linear-gradient(135deg, #16232e 0%, #3a6b8a 55%, #5a96b8 100%)',
+      icon: ICONS.mountRainier,
+      desc: 'Volcanic lahar hazard safety, 8 live cameras across the mountain, real-time river gauges, and the most heavily glaciated peak in the contiguous US.',
+      features: '8 Live Cams · Lahar Safety · River Flow',
+      href: 'mount_rainier_cams.html',
+    },
+    {
+      name: 'Olympic',
+      states: ['Washington'],
+      accent: '#5a8552',
+      grad: 'linear-gradient(135deg, #202e1c 0%, #3d5c3a 55%, #5a8552 100%)',
+      icon: ICONS.olympic,
+      desc: 'Three ecosystems in one park — glaciated peaks, temperate rainforest, and wild coastline — plus live river gauges and the Elwha dam-removal story.',
+      features: '3 Ecosystems · River Flow · Coastline',
+      href: 'olympic_cams.html',
+    },
+    {
+      name: 'North Cascades',
+      states: ['Washington'],
+      accent: '#2fb89f',
+      grad: 'linear-gradient(135deg, #17332c 0%, #1a8a7a 55%, #2fb89f 100%)',
+      icon: ICONS.northCascades,
+      desc: 'The turquoise waters of Diablo Lake, seasonal SR-20 highway closure guidance, remote boat-only Stehekin, and 300+ glaciers.',
+      features: 'Diablo Lake · Free Entry · River Flow',
+      href: 'north_cascades_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington'];
   let activeTab = 'All Parks';
 
   function arrowIcon() {
