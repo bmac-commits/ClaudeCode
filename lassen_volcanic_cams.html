@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preconnect" href="https://air-quality-api.open-meteo.com" />
+  <link rel="preconnect" href="https://developer.nps.gov" />
   <title>Lassen Volcanic National Park</title>
   <style>
     :root {
@@ -1394,6 +1397,16 @@
 
   const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+  // ── Fetch with timeout — external APIs occasionally hang instead of
+  // erroring, which used to leave weather/AQI stuck on "Loading…"
+  // indefinitely. Bounding every request means a slow API fails fast
+  // and falls back to "unavailable" instead of hanging the widget. ──
+  function fetchWithTimeout(url, ms = 8000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
+    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  }
+
   async function loadWeather() {
     try {
       const url = 'https://api.open-meteo.com/v1/forecast' +
@@ -1401,7 +1414,7 @@
         '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
         '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
         '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FLos_Angeles&forecast_days=5';
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url);
       const d = await res.json();
       const c = d.current;
       const info = wxInfo(c.weathercode);
@@ -1440,7 +1453,7 @@
     try {
       const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
         '?latitude=40.437787&longitude=-121.533842&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FLos_Angeles';
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url);
       const d = await res.json();
       const aqi = d.current.us_aqi;
       const pm25 = d.current.pm2_5.toFixed(1);
