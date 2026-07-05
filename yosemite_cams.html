@@ -855,6 +855,20 @@
       .fee-bar-label { width: 100%; margin-bottom: 2px; }
     }
 
+    .notice-bar {
+      background: rgba(200,120,32,0.13);
+      border: 1px solid rgba(200,120,32,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .notice-bar a { color: var(--green-light); }
+
     /* ── Valley Transportation ── */
     .transport-grid {
       display: grid;
@@ -1415,6 +1429,15 @@
   </div>
 
   <div class="cam-grid" id="camGrid"></div>
+
+  <!-- Park Contact Information -->
+  <div style="margin-bottom: 12px;">
+    <div class="section-label">Park Contact Information</div>
+    <div class="notice-bar">
+      <span class="notice-icon">📞</span>
+      <span><strong>Phone:</strong> (209) 372-0200 &nbsp;·&nbsp; <strong>Mailing Address:</strong> Visitor Information Office, PO Box 577, Yosemite, CA 95389 &nbsp;·&nbsp; <a href="https://www.nps.gov/yose/contacts.htm" target="_blank">Official NPS contact page ↗</a></span>
+    </div>
+  </div>
 
 </main>
 
