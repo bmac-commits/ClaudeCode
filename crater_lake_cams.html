@@ -971,7 +971,7 @@
       <div class="fee-items">
         <div class="fee-item"><span class="fee-type">Vehicle (summer)</span><span class="fee-price">$30</span></div>
         <div class="fee-divider"></div>
-        <div class="fee-item"><span class="fee-type">Vehicle (winter)</span><span class="fee-price">$15</span></div>
+        <div class="fee-item"><span class="fee-type">Vehicle (winter)</span><span class="fee-price">$20</span></div>
         <div class="fee-divider"></div>
         <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$25</span></div>
         <div class="fee-divider"></div>
@@ -1009,7 +1009,7 @@
         <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">~6,000 ft</span></div>
         <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Jul 1 – Oct 1 (reservable); late May–Jun weather-dependent, first-come</span></div>
         <div class="transport-row"><span class="transport-key">Price</span><span class="transport-val">$35 tent/RV · $48 electric · $57 full hookup</span></div>
-        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232488" target="_blank">Book on Recreation.gov ↗</a>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/10337002" target="_blank">Book on Recreation.gov ↗</a>
       </details>
 
       <details class="transport-card">
@@ -1316,7 +1316,8 @@
       const el = document.getElementById('gauge-11492200');
       if (series.length) {
         const val = series[0].values[0].value[0]?.value;
-        el.textContent = val !== undefined ? `${parseFloat(val).toFixed(1)} ft` : 'No current data';
+        const clean = (val !== undefined && parseFloat(val) > -999000) ? parseFloat(val) : undefined;
+        el.textContent = clean !== undefined ? `${clean.toFixed(1)} ft` : 'No current data';
       } else {
         el.textContent = 'No current data';
       }
@@ -1340,7 +1341,7 @@
         const elId = paramMap[code];
         if (!elId) return;
         const val = ts.values[0].value[0]?.value;
-        if (val === undefined) return;
+        if (val === undefined || parseFloat(val) <= -999000) return;
         found.add(code);
         const el = document.getElementById(elId);
         if (!el) return;

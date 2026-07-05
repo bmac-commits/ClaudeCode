@@ -1265,7 +1265,7 @@
         <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~June 15 – Dec 1 (seasonal)</span></div>
         <div class="transport-row"><span class="transport-key">Amenities</span><span class="transport-val">Full amenities · near Giant Forest &amp; General Sherman</span></div>
         <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Busiest campground in the park — book early</span></div>
-        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232445" target="_blank">Book on Recreation.gov ↗</a>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232461" target="_blank">Book on Recreation.gov ↗</a>
       </details>
 
       <details class="transport-card">
@@ -1278,7 +1278,7 @@
         <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">~2,100 ft (foothills)</span></div>
         <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
         <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Low elevation — hot in summer, mild in winter</span></div>
-        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232449" target="_blank">Book on Recreation.gov ↗</a>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/249979" target="_blank">Book on Recreation.gov ↗</a>
       </details>
 
       <details class="transport-card closed">
@@ -1658,9 +1658,11 @@
         const vals = ts.values[0].value;
         if (!vals.length) return;
         const latest = vals[vals.length - 1];
-        if (code === '00060') data.flow = parseFloat(latest.value);
-        if (code === '00065') data.gauge = parseFloat(latest.value);
-        if (code === '00010') data.tempC = parseFloat(latest.value);
+        const val = parseFloat(latest.value);
+        const clean = (val <= -999000) ? undefined : val;
+        if (code === '00060') data.flow = clean;
+        if (code === '00065') data.gauge = clean;
+        if (code === '00010') data.tempC = clean;
         data.time = latest.dateTime;
       });
 
@@ -1676,6 +1678,10 @@
         el.textContent = cond.label;
         el.title = cond.title;
         el.className = 'angler-condition ' + cond.cls;
+      } else {
+        const el = document.getElementById('cond1');
+        el.textContent = 'No current data';
+        el.className = 'angler-condition';
       }
     } catch (e) {
       if (attempt < 3) {

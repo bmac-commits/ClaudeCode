@@ -1685,9 +1685,11 @@
         const vals = ts.values[0].value;
         if (!vals.length) return;
         const latest = vals[vals.length - 1];
-        if (code === '00060') data[site].flow = parseFloat(latest.value);
-        if (code === '00065') data[site].gauge = parseFloat(latest.value);
-        if (code === '00010') data[site].tempC = parseFloat(latest.value);
+        const val = parseFloat(latest.value);
+        const clean = (val <= -999000) ? undefined : val;
+        if (code === '00060') data[site].flow = clean;
+        if (code === '00065') data[site].gauge = clean;
+        if (code === '00010') data[site].tempC = clean;
         data[site].time = latest.dateTime;
       });
 

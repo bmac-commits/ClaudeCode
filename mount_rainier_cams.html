@@ -1285,7 +1285,9 @@
         <div class="fee-divider"></div>
         <div class="fee-item"><span class="fee-type">Individual</span><span class="fee-price">$15</span></div>
         <div class="fee-divider"></div>
-        <div class="fee-item"><span class="fee-type">Climbing Permit</span><span class="fee-price">~$82/yr</span></div>
+        <div class="fee-item"><span class="fee-type">Mt. Rainier Annual Pass</span><span class="fee-price">$55/yr</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Climbing Cost Recovery Fee</span><span class="fee-price">$82/climb</span></div>
       </div>
       <span class="fee-note">Cashless · No nonresident surcharge</span>
     </div>
@@ -1736,9 +1738,11 @@
         const vals = ts.values[0].value;
         if (!vals.length) return;
         const latest = vals[vals.length - 1];
-        if (code === '00060') data[site].flow = parseFloat(latest.value);
-        if (code === '00065') data[site].gauge = parseFloat(latest.value);
-        if (code === '00010') data[site].tempC = parseFloat(latest.value);
+        const val = parseFloat(latest.value);
+        const clean = (val <= -999000) ? undefined : val;
+        if (code === '00060') data[site].flow = clean;
+        if (code === '00065') data[site].gauge = clean;
+        if (code === '00010') data[site].tempC = clean;
         data[site].time = latest.dateTime;
       });
 
