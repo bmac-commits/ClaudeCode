@@ -371,6 +371,21 @@
       <path d="M4 80 L22 40 L32 54 L44 26 L54 26 L66 50 L96 80 Z" fill="#fff" opacity="0.95"/>
       <path d="M4 88c10-5 18-5 26 0s18 5 26 0s18-5 26 0s18 5 18 0" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.5"/>
     </svg>`,
+    grandCanyon: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 74 L22 44 L38 58 L54 30 L68 54 L96 74 Z" fill="#fff" opacity="0.95"/>
+      <path d="M4 84c9-4 16 3 24-1s16-5 24-1 16 4 24 0 16-4 20 0" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.55"/>
+    </svg>`,
+    petrifiedForest: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="66" rx="38" ry="14" fill="#fff" opacity="0.85"/>
+      <circle cx="50" cy="66" r="22" fill="none" stroke="#fff" stroke-width="4" opacity="0.8"/>
+      <circle cx="50" cy="66" r="12" fill="none" stroke="#fff" stroke-width="3.5" opacity="0.6"/>
+      <path d="M8 34c14-9 24 4 38-4s24 5 38-3" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.5"/>
+    </svg>`,
+    saguaro: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M46 88V30c0-5.5 4.5-10 10-10s10 4.5 10 10v58" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M46 50h-13c-5.5 0-10-4.5-10-10v-8" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.8"/>
+      <path d="M66 58h13c5.5 0 10 4.5 10 10v8" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.65"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -514,9 +529,39 @@
       features: 'Diablo Lake · Free Entry · River Flow',
       href: 'north_cascades_cams.html',
     },
+    {
+      name: 'Grand Canyon',
+      states: ['Arizona'],
+      accent: '#d97a4a',
+      grad: 'linear-gradient(135deg, #2e1c14 0%, #b8562a 55%, #d97a4a 100%)',
+      icon: ICONS.grandCanyon,
+      desc: 'Extreme heat danger guidance, live North Rim fire-recovery status, live Colorado River gauges, and a live South Rim camera.',
+      features: 'Heat Safety · Live Cam · River Flow',
+      href: 'grand_canyon_cams.html',
+    },
+    {
+      name: 'Petrified Forest',
+      states: ['Arizona'],
+      accent: '#c47a94',
+      grad: 'linear-gradient(135deg, #2e1a22 0%, #9a5a72 55%, #c47a94 100%)',
+      icon: ICONS.petrifiedForest,
+      desc: 'Painted Desert badlands, 200-million-year-old fossil logs, a historic Route 66 segment, and Bortle Class 2 dark skies.',
+      features: 'Dark Sky · Route 66 · Fossil Wood',
+      href: 'petrified_forest_cams.html',
+    },
+    {
+      name: 'Saguaro',
+      states: ['Arizona'],
+      accent: '#7fa855',
+      grad: 'linear-gradient(135deg, #1e2612 0%, #5a7a3a 55%, #7fa855 100%)',
+      icon: ICONS.saguaro,
+      desc: 'Two desert districts flanking Tucson, backcountry-only camping, monsoon flash-flood safety, and an Urban Night Sky Place designation.',
+      features: 'Two Districts · Dark Sky · Desert Safety',
+      href: 'saguaro_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona'];
   let activeTab = 'All Parks';
 
   function arrowIcon() {
