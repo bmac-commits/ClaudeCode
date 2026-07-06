@@ -393,6 +393,12 @@
       <path d="M46 50h-13c-5.5 0-10-4.5-10-10v-8" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.8"/>
       <path d="M66 58h13c5.5 0 10 4.5 10 10v8" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.65"/>
     </svg>`,
+    cratersOfTheMoon: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 82 Q22 50 34 50 Q42 50 46 62 Q54 40 64 40 Q74 40 78 58 Q86 66 94 82 Z" fill="#fff" opacity="0.95"/>
+      <circle cx="34" cy="50" r="4" fill="#fff" opacity="0.4"/>
+      <circle cx="64" cy="40" r="4.5" fill="#fff" opacity="0.4"/>
+      <path d="M76 16 l2.6 5.6 5.6 2.6-5.6 2.6-2.6 5.6-2.6-5.6-5.6-2.6 5.6-2.6z" fill="#fff" opacity="0.9"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -566,9 +572,19 @@
       features: 'Two Districts · Dark Sky · Desert Safety',
       href: 'saguaro_cams.html',
     },
+    {
+      name: 'Craters of the Moon',
+      states: ['Idaho'],
+      accent: '#7d93b0',
+      grad: 'linear-gradient(135deg, #1c2028 0%, #3f4a5c 55%, #7d93b0 100%)',
+      icon: ICONS.cratersOfTheMoon,
+      desc: 'A vast lava field of cinder cones and spatter cones, free permit-only cave access, and an International Dark Sky Park designation.',
+      features: 'Dark Sky · Lava Caves · Volcanic Terrain',
+      href: 'craters_of_the_moon_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho'];
   let activeTab = null;
 
   function arrowIcon() {

@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preconnect" href="https://air-quality-api.open-meteo.com" />
+  <link rel="preconnect" href="https://nps-alerts-proxy.bryanumcclain.workers.dev" />
+  <title>Craters of the Moon National Monument &amp; Preserve</title>
+  <style>
+    :root {
+      --bg: #0a0b0f;
+      --surface: #14161c;
+      --surface2: #1c1f28;
+      --border: #333846;
+      --slate: #7d93b0;
+      --slate-light: #a8bdd6;
+      --rock: #8b93a3;
+      --text: #f0f2f5;
+      --text-dim: #b0b8c4;
+      --yellow: #f0c15a;
+      --red: #f0776a;
+      --blue: #7db8e0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #4a5568 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 6px 12px 6px 8px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin: 8px 0 14px 10px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .back-link:hover {
+      background: var(--surface2);
+      border-color: var(--slate);
+      color: var(--text);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .map-download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover {
+      background: var(--surface2);
+      border-color: var(--slate);
+    }
+
+    .park-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.9;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--slate-light);
+    }
+
+    .header-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    /* ── Info Bar (weather + alerts toggle) ── */
+    .info-bar {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin-bottom: -1px;
+    }
+
+    /* ── Weather Card ── */
+    .weather-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+      min-width: 340px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .weather-detail-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weather-detail-row .label {
+      color: var(--rock);
+      width: 48px;
+    }
+
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-strip {
+      display: flex;
+      gap: 10px;
+      margin-left: 8px;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .forecast-day .day-name {
+      color: var(--text-dim);
+    }
+
+    .forecast-day .day-icon {
+      font-size: 1.1rem;
+    }
+
+    .forecast-day .day-hi {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .forecast-day .day-lo {
+      color: var(--text-dim);
+    }
+
+    /* ── Alerts Card ── */
+    .alerts-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      flex: 1;
+      min-width: 280px;
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .alerts-header:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .alerts-header.open {
+      border-bottom-color: var(--border);
+    }
+
+    .alerts-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .alert-count {
+      background: var(--yellow);
+      color: #1a1200;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .alert-count.zero {
+      background: #7c8a5c;
+      color: #0a1a0d;
+    }
+
+    .alerts-chevron {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .alerts-header.open .alerts-chevron {
+      transform: rotate(180deg);
+    }
+
+    .alerts-body {
+      display: none;
+      padding: 10px 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .alerts-body.open {
+      display: block;
+    }
+
+    .alert-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item .alert-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+
+    .alert-item .alert-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .alert-item .alert-desc {
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .alerts-loading {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding: 8px 0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 20px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    /* ── Entrances Section ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--rock); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--slate-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Fee / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rock);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--rock);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Notice Bar ── */
+    .notice-bar {
+      background: rgba(184,134,10,0.13);
+      border: 1px solid rgba(184,134,10,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(160,56,32,0.13);
+      border-color: rgba(160,56,32,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--slate-light); }
+
+    /* ── Campground Accordion ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--rock);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--slate-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--slate-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Landmarks / Concessions Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .conc-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--rock);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 170px;
+    }
+
+    .conc-type {
+      font-size: 0.65rem;
+      color: var(--rock);
+      flex: 1;
+    }
+
+    .conc-hrs {
+      font-size: 0.72rem;
+      color: var(--slate-light);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--slate-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ── Concept 1: Cinematic Hero ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 120% 90% at 25% 0%, #2a3242 0%, #14171f 45%, #0a0b0f 100%);
+      border-bottom: none;
+      padding: 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 90% at 78% -15%, rgba(125,147,176,0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      padding: 20px 28px 32px;
+    }
+    .hero .back-link {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.85);
+      margin-left: 0;
+    }
+    .hero .back-link:hover {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      border-color: rgba(255,255,255,0.32);
+    }
+    .hero-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 0 10px;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #a8bdd6;
+      font-weight: 700;
+    }
+    .hero .map-download-btn {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.9);
+    }
+    .hero .map-download-btn:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.32);
+    }
+    .hero-title {
+      font-size: 3.4rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.72);
+      max-width: 480px;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+    .hero-chips {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .hero-chip {
+      background: rgba(255,255,255,0.09);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .hero-chip-clickable { cursor: pointer; user-select: none; }
+    .hero-chip-label {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-chip .weather-main { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .weather-icon { font-size: 1.4rem; }
+    .hero-chip .weather-temp { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .weather-desc { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-chip .weather-details {
+      border-left: none;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-left: 0;
+      padding-top: 8px;
+      margin-top: 2px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      color: rgba(255,255,255,0.55);
+    }
+    .hero-chip .weather-detail-row .label { color: rgba(255,255,255,0.4); width: auto; }
+    .hero-chip .aqi-value { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .aqi-cat { font-size: 0.72rem; text-align: left; }
+    .hero-chip .aqi-detail { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-align: left; }
+    .hero-chip .alert-count {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: none;
+      color: #fff;
+      padding: 0;
+      border-radius: 0;
+      min-width: unset;
+      text-align: left;
+    }
+    .hero-chip .alert-count.zero { color: #a8bdd6; }
+    .hero-chevron { font-size: 0.6rem; transition: transform 0.2s; }
+    .hero-chip-clickable.open .hero-chevron { transform: rotate(180deg); }
+    .hero-chip .moon-mini-row { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .moon-mini-icon { font-size: 1.4rem; }
+    .hero-chip .moon-mini-name { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .hero-chip .moon-mini-illum { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-alerts-body {
+      display: none;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .hero-alerts-body.open { display: block; }
+    .hero-alerts-body .alert-item { border-bottom-color: rgba(255,255,255,0.12); }
+    .hero-alerts-body .alert-title { color: #fff; }
+    .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
+    .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
+    .hero-forecast {
+      display: flex;
+      gap: 16px;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); }
+    .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
+
+    @media (max-width: 800px) {
+      .hero-chips { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
+    </a>
+    <div class="hero-top-row">
+      <div class="hero-eyebrow">Idaho &middot; Est. 1924</div>
+      <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/craters-of-the-moon-map.pdf" target="_blank" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Park Map PDF
+      </a>
+    </div>
+    <h1 class="hero-title">Craters of the Moon</h1>
+    <p class="hero-sub">Ancient lava fields, cinder cones, and Dark Sky stargazing — live conditions updated every 60 seconds.</p>
+
+    <div class="hero-chips">
+      <div class="hero-chip">
+        <div class="hero-chip-label">Weather</div>
+        <div class="weather-main">
+          <span class="weather-icon" id="wxIcon">⏳</span>
+          <span class="weather-temp" id="wxTemp">--°F</span>
+        </div>
+        <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        <div class="weather-details" id="wxDetails">
+          <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+          <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+          <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        </div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Air quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
+
+      <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="hero-chip-label">NPS alerts <span class="hero-chevron" id="alertsChevron">▾</span></div>
+        <div class="alert-count zero" id="alertCount">–</div>
+        <div class="weather-desc">Tap to expand</div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Tonight's sky</div>
+        <div class="moon-mini-row">
+          <span class="moon-mini-icon" id="moonIcon-mini">⏳</span>
+          <span class="moon-mini-name" id="moonName-mini">Loading…</span>
+        </div>
+        <div class="moon-mini-illum" id="moonIllum-mini"></div>
+      </div>
+    </div>
+
+    <div class="hero-alerts-body" id="alertsBody">
+      <div class="alerts-loading">Loading advisories…</div>
+    </div>
+
+    <div class="hero-forecast" id="forecastStrip"></div>
+  </div>
+</header>
+
+<main>
+  <!-- Volcanic Terrain & Heat Safety -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Volcanic Terrain &amp; Heat Safety</div>
+    <div class="notice-bar danger">
+      <span class="notice-icon">🌋</span>
+      <span>Craters of the Moon is a vast, exposed lava field with almost no natural shade. Black lava rock absorbs intense heat — <strong>surface temperatures can reach 170°F</strong> even when air temps are only in the 90s, and afternoon winds of 15–30 mph are a near-daily occurrence. The lava terrain is also sharp and uneven, hard on shoes, hands, and unprotected skin if you fall. Carry more water than you think you need — the campground's water supply is seasonal and unreliable — and wear sturdy, closed-toe shoes. <a href="https://www.nps.gov/crmo/planyourvisit/index.htm" target="_blank">NPS plan-your-visit info ↗</a></span>
+    </div>
+    <div class="fee-bar">
+      <span class="fee-bar-label">Quick Stats</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Visitor Center Elevation</span><span class="fee-price">~5,910 ft</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Surface Lava Temp</span><span class="fee-price">Up to 170°F</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Summer Air Temp</span><span class="fee-price">90s °F</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Nearest Fuel</span><span class="fee-price">Arco, ID</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Park Entrance & Loop Road -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Park Entrance &amp; Loop Road</div>
+
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Main Access</span>
+          <span class="traffic-badge badge-open">Open Year-Round</span>
+        </div>
+        <div class="traffic-name">US-20/26/93, 18 mi SW of Arco, ID</div>
+        <div class="traffic-desc">A small, low-traffic monument — there's no entrance-wait concept here like the big national parks. The visitor center and Loop Drive sit right off the highway.</div>
+        <div class="traffic-tip">💡 Don't rely on GPS to route you in — some digital maps suggest unpaved backcountry roads. Stick to US-20/26/93.</div>
+        <a class="traffic-link" href="https://www.nps.gov/crmo/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Loop Drive</span>
+          <span class="traffic-badge badge-unknown">Seasonal</span>
+        </div>
+        <div class="traffic-name">7-mile paved loop, mid-April – late November</div>
+        <div class="traffic-desc">The scenic Loop Road closes each winter with snow and reopens as conditions allow, typically mid-April. It's the access point for every major trailhead in the park.</div>
+        <div class="traffic-tip">💡 Check current road status before visiting shoulder season (Nov, Apr) — closure dates shift year to year.</div>
+        <a class="traffic-link" href="https://www.nps.gov/crmo/planyourvisit/conditions.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Cave Access</span>
+          <span class="traffic-badge badge-busy">Free Permit Required</span>
+        </div>
+        <div class="traffic-name">In-person only, at the visitor center</div>
+        <div class="traffic-desc">Every lava tube cave (Indian Tunnel, Boy Scout, Beauty, Dewdrop) requires a free permit obtained in person — it protects the park's bats from white-nose syndrome. No online or same-day-online option exists.</div>
+        <div class="traffic-tip">💡 You'll be asked to confirm your gear hasn't been in any other cave or mine — decontaminate anything that has.</div>
+        <a class="traffic-link" href="https://www.nps.gov/crmo/planyourvisit/white-nose-syndrome-and-cave-permitting.htm" target="_blank">Cave permit info ↗</a>
+      </div>
+
+    </div>
+
+    <!-- Entrance Fees -->
+    <div class="fee-bar">
+      <span class="fee-bar-label">Entry Fees · 7-Day Pass</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$20</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$15</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Per Person</span><span class="fee-price">$10</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Annual (Local)</span><span class="fee-price">$35</span></div>
+      </div>
+      <span class="fee-note">America the Beautiful honored · Youth 15 &amp; under free</span>
+    </div>
+
+  </div>
+
+  <!-- Campgrounds -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Campgrounds</div>
+    <div class="transport-grid">
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Lava Flow Campground</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">42</span></div>
+        <div class="transport-row"><span class="transport-key">Regular Season</span><span class="transport-val">$15/night (May–Oct)</span></div>
+        <div class="transport-row"><span class="transport-key">Shoulder Season</span><span class="transport-val">$8/night (Apr, Nov)</span></div>
+        <div class="transport-row"><span class="transport-key">Winter</span><span class="transport-val">Free, walk-in only, permit req'd</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">No hookups, no showers, no cell service</span></div>
+        <a class="transport-link" href="https://www.nps.gov/crmo/planyourvisit/camping.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Landmarks & Trailheads -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Landmarks &amp; Trailheads</div>
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">North Loop Stops<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">North Crater Flow Trail</span><span class="conc-type">Easy · youngest lava flow in the park</span><span class="conc-hrs">~3.5 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Devils Orchard Nature Trail</span><span class="conc-type">Easy · paved, wheelchair accessible</span><span class="conc-hrs">~0.5 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Inferno Cone</span><span class="conc-type">Moderate · steep cinder-cone climb, panoramic views</span><span class="conc-hrs">~0.4 mi RT</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Spatter Cones &amp; Tree Molds<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Big Craters / Spatter Cones Trail</span><span class="conc-type">Moderate · small volcanic vents</span><span class="conc-hrs">~0.4 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Tree Molds Trail</span><span class="conc-type">Moderate · lava-cast tree impressions</span><span class="conc-hrs">~1.6 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Broken Top Loop</span><span class="conc-type">Strenuous · cinder cone &amp; kipuka loop</span><span class="conc-hrs">~1.8 mi loop</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Caves Area (Permit Required)<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Caves Trail</span><span class="conc-type">Moderate · access to Indian Tunnel, Boy Scout, Beauty &amp; Dewdrop caves</span><span class="conc-hrs">~1.6 mi RT</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Stargazing -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Craters of the Moon was designated an <strong>International Dark Sky Park in 2017</strong>, one of the darkest skies in the Lower 48 — the black lava fields give way to a sky where the Milky Way is easily visible to the naked eye. Rangers occasionally host evening astronomy programs in summer. Best on new-moon nights; bring a red flashlight to preserve night vision, and pack warm layers even in summer, since desert nights cool off fast. <a href="https://www.nps.gov/crmo/planyourvisit/index.htm" target="_blank">NPS plan-your-visit info ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concessions / Goods & Services -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Goods &amp; Services</div>
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">🏪</span>
+      <span>Craters of the Moon is remote and services inside the park are minimal. The town of <strong>Arco, ID</strong> — about 18 miles away — has gas, restaurants, and lodging if you need supplies beyond what's listed here.</span>
+    </div>
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Robert Limbert Visitor Center<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Bookstore &amp; Gift Shop</span><span class="conc-type">Books · Maps · Gifts</span><span class="conc-hrs">Year-round</span></div>
+        </div>
+      </details>
+
+    </div>
+    <a class="transport-link" href="https://www.nps.gov/crmo/planyourvisit/index.htm" target="_blank">NPS plan-your-visit info ↗</a>
+  </div>
+
+  <!-- Park Contact Information -->
+  <div style="margin-bottom: 12px;">
+    <div class="section-label">Park Contact Information</div>
+    <div class="notice-bar">
+      <span class="notice-icon">📞</span>
+      <span><strong>Phone:</strong> (208) 527-1300 &nbsp;·&nbsp; <strong>Mailing Address:</strong> 1266 Craters Loop Road, P.O. Box 29, Arco, ID 83213 &nbsp;·&nbsp; <a href="https://www.nps.gov/crmo/contacts.htm" target="_blank">Official NPS contact page ↗</a></span>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Sources: National Park Service · Open-Meteo</span>
+  <span>Weather: Open-Meteo (Visitor Center) · Alerts: NPS Data API</span>
+</footer>
+
+<script>
+  // Note: Craters of the Moon has no live webcam (confirmed 0 results from the
+  // NPS webcams API) and no permanent surface water in or near the monument —
+  // it's a young lava field with no rivers or streams, so no live-cam grid or
+  // stream-flow section is built here rather than fabricate a feed or gauge.
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  // ── Fetch with timeout — external APIs occasionally hang instead of
+  // erroring, which used to leave weather/AQI stuck on "Loading…"
+  // indefinitely. Bounding every request means a slow API fails fast
+  // and falls back to "unavailable" instead of hanging the widget. ──
+  function fetchWithTimeout(url, ms = 8000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
+    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  }
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=43.2035&longitude=-113.4792' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FDenver&forecast_days=5';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Visitor Center';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=43.2035&longitude=-113.4792&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FDenver';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://nps-alerts-proxy.bryanumcclain.workers.dev/alerts?parkCode=crmo');
+      const d = await res.json();
+      if (!res.ok || d.error) throw new Error(d.error?.message || ('HTTP ' + res.status));
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+
+    const miniIcon = document.getElementById('moonIcon-mini');
+    const miniName = document.getElementById('moonName-mini');
+    const miniIllum = document.getElementById('moonIllum-mini');
+    if (miniIcon) miniIcon.textContent = m.icon;
+    if (miniName) miniName.textContent = m.name;
+    if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
+  }
+
+  // ── Init ──
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadMoonPhase();
+</script>
+</body>
+</html>
