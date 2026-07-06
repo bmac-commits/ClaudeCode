@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://api.open-meteo.com" />
   <link rel="preconnect" href="https://air-quality-api.open-meteo.com" />
-  <link rel="preconnect" href="https://developer.nps.gov" />
+  <link rel="preconnect" href="https://nps-alerts-proxy.bryanumcclain.workers.dev" />
   <title>Crater Lake National Park</title>
   <style>
     :root {
@@ -1336,8 +1336,9 @@
     const body = document.getElementById('alertsBody');
     const countEl = document.getElementById('alertCount');
     try {
-      const res = await fetch('https://developer.nps.gov/api/v1/alerts?parkCode=crla&limit=20&api_key=DEMO_KEY');
+      const res = await fetch('https://nps-alerts-proxy.bryanumcclain.workers.dev/alerts?parkCode=crla');
       const d = await res.json();
+      if (!res.ok || d.error) throw new Error(d.error?.message || ('HTTP ' + res.status));
       const alerts = d.data || [];
       countEl.textContent = alerts.length;
       countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
