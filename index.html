@@ -399,6 +399,38 @@
       <circle cx="64" cy="40" r="4.5" fill="#fff" opacity="0.4"/>
       <path d="M76 16 l2.6 5.6 5.6 2.6-5.6 2.6-2.6 5.6-2.6-5.6-5.6-2.6 5.6-2.6z" fill="#fff" opacity="0.9"/>
     </svg>`,
+    glacier: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 80 L28 34 L40 52 L54 24 L70 50 L94 80 Z" fill="#fff" opacity="0.95"/>
+      <path d="M28 34 L34 44 L22 44 Z" fill="#fff" opacity="0.5"/>
+      <path d="M54 24 L60 36 L48 36 Z" fill="#fff" opacity="0.5"/>
+      <path d="M6 80h88" stroke="#fff" stroke-width="3" opacity="0.35"/>
+    </svg>`,
+    zion: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 86 L30 14 L38 86 Z" fill="#fff" opacity="0.9"/>
+      <path d="M38 86 L50 22 L60 86 Z" fill="#fff" opacity="0.7"/>
+      <path d="M60 86 L72 30 L86 86 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
+    bryceCanyon: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 86 L14 44 L20 86 Z" fill="#fff" opacity="0.6"/>
+      <path d="M24 86 L32 30 L40 86 Z" fill="#fff" opacity="0.85"/>
+      <path d="M44 86 L52 18 L60 86 Z" fill="#fff" opacity="0.95"/>
+      <path d="M64 86 L71 36 L78 86 Z" fill="#fff" opacity="0.8"/>
+      <path d="M82 86 L88 50 L94 86 Z" fill="#fff" opacity="0.55"/>
+    </svg>`,
+    arches: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 86 V50 Q14 16 50 16 Q86 16 86 50 V86" stroke="#fff" stroke-width="11" fill="none" opacity="0.95"/>
+    </svg>`,
+    canyonlands: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 40h92v10H4z" fill="#fff" opacity="0.35"/>
+      <path d="M12 56h76v10H12z" fill="#fff" opacity="0.55"/>
+      <path d="M22 72h56v10H22z" fill="#fff" opacity="0.8"/>
+      <path d="M34 88h32v6H34z" fill="#fff" opacity="0.95"/>
+    </svg>`,
+    capitolReef: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M28 86 V54 A22 22 0 0 1 72 54 V86 Z" fill="#fff" opacity="0.95"/>
+      <circle cx="50" cy="54" r="22" fill="none" stroke="#fff" stroke-width="0" opacity="0"/>
+      <path d="M14 86h72" stroke="#fff" stroke-width="4" opacity="0.4"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -582,9 +614,69 @@
       features: 'Dark Sky · Lava Caves · Volcanic Terrain',
       href: 'craters_of_the_moon_cams.html',
     },
+    {
+      name: 'Glacier',
+      states: ['Montana'],
+      accent: '#5fb8c9',
+      grad: 'linear-gradient(135deg, #0f2d34 0%, #1f6b78 55%, #5fb8c9 100%)',
+      icon: ICONS.glacier,
+      desc: 'Going-to-the-Sun Road, grizzly country, 13 campgrounds, and live river gauges in the Crown of the Continent.',
+      features: 'Going-to-the-Sun Rd · River Flow · Grizzly Country',
+      href: 'glacier_cams.html',
+    },
+    {
+      name: 'Zion',
+      states: ['Utah'],
+      accent: '#d1725a',
+      grad: 'linear-gradient(135deg, #3d1e16 0%, #8a4534 55%, #d1725a 100%)',
+      icon: ICONS.zion,
+      desc: 'Towering sandstone canyons, the mandatory Zion Canyon shuttle, Angels Landing permits, and flash-flood safety for The Narrows.',
+      features: 'Shuttle System · River Flow · Flash Flood Safety',
+      href: 'zion_cams.html',
+    },
+    {
+      name: 'Bryce Canyon',
+      states: ['Utah'],
+      accent: '#e0a05a',
+      grad: 'linear-gradient(135deg, #3d2c14 0%, #8a5c2c 55%, #e0a05a 100%)',
+      icon: ICONS.bryceCanyon,
+      desc: 'Thousands of crimson hoodoos, a high-elevation amphitheater up to 9,115 ft, and Dark Sky stargazing.',
+      features: 'Dark Sky · High Elevation · Hoodoos',
+      href: 'bryce_canyon_cams.html',
+    },
+    {
+      name: 'Arches',
+      states: ['Utah'],
+      accent: '#c1682f',
+      grad: 'linear-gradient(135deg, #3d2010 0%, #8a4f24 55%, #c1682f 100%)',
+      icon: ICONS.arches,
+      desc: 'Over 2,000 natural sandstone arches, a live entrance-station camera, and no timed-entry requirement for 2026.',
+      features: 'Live Cam · Delicate Arch · Desert Heat Safety',
+      href: 'arches_cams.html',
+    },
+    {
+      name: 'Canyonlands',
+      states: ['Utah'],
+      accent: '#6a84a0',
+      grad: 'linear-gradient(135deg, #14202c 0%, #3d4f60 55%, #6a84a0 100%)',
+      icon: ICONS.canyonlands,
+      desc: 'Three remote districts — Island in the Sky, The Needles, and The Maze — carved by the Green and Colorado Rivers.',
+      features: 'Three Districts · River Flow · Remote 4WD',
+      href: 'canyonlands_cams.html',
+    },
+    {
+      name: 'Capitol Reef',
+      states: ['Utah'],
+      accent: '#7a9c5a',
+      grad: 'linear-gradient(135deg, #1c2812 0%, #4a5c34 55%, #7a9c5a 100%)',
+      icon: ICONS.capitolReef,
+      desc: 'The 100-mile Waterpocket Fold, historic Fruita orchards with pick-your-own fruit, and the Fremont River.',
+      features: 'Historic Orchards · River Flow · Waterpocket Fold',
+      href: 'capitol_reef_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah'];
   let activeTab = null;
 
   function arrowIcon() {
