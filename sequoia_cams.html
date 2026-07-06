@@ -9,19 +9,19 @@
   <title>Sequoia National Park</title>
   <style>
     :root {
-      --bg: #efe6dc;
-      --surface: #faf5ed;
-      --surface2: #e6d5c0;
-      --border: #d1baa0;
-      --sequoia: #8a4a2a;
-      --sequoia-light: #b8703f;
-      --forest: #3d5a3a;
-      --text: #3a2a1c;
-      --text-dim: #6e5a48;
-      --yellow: #b8860a;
-      --red: #a03820;
-      --blue: #4a7a9b;
-      --rock: #8a7864;
+      --bg: #20140c;
+      --surface: #2c1c12;
+      --surface2: #3a2417;
+      --border: #5c3a24;
+      --sequoia: #e8875a;
+      --sequoia-light: #f5ab84;
+      --forest: #7fb87a;
+      --text: #f7ece4;
+      --text-dim: #cbb098;
+      --yellow: #f0c15a;
+      --red: #f0776a;
+      --blue: #7db8e0;
+      --rock: #b8a48e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1116,75 +1116,126 @@
     }
 
     footer a { color: var(--sequoia-light); }
+
+    /* ── Concept 1: Cinematic Hero ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 120% 90% at 25% 0%, #4a2c1a 0%, #26160e 45%, #130b07 100%);
+      border-bottom: none;
+      padding: 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 90% at 78% -15%, rgba(232,135,90,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; padding: 20px 28px 32px; }
+    .hero .back-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); margin-left: 0; }
+    .hero .back-link:hover { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.32); }
+    .hero-top-row { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 10px; }
+    .hero-eyebrow { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: #f5ab84; font-weight: 700; }
+    .hero .map-download-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.9); }
+    .hero .map-download-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+    .hero-title { font-size: 3.4rem; line-height: 1; font-weight: 800; letter-spacing: -1.5px; color: #fff; margin-bottom: 12px; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.72); max-width: 480px; line-height: 1.5; margin-bottom: 28px; }
+    .hero-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .hero-chip { background: rgba(255,255,255,0.09); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.16); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+    .hero-chip-clickable { cursor: pointer; user-select: none; }
+    .hero-chip-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: space-between; }
+    .hero-chip .weather-main { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .weather-icon { font-size: 1.4rem; }
+    .hero-chip .weather-temp { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .weather-desc { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-chip .weather-details { border-left: none; border-top: 1px solid rgba(255,255,255,0.15); padding-left: 0; padding-top: 8px; margin-top: 2px; flex-direction: row; flex-wrap: wrap; gap: 4px 12px; color: rgba(255,255,255,0.55); }
+    .hero-chip .weather-detail-row .label { color: rgba(255,255,255,0.4); width: auto; }
+    .hero-chip .aqi-value { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .aqi-cat { font-size: 0.72rem; text-align: left; }
+    .hero-chip .aqi-detail { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-align: left; }
+    .hero-chip .alert-count { font-size: 1.7rem; font-weight: 800; background: none; color: #fff; padding: 0; border-radius: 0; min-width: unset; text-align: left; }
+    .hero-chip .alert-count.zero { color: #f5ab84; }
+    .hero-chevron { font-size: 0.6rem; transition: transform 0.2s; }
+    .hero-chip-clickable.open .hero-chevron { transform: rotate(180deg); }
+    .hero-chip .moon-mini-row { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .moon-mini-icon { font-size: 1.4rem; }
+    .hero-chip .moon-mini-name { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .hero-chip .moon-mini-illum { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-alerts-body { display: none; background: rgba(255,255,255,0.07); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 16px; margin-top: 10px; max-height: 220px; overflow-y: auto; }
+    .hero-alerts-body.open { display: block; }
+    .hero-alerts-body .alert-item { border-bottom-color: rgba(255,255,255,0.12); }
+    .hero-alerts-body .alert-title { color: #fff; }
+    .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
+    .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
+    .hero-forecast { display: flex; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); }
+    .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
+    @media (max-width: 800px) { .hero-chips { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 2.5rem; } }
   </style>
 </head>
 <body>
 
-<header>
-  <a class="back-link" href="index.html">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    All Parks
-  </a>
-  <div class="header-top">
-    <div class="header-top-left">
-      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M14 38L15.5 20C13.5 19 12.5 17 13 15C11.5 14.2 11 12.5 12 11C10.8 10 10.8 8 12.5 7C12.2 5.2 13.6 3.4 16 3.4C16.6 2 18 1 20 1C22 1 23.4 2 24 3.4C26.4 3.4 27.8 5.2 27.5 7C29.2 8 29.2 10 28 11C29 12.5 28.5 14.2 27 15C27.5 17 26.5 19 24.5 20L26 38H14Z" fill="#8a4a2a"/>
-        <path d="M15.5 20C15.8 20.6 17.6 21.2 20 21.2C22.4 21.2 24.2 20.6 24.5 20" stroke="#6e3a20" stroke-width="0.6" opacity="0.5"/>
-        <path d="M18 8C17 7 17 5.5 18.3 4.6C18.6 3.6 19.7 3 20.8 3.3C21.8 2.7 23.1 3 23.6 4C24.8 4.1 25.6 5.2 25.3 6.3C26 7.1 25.8 8.3 24.8 8.8" fill="#3d5a3a" opacity="0.9"/>
-        <path d="M13.5 13.5C12.7 12.6 12.8 11.3 13.8 10.6C13.9 9.7 14.8 9.1 15.7 9.4" fill="#3d5a3a" opacity="0.75"/>
-      </svg>
-      <h1>Sequoia National Park</h1>
-    </div>
-    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/sequoia-kings-canyon-park-map.pdf" target="_blank" download>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Park Map PDF
+<header class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
     </a>
-  </div>
-  <p class="header-sub">Sequoia National Park — California, USA &nbsp;·&nbsp; Camera and conditions data refresh automatically every 60 seconds</p>
+    <div class="hero-top-row">
+      <div class="hero-eyebrow">California &middot; Est. 1890</div>
+      <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/sequoia-kings-canyon-park-map.pdf" target="_blank" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Park Map PDF
+      </a>
+    </div>
+    <h1 class="hero-title">Sequoia</h1>
+    <p class="hero-sub">Giant Forest, the General Sherman Tree, and the High Sierra — live conditions updated every 60 seconds.</p>
 
-  <div class="info-bar">
-    <!-- Weather -->
-    <div class="weather-card" id="weatherCard">
-      <div class="weather-main">
-        <div class="weather-icon" id="wxIcon">⏳</div>
-        <div>
-          <div class="weather-temp" id="wxTemp">--°F</div>
-          <div class="weather-desc" id="wxDesc">Loading weather…</div>
+    <div class="hero-chips">
+      <div class="hero-chip">
+        <div class="hero-chip-label">Weather</div>
+        <div class="weather-main">
+          <span class="weather-icon" id="wxIcon">⏳</span>
+          <span class="weather-temp" id="wxTemp">--°F</span>
+        </div>
+        <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        <div class="weather-details" id="wxDetails">
+          <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+          <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+          <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
         </div>
       </div>
-      <div class="weather-details" id="wxDetails">
-        <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
-        <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
-        <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
-        <div class="weather-detail-row"><span class="label">Elev.</span> <span>1,700 – 14,505 ft</span></div>
-      </div>
-      <div class="aqi-block" id="aqiBlock">
-        <div class="aqi-label">Air Quality</div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Air quality</div>
         <div class="aqi-value" id="aqiValue">--</div>
         <div class="aqi-cat" id="aqiCat">Loading…</div>
         <div class="aqi-detail" id="aqiDetail"></div>
       </div>
-      <div class="forecast-strip" id="forecastStrip"></div>
+
+      <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="hero-chip-label">NPS alerts <span class="hero-chevron" id="alertsChevron">▾</span></div>
+        <div class="alert-count zero" id="alertCount">–</div>
+        <div class="weather-desc">Tap to expand</div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Tonight's sky</div>
+        <div class="moon-mini-row">
+          <span class="moon-mini-icon" id="moonIcon-mini">⏳</span>
+          <span class="moon-mini-name" id="moonName-mini">Loading…</span>
+        </div>
+        <div class="moon-mini-illum" id="moonIllum-mini"></div>
+      </div>
     </div>
 
-    <!-- NPS Alerts -->
-    <div class="alerts-card">
-      <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
-        <div class="alerts-title">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L1 13h12L7 1z" stroke="#b8860a" stroke-width="1.4" fill="none"/>
-            <line x1="7" y1="6" x2="7" y2="9" stroke="#b8860a" stroke-width="1.4"/>
-            <circle cx="7" cy="11" r="0.6" fill="#b8860a"/>
-          </svg>
-          NPS Alerts &amp; Advisories
-          <span class="alert-count zero" id="alertCount">–</span>
-        </div>
-        <span class="alerts-chevron" id="alertsChevron">▼</span>
-      </div>
-      <div class="alerts-body" id="alertsBody">
-        <div class="alerts-loading">Loading advisories…</div>
-      </div>
+    <div class="hero-alerts-body" id="alertsBody">
+      <div class="alerts-loading">Loading advisories…</div>
     </div>
+
+    <div class="hero-forecast" id="forecastStrip"></div>
   </div>
 </header>
 
@@ -1643,6 +1694,13 @@
     document.getElementById('moonIcon').textContent = m.icon;
     document.getElementById('moonName').textContent = m.name;
     document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+
+    const miniIcon = document.getElementById('moonIcon-mini');
+    const miniName = document.getElementById('moonName-mini');
+    const miniIllum = document.getElementById('moonIllum-mini');
+    if (miniIcon) miniIcon.textContent = m.icon;
+    if (miniName) miniName.textContent = m.name;
+    if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
 
   // ── River Conditions (USGS) ──

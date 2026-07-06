@@ -9,18 +9,18 @@
   <title>North Cascades National Park</title>
   <style>
     :root {
-      --bg: #e0eeec;
-      --surface: #f3faf9;
-      --surface2: #cde6e0;
-      --border: #a8d0c8;
-      --turquoise: #1a8a7a;
-      --turquoise-light: #2fb89f;
-      --rock: #7a8f88;
-      --text: #17332c;
-      --text-dim: #4a6058;
-      --yellow: #b8860a;
-      --red: #a03820;
-      --blue: #4a7a9b;
+      --bg: #0a1c1a;
+      --surface: #122824;
+      --surface2: #1a3632;
+      --border: #2c5048;
+      --turquoise: #3fd4ba;
+      --turquoise-light: #72e8d4;
+      --rock: #94b0aa;
+      --text: #e6f5f2;
+      --text-dim: #a0c4bc;
+      --yellow: #f0c15a;
+      --red: #f0776a;
+      --blue: #7db8e0;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -497,71 +497,126 @@
       flex-wrap: wrap;
       gap: 8px;
     }
+
+    /* ── Concept 1: Cinematic Hero ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 120% 90% at 25% 0%, #123e38 0%, #091f1c 45%, #050f0e 100%);
+      border-bottom: none;
+      padding: 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 90% at 78% -15%, rgba(63,212,186,0.32) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; padding: 20px 28px 32px; }
+    .hero .back-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); margin-left: 0; }
+    .hero .back-link:hover { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.32); }
+    .hero-top-row { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 10px; }
+    .hero-eyebrow { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: #72e8d4; font-weight: 700; }
+    .hero .map-download-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.9); }
+    .hero .map-download-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+    .hero-title { font-size: 3.4rem; line-height: 1; font-weight: 800; letter-spacing: -1.5px; color: #fff; margin-bottom: 12px; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.72); max-width: 480px; line-height: 1.5; margin-bottom: 28px; }
+    .hero-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .hero-chip { background: rgba(255,255,255,0.09); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.16); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+    .hero-chip-clickable { cursor: pointer; user-select: none; }
+    .hero-chip-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: space-between; }
+    .hero-chip .weather-main { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .weather-icon { font-size: 1.4rem; }
+    .hero-chip .weather-temp { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .weather-desc { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-chip .weather-details { border-left: none; border-top: 1px solid rgba(255,255,255,0.15); padding-left: 0; padding-top: 8px; margin-top: 2px; flex-direction: row; flex-wrap: wrap; gap: 4px 12px; color: rgba(255,255,255,0.55); }
+    .hero-chip .weather-detail-row .label { color: rgba(255,255,255,0.4); width: auto; }
+    .hero-chip .aqi-value { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .aqi-cat { font-size: 0.72rem; text-align: left; }
+    .hero-chip .aqi-detail { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-align: left; }
+    .hero-chip .alert-count { font-size: 1.7rem; font-weight: 800; background: none; color: #fff; padding: 0; border-radius: 0; min-width: unset; text-align: left; }
+    .hero-chip .alert-count.zero { color: #72e8d4; }
+    .hero-chevron { font-size: 0.6rem; transition: transform 0.2s; }
+    .hero-chip-clickable.open .hero-chevron { transform: rotate(180deg); }
+    .hero-chip .moon-mini-row { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .moon-mini-icon { font-size: 1.4rem; }
+    .hero-chip .moon-mini-name { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .hero-chip .moon-mini-illum { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-alerts-body { display: none; background: rgba(255,255,255,0.07); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 16px; margin-top: 10px; max-height: 220px; overflow-y: auto; }
+    .hero-alerts-body.open { display: block; }
+    .hero-alerts-body .alert-item { border-bottom-color: rgba(255,255,255,0.12); }
+    .hero-alerts-body .alert-title { color: #fff; }
+    .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
+    .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
+    .hero-forecast { display: flex; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); }
+    .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
+    @media (max-width: 800px) { .hero-chips { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 2.5rem; } }
   </style>
 </head>
 <body>
 
-<header>
-  <a class="back-link" href="index.html">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    All Parks
-  </a>
-  <div class="header-top">
-    <div class="header-top-left">
-      <svg class="park-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 28 L12 12 L18 20 L24 6 L36 28 Z" fill="#1a8a7a" opacity="0.9"/>
-        <path d="M6 30c8 4 10-6 14 0s10 4 14 0" stroke="#2fb89f" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.75"/>
-      </svg>
-      <h1>North Cascades <span>National Park</span></h1>
-    </div>
-    <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/north-cascades-map.pdf" target="_blank" download>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Park Map PDF
+<header class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
     </a>
-  </div>
-  <p class="header-sub">North Cascades National Park — Washington, USA &nbsp;·&nbsp; Jagged glaciated peaks, over 300 glaciers, and the turquoise waters of Diablo Lake &nbsp;·&nbsp; Conditions data refresh automatically every 60 seconds</p>
+    <div class="hero-top-row">
+      <div class="hero-eyebrow">Washington &middot; Est. 1968</div>
+      <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/north-cascades-map.pdf" target="_blank" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Park Map PDF
+      </a>
+    </div>
+    <h1 class="hero-title">North Cascades</h1>
+    <p class="hero-sub">Jagged glaciated peaks, over 300 glaciers, and the turquoise waters of Diablo Lake — live conditions updated every 60 seconds.</p>
 
-  <div class="info-bar">
-    <div class="weather-card" id="weatherCard">
-      <div class="weather-main">
-        <div class="weather-icon" id="wxIcon">⏳</div>
-        <div>
-          <div class="weather-temp" id="wxTemp">--°F</div>
-          <div class="weather-desc" id="wxDesc">Loading weather…</div>
+    <div class="hero-chips">
+      <div class="hero-chip">
+        <div class="hero-chip-label">Weather</div>
+        <div class="weather-main">
+          <span class="weather-icon" id="wxIcon">⏳</span>
+          <span class="weather-temp" id="wxTemp">--°F</span>
+        </div>
+        <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        <div class="weather-details" id="wxDetails">
+          <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+          <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+          <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
         </div>
       </div>
-      <div class="weather-details" id="wxDetails">
-        <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
-        <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
-        <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
-        <div class="weather-detail-row"><span class="label">Elev.</span> <span>500 – 9,220 ft</span></div>
-      </div>
-      <div class="aqi-block" id="aqiBlock">
-        <div class="aqi-label">Air Quality</div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Air quality</div>
         <div class="aqi-value" id="aqiValue">--</div>
         <div class="aqi-cat" id="aqiCat">Loading…</div>
         <div class="aqi-detail" id="aqiDetail"></div>
       </div>
-      <div class="forecast-strip" id="forecastStrip"></div>
+
+      <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="hero-chip-label">NPS alerts <span class="hero-chevron" id="alertsChevron">▾</span></div>
+        <div class="alert-count zero" id="alertCount">–</div>
+        <div class="weather-desc">Tap to expand</div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Tonight's sky</div>
+        <div class="moon-mini-row">
+          <span class="moon-mini-icon" id="moonIcon-mini">⏳</span>
+          <span class="moon-mini-name" id="moonName-mini">Loading…</span>
+        </div>
+        <div class="moon-mini-illum" id="moonIllum-mini"></div>
+      </div>
     </div>
 
-    <div class="alerts-card">
-      <div class="alerts-header" id="alertsToggle" onclick="toggleAlerts()">
-        <div class="alerts-title">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L1 13h12L7 1z" stroke="#b8860a" stroke-width="1.4" fill="none"/>
-            <line x1="7" y1="6" x2="7" y2="9" stroke="#b8860a" stroke-width="1.4"/>
-            <circle cx="7" cy="11" r="0.6" fill="#b8860a"/>
-          </svg>
-          NPS Alerts &amp; Advisories
-          <span class="alert-count zero" id="alertCount">–</span>
-        </div>
-        <span class="alerts-chevron" id="alertsChevron">▼</span>
-      </div>
-      <div class="alerts-body" id="alertsBody">
-        <div class="alerts-loading">Loading advisories…</div>
-      </div>
+    <div class="hero-alerts-body" id="alertsBody">
+      <div class="alerts-loading">Loading advisories…</div>
     </div>
+
+    <div class="hero-forecast" id="forecastStrip"></div>
   </div>
 </header>
 
@@ -1009,6 +1064,13 @@
     document.getElementById('moonIcon').textContent = m.icon;
     document.getElementById('moonName').textContent = m.name;
     document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+
+    const miniIcon = document.getElementById('moonIcon-mini');
+    const miniName = document.getElementById('moonName-mini');
+    const miniIllum = document.getElementById('moonIllum-mini');
+    if (miniIcon) miniIcon.textContent = m.icon;
+    if (miniName) miniName.textContent = m.name;
+    if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
 
   let refreshTimer = 60;
