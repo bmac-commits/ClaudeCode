@@ -1,9 +1,9 @@
 {
-  "updated": "2026-07-07T21:04:26.097710+00:00",
+  "updated": "2026-07-07T21:14:28.734657+00:00",
   "error": null,
   "entrances": {
     "hwy140": {
-      "wait": 0,
+      "wait": 1,
       "status": "open",
       "trend": "\u2192 Steady"
     },
