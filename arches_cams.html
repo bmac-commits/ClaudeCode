@@ -896,6 +896,9 @@
       background: radial-gradient(ellipse 55% 90% at 78% -15%, rgba(193,104,47,0.35) 0%, transparent 70%);
       pointer-events: none;
     }
+    .hero-photo { position: relative; height: 200px; overflow: hidden; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
+    .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, var(--bg) 100%); }
     .hero-inner {
       position: relative;
       padding: 20px 28px 32px;
@@ -1047,6 +1050,9 @@
 <body>
 
 <header class="hero">
+  <div class="hero-photo">
+    <img src="https://www.nps.gov/common/uploads/structured_data/3C7A0B2B-1DD8-B71B-0BE0E26B0740AA6B.jpg" alt="Delicate Arch, Arches National Park" />
+  </div>
   <div class="hero-inner">
     <a class="back-link" href="index.html">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
