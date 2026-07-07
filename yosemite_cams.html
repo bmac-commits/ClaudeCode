@@ -1169,7 +1169,7 @@
     }
     .hero-photo {
       position: relative;
-      height: 200px;
+      height: clamp(200px, 26vw, 420px);
       overflow: hidden;
     }
     .hero-photo img {
@@ -1657,14 +1657,6 @@
 <script>
   // ── Camera definitions ──
   const CAMS = [
-    {
-      id: 'yosfalls-yt',
-      name: 'Yosemite Falls',
-      meta: 'Live Stream 24/7',
-      source: 'YouTube',
-      type: 'youtube',
-      embedId: 'vk62QErdX4Q',
-    },
     {
       id: 'half-dome',
       name: 'Half Dome',
