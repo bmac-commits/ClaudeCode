@@ -431,6 +431,21 @@
       <circle cx="50" cy="54" r="22" fill="none" stroke="#fff" stroke-width="0" opacity="0"/>
       <path d="M14 86h72" stroke="#fff" stroke-width="4" opacity="0.4"/>
     </svg>`,
+    yellowstone: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M38 88 L44 50 L56 50 L62 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M50 46c-3-10-1-18 4-24-1 6 3 12 8 14-2-9 2-16 8-20-3 10 2 20 10 24" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.6"/>
+      <path d="M14 88h72" stroke="#fff" stroke-width="3" opacity="0.35"/>
+    </svg>`,
+    grandTeton: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 82 L26 38 L36 52 L50 18 L64 52 L74 38 L94 82 Z" fill="#fff" opacity="0.95"/>
+      <path d="M50 18 L56 30 L44 30 Z" fill="#fff" opacity="0.5"/>
+      <path d="M6 82h88" stroke="#fff" stroke-width="3" opacity="0.3"/>
+    </svg>`,
+    devilsTower: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 88 L38 34 Q50 20 62 34 L68 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M40 40v44M48 34v54M56 34v54M64 40v44" stroke="#fff" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+      <path d="M18 88h64" stroke="#fff" stroke-width="3" opacity="0.35"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -674,9 +689,39 @@
       features: 'Historic Orchards · River Flow · Waterpocket Fold',
       href: 'capitol_reef_cams.html',
     },
+    {
+      name: 'Yellowstone',
+      states: ['Wyoming'],
+      accent: '#c07820',
+      grad: 'linear-gradient(135deg, #2e1c0a 0%, #8a5518 55%, #c07820 100%)',
+      icon: ICONS.yellowstone,
+      desc: 'The world’s first national park — geothermal & wildlife safety guidance, 9 live webcams, all 5 entrance statuses, and Lamar Valley bison herds.',
+      features: '9 Live Cams · Geothermal Safety · Wildlife',
+      href: 'yellowstone_cams.html',
+    },
+    {
+      name: 'Grand Teton',
+      states: ['Wyoming'],
+      accent: '#4a6b8a',
+      grad: 'linear-gradient(135deg, #101c28 0%, #2e4d68 55%, #4a6b8a 100%)',
+      icon: ICONS.grandTeton,
+      desc: 'The jagged Cathedral Group rising straight from the sagebrush flats, a live Teton Range webcam, and real-time Snake River flow.',
+      features: 'Live Cam · River Flow · Cathedral Group',
+      href: 'grand_teton_cams.html',
+    },
+    {
+      name: 'Devils Tower',
+      states: ['Wyoming'],
+      accent: '#a87838',
+      grad: 'linear-gradient(135deg, #2a1c0c 0%, #7a5220 55%, #a87838 100%)',
+      icon: ICONS.devilsTower,
+      desc: 'America’s first national monument — a sacred igneous tower, the voluntary June climbing closure, and live Prairie Dog Town cameras.',
+      features: 'Live Cam · Sacred Site · Climbing',
+      href: 'devils_tower_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming'];
   let activeTab = null;
 
   function arrowIcon() {

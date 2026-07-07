@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preconnect" href="https://air-quality-api.open-meteo.com" />
+  <link rel="preconnect" href="https://nps-alerts-proxy.bryanumcclain.workers.dev" />
+  <title>Yellowstone National Park</title>
+  <style>
+    :root {
+      --bg: #1c1409;
+      --surface: #29200f;
+      --surface2: #362a15;
+      --border: #5a4420;
+      --amber: #c07820;
+      --amber-light: #d99a45;
+      --rock: #b8a888;
+      --text: #f5ede0;
+      --text-dim: #cdbd9c;
+      --yellow: #f0c15a;
+      --red: #f0776a;
+      --blue: #7db8e0;
+      --sage: #a8c47a;
+      --salt: #e8e0c8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #e0b878 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 6px 12px 6px 8px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin: 8px 0 14px 10px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .back-link:hover {
+      background: var(--surface2);
+      border-color: var(--amber);
+      color: var(--text);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+      justify-content: space-between;
+    }
+
+    .header-top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .map-download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover {
+      background: var(--surface2);
+      border-color: var(--amber);
+    }
+
+    .park-icon {
+      width: 40px;
+      height: 40px;
+      opacity: 0.9;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    header h1 span {
+      color: var(--amber-light);
+    }
+
+    .header-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    /* ── Info Bar (weather + alerts toggle) ── */
+    .info-bar {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin-bottom: -1px;
+    }
+
+    /* ── Weather Card ── */
+    .weather-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+      min-width: 340px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .weather-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .weather-detail-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weather-detail-row .label {
+      color: var(--rock);
+      width: 48px;
+    }
+
+    /* ── AQI Block ── */
+    .aqi-block {
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 90px;
+    }
+
+    .aqi-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .aqi-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .aqi-cat {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .aqi-detail {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-strip {
+      display: flex;
+      gap: 10px;
+      margin-left: 8px;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .forecast-day .day-name {
+      color: var(--text-dim);
+    }
+
+    .forecast-day .day-icon {
+      font-size: 1.1rem;
+    }
+
+    .forecast-day .day-hi {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .forecast-day .day-lo {
+      color: var(--text-dim);
+    }
+
+    /* ── Alerts Card ── */
+    .alerts-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      flex: 1;
+      min-width: 280px;
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .alerts-header:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .alerts-header.open {
+      border-bottom-color: var(--border);
+    }
+
+    .alerts-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .alert-count {
+      background: var(--yellow);
+      color: #1a1200;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .alert-count.zero {
+      background: var(--sage);
+      color: #0a1a0d;
+    }
+
+    .alerts-chevron {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .alerts-header.open .alerts-chevron {
+      transform: rotate(180deg);
+    }
+
+    .alerts-body {
+      display: none;
+      padding: 10px 16px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .alerts-body.open {
+      display: block;
+    }
+
+    .alert-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item .alert-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+
+    .alert-item .alert-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .alert-item .alert-desc {
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .alerts-loading {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding: 8px 0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 20px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Camera Grid ── */
+    .cam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 16px;
+    }
+
+    .cam-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+
+    .cam-card:hover {
+      border-color: var(--amber);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 900px) {
+      .cam-grid { grid-template-columns: 1fr; }
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-block { border-left: none; padding-left: 0; flex-direction: row; align-items: center; gap: 10px; width: 100%; border-top: 1px solid var(--border); padding-top: 10px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    .cam-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #362a1c;
+      overflow: hidden;
+    }
+
+    .cam-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: opacity 0.3s;
+    }
+
+    .cam-img-wrap img.loading {
+      opacity: 0.4;
+    }
+
+    .cam-error {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+    }
+
+    .cam-error .err-icon { font-size: 1.6rem; }
+
+    .cam-footer {
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cam-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .cam-meta {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 1px;
+    }
+
+    .cam-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .status-dot.live { background: var(--amber-light); box-shadow: 0 0 4px var(--amber-light); }
+    .status-dot.error { background: var(--red); }
+
+    /* ── Refresh bar ── */
+    .refresh-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .refresh-info {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .refresh-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber-light);
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-inner {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .modal-img-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #362a1c;
+    }
+
+    .modal-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .modal-source {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .modal-close {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ── Entrances Section ── */
+    .traffic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .traffic-grid { grid-template-columns: 1fr; }
+    }
+
+    .traffic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .traffic-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .traffic-route {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .traffic-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--rock); }
+
+    .traffic-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .traffic-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .traffic-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 6px 9px;
+      margin-bottom: 10px;
+    }
+
+    .traffic-link {
+      font-size: 0.68rem;
+      color: var(--amber-light);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Entry Fees / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 0;
+      align-items: center;
+    }
+
+    .fee-bar-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rock);
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+
+    .fee-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      flex: 1;
+    }
+
+    .fee-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .fee-type {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .fee-price {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fee-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .fee-note {
+      font-size: 0.62rem;
+      color: var(--rock);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .fee-note { display: none; }
+      .fee-bar-label { width: 100%; margin-bottom: 2px; }
+    }
+
+    /* ── Notice Bar (Safety, etc.) ── */
+    .notice-bar {
+      background: rgba(184,134,10,0.13);
+      border: 1px solid rgba(184,134,10,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .notice-bar.danger {
+      background: rgba(184,40,28,0.13);
+      border-color: rgba(184,40,28,0.4);
+    }
+
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .notice-bar a { color: var(--amber-light); }
+
+    /* ── Campground Accordion ── */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .transport-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .transport-card summary {
+      list-style: none;
+    }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+
+    .transport-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .transport-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .transport-badge {
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      background: rgba(124,138,92,0.18);
+      color: #5a7a3a;
+      border: 1px solid rgba(124,138,92,0.4);
+    }
+
+    .transport-badge.fcfs {
+      background: rgba(200,120,32,0.15);
+      color: var(--yellow);
+      border-color: rgba(200,120,32,0.35);
+    }
+
+    .transport-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      gap: 8px;
+    }
+
+    .transport-row:last-child { border-bottom: none; }
+
+    .transport-key {
+      font-size: 0.7rem;
+      color: var(--rock);
+      flex-shrink: 0;
+    }
+
+    .transport-val {
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .transport-val.highlight {
+      color: var(--amber-light);
+      font-weight: 500;
+    }
+
+    .transport-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      color: var(--amber-light);
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+
+    .transport-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .transport-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Landmarks / Trailhead Accordion ── */
+    .conc-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .conc-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .conc-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+
+    .conc-summary::-webkit-details-marker { display: none; }
+
+    .conc-count {
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: var(--rock);
+      margin-left: 2px;
+    }
+
+    .conc-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--rock);
+      transition: transform 0.2s;
+    }
+
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+
+    .conc-group[open] .conc-summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .conc-row:last-child { border-bottom: none; }
+
+    .conc-name {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 170px;
+    }
+
+    .conc-type {
+      font-size: 0.65rem;
+      color: var(--rock);
+      flex: 1;
+    }
+
+    .conc-hrs {
+      font-size: 0.72rem;
+      color: var(--amber-light);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .moon-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+
+    .moon-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .moon-illum {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .moon-blurb {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .moon-blurb a { color: var(--amber-light); }
+
+    @media (max-width: 600px) {
+      .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ── Concept 1: Cinematic Hero ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 120% 90% at 25% 0%, #5c4012 0%, #2e220c 45%, #160f06 100%);
+      border-bottom: none;
+      padding: 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 90% at 78% -15%, rgba(192,120,32,0.32) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-photo { position: relative; height: clamp(200px, 26vw, 420px); overflow: hidden; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
+    .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, var(--bg) 100%); }
+    .hero-inner { position: relative; padding: 20px 28px 32px; }
+    .hero .back-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); margin-left: 0; }
+    .hero .back-link:hover { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.32); }
+    .hero-top-row { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 10px; }
+    .hero-eyebrow { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: #d99a45; font-weight: 700; }
+    .hero .map-download-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.9); }
+    .hero .map-download-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+    .hero-title { font-size: 3.4rem; line-height: 1; font-weight: 800; letter-spacing: -1.5px; color: #fff; margin-bottom: 12px; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.72); max-width: 480px; line-height: 1.5; margin-bottom: 28px; }
+    .hero-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .hero-chip { background: rgba(255,255,255,0.09); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.16); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+    .hero-chip-clickable { cursor: pointer; user-select: none; }
+    .hero-chip-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: space-between; }
+    .hero-chip .weather-main { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .weather-icon { font-size: 1.4rem; }
+    .hero-chip .weather-temp { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .weather-desc { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-chip .weather-details { border-left: none; border-top: 1px solid rgba(255,255,255,0.15); padding-left: 0; padding-top: 8px; margin-top: 2px; flex-direction: row; flex-wrap: wrap; gap: 4px 12px; color: rgba(255,255,255,0.55); }
+    .hero-chip .weather-detail-row .label { color: rgba(255,255,255,0.4); width: auto; }
+    .hero-chip .aqi-value { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .aqi-cat { font-size: 0.72rem; text-align: left; }
+    .hero-chip .aqi-detail { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-align: left; }
+    .hero-chip .alert-count { font-size: 1.7rem; font-weight: 800; background: none; color: #fff; padding: 0; border-radius: 0; min-width: unset; text-align: left; }
+    .hero-chip .alert-count.zero { color: #d99a45; }
+    .hero-chevron { font-size: 0.6rem; transition: transform 0.2s; }
+    .hero-chip-clickable.open .hero-chevron { transform: rotate(180deg); }
+    .hero-chip .moon-mini-row { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .moon-mini-icon { font-size: 1.4rem; }
+    .hero-chip .moon-mini-name { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .hero-chip .moon-mini-illum { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-alerts-body { display: none; background: rgba(255,255,255,0.07); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 16px; margin-top: 10px; max-height: 220px; overflow-y: auto; }
+    .hero-alerts-body.open { display: block; }
+    .hero-alerts-body .alert-item { border-bottom-color: rgba(255,255,255,0.12); }
+    .hero-alerts-body .alert-title { color: #fff; }
+    .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
+    .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
+    .hero-forecast { display: flex; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); }
+    .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
+    @media (max-width: 800px) { .hero-chips { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 2.5rem; } }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-photo">
+    <img src="https://www.nps.gov/npgallery/GetAsset/b387d3df-b19e-4403-b745-dcdd3a8ad649/proxy/hires" alt="Bison herd grazing in Lamar Valley with golden autumn cottonwoods, Yellowstone National Park" />
+  </div>
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
+    </a>
+    <div class="hero-top-row">
+      <div class="hero-eyebrow">Wyoming, Montana &amp; Idaho &middot; Est. 1872</div>
+      <a class="map-download-btn" href="https://www.nps.gov/yell/planyourvisit/upload/YELL-Map-2023-508.pdf" target="_blank" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Park Map PDF
+      </a>
+    </div>
+    <h1 class="hero-title">Yellowstone</h1>
+    <p class="hero-sub">The world's first national park — 2.2 million acres of geysers, hot springs & free-roaming wildlife, live conditions updated every 60 seconds.</p>
+
+    <div class="hero-chips">
+      <div class="hero-chip">
+        <div class="hero-chip-label">Weather</div>
+        <div class="weather-main">
+          <span class="weather-icon" id="wxIcon">⏳</span>
+          <span class="weather-temp" id="wxTemp">--°F</span>
+        </div>
+        <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        <div class="weather-details" id="wxDetails">
+          <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+          <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+          <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        </div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Air quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="aqi-detail" id="aqiDetail"></div>
+      </div>
+
+      <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="hero-chip-label">NPS alerts <span class="hero-chevron" id="alertsChevron">▾</span></div>
+        <div class="alert-count zero" id="alertCount">–</div>
+        <div class="weather-desc">Tap to expand</div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Tonight's sky</div>
+        <div class="moon-mini-row">
+          <span class="moon-mini-icon" id="moonIcon-mini">⏳</span>
+          <span class="moon-mini-name" id="moonName-mini">Loading…</span>
+        </div>
+        <div class="moon-mini-illum" id="moonIllum-mini"></div>
+      </div>
+    </div>
+
+    <div class="hero-alerts-body" id="alertsBody">
+      <div class="alerts-loading">Loading advisories…</div>
+    </div>
+
+    <div class="hero-forecast" id="forecastStrip"></div>
+  </div>
+</header>
+
+<main>
+  <!-- Geothermal & Wildlife Safety -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">⚠️ Geothermal &amp; Wildlife Safety</div>
+    <div class="notice-bar danger">
+      <span class="notice-icon">♨️</span>
+      <span><strong>Stay on boardwalks and marked trails in all thermal areas.</strong> The ground can look solid but be only a thin crust over near-boiling water — more than 20 people have died from thermal burns in Yellowstone's history, and off-trail travel or swimming in hot springs is illegal. <a href="https://www.nps.gov/yell/planyourvisit/safety.htm" target="_blank">NPS thermal safety info ↗</a></span>
+    </div>
+    <div class="notice-bar danger" style="margin-top: 10px;">
+      <span class="notice-icon">🦬</span>
+      <span><strong>Bison injure more visitors in Yellowstone than any other animal</strong> — they can run 3x faster than a human and appear calm right before charging. Stay at least <strong>25 yards from bison and elk</strong>, and <strong>100 yards from bears, wolves &amp; cougars</strong>. Yellowstone is grizzly country — carry bear spray, know how to use it, and hike in groups of 3+. <a href="https://www.nps.gov/yell/planyourvisit/safety.htm" target="_blank">NPS wildlife safety info ↗</a></span>
+    </div>
+    <div class="fee-bar">
+      <span class="fee-bar-label">Quick Stats</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Park Size</span><span class="fee-price">2.2M acres</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">States</span><span class="fee-price">WY · MT · ID</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Known Geysers</span><span class="fee-price">~500</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Est.</span><span class="fee-price">1872 · 1st NP</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entrance Status -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Entrance Status &amp; Fees</div>
+
+    <div class="traffic-grid">
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">North Entrance</span>
+          <span class="traffic-badge badge-open">Open Year-Round</span>
+        </div>
+        <div class="traffic-name">Gardiner, MT — via US-89</div>
+        <div class="traffic-desc">The only entrance open to regular wheeled vehicles 365 days a year, through the historic Roosevelt Arch to Mammoth Hot Springs.</div>
+        <div class="traffic-tip">💡 Expect single-lane delays at the Gardner River High Bridge (Apr–late Oct 2026 construction).</div>
+        <a class="traffic-link" href="https://www.nps.gov/yell/planyourvisit/parkroads.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">Northeast Entrance</span>
+          <span class="traffic-badge badge-open">Open Year-Round</span>
+        </div>
+        <div class="traffic-name">Cooke City / Silver Gate, MT — via US-212 (Beartooth Hwy)</div>
+        <div class="traffic-desc">Open to wheeled vehicles all year via Mammoth &amp; Tower Junction, though the Beartooth Highway approach itself closes seasonally.</div>
+        <div class="traffic-tip">💡 Expect winter driving conditions even in shoulder seasons — check road reports before heavy-snow trips.</div>
+        <a class="traffic-link" href="https://www.nps.gov/yell/planyourvisit/parkroads.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">West Entrance</span>
+          <span class="traffic-badge badge-open">Open (Seasonal)</span>
+        </div>
+        <div class="traffic-name">West Yellowstone, MT — via US-20/US-191</div>
+        <div class="traffic-desc">The park's busiest entrance. Opened April 17, 2026 for the season; closes to wheeled vehicles around Oct 31 (oversnow-only Dec 15–Mar 15).</div>
+        <div class="traffic-tip">💡 Closest gate to Madison &amp; Old Faithful — arrive before 8 AM in peak summer to beat parking lot fill-ups.</div>
+        <a class="traffic-link" href="https://www.nps.gov/yell/planyourvisit/parkroads.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">East Entrance</span>
+          <span class="traffic-badge badge-open">Open (Seasonal)</span>
+        </div>
+        <div class="traffic-name">Via US-14/16/20, from Cody, WY</div>
+        <div class="traffic-desc">Opened May 1, 2026; crosses Sylvan Pass. Closes to wheeled vehicles around Oct 31 (oversnow-only Dec 15–Mar 15).</div>
+        <div class="traffic-tip">💡 Scenic but winding mountain pass route — fuel up in Cody, services are limited along the way.</div>
+        <a class="traffic-link" href="https://www.nps.gov/yell/planyourvisit/parkroads.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">South Entrance</span>
+          <span class="traffic-badge badge-open">Open (Seasonal)</span>
+        </div>
+        <div class="traffic-name">Via US-89/191/287, from Grand Teton NP / Jackson, WY</div>
+        <div class="traffic-desc">Opened May 8, 2026 for through-travel to Grant Village &amp; West Thumb. Closes to wheeled vehicles around Oct 31 (oversnow-only Dec 15–Mar 15).</div>
+        <div class="traffic-tip">💡 Most common approach when combining a Grand Teton + Yellowstone road trip.</div>
+        <a class="traffic-link" href="https://www.nps.gov/yell/planyourvisit/parkroads.htm" target="_blank">NPS road status ↗</a>
+      </div>
+
+    </div>
+
+    <!-- Entry Fees -->
+    <div class="fee-bar">
+      <span class="fee-bar-label">Entry Fees · 7-day pass</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$35</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$30</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Foot / Bike (16+)</span><span class="fee-price">$20</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Under 16</span><span class="fee-price">Free</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Yellowstone Annual Pass</span><span class="fee-price">$70/yr</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">America the Beautiful</span><span class="fee-price">$80/yr</span></div>
+      </div>
+      <span class="fee-note">7-day pass also covers Grand Teton NP · No vehicle reservation required</span>
+    </div>
+
+  </div>
+
+  <!-- Campground Availability -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Campground Availability</div>
+    <div class="transport-grid">
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Bridge Bay</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">431</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">Xanterra</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~May 15 – Sep 13, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">On Yellowstone Lake, near Lake Village &amp; the marina</span></div>
+        <a class="transport-link" href="https://www.yellowstonenationalparklodges.com/stay/campgrounds/" target="_blank">Book via Yellowstone Lodges ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Canyon</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">272</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">Xanterra</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~May 29 – Sep 19, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Closest camping to Grand Canyon of the Yellowstone</span></div>
+        <a class="transport-link" href="https://www.yellowstonenationalparklodges.com/stay/campgrounds/" target="_blank">Book via Yellowstone Lodges ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Grant Village</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">429</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">Xanterra</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~Jun 26 – Sep 26, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">South end of Yellowstone Lake, near West Thumb Geyser Basin</span></div>
+        <a class="transport-link" href="https://www.yellowstonenationalparklodges.com/stay/campgrounds/" target="_blank">Book via Yellowstone Lodges ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Madison</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">276</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">Xanterra</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~May 1 – Oct 17, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Central location between West Entrance, Old Faithful &amp; Norris</span></div>
+        <a class="transport-link" href="https://www.yellowstonenationalparklodges.com/stay/campgrounds/" target="_blank">Book via Yellowstone Lodges ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Fishing Bridge RV Park</span>
+          <span class="transport-badge">Reservation Only · Hard-Sided</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">310</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">Xanterra</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~May 8 – Oct 17, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Hard-sided RVs only — bear country, no tents/soft-sided</span></div>
+        <a class="transport-link" href="https://www.yellowstonenationalparklodges.com/stay/campgrounds/" target="_blank">Book via Yellowstone Lodges ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Mammoth</span>
+          <span class="transport-badge fcfs">FCFS Oct 15 – Apr 1</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">82</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">NPS / Recreation.gov</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Year-round</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Park's only true year-round campground; low elevation, mild winters</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/232474" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Indian Creek</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">70</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">NPS</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~Jun 12 – Sep 14, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Quiet, between Mammoth &amp; Norris</span></div>
+        <a class="transport-link" href="https://www.nps.gov/yell/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Lewis Lake</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">84</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">NPS</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~Jun 15 – Oct 11, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Near South Entrance, on Lewis Lake — good for canoes/kayaks</span></div>
+        <a class="transport-link" href="https://www.nps.gov/yell/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Slough Creek</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">16</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">NPS</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~Jun 15 – Oct 12, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Small &amp; sought-after — Lamar Valley wildlife-watching basecamp</span></div>
+        <a class="transport-link" href="https://www.nps.gov/yell/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Tower Fall</span>
+          <span class="transport-badge fcfs">First-Come, First-Served</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">31</span></div>
+        <div class="transport-row"><span class="transport-key">Operator</span><span class="transport-val">NPS</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">~May 22 – Sep 27, 2026</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Near Tower Fall &amp; Roosevelt, no RV/trailer over 32 ft</span></div>
+        <a class="transport-link" href="https://www.nps.gov/yell/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Pebble Creek</span>
+          <span class="transport-badge" style="background: rgba(192,90,74,0.15); color: var(--red); border-color: rgba(192,90,74,0.4);">Closed — 2026 Flood Recovery</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val">27 (normally)</span></div>
+        <div class="transport-row"><span class="transport-key">Status</span><span class="transport-val highlight">Closed until further notice</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Undergoing flood-recovery work near Northeast Entrance — do not plan around this site in 2026</span></div>
+        <a class="transport-link" href="https://www.nps.gov/yell/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Landmarks & Wildlife Viewing -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Landmarks &amp; Wildlife Viewing</div>
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">Old Faithful / Upper Geyser Basin<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Old Faithful</span><span class="conc-type">Easy boardwalk · erupts roughly every 60–110 min</span><span class="conc-hrs">~90 min visit</span></div>
+          <div class="conc-row"><span class="conc-name">Grand Prismatic Spring</span><span class="conc-type">Midway Geyser Basin · largest hot spring in the US</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Upper Geyser Basin Boardwalk Loop</span><span class="conc-type">Easy · highest concentration of geysers on Earth</span><span class="conc-hrs">~2 hrs</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Grand Canyon of the Yellowstone<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Artist Point</span><span class="conc-type">Easy overlook · classic view of Lower Falls</span><span class="conc-hrs">~20 min</span></div>
+          <div class="conc-row"><span class="conc-name">Lower &amp; Upper Falls Trails</span><span class="conc-type">Moderate · Uncle Tom's Trail has steep stairs</span><span class="conc-hrs">~1–2 hrs</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mammoth Hot Springs<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Mammoth Terraces</span><span class="conc-type">Easy boardwalk · travertine limestone terraces</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Fort Yellowstone / Parade Ground</span><span class="conc-type">Historic Army-era buildings, elk commonly graze here</span><span class="conc-hrs">~30 min</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Watching — Lamar &amp; Hayden Valleys<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lamar Valley</span><span class="conc-type">"America's Serengeti" · wolves, bison, grizzlies</span><span class="conc-hrs">Best dawn/dusk</span></div>
+          <div class="conc-row"><span class="conc-name">Hayden Valley</span><span class="conc-type">Bison herds &amp; roadside wildlife jams</span><span class="conc-hrs">Best dawn/dusk</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Stargazing -->
+  <div style="margin-bottom: 36px;">
+    <div class="section-label">Stargazing &amp; Night Sky</div>
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+      </div>
+      <div class="moon-blurb">
+        Yellowstone has <strong>not been formally certified</strong> as an International Dark-Sky Association Dark Sky Park — the park is pursuing certification but an inventory found thousands of non-compliant light fixtures still to be addressed. That said, remote areas like Lamar Valley and the Lake area reach <strong>Bortle Class 1–2</strong> skies among the darkest in the Lower 48. Best on new-moon nights, away from Old Faithful/Canyon area lighting. <a href="https://www.nps.gov/yell/learn/nature/dark-skies.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="refresh-bar">
+    <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feed</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
+      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
+      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
+    </div>
+  </div>
+
+  <div class="cam-grid" id="camGrid"></div>
+
+  <!-- Park Contact Information -->
+  <div style="margin-bottom: 12px;">
+    <div class="section-label">Park Contact Information</div>
+    <div class="notice-bar">
+      <span class="notice-icon">📞</span>
+      <span><strong>Phone:</strong> (307) 344-7381 &nbsp;·&nbsp; <strong>Mailing Address:</strong> PO Box 168, Yellowstone National Park, WY 82190 &nbsp;·&nbsp; <a href="https://www.nps.gov/yell/contacts.htm" target="_blank">Official NPS contact page ↗</a></span>
+    </div>
+  </div>
+
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <div class="modal-img-wrap" id="modalImgWrap"></div>
+    <div class="modal-footer">
+      <div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-source" id="modalSource"></div>
+      </div>
+      <div class="modal-close" onclick="closeModal(null, true)">✕</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Sources: National Park Service · USGS Water Data</span>
+  <span>Weather: Open-Meteo (Old Faithful area) · Alerts: NPS Data API</span>
+</footer>
+
+<script>
+  // ── Camera definitions ──
+  // All 9 cameras below are official NPS static webcams confirmed live via
+  // curl -sI (HTTP 200, content-type image/jpeg) as of 2026-07-07.
+  // Intentionally EXCLUDED: the Old Faithful / Upper Geyser Basin webcam is a
+  // continuous livestream video player (not a raw embeddable <img> snapshot
+  // URL), so it's omitted here rather than faked with a static placeholder.
+  const CAMS = [
+    {
+      id: 'mammoth-arch',
+      name: 'Mammoth — Roosevelt Arch',
+      meta: 'North Entrance, Gardiner MT',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/mammoth_arch.jpg',
+    },
+    {
+      id: 'mammoth-terraces',
+      name: 'Mammoth Hot Springs Terraces',
+      meta: 'Fort Yellowstone / Parade Ground',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/mammoth_parade.jpg',
+    },
+    {
+      id: 'mammoth-electric',
+      name: 'Electric Peak',
+      meta: 'Wildlife viewing area near Mammoth',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/mammoth_electric.jpg',
+    },
+    {
+      id: 'washburn-ne',
+      name: 'Mt. Washburn — Northeast View',
+      meta: 'Fire lookout tower, 10,219 ft elevation',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/washburn_ne.jpg',
+    },
+    {
+      id: 'washburn-sw',
+      name: 'Mt. Washburn — Southwest View',
+      meta: 'Fire lookout tower, north-central park',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/washburn_sw.jpg',
+    },
+    {
+      id: 'west-gate',
+      name: 'West Entrance — Gate',
+      meta: 'West Yellowstone, MT',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/west_gate.jpg',
+    },
+    {
+      id: 'west-into',
+      name: 'West Entrance — Into Park',
+      meta: 'West Yellowstone, MT',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/west_into.jpg',
+    },
+    {
+      id: 'east-in',
+      name: 'East Entrance — Into Park',
+      meta: 'Via Cody, WY / Sylvan Pass',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/east_in.jpg',
+    },
+    {
+      id: 'east-out',
+      name: 'East Entrance — Out of Park',
+      meta: 'Via Cody, WY / Sylvan Pass',
+      source: 'National Park Service',
+      type: 'img',
+      url: 'https://www.nps.gov/webcams-yell/east_out.jpg',
+    },
+  ];
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  // ── Fetch with timeout — external APIs occasionally hang instead of
+  // erroring, which used to leave weather/AQI stuck on "Loading…"
+  // indefinitely. Bounding every request means a slow API fails fast
+  // and falls back to "unavailable" instead of hanging the widget. ──
+  function fetchWithTimeout(url, ms = 8000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
+    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  }
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=44.6&longitude=-110.5' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FDenver&forecast_days=5';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Old Faithful area';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      // 5-day forecast
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  // ── Air Quality ──
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=44.6&longitude=-110.5&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FDenver';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  // Note: shared developer.nps.gov DEMO_KEY behind this proxy has been
+  // rate-limited recently across all park dashboards in this project;
+  // that's expected to recover and the try/catch below degrades gracefully
+  // if the proxy call fails.
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://nps-alerts-proxy.bryanumcclain.workers.dev/alerts?parkCode=yell');
+      const d = await res.json();
+      if (!res.ok || d.error) throw new Error(d.error?.message || ('HTTP ' + res.status));
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+
+    const miniIcon = document.getElementById('moonIcon-mini');
+    const miniName = document.getElementById('moonName-mini');
+    const miniIllum = document.getElementById('moonIllum-mini');
+    if (miniIcon) miniIcon.textContent = m.icon;
+    if (miniName) miniName.textContent = m.name;
+    if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
+  }
+
+  // ── Build camera grid ──
+  function buildGrid() {
+    const grid = document.getElementById('camGrid');
+    grid.innerHTML = '';
+    CAMS.forEach(cam => {
+      const card = document.createElement('div');
+      card.className = 'cam-card';
+      card.dataset.id = cam.id;
+
+      card.innerHTML = `
+        <div class="cam-img-wrap" onclick="openModal('${cam.id}')">
+          <img
+            id="img-${cam.id}"
+            src="${cam.url}?_t=${Date.now()}"
+            alt="${cam.name}"
+            class="loading"
+            onerror="camError('${cam.id}')"
+            onload="camLoaded('${cam.id}')"
+          />
+          <div class="cam-error" id="err-${cam.id}">
+            <span class="err-icon">📵</span>
+            <span>Feed unavailable</span>
+          </div>
+        </div>
+        <div class="cam-footer">
+          <div>
+            <div class="cam-name">${cam.name}</div>
+            <div class="cam-meta">${cam.meta} · ${cam.source}</div>
+          </div>
+          <div class="cam-status">
+            <div class="status-dot" id="dot-${cam.id}"></div>
+            <span id="status-${cam.id}">Loading…</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function camLoaded(id) {
+    const img = document.getElementById('img-' + id);
+    if (img) img.classList.remove('loading');
+    const dot = document.getElementById('dot-' + id);
+    if (dot) { dot.className = 'status-dot live'; }
+    const st = document.getElementById('status-' + id);
+    if (st) st.textContent = 'Live';
+  }
+
+  function camError(id) {
+    const img = document.getElementById('img-' + id);
+    if (img) img.style.display = 'none';
+    const err = document.getElementById('err-' + id);
+    if (err) err.style.display = 'flex';
+    const dot = document.getElementById('dot-' + id);
+    if (dot) dot.className = 'status-dot error';
+    const st = document.getElementById('status-' + id);
+    if (st) st.textContent = 'Offline';
+  }
+
+  // ── Auto-refresh countdown ──
+  let refreshTimer = 60;
+  let countdownInterval;
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    refreshTimer = 60;
+    countdownInterval = setInterval(() => {
+      refreshTimer--;
+      document.getElementById('lastRefresh').textContent = `Refreshing in ${refreshTimer}s`;
+      if (refreshTimer <= 0) {
+        refreshAll();
+      }
+    }, 1000);
+  }
+
+  function refreshAll() {
+    CAMS.forEach(cam => {
+      const img = document.getElementById('img-' + cam.id);
+      if (!img) return;
+      img.style.display = 'block';
+      const err = document.getElementById('err-' + cam.id);
+      if (err) err.style.display = 'none';
+      img.classList.add('loading');
+      const dot = document.getElementById('dot-' + cam.id);
+      if (dot) { dot.className = 'status-dot'; }
+      const st = document.getElementById('status-' + cam.id);
+      if (st) st.textContent = 'Loading…';
+      img.src = cam.url + '?_t=' + Date.now();
+    });
+    loadWeather();
+    loadAQI();
+    loadAlerts();
+    loadMoonPhase();
+    startCountdown();
+  }
+
+  // ── Modal ──
+  let modalCam = null;
+
+  function openModal(id) {
+    const cam = CAMS.find(c => c.id === id);
+    if (!cam) return;
+    modalCam = cam;
+    document.getElementById('modalTitle').textContent = cam.name;
+    document.getElementById('modalSource').textContent = cam.meta + ' · ' + cam.source;
+    const wrap = document.getElementById('modalImgWrap');
+    wrap.innerHTML = `<img src="${cam.url}?_t=${Date.now()}" alt="${cam.name}" />`;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e, force) {
+    if (!force && e && e.target !== document.getElementById('modal')) return;
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modalImgWrap').innerHTML = '';
+    document.body.style.overflow = '';
+    modalCam = null;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Init ──
+  buildGrid();
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadMoonPhase();
+  startCountdown();
+</script>
+</body>
+</html>

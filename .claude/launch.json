@@ -1,0 +1,234 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "wave-map",
+      "runtimeExecutable": "/Users/bryanmcclain/ClaudeCode/gee-env/bin/uvicorn",
+      "runtimeArgs": ["wave_server:app", "--host", "0.0.0.0", "--port", "8000"],
+      "port": 8000
+    },
+    {
+      "name": "norcal-cams",
+      "runtimeExecutable": "/Users/bryanmcclain/ClaudeCode/gee-env/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "8001"],
+      "port": 8001,
+      "rootPath": "/norcal_cams.html"
+    },
+    {
+      "name": "real-estate-agent",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["real_estate_agent.py"],
+      "port": 5050
+    },
+    {
+      "name": "yosemite-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8002"],
+      "port": 8002,
+      "rootPath": "/yosemite_cams.html"
+    },
+    {
+      "name": "joshua-tree-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8003"],
+      "port": 8003,
+      "rootPath": "/joshua_tree_cams.html"
+    },
+    {
+      "name": "death-valley-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8004"],
+      "port": 8004,
+      "rootPath": "/death_valley_cams.html"
+    },
+    {
+      "name": "parks-hub",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8005"],
+      "port": 8005,
+      "rootPath": "/index.html"
+    },
+    {
+      "name": "redwood-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8006"],
+      "port": 8006,
+      "rootPath": "/redwood_cams.html"
+    },
+    {
+      "name": "sequoia-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8007"],
+      "port": 8007,
+      "rootPath": "/sequoia_cams.html"
+    },
+    {
+      "name": "kings-canyon-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8008"],
+      "port": 8008,
+      "rootPath": "/kings_canyon_cams.html"
+    },
+    {
+      "name": "lassen-volcanic-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8009"],
+      "port": 8009,
+      "rootPath": "/lassen_volcanic_cams.html"
+    },
+    {
+      "name": "pinnacles-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8010"],
+      "port": 8010,
+      "rootPath": "/pinnacles_cams.html"
+    },
+    {
+      "name": "channel-islands-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8011"],
+      "port": 8011,
+      "rootPath": "/channel_islands_cams.html"
+    },
+    {
+      "name": "great-basin-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8012"],
+      "port": 8012,
+      "rootPath": "/great_basin_cams.html"
+    },
+    {
+      "name": "crater-lake-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8013"],
+      "port": 8013,
+      "rootPath": "/crater_lake_cams.html"
+    },
+    {
+      "name": "mount-rainier-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8014"],
+      "port": 8014,
+      "rootPath": "/mount_rainier_cams.html"
+    },
+    {
+      "name": "olympic-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8015"],
+      "port": 8015,
+      "rootPath": "/olympic_cams.html"
+    },
+    {
+      "name": "north-cascades-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8016"],
+      "port": 8016,
+      "rootPath": "/north_cascades_cams.html"
+    },
+    {
+      "name": "grand-canyon-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8017"],
+      "port": 8017,
+      "rootPath": "/grand_canyon_cams.html"
+    },
+    {
+      "name": "petrified-forest-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8018"],
+      "port": 8018,
+      "rootPath": "/petrified_forest_cams.html"
+    },
+    {
+      "name": "saguaro-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8019"],
+      "port": 8019,
+      "rootPath": "/saguaro_cams.html"
+    },
+    {
+      "name": "nps-alerts-proxy",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "8787"],
+      "port": 8787,
+      "cwd": "/Users/bryanmcclain/ClaudeCode/nps-alerts-proxy"
+    },
+    {
+      "name": "craters-of-the-moon-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8020"],
+      "port": 8020,
+      "rootPath": "/craters_of_the_moon_cams.html"
+    },
+    {
+      "name": "glacier-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8021"],
+      "port": 8021,
+      "rootPath": "/glacier_cams.html"
+    },
+    {
+      "name": "zion-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8022"],
+      "port": 8022,
+      "rootPath": "/zion_cams.html"
+    },
+    {
+      "name": "bryce-canyon-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8023"],
+      "port": 8023,
+      "rootPath": "/bryce_canyon_cams.html"
+    },
+    {
+      "name": "arches-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8024"],
+      "port": 8024,
+      "rootPath": "/arches_cams.html"
+    },
+    {
+      "name": "canyonlands-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8025"],
+      "port": 8025,
+      "rootPath": "/canyonlands_cams.html"
+    },
+    {
+      "name": "capitol-reef-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8026"],
+      "port": 8026,
+      "rootPath": "/capitol_reef_cams.html"
+    },
+    {
+      "name": "hero-photo-demo",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8027"],
+      "port": 8027,
+      "rootPath": "/hero_photo_demo.html"
+    },
+    {
+      "name": "yellowstone-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8028"],
+      "port": 8028,
+      "rootPath": "/yellowstone_cams.html"
+    },
+    {
+      "name": "grand-teton-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8029"],
+      "port": 8029,
+      "rootPath": "/grand_teton_cams.html"
+    },
+    {
+      "name": "devils-tower-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8030"],
+      "port": 8030,
+      "rootPath": "/devils_tower_cams.html"
+    }
+  ]
+}
