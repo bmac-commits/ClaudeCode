@@ -421,6 +421,8 @@
     .hero-photo { position: relative; height: clamp(200px, 26vw, 420px); overflow: hidden; }
     .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
     .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, var(--bg) 100%); }
+    .hero-photo-credit { position: absolute; right: 10px; bottom: 8px; font-size: 0.68rem; color: rgba(255,255,255,0.55); text-decoration: none; z-index: 1; }
+    .hero-photo-credit:hover { color: rgba(255,255,255,0.85); }
     .hero-inner { position: relative; padding: 20px 28px 32px; }
     .hero .back-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); margin-left: 0; }
     .hero .back-link:hover { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.32); }
@@ -468,7 +470,8 @@
 
 <header class="hero">
   <div class="hero-photo">
-    <img src="https://www.nps.gov/npgallery/GetAsset/fd8e6047-1dd8-b71b-0bd9-042feab21907/proxy/hires" alt="Rainbow over Cactus Forest Drive, Saguaro National Park" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/USA_-_Arizona_-_Saguaro_National_Park_-_52972681476.jpg" alt="A multi-armed saguaro cactus silhouetted against a blue sky with large white clouds, Saguaro National Park" />
+    <a class="hero-photo-credit" href="https://www.flickr.com/photos/109137992@N02/52972681476/" target="_blank" rel="noopener">Photo: Alexander Hatley, CC BY 2.0</a>
   </div>
   <div class="hero-inner">
     <a class="back-link" href="index.html">
