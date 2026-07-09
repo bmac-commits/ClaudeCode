@@ -1286,17 +1286,17 @@
 <main>
   <!-- At a Glance -->
   <div class="glance-strip">
-    <div class="glance-item"><div class="glance-icon">🌫️</div><div class="glance-val">Narrow roads</div><div class="glance-lbl">Access notice</div></div>
-    <div class="glance-item"><div class="glance-icon">🚪</div><div class="glance-val">Free entry</div><div class="glance-lbl">NP fee status</div></div>
+    <div class="glance-item"><div class="glance-icon">🛣️</div><div class="glance-val">Narrow roads</div><div class="glance-lbl">Access notice</div></div>
+    <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">Free entry</div><div class="glance-lbl">NP fee status</div></div>
     <div class="glance-item"><div class="glance-icon">🏕</div><div class="glance-val">4 areas</div><div class="glance-lbl">Campgrounds</div></div>
     <div class="glance-item"><div class="glance-icon">📍</div><div class="glance-val">16 stops</div><div class="glance-lbl">Landmarks &amp; groves</div></div>
-    <div class="glance-item"><div class="glance-icon">🌊</div><div class="glance-val">2 gauges</div><div class="glance-lbl">Redwood Creek</div></div>
+    <div class="glance-item"><div class="glance-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></div><div class="glance-val">2 gauges</div><div class="glance-lbl">Redwood Creek</div></div>
     <div class="glance-item"><div class="glance-icon">📷</div><div class="glance-val">4 live</div><div class="glance-lbl">Cameras</div></div>
   </div>
 
   <!-- Access Notices -->
   <details class="section-accordion">
-    <summary><span class="sa-title"><span class="sa-icon">🌫️</span>Access Notices</span><span class="sa-badge">Roads &amp; permits</span><span class="sa-chevron">▾</span></summary>
+    <summary><span class="sa-title"><span class="sa-icon">🛣️</span>Access Notices</span><span class="sa-badge">Roads &amp; permits</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 10px;">
       <span class="notice-icon">🛣️</span>
@@ -1373,7 +1373,7 @@
 
   <!-- Rivers / Live Gauge Data -->
   <details class="section-accordion">
-    <summary><span class="sa-title"><span class="sa-icon">🌊</span>River Conditions · Redwood Creek</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
+    <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions · Redwood Creek</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid">
 
@@ -1659,7 +1659,7 @@
     if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
     if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
     if (code === 3) return { icon: '☁️', desc: 'Overcast' };
-    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([45, 48].includes(code)) return { icon: '🛣️', desc: 'Foggy' };
     if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
     if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
     if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
