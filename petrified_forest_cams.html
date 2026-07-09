@@ -502,12 +502,46 @@
     .hero-alerts-body .alert-title { color: #fff; }
     .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
     .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
-    .hero-forecast { display: flex; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); }
-    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); }
+        .hero-forecast { display: flex; justify-content: space-between; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); font-size: 0.62rem; gap: 1px; }
     .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-icon { font-size: 0.9rem; }
+    .hero-forecast .forecast-day .day-hi { font-size: 0.68rem; }
     .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
     @media (max-width: 800px) { .hero-chips { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 2.5rem; } }
-  </style>
+  
+    /* -- Concept 6: Glance strip + per-topic accordions -- */
+    .glance-strip { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 28px; }
+    .glance-item { flex: 1; padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
+    .glance-item:last-child { border-right: none; }
+    .glance-icon { font-size: 1.2rem; }
+    .glance-val { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-top: 3px; }
+    .glance-val.danger { color: var(--red); }
+    .glance-lbl { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 1px; }
+    @media (max-width: 700px) { .glance-strip { flex-wrap: wrap; } .glance-item { flex: 1 1 33%; border-bottom: 1px solid var(--border); } }
+
+    .section-accordion { border: none; margin: 0; }
+    .section-accordion summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
+      padding: 16px 0; border-top: 1px solid var(--border); user-select: none;
+    }
+    .section-accordion summary::-webkit-details-marker { display: none; }
+    .section-accordion .sa-title {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .section-accordion .sa-icon { font-size: 1rem; }
+    .section-accordion .sa-badge {
+      margin-left: auto; font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+      background: var(--surface2); color: var(--text-dim); white-space: nowrap;
+    }
+    .section-accordion .sa-badge.danger { background: rgba(192,90,74,0.18); color: var(--red); }
+    .section-accordion .sa-badge.ok { background: rgba(124,138,92,0.18); color: #6a9c4a; }
+    .section-accordion .sa-chevron { color: var(--text-dim); font-size: 0.8rem; transition: transform 0.2s; flex-shrink: 0; }
+    .section-accordion[open] > summary .sa-chevron { transform: rotate(180deg); }
+    .section-accordion[open] > summary { border-bottom: none; }
+    .section-accordion .sa-body { padding: 0 0 32px; }
+</style>
 </head>
 <body>
 
@@ -543,13 +577,18 @@
           <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
           <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
         </div>
+        <div class="hero-forecast" id="forecastStrip"></div>
       </div>
 
       <div class="hero-chip">
         <div class="hero-chip-label">Air quality</div>
         <div class="aqi-value" id="aqiValue">--</div>
         <div class="aqi-cat" id="aqiCat">Loading…</div>
-        <div class="aqi-detail" id="aqiDetail"></div>
+        <div class="weather-details" id="aqiDetails">
+          <div class="weather-detail-row"><span class="label">PM2.5</span> <span id="aqiPM25">--</span></div>
+          <div class="weather-detail-row"><span class="label">Ozone</span> <span id="aqiOzone">--</span></div>
+          <div class="weather-detail-row"><span class="label">UV</span> <span id="aqiUV">--</span></div>
+        </div>
       </div>
 
       <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
@@ -565,6 +604,7 @@
           <span class="moon-mini-name" id="moonName-mini">Loading…</span>
         </div>
         <div class="moon-mini-illum" id="moonIllum-mini"></div>
+        <div class="moon-mini-illum" id="moonDark-mini"></div>
       </div>
     </div>
 
@@ -572,23 +612,34 @@
       <div class="alerts-loading">Loading advisories…</div>
     </div>
 
-    <div class="hero-forecast" id="forecastStrip"></div>
   </div>
 </header>
 
 <main>
+  <div class="glance-strip">
+    <div class="glance-item"><div class="glance-icon">🪵</div><div class="glance-val danger">$325 fine</div><div class="glance-lbl">Wood theft</div></div>
+    <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">2 open</div><div class="glance-lbl">Entrances</div></div>
+    <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$25</div><div class="glance-lbl">7-day fee</div></div>
+    <div class="glance-item"><div class="glance-icon">📍</div><div class="glance-val">6 stops</div><div class="glance-lbl">Landmarks</div></div>
+    <div class="glance-item"><div class="glance-icon">🌙</div><div class="glance-val">Bortle 2</div><div class="glance-lbl">Dark sky</div></div>
+    <div class="glance-item"><div class="glance-icon">🛣️</div><div class="glance-val">Route 66</div><div class="glance-lbl">Historic segment</div></div>
+  </div>
+
   <!-- Fossil Wood Protection -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Fossil Wood Protection &amp; the "Curse"</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🪵</span>Fossil Wood Protection &amp; the "Curse"</span><span class="sa-badge danger">$325 min. fine</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="notice-bar">
       <span class="notice-icon">🪵</span>
       <span>Removing petrified wood, rocks, or any natural object from the park is a federal offense — a <strong>minimum $325 fine</strong> if caught. Since the 1930s, the park has received thousands of "conscience letters" from visitors mailing back stolen wood after years of self-reported bad luck — over 1,200 pages of them are archived at the Rainbow Forest Museum. Buy petrified wood legally from park-adjacent shops instead, sourced from private land outside the park. <a href="https://www.nps.gov/pefo/planyourvisit/theft.htm" target="_blank">NPS theft &amp; conscience letters ↗</a></span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Park Access & Fees -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Park Access &amp; Fees</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">2 open · $25</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
 
     <div class="traffic-grid">
 
@@ -625,11 +676,13 @@
       </div>
       <span class="fee-note">Open 8am–5pm daily, year-round — no camping-related fees, no frontcountry campgrounds</span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Landmarks -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Landmarks &amp; Trails</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">6 stops</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="conc-accordion">
 
       <details class="conc-group" open>
@@ -657,26 +710,31 @@
       </details>
 
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Stargazing -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Stargazing &amp; Night Sky</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Bortle 2</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="moon-card">
       <div class="moon-icon" id="moonIcon">⏳</div>
       <div>
         <div class="moon-name" id="moonName">Loading…</div>
         <div class="moon-illum" id="moonIllum"></div>
+        <div class="moon-illum" id="moonBestTime" style="color: var(--amber-light); font-weight: 600; margin-top: 4px;"></div>
       </div>
       <div class="moon-blurb">
         Petrified Forest is a certified <strong>International Dark Sky Park</strong>, rated <strong>Bortle Class 2</strong> — among the darkest skies of any US national park. Free <strong>Dark Sky Viewing Permits</strong> let visitors stay past normal closing hours for stargazing; only two are issued per day, first-come, first-served at the visitor center. <a href="https://www.nps.gov/pefo/planyourvisit/darkskyviewpermit.htm" target="_blank">NPS dark sky permit info ↗</a>
       </div>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Concessions -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Concession Information</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">4 operators</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="conc-accordion">
 
       <details class="conc-group" open>
@@ -700,18 +758,21 @@
       <span class="notice-icon">ℹ️</span>
       <span>No restaurant or food service currently operates inside the park — pack food and water, or plan to eat in Holbrook (north) or nearby along I-40.</span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Live Cams honest omission -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Live Cameras</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">📷</span>Live Cameras</span><span class="sa-badge">External link only</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="watch-live-card">
       <div class="wl-text">Petrified Forest's Painted Desert Inn webcam at Kachina Point is a page-embedded viewer rather than a directly embeddable image feed, so it's not included in the grid above. It updates every 10–15 minutes from sunrise to sunset.</div>
       <a class="wl-link-btn" href="https://www.nps.gov/media/webcam/view.htm?id=81B46C72-1DD8-B71B-0BDC8D1824EBB9A7" target="_blank">
         View Kachina Point Webcam ↗
       </a>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Park Contact Information -->
   <div style="margin-bottom: 12px;">
@@ -794,14 +855,24 @@
     }
   }
 
+    function uvInfo(uv) {
+    if (uv < 3)  return 'Low';
+    if (uv < 6)  return 'Moderate';
+    if (uv < 8)  return 'High';
+    if (uv < 11) return 'Very High';
+    return 'Extreme';
+  }
+
   async function loadAQI() {
     try {
       const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
-        '?latitude=34.9099&longitude=-109.7812&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FPhoenix';
+        '?latitude=34.9099&longitude=-109.7812&current=us_aqi,pm2_5,pm10,ozone,uv_index&timezone=America%2FPhoenix';
       const res = await fetchWithTimeout(url);
       const d = await res.json();
       const aqi = d.current.us_aqi;
       const pm25 = d.current.pm2_5.toFixed(1);
+      const ozone = Math.round(d.current.ozone);
+      const uv = Math.round(d.current.uv_index);
 
       let cat, cls;
       if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
@@ -815,7 +886,9 @@
       const catEl = document.getElementById('aqiCat');
       catEl.textContent = cat;
       catEl.className = 'aqi-cat ' + cls;
-      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+      document.getElementById('aqiPM25').textContent = `${pm25} µg/m³`;
+      document.getElementById('aqiOzone').textContent = `${ozone} µg/m³`;
+      document.getElementById('aqiUV').textContent = `${uv} · ${uvInfo(uv)}`;
     } catch (e) {
       document.getElementById('aqiCat').textContent = 'Unavailable';
     }
@@ -873,6 +946,30 @@
     return { name: names[idx], icon: icons[idx], illum };
   }
 
+  async function loadTwilight() {
+    try {
+      const url = 'https://api.sunrise-sunset.org/json?lat=34.9099&lng=-109.7812&formatted=0';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const darkTime = new Date(d.results.astronomical_twilight_end);
+      const timeStr = darkTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Phoenix' });
+
+      const m = moonPhaseInfo(new Date());
+      let moonNote;
+      if (m.illum <= 25) moonNote = 'minimal moonlight — great night for faint stars & the Milky Way';
+      else if (m.illum <= 60) moonNote = 'some moonlight will wash out the faintest stars';
+      else moonNote = 'bright moonlight will wash out all but the brightest stars';
+
+      const mini = document.getElementById('moonDark-mini');
+      if (mini) mini.textContent = `Dark by ${timeStr}`;
+      const full = document.getElementById('moonBestTime');
+      if (full) full.textContent = `Best viewing: after ${timeStr}, once skies are fully dark — ${moonNote}.`;
+    } catch (e) {
+      const full = document.getElementById('moonBestTime');
+      if (full) full.textContent = '';
+    }
+  }
+
   function loadMoonPhase() {
     const m = moonPhaseInfo(new Date());
     document.getElementById('moonIcon').textContent = m.icon;
@@ -906,6 +1003,7 @@
     loadAQI();
     loadAlerts();
     loadMoonPhase();
+    loadTwilight();
     startCountdown();
   }
 
@@ -913,6 +1011,7 @@
   loadAQI();
   loadAlerts();
   loadMoonPhase();
+  loadTwilight();
   startCountdown();
 </script>
 </body>

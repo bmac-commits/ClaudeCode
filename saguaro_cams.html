@@ -459,12 +459,46 @@
     .hero-alerts-body .alert-title { color: #fff; }
     .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
     .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
-    .hero-forecast { display: flex; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); }
-    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); }
+        .hero-forecast { display: flex; justify-content: space-between; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); font-size: 0.62rem; gap: 1px; }
     .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-icon { font-size: 0.9rem; }
+    .hero-forecast .forecast-day .day-hi { font-size: 0.68rem; }
     .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
     @media (max-width: 800px) { .hero-chips { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 2.5rem; } }
-  </style>
+  
+    /* -- Concept 6: Glance strip + per-topic accordions -- */
+    .glance-strip { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 28px; }
+    .glance-item { flex: 1; padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
+    .glance-item:last-child { border-right: none; }
+    .glance-icon { font-size: 1.2rem; }
+    .glance-val { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-top: 3px; }
+    .glance-val.danger { color: var(--red); }
+    .glance-lbl { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 1px; }
+    @media (max-width: 700px) { .glance-strip { flex-wrap: wrap; } .glance-item { flex: 1 1 33%; border-bottom: 1px solid var(--border); } }
+
+    .section-accordion { border: none; margin: 0; }
+    .section-accordion summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
+      padding: 16px 0; border-top: 1px solid var(--border); user-select: none;
+    }
+    .section-accordion summary::-webkit-details-marker { display: none; }
+    .section-accordion .sa-title {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .section-accordion .sa-icon { font-size: 1rem; }
+    .section-accordion .sa-badge {
+      margin-left: auto; font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+      background: var(--surface2); color: var(--text-dim); white-space: nowrap;
+    }
+    .section-accordion .sa-badge.danger { background: rgba(192,90,74,0.18); color: var(--red); }
+    .section-accordion .sa-badge.ok { background: rgba(124,138,92,0.18); color: #6a9c4a; }
+    .section-accordion .sa-chevron { color: var(--text-dim); font-size: 0.8rem; transition: transform 0.2s; flex-shrink: 0; }
+    .section-accordion[open] > summary .sa-chevron { transform: rotate(180deg); }
+    .section-accordion[open] > summary { border-bottom: none; }
+    .section-accordion .sa-body { padding: 0 0 32px; }
+</style>
 </head>
 <body>
 
@@ -501,13 +535,18 @@
           <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
           <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
         </div>
+        <div class="hero-forecast" id="forecastStrip"></div>
       </div>
 
       <div class="hero-chip">
         <div class="hero-chip-label">Air quality</div>
         <div class="aqi-value" id="aqiValue">--</div>
         <div class="aqi-cat" id="aqiCat">Loading…</div>
-        <div class="aqi-detail" id="aqiDetail"></div>
+        <div class="weather-details" id="aqiDetails">
+          <div class="weather-detail-row"><span class="label">PM2.5</span> <span id="aqiPM25">--</span></div>
+          <div class="weather-detail-row"><span class="label">Ozone</span> <span id="aqiOzone">--</span></div>
+          <div class="weather-detail-row"><span class="label">UV</span> <span id="aqiUV">--</span></div>
+        </div>
       </div>
 
       <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
@@ -523,6 +562,7 @@
           <span class="moon-mini-name" id="moonName-mini">Loading…</span>
         </div>
         <div class="moon-mini-illum" id="moonIllum-mini"></div>
+        <div class="moon-mini-illum" id="moonDark-mini"></div>
       </div>
     </div>
 
@@ -530,14 +570,23 @@
       <div class="alerts-loading">Loading advisories…</div>
     </div>
 
-    <div class="hero-forecast" id="forecastStrip"></div>
   </div>
 </header>
 
 <main>
+  <!-- At a Glance -->
+  <div class="glance-strip">
+    <div class="glance-item"><div class="glance-icon">🚗</div><div class="glance-val danger">2 districts</div><div class="glance-lbl">Not connected</div></div>
+    <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">$25</div><div class="glance-lbl">7-day fee</div></div>
+    <div class="glance-item"><div class="glance-icon">🏕</div><div class="glance-val">6 sites</div><div class="glance-lbl">Backcountry only</div></div>
+    <div class="glance-item"><div class="glance-icon">📍</div><div class="glance-val">4 stops</div><div class="glance-lbl">Landmarks &amp; trails</div></div>
+    <div class="glance-item"><div class="glance-icon">🌙</div><div class="glance-val">Urban Dark Sky</div><div class="glance-lbl">DarkSky certified</div></div>
+  </div>
+
   <!-- Two Districts Logistics -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">⚠️ Two Separate Districts — Not Connected</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🚗</span>Two Separate Districts — Not Connected</span><span class="sa-badge danger">30 mi apart</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="notice-bar danger">
       <span class="notice-icon">🗺️</span>
       <span>Saguaro National Park is split into <strong>two districts about 30 miles apart</strong>, with the entire city of Tucson in between — there is <strong>no park road connecting them</strong>; driving between districts takes 45–60 minutes through city streets and I-10. <strong>Rincon Mountain District (East)</strong> is larger, higher elevation, and has the park's only campgrounds (backcountry only). <strong>Tucson Mountain District (West)</strong> has denser, more photogenic saguaro forests and is closer to downtown Tucson. Plan each district as its own separate visit. <a href="https://www.nps.gov/sagu/planyourvisit/directions.htm" target="_blank">NPS directions to both districts ↗</a></span>
@@ -546,11 +595,13 @@
       <span class="notice-icon">🌡️</span>
       <span><strong>Desert heat is severe in summer</strong> (100°F+ common June–September) — start hikes before sunrise and carry at least 1 gallon of water per person per day. During <strong>monsoon season (Jul–Sep)</strong>, sudden thunderstorms can flash-flood dry desert washes miles from where the rain fell — never hike or camp in a wash when storms are possible.</span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Park Access & Fees -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Park Access &amp; Fees</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">$25 · both districts</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
 
     <div class="traffic-grid">
 
@@ -589,11 +640,13 @@
       </div>
       <span class="fee-note">One 7-day pass covers both districts — no need to pay twice</span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Camping -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Backcountry Camping</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🏕</span>Backcountry Camping</span><span class="sa-badge">6 sites · hike-in only</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="transport-grid">
 
       <details class="transport-card">
@@ -662,11 +715,13 @@
       <span class="notice-icon">🚫</span>
       <span><strong>No frontcountry campgrounds exist in Saguaro National Park.</strong> All six wilderness campgrounds are hike-in only (min. 4.4 miles) and located in the Rincon Mountain District (East) — no vehicle or RV camping anywhere in the park, and no camping at all in the Tucson Mountain District (West). Permits cost $8/person/night via Recreation.gov.</span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Landmarks -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Landmarks &amp; Trails</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="conc-accordion">
 
       <details class="conc-group" open>
@@ -686,26 +741,31 @@
       </details>
 
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Stargazing -->
-  <div style="margin-bottom: 12px;">
-    <div class="section-label">Stargazing &amp; Night Sky</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Urban Night Sky Place</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="moon-card">
       <div class="moon-icon" id="moonIcon">⏳</div>
       <div>
         <div class="moon-name" id="moonName">Loading…</div>
         <div class="moon-illum" id="moonIllum"></div>
+        <div class="moon-illum" id="moonBestTime" style="color: var(--amber-light); font-weight: 600; margin-top: 4px;"></div>
       </div>
       <div class="moon-blurb">
         In late 2023, DarkSky International certified Saguaro as an <strong>Urban Night Sky Place</strong> — only the ninth in the world and the second in the entire National Park System, notable given its proximity to Tucson. The <strong>Night Skies program</strong> (April–October) offers guided telescope viewing; Loma Alta Trailhead in the Rincon Mountain District has the darkest views. <a href="https://www.nps.gov/sagu/learn/nature/dark-sky.htm" target="_blank">NPS dark sky info ↗</a>
       </div>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Concessions -->
-  <div style="margin-bottom: 36px;">
-    <div class="section-label">Concession Information</div>
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">2 locations</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
     <div class="conc-accordion">
 
       <details class="conc-group" open>
@@ -727,7 +787,8 @@
       <span class="notice-icon">ℹ️</span>
       <span>No restaurant, lodging, or gas station operates inside either district — Tucson's full range of services is a short drive from both visitor centers.</span>
     </div>
-  </div>
+    </div>
+  </details>
 
   <!-- Park Contact Information -->
   <div style="margin-bottom: 12px;">
@@ -810,14 +871,24 @@
     }
   }
 
+    function uvInfo(uv) {
+    if (uv < 3)  return 'Low';
+    if (uv < 6)  return 'Moderate';
+    if (uv < 8)  return 'High';
+    if (uv < 11) return 'Very High';
+    return 'Extreme';
+  }
+
   async function loadAQI() {
     try {
       const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
-        '?latitude=32.1700&longitude=-110.7377&current=us_aqi,pm2_5,pm10,ozone&timezone=America%2FPhoenix';
+        '?latitude=32.1700&longitude=-110.7377&current=us_aqi,pm2_5,pm10,ozone,uv_index&timezone=America%2FPhoenix';
       const res = await fetchWithTimeout(url);
       const d = await res.json();
       const aqi = d.current.us_aqi;
       const pm25 = d.current.pm2_5.toFixed(1);
+      const ozone = Math.round(d.current.ozone);
+      const uv = Math.round(d.current.uv_index);
 
       let cat, cls;
       if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
@@ -831,7 +902,9 @@
       const catEl = document.getElementById('aqiCat');
       catEl.textContent = cat;
       catEl.className = 'aqi-cat ' + cls;
-      document.getElementById('aqiDetail').textContent = `PM2.5 · ${pm25} µg/m³`;
+      document.getElementById('aqiPM25').textContent = `${pm25} µg/m³`;
+      document.getElementById('aqiOzone').textContent = `${ozone} µg/m³`;
+      document.getElementById('aqiUV').textContent = `${uv} · ${uvInfo(uv)}`;
     } catch (e) {
       document.getElementById('aqiCat').textContent = 'Unavailable';
     }
@@ -889,6 +962,30 @@
     return { name: names[idx], icon: icons[idx], illum };
   }
 
+  async function loadTwilight() {
+    try {
+      const url = 'https://api.sunrise-sunset.org/json?lat=32.1700&lng=-110.7377&formatted=0';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const darkTime = new Date(d.results.astronomical_twilight_end);
+      const timeStr = darkTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Phoenix' });
+
+      const m = moonPhaseInfo(new Date());
+      let moonNote;
+      if (m.illum <= 25) moonNote = 'minimal moonlight — great night for faint stars & the Milky Way';
+      else if (m.illum <= 60) moonNote = 'some moonlight will wash out the faintest stars';
+      else moonNote = 'bright moonlight will wash out all but the brightest stars';
+
+      const mini = document.getElementById('moonDark-mini');
+      if (mini) mini.textContent = `Dark by ${timeStr}`;
+      const full = document.getElementById('moonBestTime');
+      if (full) full.textContent = `Best viewing: after ${timeStr}, once skies are fully dark — ${moonNote}.`;
+    } catch (e) {
+      const full = document.getElementById('moonBestTime');
+      if (full) full.textContent = '';
+    }
+  }
+
   function loadMoonPhase() {
     const m = moonPhaseInfo(new Date());
     document.getElementById('moonIcon').textContent = m.icon;
@@ -922,6 +1019,7 @@
     loadAQI();
     loadAlerts();
     loadMoonPhase();
+    loadTwilight();
     startCountdown();
   }
 
@@ -929,6 +1027,7 @@
   loadAQI();
   loadAlerts();
   loadMoonPhase();
+  loadTwilight();
   startCountdown();
 </script>
 </body>
