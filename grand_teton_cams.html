@@ -1769,16 +1769,22 @@
         if (code === '00010') data.tempC = clean;
       });
 
+      if (data.flow === undefined && data.gauge === undefined && data.tempC === undefined) {
+        throw new Error('No current readings in response');
+      }
+
       if (data.flow !== undefined) {
         document.getElementById('riverFlow').textContent = Math.round(data.flow).toLocaleString();
-        document.getElementById('riverGauge').textContent = data.gauge?.toFixed(2) ?? '--';
-        if (data.tempC !== undefined) {
-          document.getElementById('riverTemp').textContent = (data.tempC * 9/5 + 32).toFixed(1);
-        }
         const cond = riverCondition(data.flow);
         const el = document.getElementById('riverCond');
         el.textContent = cond.label;
         el.className = 'traffic-badge ' + cond.cls;
+      }
+      if (data.gauge !== undefined) {
+        document.getElementById('riverGauge').textContent = data.gauge.toFixed(2);
+      }
+      if (data.tempC !== undefined) {
+        document.getElementById('riverTemp').textContent = (data.tempC * 9/5 + 32).toFixed(1);
       }
     } catch (e) {
       if (attempt < 3) {
@@ -1812,7 +1818,7 @@
           <div class="cam-footer">
             <div>
               <div class="cam-name">${cam.name}</div>
-              <div class="cam-meta">${cam.meta} · ${cam.source}</div>
+              <div class="cam-meta">${cam.meta} · ${cam.source} · <a href="https://www.youtube.com/watch?v=${cam.embedId}" target="_blank" style="color: var(--blue);">Watch on YouTube ↗</a></div>
             </div>
             <div class="cam-status">
               <div class="status-dot live"></div>
