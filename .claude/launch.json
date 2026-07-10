@@ -278,6 +278,20 @@
       "runtimeArgs": ["-m", "http.server", "8037"],
       "port": 8037,
       "rootPath": "/guadalupe_mountains_cams.html"
+    },
+    {
+      "name": "acadia-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8038"],
+      "port": 8038,
+      "rootPath": "/acadia_cams.html"
+    },
+    {
+      "name": "shenandoah-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8039"],
+      "port": 8039,
+      "rootPath": "/shenandoah_cams.html"
     }
   ]
 }

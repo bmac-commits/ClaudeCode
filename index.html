@@ -480,6 +480,14 @@
       <path d="M10 88 L14 50 Q14 34 30 34 L70 34 Q86 34 86 50 L90 88 Z" fill="#fff" opacity="0.95"/>
       <path d="M30 34 L30 20 L70 20 L70 34 Z" fill="#fff" opacity="0.6"/>
     </svg>`,
+    acadia: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 66 L26 30 L40 52 L56 22 L74 50 L96 66 L96 90 L4 90 Z" fill="#fff" opacity="0.95"/>
+      <path d="M0 92c10-5 18-5 26 0s18 5 26 0s18-5 26 0s18 5 22 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    </svg>`,
+    shenandoah: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 82 L20 52 L32 66 L48 40 L62 60 L76 44 L98 82 Z" fill="#fff" opacity="0.55"/>
+      <path d="M4 90 L22 62 L34 76 L50 50 L64 70 L78 54 L96 90 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -823,9 +831,29 @@
       features: 'Highest in Texas · Extreme Wind · Live Cam',
       href: 'guadalupe_mountains_cams.html',
     },
+    {
+      name: 'Acadia',
+      states: ['Maine'],
+      accent: '#4a7a8c',
+      grad: 'linear-gradient(135deg, #0e1c20 0%, #2c4a54 55%, #4a7a8c 100%)',
+      icon: ICONS.acadia,
+      desc: 'Pink granite peaks meet the Atlantic on Mount Desert Island — live tide data for Bar Island, rogue-wave safety at Thunder Hole, and Cadillac Summit Road reservations.',
+      features: 'Live Tide Data · Rogue Wave Safety · Live Cam',
+      href: 'acadia_cams.html',
+    },
+    {
+      name: 'Shenandoah',
+      states: ['Virginia'],
+      accent: '#5f7fa8',
+      grad: 'linear-gradient(135deg, #141c24 0%, #384c68 55%, #5f7fa8 100%)',
+      icon: ICONS.shenandoah,
+      desc: '105 miles of Skyline Drive along the crest of the Blue Ridge — live stream flow, black bear safety, and the Old Rag day-use permit system.',
+      features: 'Skyline Drive · River Flow · Black Bear Country',
+      href: 'shenandoah_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia'];
   let activeTab = null;
 
   function arrowIcon() {
@@ -836,6 +864,7 @@
     'California': 'CA', 'Nevada': 'NV', 'Oregon': 'OR', 'Washington': 'WA',
     'Arizona': 'AZ', 'Idaho': 'ID', 'Montana': 'MT', 'Utah': 'UT', 'Wyoming': 'WY',
     'Tennessee': 'TN', 'North Carolina': 'NC', 'Colorado': 'CO', 'Texas': 'TX',
+    'Maine': 'ME', 'Virginia': 'VA',
   };
 
   function stateLabel(states) {
