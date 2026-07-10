@@ -1812,21 +1812,25 @@
       if (cam.type === 'youtube') {
         card.innerHTML = `
           <div class="cam-img-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/${cam.embedId}?autoplay=1&mute=1&controls=1&rel=0"
-              allow="autoplay; encrypted-media"
-              allowfullscreen
-            ></iframe>
-            <a href="https://www.youtube.com/watch?v=${cam.embedId}" target="_blank"
-               style="position:absolute; top:8px; right:8px; font-size:0.68rem; color:#fff; background:rgba(0,0,0,0.55); padding:4px 10px; border-radius:6px; text-decoration:none; z-index:2;">
-              ▶ Watch on YouTube ↗
+            <a href="https://www.youtube.com/watch?v=${cam.embedId}" target="_blank" style="display:block; position:relative; width:100%; height:100%;">
+              <img
+                src="https://i.ytimg.com/vi/${cam.embedId}/maxresdefault.jpg"
+                alt="${cam.name}"
+                style="width:100%; height:100%; object-fit:cover; display:block;"
+                onerror="this.onerror=null; this.src='https://i.ytimg.com/vi/${cam.embedId}/hqdefault.jpg';"
+              />
+              <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.22);">
+                <div style="width:60px; height:60px; border-radius:50%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
             </a>
           </div>
           <div class="cam-footer">
             <div>
               <div class="cam-name">${cam.name}</div>
               <div class="cam-meta">${cam.meta} · ${cam.source}</div>
-              <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">If the embed above stays blank, an ad/privacy blocker is likely blocking it — use the "Watch on YouTube" link.</div>
+              <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">Opens live on YouTube — click the thumbnail. Embedded players are unreliable across browsers/ad blockers, so this always links straight to the real stream.</div>
             </div>
             <div class="cam-status">
               <div class="status-dot live"></div>
