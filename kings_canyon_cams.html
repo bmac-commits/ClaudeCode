@@ -877,6 +877,11 @@
     .hero-photo { position: relative; height: clamp(200px, 26vw, 420px); overflow: hidden; }
     .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
     .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, var(--bg) 100%); }
+    .hero-photo-credit {
+      position: absolute; bottom: 8px; right: 12px; font-size: 0.65rem; color: rgba(255,255,255,0.65);
+      background: rgba(0,0,0,0.4); padding: 3px 9px; border-radius: 6px; text-decoration: none; z-index: 2;
+    }
+    .hero-photo-credit:hover { color: #fff; }
     .hero-inner { position: relative; padding: 20px 28px 32px; }
     .hero .back-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); margin-left: 0; }
     .hero .back-link:hover { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.32); }
@@ -958,7 +963,8 @@
 
 <header class="hero">
   <div class="hero-photo">
-    <img src="https://www.nps.gov/npgallery/GetAsset/f8146867-fe4b-4708-b917-2a06970d0380/proxy/hires" alt="Granite peaks over a green meadow, Kings Canyon National Park" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Don_Cecil_Trail_View%2C_Kings_Canyon.jpg" alt="View of Kings Canyon from the Don Cecil Trail" />
+    <a class="hero-photo-credit" href="https://commons.wikimedia.org/wiki/File:Don_Cecil_Trail_View,_Kings_Canyon.jpg" target="_blank">Photo: Martin Stiburek / Wikimedia Commons (CC BY-SA 4.0)</a>
   </div>
   <div class="hero-inner">
     <a class="back-link" href="index.html">

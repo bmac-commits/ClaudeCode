@@ -1291,7 +1291,7 @@
     <div class="glance-item"><div class="glance-icon">🏕</div><div class="glance-val">4 areas</div><div class="glance-lbl">Campgrounds</div></div>
     <div class="glance-item"><div class="glance-icon">📍</div><div class="glance-val">16 stops</div><div class="glance-lbl">Landmarks &amp; groves</div></div>
     <div class="glance-item"><div class="glance-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></div><div class="glance-val">2 gauges</div><div class="glance-lbl">Redwood Creek</div></div>
-    <div class="glance-item"><div class="glance-icon">📷</div><div class="glance-val">4 live</div><div class="glance-lbl">Cameras</div></div>
+    <div class="glance-item"><div class="glance-icon">📷</div><div class="glance-val">3 live</div><div class="glance-lbl">Cameras</div></div>
   </div>
 
   <!-- Access Notices -->
@@ -1643,15 +1643,10 @@
       type: 'img',
       url: 'https://www.nps.gov/webcams-redw/Jed_Smith.jpg',
     },
-    {
-      id: 'bald-hills',
-      name: 'Bald Hills / Redwood Creek',
-      meta: 'View from Schoolhouse Peak Lookout',
-      source: 'NPS · Redwood Parks Conservancy',
-      type: 'img',
-      url: 'https://www.nps.gov/webcams-redw/Bald_Hills.jpg',
-    },
   ];
+  // Note: the Bald Hills / Schoolhouse Peak Lookout camera was removed after
+  // verification showed its feed frozen on a single frame for 17+ days —
+  // don't re-add without confirming it's updating again.
 
   // ── Weather code → emoji + description ──
   function wxInfo(code) {
