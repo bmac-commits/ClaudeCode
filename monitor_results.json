@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-10T21:35:23.824602+00:00",
-  "ok_count": 90,
-  "error_count": 3,
+  "generated_at": "2026-07-10T21:37:10.241648+00:00",
+  "ok_count": 91,
+  "error_count": 2,
   "parks": [
     {
       "name": "Yosemite",
@@ -190,8 +190,8 @@
       "gauges": [
         {
           "name": "USGS site 11492200",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "1 parameter(s) reporting"
         },
         {
           "name": "USGS site 11503000",
