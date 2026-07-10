@@ -446,6 +446,40 @@
       <path d="M40 40v44M48 34v54M56 34v54M64 40v44" stroke="#fff" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
       <path d="M18 88h64" stroke="#fff" stroke-width="3" opacity="0.35"/>
     </svg>`,
+    greatSmokyMountains: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 88 L20 56 L32 70 L46 46 L60 66 L74 42 L98 88 Z" fill="#fff" opacity="0.35"/>
+      <path d="M0 92 L16 66 L30 80 L44 58 L58 78 L72 54 L100 92 Z" fill="#fff" opacity="0.6"/>
+      <path d="M4 96 L18 76 L30 88 L42 70 L54 88 L68 66 L96 96 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
+    rockyMountain: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 84 L28 34 L40 52 L50 24 L62 50 L76 30 L96 84 Z" fill="#fff" opacity="0.95"/>
+      <path d="M50 24 L57 38 L43 38 Z" fill="#fff" opacity="0.5"/>
+      <path d="M76 30 L82 42 L70 42 Z" fill="#fff" opacity="0.5"/>
+      <path d="M4 84h92" stroke="#fff" stroke-width="3" opacity="0.3"/>
+    </svg>`,
+    mesaVerde: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 58 Q6 22 50 18 Q94 22 94 58 L94 86 L6 86 Z" fill="#fff" opacity="0.3"/>
+      <rect x="24" y="54" width="16" height="24" fill="#fff" opacity="0.9"/>
+      <rect x="46" y="48" width="14" height="30" fill="#fff" opacity="0.95"/>
+      <rect x="64" y="56" width="14" height="22" fill="#fff" opacity="0.8"/>
+    </svg>`,
+    bigBend: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 30 L28 30 Q42 30 42 44 Q42 58 56 58 Q70 58 70 72 L70 92" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M14 14 L30 14 L22 26 Z" fill="#fff" opacity="0.5"/>
+      <path d="M74 10 L92 10 L83 24 Z" fill="#fff" opacity="0.5"/>
+    </svg>`,
+    greatSandDunes: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 78 Q20 50 38 66 Q52 44 66 62 Q80 46 98 70 L98 90 L2 90 Z" fill="#fff" opacity="0.5"/>
+      <path d="M2 86 Q22 62 40 76 Q56 56 72 74 Q86 60 98 80 L98 94 L2 94 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
+    blackCanyon: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 10 L6 90 L34 90 L42 20 Z" fill="#fff" opacity="0.9"/>
+      <path d="M82 10 L94 90 L66 90 L58 20 Z" fill="#fff" opacity="0.9"/>
+    </svg>`,
+    guadalupeMountains: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 88 L14 50 Q14 34 30 34 L70 34 Q86 34 86 50 L90 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M30 34 L30 20 L70 20 L70 34 Z" fill="#fff" opacity="0.6"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -719,17 +753,93 @@
       features: 'Live Cam · Sacred Site · Climbing',
       href: 'devils_tower_cams.html',
     },
+    {
+      name: 'Great Smoky Mountains',
+      states: ['Tennessee', 'North Carolina'],
+      accent: '#7a9ba0',
+      grad: 'linear-gradient(135deg, #16262a 0%, #3a5a60 55%, #7a9ba0 100%)',
+      icon: ICONS.greatSmokyMountains,
+      desc: 'America’s most-visited national park — no entrance fee, 4 live cameras, real-time river gauges, and misty ridge views from Kuwohi to Cades Cove.',
+      features: 'No Entrance Fee · 4 Live Cams · River Flow',
+      href: 'great_smoky_mountains_cams.html',
+    },
+    {
+      name: 'Rocky Mountain',
+      states: ['Colorado'],
+      accent: '#8f9fd4',
+      grad: 'linear-gradient(135deg, #1c1c38 0%, #3e3e70 55%, #8f9fd4 100%)',
+      icon: ICONS.rockyMountain,
+      desc: 'Trail Ridge Road climbs above 12,000 feet through alpine tundra — timed-entry status, lightning safety, 7 live cameras, and Colorado River headwaters flow.',
+      features: '7 Live Cams · Timed Entry · Alpine Tundra',
+      href: 'rocky_mountain_cams.html',
+    },
+    {
+      name: 'Mesa Verde',
+      states: ['Colorado'],
+      accent: '#a8674a',
+      grad: 'linear-gradient(135deg, #2e1c14 0%, #7a4a34 55%, #a8674a 100%)',
+      icon: ICONS.mesaVerde,
+      desc: '800-year-old Ancestral Puebloan cliff dwellings, ranger-guided tour tickets, a UNESCO World Heritage Site, and the world’s 100th International Dark Sky Park.',
+      features: 'Cliff Dwellings · UNESCO Site · Dark Sky',
+      href: 'mesa_verde_cams.html',
+    },
+    {
+      name: 'Big Bend',
+      states: ['Texas'],
+      accent: '#7a5a9e',
+      grad: 'linear-gradient(135deg, #1c1428 0%, #4a3768 55%, #7a5a9e 100%)',
+      icon: ICONS.bigBend,
+      desc: 'The Rio Grande bends through the Chihuahuan Desert past the Chisos Mountains — the Boquillas border crossing, live river gauges, and the darkest skies of any national park in the Lower 48.',
+      features: 'Dark Sky · Boquillas Crossing · River Flow',
+      href: 'big_bend_cams.html',
+    },
+    {
+      name: 'Great Sand Dunes',
+      states: ['Colorado'],
+      accent: '#d9954a',
+      grad: 'linear-gradient(135deg, #2e2214 0%, #7a5a2c 55%, #d9954a 100%)',
+      icon: ICONS.greatSandDunes,
+      desc: 'North America’s tallest dune field against the Sangre de Cristo Mountains — 150°F sand, the seasonal Medano Creek, and an International Dark Sky Park.',
+      features: 'Dark Sky · Sandboarding · Tallest Dunes',
+      href: 'great_sand_dunes_cams.html',
+    },
+    {
+      name: 'Black Canyon',
+      states: ['Colorado'],
+      accent: '#b8765a',
+      grad: 'linear-gradient(135deg, #1c1418 0%, #4a342c 55%, #b8765a 100%)',
+      icon: ICONS.blackCanyon,
+      desc: 'Sheer walls plunge 2,722 feet to the Gunnison River — the Painted Wall, unfenced overlooks, live river gauge data, and current South Rim fire-recovery status.',
+      features: 'Dark Sky · Painted Wall · River Flow',
+      href: 'black_canyon_cams.html',
+    },
+    {
+      name: 'Guadalupe Mountains',
+      states: ['Texas'],
+      accent: '#c4966a',
+      grad: 'linear-gradient(135deg, #2e2414 0%, #7a5c3a 55%, #c4966a 100%)',
+      icon: ICONS.guadalupeMountains,
+      desc: 'Texas’s highest peak rises above an ancient fossil reef — extreme, sometimes dangerous winds, fall color in McKittrick Canyon, and a live view from Pine Springs.',
+      features: 'Highest in Texas · Extreme Wind · Live Cam',
+      href: 'guadalupe_mountains_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas'];
   let activeTab = null;
 
   function arrowIcon() {
     return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
   }
 
+  const STATE_ABBR = {
+    'California': 'CA', 'Nevada': 'NV', 'Oregon': 'OR', 'Washington': 'WA',
+    'Arizona': 'AZ', 'Idaho': 'ID', 'Montana': 'MT', 'Utah': 'UT', 'Wyoming': 'WY',
+    'Tennessee': 'TN', 'North Carolina': 'NC', 'Colorado': 'CO', 'Texas': 'TX',
+  };
+
   function stateLabel(states) {
-    return states.length > 1 ? states.map(s => s === 'California' ? 'CA' : 'NV').join(' · ') : states[0];
+    return states.length > 1 ? states.map(s => STATE_ABBR[s] || s).join(' · ') : states[0];
   }
 
   function renderTabs() {

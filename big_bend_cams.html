@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preconnect" href="https://air-quality-api.open-meteo.com" />
+  <link rel="preconnect" href="https://nps-alerts-proxy.bryanumcclain.workers.dev" />
+  <title>Big Bend National Park</title>
+  <style>
+    :root {
+      --bg: #201828;
+      --surface: #2c2134;
+      --surface2: #382c42;
+      --border: #544264;
+      --dusk: #7a5a9e;
+      --dusk-light: #a385c4;
+      --rock: #b8a8c4;
+      --text: #f3ecf7;
+      --text-dim: #cabcd6;
+      --yellow: #f0c15a;
+      --red: #f0776a;
+      --blue: #7db8e0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(180deg, #a385c4 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 0;
+    }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 600;
+      color: var(--text-dim); text-decoration: none; padding: 6px 12px 6px 8px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); margin: 8px 0 14px 10px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .back-link:hover { background: var(--surface2); border-color: var(--dusk); color: var(--text); }
+
+    .map-download-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 13px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-size: 0.74rem;
+      font-weight: 600; text-decoration: none; white-space: nowrap; transition: background 0.15s, border-color 0.15s;
+    }
+    .map-download-btn:hover { background: var(--surface2); border-color: var(--dusk); }
+
+    header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+    header h1 span { color: var(--dusk-light); }
+    .header-sub { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 16px; }
+
+    .weather-main { display: flex; align-items: center; gap: 10px; }
+    .weather-icon { font-size: 2.2rem; line-height: 1; }
+    .weather-temp { font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .weather-desc { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+    .weather-details {
+      display: flex; flex-direction: column; gap: 4px; font-size: 0.75rem; color: var(--text-dim);
+      border-left: 1px solid var(--border); padding-left: 20px;
+    }
+    .weather-detail-row { display: flex; gap: 6px; align-items: center; }
+    .weather-detail-row .label { color: var(--rock); width: 48px; }
+
+    .aqi-value { font-size: 1.8rem; font-weight: 700; line-height: 1; color: var(--text); }
+    .aqi-cat { font-size: 0.7rem; font-weight: 600; text-align: center; }
+
+    .aqi-good    { color: #6a9c4a; }
+    .aqi-moderate { color: #c8a94a; }
+    .aqi-usg     { color: #e07840; }
+    .aqi-unhealthy { color: #c05a4a; }
+    .aqi-very    { color: #8b3a8b; }
+    .aqi-hazardous { color: #7a1a1a; }
+
+    .forecast-day { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 0.7rem; }
+    .forecast-day .day-name { color: var(--text-dim); }
+    .forecast-day .day-icon { font-size: 1.1rem; }
+    .forecast-day .day-hi { color: var(--text); font-weight: 600; }
+    .forecast-day .day-lo { color: var(--text-dim); }
+
+    .alerts-title { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .alert-count {
+      background: var(--yellow); color: #1a1200; font-size: 0.65rem; font-weight: 700;
+      padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center;
+    }
+    .alert-count.zero { background: #a8c47a; color: #0a1a0d; }
+    .alert-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+    .alert-item:last-child { border-bottom: none; }
+    .alert-item .alert-cat { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 3px; }
+    .alert-cat.danger { color: var(--red); }
+    .alert-cat.caution { color: var(--yellow); }
+    .alert-cat.information { color: var(--blue); }
+    .alert-cat.park-closure { color: var(--red); }
+    .alert-item .alert-title { color: var(--text); font-weight: 600; margin-bottom: 3px; }
+    .alert-item .alert-desc { color: var(--text-dim); line-height: 1.4; }
+    .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
+
+    main { padding: 20px 24px 40px; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── Camera Grid ── */
+    .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; }
+    .cam-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s, transform 0.15s; cursor: pointer; }
+    .cam-card:hover { border-color: var(--dusk); transform: translateY(-1px); }
+
+    @media (max-width: 900px) {
+      .cam-grid { grid-template-columns: 1fr; }
+      .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
+      .weather-details { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+      .aqi-value { font-size: 1.3rem; }
+      .forecast-strip { display: none; }
+    }
+
+    .cam-img-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: #241c2c; overflow: hidden; }
+    .cam-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: opacity 0.3s; }
+    .cam-img-wrap img.loading { opacity: 0.4; }
+    .cam-error {
+      position: absolute; inset: 0; display: none; flex-direction: column; align-items: center;
+      justify-content: center; gap: 6px; color: var(--text-dim); font-size: 0.78rem;
+    }
+    .cam-error .err-icon { font-size: 1.6rem; }
+    .cam-footer { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+    .cam-name { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .cam-meta { font-size: 0.7rem; color: var(--text-dim); margin-top: 1px; }
+    .cam-status { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--text-dim); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; }
+    .status-dot.live { background: var(--dusk-light); box-shadow: 0 0 4px var(--dusk-light); }
+    .status-dot.error { background: var(--red); }
+
+    /* ── Refresh bar ── */
+    .refresh-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .refresh-info { font-size: 0.72rem; color: var(--text-dim); }
+    .refresh-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim);
+      padding: 5px 12px; border-radius: 6px; font-size: 0.72rem; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .refresh-btn:hover { border-color: var(--dusk); color: var(--dusk-light); }
+
+    /* ── Modal ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal-inner { position: relative; width: 100%; max-width: 1100px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .modal-img-wrap { width: 100%; aspect-ratio: 16/9; background: #241c2c; }
+    .modal-img-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .modal-footer { padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .modal-title { font-size: 1rem; font-weight: 600; }
+    .modal-source { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
+    .modal-close {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .modal-close:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── Entrances Section ── */
+    .traffic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    @media (max-width: 900px) { .traffic-grid { grid-template-columns: 1fr; } }
+    .traffic-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; }
+    .traffic-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .traffic-route { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-dim); }
+    .traffic-badge { font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; border: 1px solid; }
+    .badge-open    { background: rgba(124,138,92,0.18); border-color: rgba(124,138,92,0.4); color: #6a9c4a; }
+    .badge-busy    { background: rgba(200,169,74,0.15);  border-color: rgba(200,169,74,0.4);  color: var(--yellow); }
+    .badge-closed  { background: rgba(192,90,74,0.15);   border-color: rgba(192,90,74,0.4);   color: var(--red); }
+    .badge-unknown { background: rgba(138,115,85,0.15); border-color: rgba(138,115,85,0.4); color: var(--rock); }
+    .traffic-name { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .traffic-desc { font-size: 0.72rem; color: var(--text-dim); line-height: 1.4; margin-bottom: 10px; }
+    .traffic-tip {
+      display: flex; align-items: flex-start; gap: 6px; font-size: 0.7rem; color: var(--text-dim);
+      background: var(--surface2); border-radius: 6px; padding: 6px 9px; margin-bottom: 10px;
+    }
+    .traffic-link { font-size: 0.68rem; color: var(--dusk-light); text-decoration: none; opacity: 0.85; }
+    .traffic-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Fees / Stat Bar ── */
+    .fee-bar {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px;
+      margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 0; align-items: center;
+    }
+    .fee-bar-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--rock); margin-right: 14px; white-space: nowrap; }
+    .fee-items { display: flex; flex-wrap: wrap; gap: 6px 16px; flex: 1; }
+    .fee-item { display: flex; align-items: baseline; gap: 5px; }
+    .fee-type { font-size: 0.7rem; color: var(--text-dim); }
+    .fee-price { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+    .fee-divider { width: 1px; height: 12px; background: var(--border); align-self: center; }
+    .fee-note { font-size: 0.62rem; color: var(--rock); margin-left: auto; white-space: nowrap; }
+    @media (max-width: 600px) { .fee-note { display: none; } .fee-bar-label { width: 100%; margin-bottom: 2px; } }
+
+    /* ── Notice Bar ── */
+    .notice-bar {
+      background: rgba(122,90,158,0.15); border: 1px solid rgba(122,90,158,0.4); border-radius: 8px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 0.76rem; color: var(--text);
+    }
+    .notice-bar.danger { background: rgba(184,40,28,0.13); border-color: rgba(184,40,28,0.4); }
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .notice-bar a { color: var(--dusk-light); }
+
+    /* ── Campground Accordion ── */
+    .transport-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+    .transport-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .transport-card summary { list-style: none; }
+    .transport-card summary::-webkit-details-marker { display: none; }
+    .transport-card[open] .transport-chevron { transform: rotate(180deg); }
+    .transport-header { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; margin-bottom: 0; cursor: pointer; user-select: none; }
+    .transport-title { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .transport-badge {
+      font-size: 0.62rem; padding: 2px 8px; border-radius: 20px; font-weight: 600;
+      background: rgba(124,138,92,0.18); color: #5a7a3a; border: 1px solid rgba(124,138,92,0.4);
+    }
+    .transport-badge.fcfs { background: rgba(200,120,32,0.15); color: var(--yellow); border-color: rgba(200,120,32,0.35); }
+    .transport-badge.danger { background: rgba(192,90,74,0.15); color: var(--red); border-color: rgba(192,90,74,0.4); }
+    .transport-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 8px; }
+    .transport-row:last-child { border-bottom: none; }
+    .transport-key { font-size: 0.7rem; color: var(--rock); flex-shrink: 0; }
+    .transport-val { font-size: 0.73rem; color: var(--text-dim); text-align: right; }
+    .transport-val.highlight { color: var(--dusk-light); font-weight: 500; }
+    .transport-link { display: inline-block; margin-top: 10px; font-size: 0.68rem; color: var(--dusk-light); opacity: 0.8; text-decoration: none; }
+    .transport-link:hover { opacity: 1; text-decoration: underline; }
+    .transport-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
+    @media (max-width: 600px) { .transport-grid { grid-template-columns: 1fr; } }
+
+    /* ── Landmarks / Concession Accordion ── */
+    .conc-accordion { display: flex; flex-direction: column; gap: 6px; }
+    .conc-group { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .conc-summary {
+      display: flex; align-items: center; gap: 8px; padding: 10px 14px; cursor: pointer; list-style: none;
+      font-size: 0.82rem; font-weight: 600; color: var(--text); user-select: none;
+    }
+    .conc-summary::-webkit-details-marker { display: none; }
+    .conc-count { font-size: 0.62rem; font-weight: 400; color: var(--rock); margin-left: 2px; }
+    .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+    .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
+    .conc-body { padding: 4px 0; }
+    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-row:last-child { border-bottom: none; }
+    .conc-name { font-size: 0.76rem; font-weight: 500; color: var(--text); min-width: 170px; }
+    .conc-type { font-size: 0.65rem; color: var(--rock); flex: 1; }
+    .conc-hrs { font-size: 0.72rem; color: var(--dusk-light); white-space: nowrap; }
+    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    /* ── Stargazing Card ── */
+    .moon-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .moon-icon { font-size: 2.6rem; line-height: 1; }
+    .moon-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .moon-illum { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+    .moon-blurb {
+      flex: 1; min-width: 220px; font-size: 0.78rem; color: var(--text-dim); line-height: 1.5;
+      border-left: 1px solid var(--border); padding-left: 20px;
+    }
+    .moon-blurb a { color: var(--dusk-light); }
+    @media (max-width: 600px) { .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; } }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 120% 90% at 25% 0%, #382c50 0%, #201828 45%, #100c16 100%);
+      border-bottom: none; padding: 0;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 55% 90% at 78% -15%, rgba(122,90,158,0.32) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-photo { position: relative; height: clamp(200px, 26vw, 420px); overflow: hidden; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; display: block; }
+    .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, var(--bg) 100%); }
+    .hero-photo-credit {
+      position: absolute; bottom: 8px; right: 12px; font-size: 0.65rem; color: rgba(255,255,255,0.65);
+      background: rgba(0,0,0,0.4); padding: 3px 9px; border-radius: 6px; text-decoration: none; z-index: 2;
+    }
+    .hero-photo-credit:hover { color: #fff; }
+    .hero-inner { position: relative; padding: 20px 28px 32px; }
+    .hero .back-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); margin-left: 0; }
+    .hero .back-link:hover { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.32); }
+    .hero-top-row { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 10px; }
+    .hero-eyebrow { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: #a385c4; font-weight: 700; }
+    .hero .map-download-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.9); }
+    .hero .map-download-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+    .hero-title { font-size: 3.4rem; line-height: 1; font-weight: 800; letter-spacing: -1.5px; color: #fff; margin-bottom: 12px; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.72); max-width: 480px; line-height: 1.5; margin-bottom: 28px; }
+    .hero-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .hero-chip { background: rgba(255,255,255,0.09); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.16); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+    .hero-chip-clickable { cursor: pointer; user-select: none; }
+    .hero-chip-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: space-between; }
+    .hero-chip .weather-main { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .weather-icon { font-size: 1.4rem; }
+    .hero-chip .weather-temp { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .weather-desc { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-chip .weather-details { border-left: none; border-top: 1px solid rgba(255,255,255,0.15); padding-left: 0; padding-top: 8px; margin-top: 2px; flex-direction: row; flex-wrap: wrap; gap: 4px 12px; color: rgba(255,255,255,0.55); }
+    .hero-chip .weather-detail-row .label { color: rgba(255,255,255,0.4); width: auto; }
+    .hero-chip .aqi-value { font-size: 1.7rem; font-weight: 800; color: #fff; }
+    .hero-chip .aqi-cat { font-size: 0.72rem; text-align: left; }
+    .hero-chip .aqi-detail { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-align: left; }
+    .hero-chip .alert-count { font-size: 1.7rem; font-weight: 800; background: none; color: #fff; padding: 0; border-radius: 0; min-width: unset; text-align: left; }
+    .hero-chip .alert-count.zero { color: #a385c4; }
+    .hero-chevron { font-size: 0.6rem; transition: transform 0.2s; }
+    .hero-chip-clickable.open .hero-chevron { transform: rotate(180deg); }
+    .hero-chip .moon-mini-row { display: flex; align-items: baseline; gap: 8px; }
+    .hero-chip .moon-mini-icon { font-size: 1.4rem; }
+    .hero-chip .moon-mini-name { font-size: 1.05rem; font-weight: 800; color: #fff; }
+    .hero-chip .moon-mini-illum { font-size: 0.72rem; color: rgba(255,255,255,0.62); }
+    .hero-alerts-body { display: none; background: rgba(255,255,255,0.07); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 16px; margin-top: 10px; max-height: 220px; overflow-y: auto; }
+    .hero-alerts-body.open { display: block; }
+    .hero-alerts-body .alert-item { border-bottom-color: rgba(255,255,255,0.12); }
+    .hero-alerts-body .alert-title { color: #fff; }
+    .hero-alerts-body .alert-desc { color: rgba(255,255,255,0.65); }
+    .hero-alerts-body .alerts-loading { color: rgba(255,255,255,0.6); }
+    .hero-forecast { display: flex; justify-content: space-between; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .hero-forecast .forecast-day { color: rgba(255,255,255,0.85); font-size: 0.62rem; gap: 1px; }
+    .hero-forecast .forecast-day .day-name { color: rgba(255,255,255,0.5); }
+    .hero-forecast .forecast-day .day-icon { font-size: 0.9rem; }
+    .hero-forecast .forecast-day .day-hi { font-size: 0.68rem; }
+    .hero-forecast .forecast-day .day-lo { color: rgba(255,255,255,0.5); }
+    @media (max-width: 800px) { .hero-chips { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 2.5rem; } }
+
+    /* ── Glance strip + per-topic accordions ── */
+    .glance-strip { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 28px; }
+    .glance-item { flex: 1; padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
+    .glance-item:last-child { border-right: none; }
+    .glance-icon { font-size: 1.2rem; }
+    .glance-val { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-top: 3px; }
+    .glance-val.danger { color: var(--red); }
+    .glance-lbl { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 1px; }
+    @media (max-width: 700px) { .glance-strip { flex-wrap: wrap; } .glance-item { flex: 1 1 33%; border-bottom: 1px solid var(--border); } }
+
+    .section-accordion { border: none; margin: 0; }
+    .section-accordion summary {
+      display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
+      padding: 16px 0; border-top: 1px solid var(--border); user-select: none;
+    }
+    .section-accordion summary::-webkit-details-marker { display: none; }
+    .section-accordion .sa-title {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .section-accordion .sa-icon { font-size: 1rem; }
+    .section-accordion .sa-badge {
+      margin-left: auto; font-size: 0.65rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+      background: var(--surface2); color: var(--text-dim); white-space: nowrap;
+    }
+    .section-accordion .sa-badge.danger { background: rgba(192,90,74,0.18); color: var(--red); }
+    .section-accordion .sa-badge.ok { background: rgba(124,138,92,0.18); color: #6a9c4a; }
+    .section-accordion .sa-chevron { color: var(--text-dim); font-size: 0.8rem; transition: transform 0.2s; flex-shrink: 0; }
+    .section-accordion[open] > summary .sa-chevron { transform: rotate(180deg); }
+    .section-accordion[open] > summary { border-bottom: none; }
+    .section-accordion .sa-body { padding: 0 0 32px; }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-photo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Chisos_Mountains_at_sunrise.JPG" alt="Chisos Mountains at sunrise, Big Bend National Park" />
+    <a class="hero-photo-credit" href="https://commons.wikimedia.org/wiki/File:Chisos_Mountains_at_sunrise.JPG" target="_blank">Photo: Fredlyfish4 / Wikimedia Commons (CC BY-SA 3.0)</a>
+  </div>
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
+    </a>
+    <div class="hero-top-row">
+      <div class="hero-eyebrow">Texas &middot; Est. 1944</div>
+      <a class="map-download-btn" href="https://npmaps.com/wp-content/uploads/big-bend-map.pdf" target="_blank" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Park Map PDF
+      </a>
+    </div>
+    <h1 class="hero-title">Big Bend</h1>
+    <p class="hero-sub">The Rio Grande carves a giant bend through the Chihuahuan Desert — the Chisos, the only mountain range entirely inside one national park, and some of the darkest skies in the Lower 48.</p>
+
+    <div class="hero-chips">
+      <div class="hero-chip">
+        <div class="hero-chip-label">Weather</div>
+        <div class="weather-main">
+          <span class="weather-icon" id="wxIcon">⏳</span>
+          <span class="weather-temp" id="wxTemp">--°F</span>
+        </div>
+        <div class="weather-desc" id="wxDesc">Loading weather…</div>
+        <div class="weather-details" id="wxDetails">
+          <div class="weather-detail-row"><span class="label">Wind</span> <span id="wxWind">--</span></div>
+          <div class="weather-detail-row"><span class="label">Humidity</span> <span id="wxHumidity">--</span></div>
+          <div class="weather-detail-row"><span class="label">Precip</span> <span id="wxPrecip">--</span></div>
+        </div>
+        <div class="hero-forecast" id="forecastStrip"></div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Air quality</div>
+        <div class="aqi-value" id="aqiValue">--</div>
+        <div class="aqi-cat" id="aqiCat">Loading…</div>
+        <div class="weather-details" id="aqiDetails">
+          <div class="weather-detail-row"><span class="label">PM2.5</span> <span id="aqiPM25">--</span></div>
+          <div class="weather-detail-row"><span class="label">Ozone</span> <span id="aqiOzone">--</span></div>
+          <div class="weather-detail-row"><span class="label">UV</span> <span id="aqiUV">--</span></div>
+        </div>
+      </div>
+
+      <div class="hero-chip hero-chip-clickable" id="alertsToggle" onclick="toggleAlerts()">
+        <div class="hero-chip-label">NPS alerts <span class="hero-chevron" id="alertsChevron">▾</span></div>
+        <div class="alert-count zero" id="alertCount">–</div>
+        <div class="weather-desc">Tap to expand</div>
+      </div>
+
+      <div class="hero-chip">
+        <div class="hero-chip-label">Tonight's sky</div>
+        <div class="moon-mini-row">
+          <span class="moon-mini-icon" id="moonIcon-mini">⏳</span>
+          <span class="moon-mini-name" id="moonName-mini">Loading…</span>
+        </div>
+        <div class="moon-mini-illum" id="moonIllum-mini"></div>
+        <div class="moon-mini-illum" id="moonDark-mini"></div>
+      </div>
+    </div>
+
+    <div class="hero-alerts-body" id="alertsBody">
+      <div class="alerts-loading">Loading advisories…</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- At a Glance -->
+  <div class="glance-strip">
+    <div class="glance-item"><div class="glance-icon">🌡️</div><div class="glance-val danger">Extreme</div><div class="glance-lbl">Heat risk</div></div>
+    <div class="glance-item"><div class="glance-icon">🛂</div><div class="glance-val">Fri–Mon</div><div class="glance-lbl">Boquillas crossing</div></div>
+    <div class="glance-item"><div class="glance-icon">🏕</div><div class="glance-val">4 areas</div><div class="glance-lbl">Campgrounds</div></div>
+    <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$30</div><div class="glance-lbl">7-day fee</div></div>
+    <div class="glance-item"><div class="glance-icon">🌙</div><div class="glance-val">Darkest in US</div><div class="glance-lbl">Dark sky park</div></div>
+    <div class="glance-item"><div class="glance-icon">📷</div><div class="glance-val">1 live</div><div class="glance-lbl">Camera</div></div>
+  </div>
+
+  <!-- Extreme Heat & Remoteness Safety -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Extreme Heat &amp; Remoteness Safety</span><span class="sa-badge danger">Dehydration risk</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="notice-bar danger">
+      <span class="notice-icon">🌡️</span>
+      <span>NPS's own safety page is blunt: <strong>"Dehydration is a serious and deadly reality in the park."</strong> Carry at least <strong>1 gallon of water per person per day</strong>, especially in the low desert near the Rio Grande. Flash floods can fill narrow canyons and washes fast during storms. Cell service is extremely limited to nonexistent across most of the park — plan accordingly. Wildlife encounters (black bears, mountain lions, venomous snakes) do occur — never run from a large predator. Vehicle collisions with wildlife are also common at night on park roads. <a href="https://www.nps.gov/bibe/planyourvisit/safety.htm" target="_blank">NPS safety info ↗</a></span>
+    </div>
+    <div class="fee-bar">
+      <span class="fee-bar-label">Quick Stats</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Elevation Range</span><span class="fee-price">~1,800–7,825 ft</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Highest Point (Emory Peak)</span><span class="fee-price">7,825 ft</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Established</span><span class="fee-price">1944</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Border River</span><span class="fee-price">Rio Grande</span></div>
+      </div>
+    </div>
+    </div>
+  </details>
+
+  <!-- Park Entrances & Fees -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrances &amp; Fees</span><span class="sa-badge ok">2 entrances · $30</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+
+    <div class="traffic-grid">
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">North Entrance</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
+        </div>
+        <div class="traffic-name">Persimmon Gap, via Marathon (US-385)</div>
+        <div class="traffic-desc">The most common approach, roughly 70 miles south of Marathon through wide open Chihuahuan Desert grassland before reaching Panther Junction.</div>
+        <div class="traffic-tip">💡 Long, remote drive with no services — top off gas and water in Marathon before entering.</div>
+        <a class="traffic-link" href="https://www.nps.gov/bibe/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+
+      <div class="traffic-card">
+        <div class="traffic-card-header">
+          <span class="traffic-route">West Entrance</span>
+          <span class="traffic-badge badge-open">Usually Open</span>
+        </div>
+        <div class="traffic-name">Study Butte / Terlingua, via FM-170</div>
+        <div class="traffic-desc">Approach from the funky desert town of Terlingua — the closest entrance to Santa Elena Canyon and the Ross Maxwell Scenic Drive.</div>
+        <div class="traffic-tip">💡 No timed-entry system here, unlike many busier western parks — walk up or drive in any time.</div>
+        <a class="traffic-link" href="https://www.nps.gov/bibe/planyourvisit/directions.htm" target="_blank">NPS directions ↗</a>
+      </div>
+    </div>
+
+    <div class="fee-bar">
+      <span class="fee-bar-label">Entry Fees · 7-day pass</span>
+      <div class="fee-items">
+        <div class="fee-item"><span class="fee-type">Vehicle</span><span class="fee-price">$30</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Motorcycle</span><span class="fee-price">$25</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Individual / Foot / Bike</span><span class="fee-price">$15</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">Big Bend Annual Pass</span><span class="fee-price">$55/yr</span></div>
+        <div class="fee-divider"></div>
+        <div class="fee-item"><span class="fee-type">America the Beautiful</span><span class="fee-price">$80/yr <span style="opacity:0.6;font-weight:400;">($250 non-resident, 2026)</span></span></div>
+      </div>
+      <span class="fee-note">Backcountry permit $10/night · Frontcountry campsite $16/night</span>
+    </div>
+
+    </div>
+  </details>
+
+  <!-- Boquillas Crossing -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🛂</span>Boquillas Crossing</span><span class="sa-badge ok">Fri–Mon 9am–4pm</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="notice-bar">
+      <span class="notice-icon">🚣</span>
+      <span>A small, legal U.S. Port of Entry sits inside the park, connecting to the Mexican village of <strong>Boquillas del Carmen</strong> via a hand-rowed boat across the Rio Grande. Currently open <strong>Friday–Monday, 9:00 AM–4:00 PM</strong> — a <strong>passport book or passport card is required</strong> (an Enhanced Driver's License is NOT accepted). The rowboat ferry costs $5 round trip, plus a $7 Mexican park entry fee on the far side. Border crossing hours can change without much notice — verify current hours before planning a visit. <a href="https://www.nps.gov/bibe/planyourvisit/visiting-boquillas.htm" target="_blank">NPS Boquillas Crossing info ↗</a></span>
+    </div>
+    </div>
+  </details>
+
+  <!-- Campground Availability -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">4 areas</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">✅</span>
+      <span>A planned 2-year construction project that would have closed the Chisos Basin Lodge, campground, and trails was <strong>officially cancelled as of April 1, 2026</strong> — Chisos Basin remains fully open.</span>
+    </div>
+    <div class="transport-grid">
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Chisos Basin</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">60 + 7 group</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">5,400 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">The only campground with meaningfully cooler temps in summer</span></div>
+        <a class="transport-link" href="https://www.recreation.gov/camping/campgrounds/234038" target="_blank">Book on Recreation.gov ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Rio Grande Village</span>
+          <span class="transport-badge">Reservation Only</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">93 + 4 group</span></div>
+        <div class="transport-row"><span class="transport-key">Elevation</span><span class="transport-val">Low, near the river — hot</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Includes 1 ADA site; near Boquillas Canyon</span></div>
+        <a class="transport-link" href="https://www.nps.gov/bibe/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Rio Grande Village RV Park</span>
+          <span class="transport-badge">Concessionaire</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">25 full hookup</span></div>
+        <div class="transport-row"><span class="transport-key">Max Length</span><span class="transport-val">38 ft</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Operated by Aramark, not on Recreation.gov — call 855-765-1324</span></div>
+      </details>
+
+      <details class="transport-card">
+        <summary class="transport-header">
+          <span class="transport-title">Cottonwood</span>
+          <span class="transport-badge danger">Closed for Summer</span>
+          <span class="transport-chevron">▾</span>
+        </summary>
+        <div class="transport-row"><span class="transport-key">Sites</span><span class="transport-val highlight">~30 + 1 group</span></div>
+        <div class="transport-row"><span class="transport-key">Season</span><span class="transport-val">Closed ~May–Oct, reopens ~Nov 1</span></div>
+        <div class="transport-row"><span class="transport-key">Notes</span><span class="transport-val">Quiet riverside site near Santa Elena Canyon &amp; Castolon</span></div>
+        <a class="transport-link" href="https://www.nps.gov/bibe/planyourvisit/campgrounds.htm" target="_blank">Campground details ↗</a>
+      </details>
+
+    </div>
+    <div class="notice-bar" style="margin-top: 12px;">
+      <span class="notice-icon">🎒</span>
+      <span>Backcountry &amp; primitive roadside camping requires a permit (Recreation.gov for most sites; remote high-clearance roads like Old Ore Road require an in-person request at a visitor center). Stay limits: 14 consecutive nights, 28 nights/year.</span>
+    </div>
+    </div>
+  </details>
+
+  <!-- Landmarks & Trailheads -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">8 stops</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group" open>
+        <summary class="conc-summary">Chisos Basin Area<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">The Window Trail</span><span class="conc-type">Moderate 5.6 mi round trip to a pour-off framing the desert below</span><span class="conc-hrs">~3 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Lost Mine Trail</span><span class="conc-type">Moderate 4.8 mi round trip, one of the park's best views</span><span class="conc-hrs">~3 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Chisos Mountains / Emory Peak</span><span class="conc-type">The only US mountain range entirely inside one national park</span><span class="conc-hrs">7,825 ft</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">River Canyons<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Santa Elena Canyon</span><span class="conc-type">Easy trail into the mouth of 1,500-ft limestone canyon walls</span><span class="conc-hrs">~1.5 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Boquillas Canyon</span><span class="conc-type">Easy trail along the Rio Grande to a towering canyon entrance</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Rio Grande Village Nature Trail</span><span class="conc-type">Easy boardwalk loop with river &amp; wetland views</span><span class="conc-hrs">~30 min</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Desert Formations<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">The Chimneys</span><span class="conc-type">Moderate desert hike to volcanic rock formations &amp; petroglyphs</span><span class="conc-hrs">~2 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Balanced Rock (Grapevine Hills)</span><span class="conc-type">Easy 2.2 mi round trip to a boulder balanced between two rock towers</span><span class="conc-hrs">~1.5 hrs</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
+  <!-- River Conditions -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Rio Grande Conditions</span><span class="sa-badge ok">2 live gauges</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="notice-bar" style="margin-bottom: 12px;">
+      <span class="notice-icon">🛶</span>
+      <span>Useful for gauging canoeing/rafting flow on the Rio Grande through Santa Elena &amp; Boquillas Canyons — no gauge sits directly inside either canyon, but these are the closest live USGS stations.</span>
+    </div>
+    <div class="transport-grid" id="riverGrid">
+
+      <div class="transport-card">
+        <div class="transport-header"><span class="transport-title">Rio Grande at Rio Grande Village</span></div>
+        <div class="transport-row"><span class="transport-key">Gage Height</span><span class="transport-val highlight" id="gh-08375300">Loading…</span></div>
+        <div class="transport-row"><span class="transport-key">Discharge</span><span class="transport-val" id="cfs-08375300">Loading…</span></div>
+        <div class="transport-row"><span class="transport-key">Updated</span><span class="transport-val" id="time-08375300">--</span></div>
+        <a class="transport-link" href="https://waterdata.usgs.gov/monitoring-location/08375300/" target="_blank">USGS site 08375300 ↗</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="transport-header"><span class="transport-title">Rio Grande near Castolon</span></div>
+        <div class="transport-row"><span class="transport-key">Gage Height</span><span class="transport-val highlight" id="gh-08374550">Loading…</span></div>
+        <div class="transport-row"><span class="transport-key">Discharge</span><span class="transport-val" id="cfs-08374550">Loading…</span></div>
+        <div class="transport-row"><span class="transport-key">Updated</span><span class="transport-val" id="time-08374550">--</span></div>
+        <a class="transport-link" href="https://waterdata.usgs.gov/monitoring-location/08374550/" target="_blank">USGS site 08374550 ↗</a>
+      </div>
+
+    </div>
+    </div>
+  </details>
+
+  <!-- Stargazing -->
+  <details class="section-accordion">
+    <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Certified 2012</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="moon-card">
+      <div class="moon-icon" id="moonIcon">⏳</div>
+      <div>
+        <div class="moon-name" id="moonName">Loading…</div>
+        <div class="moon-illum" id="moonIllum"></div>
+        <div class="moon-illum" id="moonBestTime" style="color: var(--dusk-light); font-weight: 600; margin-top: 4px;"></div>
+      </div>
+      <div class="moon-blurb">
+        Big Bend was certified an <strong>International Dark Sky Park in 2012</strong>, and NPS describes it as having <strong>"the darkest night skies of any national park in the Lower 48."</strong> Since 2022, the park anchors the 3.8-million-acre <strong>Greater Big Bend International Dark Sky Reserve</strong> — the largest certified dark sky place in the world. Best viewing away from Chisos Basin lights, at Rio Grande Village or along the river roads. <a href="https://www.nps.gov/bibe/planyourvisit/stargazing.htm" target="_blank">NPS night sky info ↗</a>
+      </div>
+    </div>
+    </div>
+  </details>
+
+  <div class="refresh-bar" style="border-top: 1px solid var(--border); padding-top: 16px;">
+    <div class="section-label" style="flex:1; margin-bottom:0; border-top:none; padding-top:0; display:flex; align-items:center; gap:9px;"><span class="sa-icon" style="font-size:1rem;">📷</span>Live Camera Feed</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
+      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
+      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
+    </div>
+  </div>
+
+  <div class="cam-grid" id="camGrid"></div>
+
+  <!-- Park Contact Information -->
+  <div style="margin-bottom: 12px;">
+    <div class="section-label">Park Contact Information</div>
+    <div class="notice-bar">
+      <span class="notice-icon">📞</span>
+      <span><strong>Phone:</strong> (432) 477-2251 &nbsp;·&nbsp; <strong>Mailing Address:</strong> PO Box 129, Big Bend National Park, TX 79834 &nbsp;·&nbsp; <a href="https://www.nps.gov/bibe/contacts.htm" target="_blank">Official NPS contact page ↗</a></span>
+    </div>
+  </div>
+
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <div class="modal-img-wrap" id="modalImgWrap"></div>
+    <div class="modal-footer">
+      <div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-source" id="modalSource"></div>
+      </div>
+      <div class="modal-close" onclick="closeModal(null, true)">✕</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Sources: National Park Service · USGS Water Data · Recreation.gov</span>
+  <span>Weather: Open-Meteo (Panther Junction) · Alerts: NPS Data API</span>
+</footer>
+
+<script>
+  // ── Camera definitions ──
+  const CAMS = [
+    {
+      id: 'panther-junction',
+      name: 'Panther Junction',
+      meta: 'Park headquarters & main visitor center view',
+      source: 'NPS Air Resources Division',
+      type: 'img',
+      url: 'https://www.nps.gov/featurecontent/ard/webcams/images/bibelarge.jpg',
+    },
+  ];
+
+  // ── Weather code → emoji + description ──
+  function wxInfo(code) {
+    if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
+    if (code === 1) return { icon: '🌤️', desc: 'Mainly Clear' };
+    if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+    if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+    if ([45, 48].includes(code)) return { icon: '🌫️', desc: 'Foggy' };
+    if ([51, 53, 55].includes(code)) return { icon: '🌦️', desc: 'Drizzle' };
+    if ([61, 63, 65].includes(code)) return { icon: '🌧️', desc: 'Rain' };
+    if ([71, 73, 75, 77].includes(code)) return { icon: '❄️', desc: 'Snow' };
+    if ([80, 81, 82].includes(code)) return { icon: '🌦️', desc: 'Rain Showers' };
+    if ([85, 86].includes(code)) return { icon: '🌨️', desc: 'Snow Showers' };
+    if (code === 95) return { icon: '⛈️', desc: 'Thunderstorm' };
+    if ([96, 99].includes(code)) return { icon: '⛈️', desc: 'Thunderstorm w/ Hail' };
+    return { icon: '🌡️', desc: 'Unknown' };
+  }
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  function fetchWithTimeout(url, ms = 8000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
+    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  }
+
+  async function loadWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=29.3278&longitude=-103.2060' +
+        '&current=temperature_2m,weathercode,windspeed_10m,precipitation,relativehumidity_2m' +
+        '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+        '&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FChicago&forecast_days=5';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const c = d.current;
+      const info = wxInfo(c.weathercode);
+
+      document.getElementById('wxIcon').textContent = info.icon;
+      document.getElementById('wxTemp').textContent = Math.round(c.temperature_2m) + '°F';
+      document.getElementById('wxDesc').textContent = info.desc + ' · Panther Junction';
+      document.getElementById('wxWind').textContent = Math.round(c.windspeed_10m) + ' mph';
+      document.getElementById('wxHumidity').textContent = c.relativehumidity_2m + '%';
+      document.getElementById('wxPrecip').textContent = c.precipitation.toFixed(2) + ' in';
+
+      const strip = document.getElementById('forecastStrip');
+      strip.innerHTML = '';
+      const daily = d.daily;
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(daily.time[i] + 'T12:00:00');
+        const fi = wxInfo(daily.weathercode[i]);
+        const div = document.createElement('div');
+        div.className = 'forecast-day';
+        div.innerHTML = `
+          <span class="day-name">${DAY_NAMES[date.getDay()]}</span>
+          <span class="day-icon">${fi.icon}</span>
+          <span class="day-hi">${Math.round(daily.temperature_2m_max[i])}°</span>
+          <span class="day-lo">${Math.round(daily.temperature_2m_min[i])}°</span>
+        `;
+        strip.appendChild(div);
+      }
+    } catch (e) {
+      document.getElementById('wxDesc').textContent = 'Weather unavailable';
+    }
+  }
+
+  function uvInfo(uv) {
+    if (uv < 3)  return 'Low';
+    if (uv < 6)  return 'Moderate';
+    if (uv < 8)  return 'High';
+    if (uv < 11) return 'Very High';
+    return 'Extreme';
+  }
+
+  async function loadAQI() {
+    try {
+      const url = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=29.3278&longitude=-103.2060&current=us_aqi,pm2_5,pm10,ozone,uv_index&timezone=America%2FChicago';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const aqi = d.current.us_aqi;
+      const pm25 = d.current.pm2_5.toFixed(1);
+      const ozone = Math.round(d.current.ozone);
+      const uv = Math.round(d.current.uv_index);
+
+      let cat, cls;
+      if (aqi <= 50)       { cat = 'Good';              cls = 'aqi-good'; }
+      else if (aqi <= 100) { cat = 'Moderate';           cls = 'aqi-moderate'; }
+      else if (aqi <= 150) { cat = 'Unhealthy for Some'; cls = 'aqi-usg'; }
+      else if (aqi <= 200) { cat = 'Unhealthy';          cls = 'aqi-unhealthy'; }
+      else if (aqi <= 300) { cat = 'Very Unhealthy';     cls = 'aqi-very'; }
+      else                 { cat = 'Hazardous';          cls = 'aqi-hazardous'; }
+
+      document.getElementById('aqiValue').textContent = aqi;
+      const catEl = document.getElementById('aqiCat');
+      catEl.textContent = cat;
+      catEl.className = 'aqi-cat ' + cls;
+      document.getElementById('aqiPM25').textContent = `${pm25} µg/m³`;
+      document.getElementById('aqiOzone').textContent = `${ozone} µg/m³`;
+      document.getElementById('aqiUV').textContent = `${uv} · ${uvInfo(uv)}`;
+    } catch (e) {
+      document.getElementById('aqiCat').textContent = 'Unavailable';
+    }
+  }
+
+  // ── NPS Alerts ──
+  async function loadAlerts() {
+    const body = document.getElementById('alertsBody');
+    const countEl = document.getElementById('alertCount');
+    try {
+      const res = await fetch('https://nps-alerts-proxy.bryanumcclain.workers.dev/alerts?parkCode=bibe');
+      const d = await res.json();
+      if (!res.ok || d.error) throw new Error(d.error?.message || ('HTTP ' + res.status));
+      const alerts = d.data || [];
+      countEl.textContent = alerts.length;
+      countEl.className = 'alert-count' + (alerts.length === 0 ? ' zero' : '');
+
+      if (alerts.length === 0) {
+        body.innerHTML = '<div class="alerts-loading">No active alerts at this time.</div>';
+        return;
+      }
+
+      body.innerHTML = alerts.map(a => {
+        const cat = (a.category || 'Information').toLowerCase().replace(/\s+/g, '-');
+        return `
+          <div class="alert-item">
+            <div class="alert-cat ${cat}">${a.category || 'Information'}</div>
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.description}</div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      countEl.textContent = '?';
+      body.innerHTML = '<div class="alerts-loading">Could not load advisories.</div>';
+    }
+  }
+
+  function toggleAlerts() {
+    const toggle = document.getElementById('alertsToggle');
+    const body = document.getElementById('alertsBody');
+    const isOpen = body.classList.contains('open');
+    toggle.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── River gauges (USGS Instantaneous Values API) ──
+  const RIVER_SITES = ['08375300', '08374550'];
+
+  async function loadRivers() {
+    try {
+      const url = `https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${RIVER_SITES.join(',')}&parameterCd=00060,00065&siteStatus=all`;
+      const res = await fetchWithTimeout(url, 10000);
+      const d = await res.json();
+      const series = (d.value && d.value.timeSeries) || [];
+
+      RIVER_SITES.forEach(site => {
+        const cfsSeries = series.find(s => s.sourceInfo.siteCode[0].value === site && s.variable.variableCode[0].value === '00060');
+        const ghSeries = series.find(s => s.sourceInfo.siteCode[0].value === site && s.variable.variableCode[0].value === '00065');
+
+        const cfsEl = document.getElementById('cfs-' + site);
+        const ghEl = document.getElementById('gh-' + site);
+        const timeEl = document.getElementById('time-' + site);
+
+        if (cfsSeries && cfsSeries.values[0].value.length) {
+          const v = cfsSeries.values[0].value[cfsSeries.values[0].value.length - 1];
+          if (cfsEl) cfsEl.textContent = `${Math.round(v.value).toLocaleString()} cfs`;
+          if (timeEl) timeEl.textContent = new Date(v.dateTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        } else if (cfsEl) {
+          cfsEl.textContent = 'Unavailable';
+        }
+
+        if (ghSeries && ghSeries.values[0].value.length) {
+          const v = ghSeries.values[0].value[ghSeries.values[0].value.length - 1];
+          if (ghEl) ghEl.textContent = `${parseFloat(v.value).toFixed(2)} ft`;
+        } else if (ghEl) {
+          ghEl.textContent = 'Unavailable';
+        }
+      });
+    } catch (e) {
+      RIVER_SITES.forEach(site => {
+        const cfsEl = document.getElementById('cfs-' + site);
+        const ghEl = document.getElementById('gh-' + site);
+        if (cfsEl) cfsEl.textContent = 'Unavailable';
+        if (ghEl) ghEl.textContent = 'Unavailable';
+      });
+    }
+  }
+
+  // ── Moon Phase (no API — pure calculation) ──
+  function moonPhaseInfo(date) {
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const days = (date.getTime() - knownNewMoon) / 86400000;
+    let phase = (days % synodicMonth) / synodicMonth;
+    if (phase < 0) phase += 1;
+    const illum = Math.round((1 - Math.cos(2 * Math.PI * phase)) / 2 * 100);
+    const names = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const idx = Math.floor(phase * 8 + 0.5) % 8;
+    return { name: names[idx], icon: icons[idx], illum };
+  }
+
+  function loadMoonPhase() {
+    const m = moonPhaseInfo(new Date());
+    document.getElementById('moonIcon').textContent = m.icon;
+    document.getElementById('moonName').textContent = m.name;
+    document.getElementById('moonIllum').textContent = `${m.illum}% illuminated tonight`;
+
+    const miniIcon = document.getElementById('moonIcon-mini');
+    const miniName = document.getElementById('moonName-mini');
+    const miniIllum = document.getElementById('moonIllum-mini');
+    if (miniIcon) miniIcon.textContent = m.icon;
+    if (miniName) miniName.textContent = m.name;
+    if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
+  }
+
+  async function loadTwilight() {
+    try {
+      const url = 'https://api.sunrise-sunset.org/json?lat=29.3278&lng=-103.2060&formatted=0';
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const darkTime = new Date(d.results.astronomical_twilight_end);
+      const timeStr = darkTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
+
+      const m = moonPhaseInfo(new Date());
+      let moonNote;
+      if (m.illum <= 25) moonNote = 'minimal moonlight — great night for faint stars & the Milky Way';
+      else if (m.illum <= 60) moonNote = 'some moonlight will wash out the faintest stars';
+      else moonNote = 'bright moonlight will wash out all but the brightest stars';
+
+      const mini = document.getElementById('moonDark-mini');
+      if (mini) mini.textContent = `Dark by ${timeStr}`;
+      const full = document.getElementById('moonBestTime');
+      if (full) full.textContent = `Best viewing: after ${timeStr}, once skies are fully dark — ${moonNote}.`;
+    } catch (e) {
+      const full = document.getElementById('moonBestTime');
+      if (full) full.textContent = '';
+    }
+  }
+
+  // ── Build camera grid ──
+  function buildGrid() {
+    const grid = document.getElementById('camGrid');
+    grid.innerHTML = '';
+    CAMS.forEach(cam => {
+      const card = document.createElement('div');
+      card.className = 'cam-card';
+      card.dataset.id = cam.id;
+
+      card.innerHTML = `
+        <div class="cam-img-wrap" onclick="openModal('${cam.id}')">
+          <img
+            id="img-${cam.id}"
+            src="${cam.url}?_t=${Date.now()}"
+            alt="${cam.name}"
+            class="loading"
+            onerror="camError('${cam.id}')"
+            onload="camLoaded('${cam.id}')"
+          />
+          <div class="cam-error" id="err-${cam.id}">
+            <span class="err-icon">📵</span>
+            <span>Feed unavailable</span>
+          </div>
+        </div>
+        <div class="cam-footer">
+          <div>
+            <div class="cam-name">${cam.name}</div>
+            <div class="cam-meta">${cam.meta} · ${cam.source}</div>
+          </div>
+          <div class="cam-status">
+            <div class="status-dot" id="dot-${cam.id}"></div>
+            <span id="status-${cam.id}">Loading…</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function camLoaded(id) {
+    const img = document.getElementById('img-' + id);
+    if (img) img.classList.remove('loading');
+    const dot = document.getElementById('dot-' + id);
+    if (dot) { dot.className = 'status-dot live'; }
+    const st = document.getElementById('status-' + id);
+    if (st) st.textContent = 'Live';
+  }
+
+  function camError(id) {
+    const img = document.getElementById('img-' + id);
+    if (img) img.style.display = 'none';
+    const err = document.getElementById('err-' + id);
+    if (err) err.style.display = 'flex';
+    const dot = document.getElementById('dot-' + id);
+    if (dot) dot.className = 'status-dot error';
+    const st = document.getElementById('status-' + id);
+    if (st) st.textContent = 'Offline';
+  }
+
+  // ── Auto-refresh countdown ──
+  let refreshTimer = 60;
+  let countdownInterval;
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    refreshTimer = 60;
+    countdownInterval = setInterval(() => {
+      refreshTimer--;
+      document.getElementById('lastRefresh').textContent = `Refreshing in ${refreshTimer}s`;
+      if (refreshTimer <= 0) {
+        refreshAll();
+      }
+    }, 1000);
+  }
+
+  function refreshAll() {
+    CAMS.forEach(cam => {
+      const img = document.getElementById('img-' + cam.id);
+      if (!img) return;
+      img.style.display = 'block';
+      const err = document.getElementById('err-' + cam.id);
+      if (err) err.style.display = 'none';
+      img.classList.add('loading');
+      const dot = document.getElementById('dot-' + cam.id);
+      if (dot) { dot.className = 'status-dot'; }
+      const st = document.getElementById('status-' + cam.id);
+      if (st) st.textContent = 'Loading…';
+      img.src = cam.url + '?_t=' + Date.now();
+    });
+    loadWeather();
+    loadAQI();
+    loadAlerts();
+    loadRivers();
+    loadMoonPhase();
+    loadTwilight();
+    startCountdown();
+  }
+
+  // ── Modal ──
+  let modalCam = null;
+
+  function openModal(id) {
+    const cam = CAMS.find(c => c.id === id);
+    if (!cam) return;
+    modalCam = cam;
+    document.getElementById('modalTitle').textContent = cam.name;
+    document.getElementById('modalSource').textContent = cam.meta + ' · ' + cam.source;
+    const wrap = document.getElementById('modalImgWrap');
+    wrap.innerHTML = `<img src="${cam.url}?_t=${Date.now()}" alt="${cam.name}" />`;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e, force) {
+    if (!force && e && e.target !== document.getElementById('modal')) return;
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modalImgWrap').innerHTML = '';
+    document.body.style.overflow = '';
+    modalCam = null;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Init ──
+  buildGrid();
+  loadWeather();
+  loadAQI();
+  loadAlerts();
+  loadRivers();
+  loadMoonPhase();
+  loadTwilight();
+  startCountdown();
+</script>
+</body>
+</html>

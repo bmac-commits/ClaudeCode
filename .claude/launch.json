@@ -229,6 +229,55 @@
       "runtimeArgs": ["-m", "http.server", "8030"],
       "port": 8030,
       "rootPath": "/devils_tower_cams.html"
+    },
+    {
+      "name": "great-smoky-mountains-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8031"],
+      "port": 8031,
+      "rootPath": "/great_smoky_mountains_cams.html"
+    },
+    {
+      "name": "rocky-mountain-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8032"],
+      "port": 8032,
+      "rootPath": "/rocky_mountain_cams.html"
+    },
+    {
+      "name": "mesa-verde-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8033"],
+      "port": 8033,
+      "rootPath": "/mesa_verde_cams.html"
+    },
+    {
+      "name": "big-bend-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8034"],
+      "port": 8034,
+      "rootPath": "/big_bend_cams.html"
+    },
+    {
+      "name": "great-sand-dunes-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8035"],
+      "port": 8035,
+      "rootPath": "/great_sand_dunes_cams.html"
+    },
+    {
+      "name": "black-canyon-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8036"],
+      "port": 8036,
+      "rootPath": "/black_canyon_cams.html"
+    },
+    {
+      "name": "guadalupe-mountains-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8037"],
+      "port": 8037,
+      "rootPath": "/guadalupe_mountains_cams.html"
     }
   ]
 }
