@@ -488,6 +488,42 @@
       <path d="M2 82 L20 52 L32 66 L48 40 L62 60 L76 44 L98 82 Z" fill="#fff" opacity="0.55"/>
       <path d="M4 90 L22 62 L34 76 L50 50 L64 70 L78 54 L96 90 Z" fill="#fff" opacity="0.95"/>
     </svg>`,
+    denali: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 8 L82 88 L18 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M50 8 L38 40 L50 34 L62 40 Z" fill="#fff" opacity="0.5"/>
+    </svg>`,
+    glacierBay: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 40 L44 14 L56 34 L74 20 L88 46 L64 46 L50 60 L34 46 Z" fill="#fff" opacity="0.9"/>
+      <path d="M4 84c10-6 18-6 26 0s18 6 26 0s18-6 26 0s18 6 14 0" stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    </svg>`,
+    katmai: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="38" r="12" fill="#fff" opacity="0.95"/>
+      <circle cx="34" cy="26" r="7" fill="#fff" opacity="0.95"/>
+      <circle cx="66" cy="26" r="7" fill="#fff" opacity="0.95"/>
+      <path d="M30 60 Q50 46 70 60 L70 88 L30 88 Z" fill="#fff" opacity="0.85"/>
+    </svg>`,
+    kenaiFjords: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 54 L34 18 L50 40 L66 14 L90 54 Z" fill="#fff" opacity="0.9"/>
+      <path d="M2 70c12-6 20-6 30 0s20 6 30 0s20-6 30 0s16 6 6 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M2 86c12-6 20-6 30 0s20 6 30 0s20-6 30 0s16 6 6 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.45"/>
+    </svg>`,
+    kobukValley: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 76 Q20 48 38 64 Q52 42 66 60 Q80 44 98 68 L98 90 L2 90 Z" fill="#fff" opacity="0.5"/>
+      <path d="M2 84 Q22 60 40 74 Q56 54 72 72 Q86 58 98 78 L98 94 L2 94 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
+    lakeClark: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 60 L34 22 L48 44 L62 18 L86 60 Z" fill="#fff" opacity="0.9"/>
+      <path d="M2 74c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 12 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.65"/>
+      <path d="M2 88c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 12 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.4"/>
+    </svg>`,
+    wrangellStElias: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 88 L28 24 L44 50 L58 12 L76 46 L96 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M58 12 L50 30 58 38 66 30 Z" fill="#fff" opacity="0.4"/>
+    </svg>`,
+    gatesOfTheArctic: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 88 L26 24 L38 46 L44 88 Z" fill="#fff" opacity="0.95"/>
+      <path d="M96 88 L74 24 L62 46 L56 88 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -851,9 +887,89 @@
       features: 'Skyline Drive · River Flow · Black Bear Country',
       href: 'shenandoah_cams.html',
     },
+    {
+      name: 'Denali',
+      states: ['Alaska'],
+      accent: '#5a8fb8',
+      grad: 'linear-gradient(135deg, #0e161c 0%, #2c4658 55%, #5a8fb8 100%)',
+      icon: ICONS.denali,
+      desc: 'North America’s tallest peak at 20,310 feet — the Big 5 wildlife, a dog-sled kennel cam, and a park road closed by landslide since 2021.',
+      features: 'Tallest Peak in N. America · Big 5 Wildlife · Live Cam',
+      href: 'denali_cams.html',
+    },
+    {
+      name: 'Glacier Bay',
+      states: ['Alaska'],
+      accent: '#3a9aa8',
+      grad: 'linear-gradient(135deg, #0a1a1c 0%, #245862 55%, #3a9aa8 100%)',
+      icon: ICONS.glacierBay,
+      desc: 'Actively calving tidewater glaciers reachable only by boat or plane — a bay that was solid ice in the late 1700s has retreated 65 miles.',
+      features: 'Tidewater Glaciers · Boat-Only Access · No Roads',
+      href: 'glacier_bay_cams.html',
+    },
+    {
+      name: 'Katmai',
+      states: ['Alaska'],
+      accent: '#a86a3a',
+      grad: 'linear-gradient(135deg, #1a120c 0%, #6a4426 55%, #a86a3a 100%)',
+      icon: ICONS.katmai,
+      desc: 'Home of the famous Brooks Falls bear cam and the Valley of Ten Thousand Smokes — formed by the largest volcanic eruption of the 20th century.',
+      features: 'Brooks Falls Bear Cam · Highest Bear Density · Fat Bear Week',
+      href: 'katmai_cams.html',
+    },
+    {
+      name: 'Kenai Fjords',
+      states: ['Alaska'],
+      accent: '#3a9080',
+      grad: 'linear-gradient(135deg, #0c1a18 0%, #24564c 55%, #3a9080 100%)',
+      icon: ICONS.kenaiFjords,
+      desc: 'More than 30 glaciers flow from the 700-square-mile Harding Icefield — but only Exit Glacier is reachable by road.',
+      features: 'Harding Icefield · Glacier Calving Danger · Exit Glacier',
+      href: 'kenai_fjords_cams.html',
+    },
+    {
+      name: 'Kobuk Valley',
+      states: ['Alaska'],
+      accent: '#c08a3e',
+      grad: 'linear-gradient(135deg, #150f08 0%, #6a4c26 55%, #c08a3e 100%)',
+      icon: ICONS.kobukValley,
+      desc: '100-foot Arctic sand dunes 25 miles north of the Arctic Circle — no roads, no trails, no campgrounds, and the least-visited park in the system.',
+      features: 'Arctic Sand Dunes · Least Visited Park · Caribou Migration',
+      href: 'kobuk_valley_cams.html',
+    },
+    {
+      name: 'Lake Clark',
+      states: ['Alaska'],
+      accent: '#2fa08c',
+      grad: 'linear-gradient(135deg, #0a1a1a 0%, #226456 55%, #2fa08c 100%)',
+      icon: ICONS.lakeClark,
+      desc: 'Twin volcanoes, brown bears feeding on tidal marshes, and Dick Proenneke’s hand-built cabin at Twin Lakes — reachable only by small plane.',
+      features: 'Twin Volcanoes · Bear Viewing · Proenneke’s Cabin',
+      href: 'lake_clark_cams.html',
+    },
+    {
+      name: 'Wrangell-St. Elias',
+      states: ['Alaska'],
+      accent: '#6a84a8',
+      grad: 'linear-gradient(135deg, #12161c 0%, #3c4c60 55%, #6a84a8 100%)',
+      icon: ICONS.wrangellStElias,
+      desc: '13.2 million acres — the same size as Yellowstone, Yosemite, and Switzerland combined — with the abandoned copper-mining town of Kennecott at its heart.',
+      features: 'Largest NPS Unit · Kennecott Mine · Root Glacier',
+      href: 'wrangell_st_elias_cams.html',
+    },
+    {
+      name: 'Gates of the Arctic',
+      states: ['Alaska'],
+      accent: '#5a68a8',
+      grad: 'linear-gradient(135deg, #0e0f1c 0%, #3a4270 55%, #5a68a8 100%)',
+      icon: ICONS.gatesOfTheArctic,
+      desc: '8.4 million acres of trailless Brooks Range wilderness, entirely north of the Arctic Circle — no roads, no trails, no campgrounds.',
+      features: 'Entirely Wilderness · "You’re On Your Own" · 6 Wild Rivers',
+      href: 'gates_of_the_arctic_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska'];
   let activeTab = null;
 
   function arrowIcon() {
@@ -864,7 +980,7 @@
     'California': 'CA', 'Nevada': 'NV', 'Oregon': 'OR', 'Washington': 'WA',
     'Arizona': 'AZ', 'Idaho': 'ID', 'Montana': 'MT', 'Utah': 'UT', 'Wyoming': 'WY',
     'Tennessee': 'TN', 'North Carolina': 'NC', 'Colorado': 'CO', 'Texas': 'TX',
-    'Maine': 'ME', 'Virginia': 'VA',
+    'Maine': 'ME', 'Virginia': 'VA', 'Alaska': 'AK',
   };
 
   function stateLabel(states) {

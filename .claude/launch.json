@@ -292,6 +292,62 @@
       "runtimeArgs": ["-m", "http.server", "8039"],
       "port": 8039,
       "rootPath": "/shenandoah_cams.html"
+    },
+    {
+      "name": "denali-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8040"],
+      "port": 8040,
+      "rootPath": "/denali_cams.html"
+    },
+    {
+      "name": "glacier-bay-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8041"],
+      "port": 8041,
+      "rootPath": "/glacier_bay_cams.html"
+    },
+    {
+      "name": "katmai-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8042"],
+      "port": 8042,
+      "rootPath": "/katmai_cams.html"
+    },
+    {
+      "name": "kenai-fjords-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8043"],
+      "port": 8043,
+      "rootPath": "/kenai_fjords_cams.html"
+    },
+    {
+      "name": "kobuk-valley-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8044"],
+      "port": 8044,
+      "rootPath": "/kobuk_valley_cams.html"
+    },
+    {
+      "name": "lake-clark-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8045"],
+      "port": 8045,
+      "rootPath": "/lake_clark_cams.html"
+    },
+    {
+      "name": "wrangell-st-elias-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8046"],
+      "port": 8046,
+      "rootPath": "/wrangell_st_elias_cams.html"
+    },
+    {
+      "name": "gates-of-the-arctic-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8047"],
+      "port": 8047,
+      "rootPath": "/gates_of_the_arctic_cams.html"
     }
   ]
 }
