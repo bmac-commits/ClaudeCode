@@ -1,0 +1,775 @@
+{
+  "generated_at": "2026-07-10T21:35:23.824602+00:00",
+  "ok_count": 90,
+  "error_count": 3,
+  "parks": [
+    {
+      "name": "Yosemite",
+      "file": "yosemite_cams.html",
+      "cams": [
+        {
+          "name": "Half Dome",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Yosemite Falls",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "High Sierra / Sentinel Dome",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Turtleback Dome & Air Quality",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "El Capitan",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Badger Pass Ski Area",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Merced River at Happy Isles",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Tenaya Lodge",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Big Creek Meadow",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 11264500",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 11266500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Joshua Tree",
+      "file": "joshua_tree_cams.html",
+      "cams": [
+        {
+          "name": "Belle Mountain",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": []
+    },
+    {
+      "name": "Death Valley",
+      "file": "death_valley_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Redwood",
+      "file": "redwood_cams.html",
+      "cams": [
+        {
+          "name": "Kuchel Visitor Center",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Elk Prairie",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Jedediah Smith Redwoods",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 11482500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 11482120",
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
+        }
+      ]
+    },
+    {
+      "name": "Sequoia",
+      "file": "sequoia_cams.html",
+      "cams": [
+        {
+          "name": "Giant Forest",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 11206820",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Kings Canyon",
+      "file": "kings_canyon_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Lassen Volcanic",
+      "file": "lassen_volcanic_cams.html",
+      "cams": [
+        {
+          "name": "Kohm Yah-mah-nee Visitor Center",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": []
+    },
+    {
+      "name": "Pinnacles",
+      "file": "pinnacles_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Channel Islands",
+      "file": "channel_islands_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Great Basin",
+      "file": "great_basin_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 10243260",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Crater Lake",
+      "file": "crater_lake_cams.html",
+      "cams": [
+        {
+          "name": "Sinnott Overlook / Rim Village",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 11492200",
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
+        },
+        {
+          "name": "USGS site 11503000",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Mount Rainier",
+      "file": "mount_rainier_cams.html",
+      "cams": [
+        {
+          "name": "Paradise Mountain View",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Jackson Visitor Center \u2014 East",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Jackson Visitor Center \u2014 West",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Visitor Center Cam",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Tatoosh Range",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Longmire Administration Building",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Sunrise Mountain View",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Sunrise Parking Lot",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 12082500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 12097850",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Olympic",
+      "file": "olympic_cams.html",
+      "cams": [
+        {
+          "name": "Hurricane Ridge South View",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Hurricane Ridge Parking Lot",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 12041200",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 12039500",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 12045500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 12042400",
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
+        }
+      ]
+    },
+    {
+      "name": "North Cascades",
+      "file": "north_cascades_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 12181000",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 12451000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Grand Canyon",
+      "file": "grand_canyon_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 09380000",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 09402500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Petrified Forest",
+      "file": "petrified_forest_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Saguaro",
+      "file": "saguaro_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Craters of the Moon",
+      "file": "craters_of_the_moon_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Glacier",
+      "file": "glacier_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 12358500",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 05014500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Zion",
+      "file": "zion_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 09405500",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Bryce Canyon",
+      "file": "bryce_canyon_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Arches",
+      "file": "arches_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Canyonlands",
+      "file": "canyonlands_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 09328920",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 09185600",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Capitol Reef",
+      "file": "capitol_reef_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 09330250",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Yellowstone",
+      "file": "yellowstone_cams.html",
+      "cams": [
+        {
+          "name": "Mammoth \u2014 Roosevelt Arch",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Mammoth Hot Springs Terraces",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Electric Peak",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Mt. Washburn \u2014 Northeast View",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Mt. Washburn \u2014 Southwest View",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "West Entrance \u2014 Gate",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "West Entrance \u2014 Into Park",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "East Entrance \u2014 Into Park",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "East Entrance \u2014 Out of Park",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": []
+    },
+    {
+      "name": "Grand Teton",
+      "file": "grand_teton_cams.html",
+      "cams": [
+        {
+          "name": "Teton Range Live Webcam",
+          "status": "ok",
+          "detail": "oEmbed + thumbnail both reachable"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 13013650",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Devils Tower",
+      "file": "devils_tower_cams.html",
+      "cams": [
+        {
+          "name": "Prairie Dog Town",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Devils Tower from Prairie Dog Town",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": []
+    },
+    {
+      "name": "Great Smoky Mountains",
+      "file": "great_smoky_mountains_cams.html",
+      "cams": [
+        {
+          "name": "Kuwohi (Clingmans Dome)",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Newfound Gap",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Purchase Knob",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Look Rock",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 03497300",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 03512000",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 03461500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 03470000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Rocky Mountain",
+      "file": "rocky_mountain_cams.html",
+      "cams": [
+        {
+          "name": "Beaver Meadows Entrance",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Fall River Entrance",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Grand Lake Entrance",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Alpine Visitor Center",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Kawuneeche Valley",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Longs Peak",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Continental Divide",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 09014050",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 09015000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Mesa Verde",
+      "file": "mesa_verde_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Big Bend",
+      "file": "big_bend_cams.html",
+      "cams": [
+        {
+          "name": "Panther Junction",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 08375300",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 08374550",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Great Sand Dunes",
+      "file": "great_sand_dunes_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Black Canyon",
+      "file": "black_canyon_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 09128000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Guadalupe Mountains",
+      "file": "guadalupe_mountains_cams.html",
+      "cams": [
+        {
+          "name": "McKittrick Canyon Parking Lot",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": []
+    },
+    {
+      "name": "Acadia",
+      "file": "acadia_cams.html",
+      "cams": [
+        {
+          "name": "Acadia Air Quality Camera",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "NOAA tide station 8413320",
+          "status": "ok",
+          "detail": "Current water level reported"
+        }
+      ]
+    },
+    {
+      "name": "Shenandoah",
+      "file": "shenandoah_cams.html",
+      "cams": [
+        {
+          "name": "Shenandoah Air Quality Camera",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "USGS site 01665500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 01666500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "USGS site 01626850",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Denali",
+      "file": "denali_cams.html",
+      "cams": [
+        {
+          "name": "Denali Air Quality Camera",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
+      "gauges": [
+        {
+          "name": "NOAA/NWS gauge ICDA2",
+          "status": "ok",
+          "detail": "Current reading: 2.37 ft"
+        }
+      ]
+    },
+    {
+      "name": "Glacier Bay",
+      "file": "glacier_bay_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Katmai",
+      "file": "katmai_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Kenai Fjords",
+      "file": "kenai_fjords_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Kobuk Valley",
+      "file": "kobuk_valley_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Lake Clark",
+      "file": "lake_clark_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Wrangell-St. Elias",
+      "file": "wrangell_st_elias_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Gates of the Arctic",
+      "file": "gates_of_the_arctic_cams.html",
+      "cams": [],
+      "gauges": []
+    }
+  ]
+}
