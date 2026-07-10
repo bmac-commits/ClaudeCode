@@ -787,5 +787,50 @@
     "file": "gates_of_the_arctic_cams.html",
     "cams": [],
     "gauges": []
+  },
+  {
+    "name": "Haleakal\u0101",
+    "file": "haleakala_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "16501200",
+        "name": "USGS site 16501200",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "Hawai\u02bbi Volcanoes",
+    "file": "hawaii_volcanoes_cams.html",
+    "cams": [
+      {
+        "name": "Halema\u02bbuma\u02bbu (V2cam)",
+        "type": "image",
+        "url": "https://volcanoes.usgs.gov/cams/V2cam/images/M.jpg"
+      },
+      {
+        "name": "West Vent / Lava Lake (V1cam)",
+        "type": "image",
+        "url": "https://volcanoes.usgs.gov/observatories/hvo/cams/V1cam/images/M.jpg"
+      },
+      {
+        "name": "U\u0113kahuna Bluff (K2cam)",
+        "type": "image",
+        "url": "https://volcanoes.usgs.gov/observatories/hvo/cams/K2cam/images/M.jpg"
+      },
+      {
+        "name": "Maunaulu (MUcam)",
+        "type": "image",
+        "url": "https://volcanoes.usgs.gov/observatories/hvo/cams/MUcam/images/M.jpg"
+      },
+      {
+        "name": "Hawai\u02bbi Volcanoes Air Quality Camera",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/havolarge.jpg"
+      }
+    ],
+    "gauges": []
   }
 ]

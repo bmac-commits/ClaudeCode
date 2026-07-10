@@ -355,6 +355,20 @@
       "runtimeArgs": ["-m", "http.server", "8048"],
       "port": 8048,
       "rootPath": "/status.html"
+    },
+    {
+      "name": "haleakala-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8049"],
+      "port": 8049,
+      "rootPath": "/haleakala_cams.html"
+    },
+    {
+      "name": "hawaii-volcanoes-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8050"],
+      "port": 8050,
+      "rootPath": "/hawaii_volcanoes_cams.html"
     }
   ]
 }
