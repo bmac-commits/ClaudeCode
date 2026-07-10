@@ -1205,7 +1205,6 @@
     <div class="glance-item"><div class="glance-icon">🏕</div><div class="glance-val">4 areas</div><div class="glance-lbl">Campgrounds</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$30</div><div class="glance-lbl">7-day fee</div></div>
     <div class="glance-item"><div class="glance-icon">🌙</div><div class="glance-val">Gold tier</div><div class="glance-lbl">Dark sky</div></div>
-    <div class="glance-item"><div class="glance-icon">📷</div><div class="glance-val">1 live</div><div class="glance-lbl">Camera</div></div>
   </div>
 
   <!-- Extreme Heat Safety -->
@@ -1448,16 +1447,6 @@
     </div>
   </details>
 
-  <div class="refresh-bar" style="border-top: 1px solid var(--border); padding-top: 16px;">
-    <div class="section-label" style="flex:1; margin-bottom:0; border-top:none; padding-top:0; display:flex; align-items:center; gap:9px;"><span class="sa-icon" style="font-size:1rem;">📷</span>Live Camera Feed</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
-      <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
-      <button class="refresh-btn" onclick="refreshAll()">↺ Refresh Now</button>
-    </div>
-  </div>
-
-  <div class="cam-grid" id="camGrid"></div>
-
   <!-- Park Contact Information -->
   <div style="margin-bottom: 12px;">
     <div class="section-label">Park Contact Information</div>
@@ -1469,41 +1458,12 @@
 
 </main>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal" onclick="closeModal(event)">
-  <div class="modal-inner">
-    <div class="modal-img-wrap" id="modalImgWrap"></div>
-    <div class="modal-footer">
-      <div>
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-source" id="modalSource"></div>
-      </div>
-      <div class="modal-close" onclick="closeModal(null, true)">✕</div>
-    </div>
-  </div>
-</div>
-
 <footer>
-  <span>Sources: National Park Service · Roundshot Live Cam Network · Recreation.gov</span>
+  <span>Sources: National Park Service · Recreation.gov</span>
   <span>Weather: Open-Meteo (Furnace Creek) · Alerts: NPS Data API</span>
 </footer>
 
 <script>
-  // ── Camera definitions ──
-  // Note: unlike Yosemite, there is no dense webcam/traffic-cam network at
-  // Death Valley. This third-party Roundshot panorama near Furnace Creek is
-  // the only confirmed live public feed for the park.
-  const CAMS = [
-    {
-      id: 'furnace-creek',
-      name: 'Furnace Creek Panorama',
-      meta: 'Panoramic view over the Death Valley floor & Panamint Range',
-      source: 'Roundshot Live Cam Network',
-      type: 'img',
-      url: 'https://weatherok.roundshot.com/cams/81',
-    },
-  ];
-
   // ── Weather code → emoji + description ──
   function wxInfo(code) {
     if (code === 0) return { icon: '☀️', desc: 'Clear Sky' };
@@ -1709,64 +1669,6 @@
     }
   }
 
-  // ── Build camera grid ──
-  function buildGrid() {
-    const grid = document.getElementById('camGrid');
-    grid.innerHTML = '';
-    CAMS.forEach(cam => {
-      const card = document.createElement('div');
-      card.className = 'cam-card';
-      card.dataset.id = cam.id;
-
-      card.innerHTML = `
-        <div class="cam-img-wrap" onclick="openModal('${cam.id}')">
-          <img
-            id="img-${cam.id}"
-            src="${cam.url}?_t=${Date.now()}"
-            alt="${cam.name}"
-            class="loading"
-            onerror="camError('${cam.id}')"
-            onload="camLoaded('${cam.id}')"
-          />
-          <div class="cam-error" id="err-${cam.id}">
-            <span class="err-icon">📵</span>
-            <span>Feed unavailable</span>
-          </div>
-        </div>
-        <div class="cam-footer">
-          <div>
-            <div class="cam-name">${cam.name}</div>
-            <div class="cam-meta">${cam.meta} · ${cam.source}</div>
-          </div>
-          <div class="cam-status">
-            <div class="status-dot" id="dot-${cam.id}"></div>
-            <span id="status-${cam.id}">Loading…</span>
-          </div>
-        </div>`;
-      grid.appendChild(card);
-    });
-  }
-
-  function camLoaded(id) {
-    const img = document.getElementById('img-' + id);
-    if (img) img.classList.remove('loading');
-    const dot = document.getElementById('dot-' + id);
-    if (dot) { dot.className = 'status-dot live'; }
-    const st = document.getElementById('status-' + id);
-    if (st) st.textContent = 'Live';
-  }
-
-  function camError(id) {
-    const img = document.getElementById('img-' + id);
-    if (img) img.style.display = 'none';
-    const err = document.getElementById('err-' + id);
-    if (err) err.style.display = 'flex';
-    const dot = document.getElementById('dot-' + id);
-    if (dot) dot.className = 'status-dot error';
-    const st = document.getElementById('status-' + id);
-    if (st) st.textContent = 'Offline';
-  }
-
   // ── Auto-refresh countdown ──
   let refreshTimer = 60;
   let countdownInterval;
@@ -1776,7 +1678,6 @@
     refreshTimer = 60;
     countdownInterval = setInterval(() => {
       refreshTimer--;
-      document.getElementById('lastRefresh').textContent = `Refreshing in ${refreshTimer}s`;
       if (refreshTimer <= 0) {
         refreshAll();
       }
@@ -1784,19 +1685,6 @@
   }
 
   function refreshAll() {
-    CAMS.forEach(cam => {
-      const img = document.getElementById('img-' + cam.id);
-      if (!img) return;
-      img.style.display = 'block';
-      const err = document.getElementById('err-' + cam.id);
-      if (err) err.style.display = 'none';
-      img.classList.add('loading');
-      const dot = document.getElementById('dot-' + cam.id);
-      if (dot) { dot.className = 'status-dot'; }
-      const st = document.getElementById('status-' + cam.id);
-      if (st) st.textContent = 'Loading…';
-      img.src = cam.url + '?_t=' + Date.now();
-    });
     loadWeather();
     loadAQI();
     loadAlerts();
@@ -1805,35 +1693,7 @@
     startCountdown();
   }
 
-  // ── Modal ──
-  let modalCam = null;
-
-  function openModal(id) {
-    const cam = CAMS.find(c => c.id === id);
-    if (!cam) return;
-    modalCam = cam;
-    document.getElementById('modalTitle').textContent = cam.name;
-    document.getElementById('modalSource').textContent = cam.meta + ' · ' + cam.source;
-    const wrap = document.getElementById('modalImgWrap');
-    wrap.innerHTML = `<img src="${cam.url}?_t=${Date.now()}" alt="${cam.name}" />`;
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal(e, force) {
-    if (!force && e && e.target !== document.getElementById('modal')) return;
-    document.getElementById('modal').classList.remove('open');
-    document.getElementById('modalImgWrap').innerHTML = '';
-    document.body.style.overflow = '';
-    modalCam = null;
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal(null, true);
-  });
-
   // ── Init ──
-  buildGrid();
   loadWeather();
   loadAQI();
   loadAlerts();
