@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Monitor</title>
+  <style>
+    :root {
+      --bg: #08080a;
+      --surface: #151517;
+      --surface-hover: #1c1c1f;
+      --border: rgba(255,255,255,0.09);
+      --border-hover: rgba(255,255,255,0.2);
+      --text: #f5f5f7;
+      --text-dim: #a1a1a6;
+      --text-faint: #6e6e73;
+      --green: #4ade80;
+      --orange: #fb923c;
+      --amber: #fbbf24;
+      --red: #f87171;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600;
+      color: var(--text-dim); text-decoration: none; padding: 6px 12px 6px 8px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+    }
+    .back-link:hover { background: var(--surface-hover); border-color: var(--border-hover); color: var(--text); }
+    h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.4px; margin-top: 12px; }
+    .subtitle { font-size: 0.82rem; color: var(--text-dim); margin-top: 4px; }
+
+    .summary-bar {
+      display: flex; align-items: center; gap: 20px; padding: 16px 24px; flex-wrap: wrap;
+    }
+    .summary-stat { display: flex; align-items: baseline; gap: 6px; }
+    .summary-num { font-size: 1.8rem; font-weight: 800; }
+    .summary-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+    .summary-stat.ok .summary-num { color: var(--green); }
+    .summary-stat.error .summary-num { color: var(--red); }
+    .generated-at { margin-left: auto; font-size: 0.74rem; color: var(--text-faint); }
+
+    main { padding: 8px 24px 60px; max-width: 1100px; margin: 0 auto; }
+
+    .filter-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .filter-btn {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
+      padding: 6px 14px; border-radius: 100px; font-size: 0.76rem; font-weight: 600; cursor: pointer;
+    }
+    .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    .park-row {
+      display: grid; grid-template-columns: 200px 1fr 1fr; gap: 16px; align-items: start;
+      padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .park-row.all-clear { opacity: 0.55; }
+    .park-name { font-size: 0.88rem; font-weight: 700; }
+    .park-name a { color: var(--text); text-decoration: none; }
+    .park-name a:hover { text-decoration: underline; }
+    .park-none { font-size: 0.7rem; color: var(--text-faint); margin-top: 2px; }
+
+    .check-col-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-faint); margin-bottom: 6px; }
+    .check-list { display: flex; flex-direction: column; gap: 5px; }
+    .check-item { display: flex; align-items: baseline; gap: 7px; font-size: 0.76rem; }
+    .check-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; position: relative; top: 1px; }
+    .check-dot.ok { background: var(--green); }
+    .check-dot.error { background: var(--red); box-shadow: 0 0 0 3px rgba(248,113,113,0.15); }
+    .check-name { color: var(--text-dim); }
+    .check-detail { font-size: 0.68rem; color: var(--red); margin-left: 15px; margin-top: -2px; }
+
+    @media (max-width: 720px) {
+      .park-row { grid-template-columns: 1fr; }
+    }
+
+    .loading, .error-state { padding: 60px 24px; text-align: center; color: var(--text-dim); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 20px 24px; font-size: 0.72rem; color: var(--text-faint);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
+    </a>
+    <h1>Dashboard Monitor</h1>
+    <div class="subtitle">Live camera and river/tide gauge health across all 44 park dashboards — checked automatically 3x/day.</div>
+  </div>
+</header>
+
+<div class="summary-bar" id="summaryBar"></div>
+
+<main>
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All parks</button>
+    <button class="filter-btn" data-filter="issues">Issues only</button>
+  </div>
+  <div id="parkList" class="loading">Loading latest results…</div>
+</main>
+
+<footer>
+  Results generated by monitor.py, run via a local LaunchAgent 3x/day. Source: monitor_results.json
+</footer>
+
+<script>
+  let currentFilter = 'all';
+  let resultsData = null;
+
+  function timeAgo(iso) {
+    const d = new Date(iso);
+    const diffMs = Date.now() - d.getTime();
+    const mins = Math.round(diffMs / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins} min ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs} hr ago`;
+    const days = Math.round(hrs / 24);
+    return `${days} day${days === 1 ? '' : 's'} ago`;
+  }
+
+  function renderSummary(data) {
+    const bar = document.getElementById('summaryBar');
+    bar.innerHTML = `
+      <div class="summary-stat ok">
+        <span class="summary-num">${data.ok_count}</span>
+        <span class="summary-label">Passing</span>
+      </div>
+      <div class="summary-stat error">
+        <span class="summary-num">${data.error_count}</span>
+        <span class="summary-label">Failing</span>
+      </div>
+      <span class="generated-at">Last checked ${timeAgo(data.generated_at)} · ${new Date(data.generated_at).toLocaleString()}</span>
+    `;
+  }
+
+  function renderChecks(items) {
+    if (!items.length) return '<div class="park-none">None on this dashboard</div>';
+    return `<div class="check-list">` + items.map(item => `
+      <div>
+        <div class="check-item">
+          <span class="check-dot ${item.status}"></span>
+          <span class="check-name">${item.name}</span>
+        </div>
+        ${item.status === 'error' ? `<div class="check-detail">${item.detail}</div>` : ''}
+      </div>
+    `).join('') + `</div>`;
+  }
+
+  function renderParks() {
+    const list = document.getElementById('parkList');
+    if (!resultsData) return;
+    const parks = resultsData.parks.filter(p => {
+      if (currentFilter === 'all') return true;
+      const hasError = [...p.cams, ...p.gauges].some(c => c.status === 'error');
+      return hasError;
+    });
+
+    if (!parks.length) {
+      list.innerHTML = `<div class="error-state">No issues found across any dashboard 🎉</div>`;
+      return;
+    }
+
+    list.innerHTML = parks.map(p => {
+      const hasAnyChecks = p.cams.length || p.gauges.length;
+      const hasError = [...p.cams, ...p.gauges].some(c => c.status === 'error');
+      return `
+        <div class="park-row ${hasAnyChecks && !hasError ? 'all-clear' : ''}">
+          <div class="park-name"><a href="${p.file}">${p.name}</a></div>
+          <div>
+            <div class="check-col-label">Cameras</div>
+            ${renderChecks(p.cams)}
+          </div>
+          <div>
+            <div class="check-col-label">Gauges</div>
+            ${renderChecks(p.gauges)}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderParks();
+    });
+  });
+
+  async function load() {
+    try {
+      const res = await fetch('monitor_results.json?_t=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      resultsData = await res.json();
+      renderSummary(resultsData);
+      renderParks();
+    } catch (e) {
+      document.getElementById('parkList').innerHTML =
+        `<div class="error-state">Could not load monitor_results.json — the monitor may not have run yet.<br><span style="font-size:0.72rem;">${e.message}</span></div>`;
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>

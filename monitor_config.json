@@ -1,0 +1,791 @@
+[
+  {
+    "name": "Yosemite",
+    "file": "yosemite_cams.html",
+    "cams": [
+      {
+        "name": "Half Dome",
+        "type": "image",
+        "url": "https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-halfdome/latest.jpg"
+      },
+      {
+        "name": "Yosemite Falls",
+        "type": "image",
+        "url": "https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-yosfalls/latest.jpg"
+      },
+      {
+        "name": "High Sierra / Sentinel Dome",
+        "type": "image",
+        "url": "https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-sentinel/latest.jpg"
+      },
+      {
+        "name": "Turtleback Dome & Air Quality",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/yoselarge.jpg"
+      },
+      {
+        "name": "El Capitan",
+        "type": "image",
+        "url": "https://cdn.pixelcaster.com/public.pixelcaster.com/snapshots/yosemite-turtleback/latest.jpg"
+      },
+      {
+        "name": "Badger Pass Ski Area",
+        "type": "image",
+        "url": "https://cs1.pixelcaster.com/aramark/yosemite-ski.jpg"
+      },
+      {
+        "name": "Merced River at Happy Isles",
+        "type": "image",
+        "url": "https://usgs-nims-images.s3.amazonaws.com/overlay/CA_Merced_River_at_Happy_Isles_Bridge_Yosemite/CA_Merced_River_at_Happy_Isles_Bridge_Yosemite_newest.jpg"
+      },
+      {
+        "name": "Tenaya Lodge",
+        "type": "image",
+        "url": "https://cs1.pixelcaster.com/live/tenaya/tenaya.jpg"
+      },
+      {
+        "name": "Big Creek Meadow",
+        "type": "image",
+        "url": "https://www.yosemiteinn.com/meadowcam/mdw/MDW_HD00001.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "11264500",
+        "name": "USGS site 11264500",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "11266500",
+        "name": "USGS site 11266500",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Joshua Tree",
+    "file": "joshua_tree_cams.html",
+    "cams": [
+      {
+        "name": "Belle Mountain",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/jotrlarge.jpg"
+      }
+    ],
+    "gauges": []
+  },
+  {
+    "name": "Death Valley",
+    "file": "death_valley_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Redwood",
+    "file": "redwood_cams.html",
+    "cams": [
+      {
+        "name": "Kuchel Visitor Center",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-redw/KVC_Pacific_Ocean.jpg"
+      },
+      {
+        "name": "Elk Prairie",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-redw/Elk_Prairie.jpg"
+      },
+      {
+        "name": "Jedediah Smith Redwoods",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-redw/Jed_Smith.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "11482500",
+        "name": "USGS site 11482500",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "11482120",
+        "name": "USGS site 11482120",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Sequoia",
+    "file": "sequoia_cams.html",
+    "cams": [
+      {
+        "name": "Giant Forest",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/sekilarge.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "11206820",
+        "name": "USGS site 11206820",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Kings Canyon",
+    "file": "kings_canyon_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Lassen Volcanic",
+    "file": "lassen_volcanic_cams.html",
+    "cams": [
+      {
+        "name": "Kohm Yah-mah-nee Visitor Center",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-lavo/kyvc_webcam1.jpg"
+      }
+    ],
+    "gauges": []
+  },
+  {
+    "name": "Pinnacles",
+    "file": "pinnacles_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Channel Islands",
+    "file": "channel_islands_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Great Basin",
+    "file": "great_basin_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "10243260",
+        "name": "USGS site 10243260",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Crater Lake",
+    "file": "crater_lake_cams.html",
+    "cams": [
+      {
+        "name": "Sinnott Overlook / Rim Village",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-crla/camerasinnott.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "11492200",
+        "name": "USGS site 11492200",
+        "parameterCd": "62614"
+      },
+      {
+        "type": "usgs",
+        "id": "11503000",
+        "name": "USGS site 11503000",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Mount Rainier",
+    "file": "mount_rainier_cams.html",
+    "cams": [
+      {
+        "name": "Paradise Mountain View",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/mountain.jpg"
+      },
+      {
+        "name": "Jackson Visitor Center \u2014 East",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/east.jpg"
+      },
+      {
+        "name": "Jackson Visitor Center \u2014 West",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/west.jpg"
+      },
+      {
+        "name": "Visitor Center Cam",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/gh.jpg"
+      },
+      {
+        "name": "Tatoosh Range",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/tatoosh.jpg"
+      },
+      {
+        "name": "Longmire Administration Building",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/longmire.jpg"
+      },
+      {
+        "name": "Sunrise Mountain View",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/SunriseMtn.jpg"
+      },
+      {
+        "name": "Sunrise Parking Lot",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-mora/SunriseLot.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "12082500",
+        "name": "USGS site 12082500",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "12097850",
+        "name": "USGS site 12097850",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Olympic",
+    "file": "olympic_cams.html",
+    "cams": [
+      {
+        "name": "Hurricane Ridge South View",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-olym/southcam.jpg"
+      },
+      {
+        "name": "Hurricane Ridge Parking Lot",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-olym/hrparkinglot.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "12041200",
+        "name": "USGS site 12041200",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "12039500",
+        "name": "USGS site 12039500",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "12045500",
+        "name": "USGS site 12045500",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "12042400",
+        "name": "USGS site 12042400",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "North Cascades",
+    "file": "north_cascades_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "12181000",
+        "name": "USGS site 12181000",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "12451000",
+        "name": "USGS site 12451000",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Grand Canyon",
+    "file": "grand_canyon_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "09380000",
+        "name": "USGS site 09380000",
+        "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "usgs",
+        "id": "09402500",
+        "name": "USGS site 09402500",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Petrified Forest",
+    "file": "petrified_forest_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Saguaro",
+    "file": "saguaro_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Craters of the Moon",
+    "file": "craters_of_the_moon_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Glacier",
+    "file": "glacier_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "12358500",
+        "name": "USGS site 12358500"
+      },
+      {
+        "type": "usgs",
+        "id": "05014500",
+        "name": "USGS site 05014500"
+      }
+    ]
+  },
+  {
+    "name": "Zion",
+    "file": "zion_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "09405500",
+        "name": "USGS site 09405500",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Bryce Canyon",
+    "file": "bryce_canyon_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Arches",
+    "file": "arches_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Canyonlands",
+    "file": "canyonlands_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "09328920",
+        "name": "USGS site 09328920"
+      },
+      {
+        "type": "usgs",
+        "id": "09185600",
+        "name": "USGS site 09185600"
+      }
+    ]
+  },
+  {
+    "name": "Capitol Reef",
+    "file": "capitol_reef_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "09330250",
+        "name": "USGS site 09330250",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "Yellowstone",
+    "file": "yellowstone_cams.html",
+    "cams": [
+      {
+        "name": "Mammoth \u2014 Roosevelt Arch",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/mammoth_arch.jpg"
+      },
+      {
+        "name": "Mammoth Hot Springs Terraces",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/mammoth_parade.jpg"
+      },
+      {
+        "name": "Electric Peak",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/mammoth_electric.jpg"
+      },
+      {
+        "name": "Mt. Washburn \u2014 Northeast View",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/washburn_ne.jpg"
+      },
+      {
+        "name": "Mt. Washburn \u2014 Southwest View",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/washburn_sw.jpg"
+      },
+      {
+        "name": "West Entrance \u2014 Gate",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/west_gate.jpg"
+      },
+      {
+        "name": "West Entrance \u2014 Into Park",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/west_into.jpg"
+      },
+      {
+        "name": "East Entrance \u2014 Into Park",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/east_in.jpg"
+      },
+      {
+        "name": "East Entrance \u2014 Out of Park",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-yell/east_out.jpg"
+      }
+    ],
+    "gauges": []
+  },
+  {
+    "name": "Grand Teton",
+    "file": "grand_teton_cams.html",
+    "cams": [
+      {
+        "name": "Teton Range Live Webcam",
+        "type": "youtube",
+        "embedId": "XhBUrjhJm1A"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "13013650",
+        "name": "USGS site 13013650",
+        "parameterCd": "00060,00065,00010"
+      }
+    ]
+  },
+  {
+    "name": "Devils Tower",
+    "file": "devils_tower_cams.html",
+    "cams": [
+      {
+        "name": "Prairie Dog Town",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-deto/deto1.jpg"
+      },
+      {
+        "name": "Devils Tower from Prairie Dog Town",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-deto/deto2.jpg"
+      }
+    ],
+    "gauges": []
+  },
+  {
+    "name": "Great Smoky Mountains",
+    "file": "great_smoky_mountains_cams.html",
+    "cams": [
+      {
+        "name": "Kuwohi (Clingmans Dome)",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/grcdlarge.jpg"
+      },
+      {
+        "name": "Newfound Gap",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/gsnglarge.jpg"
+      },
+      {
+        "name": "Purchase Knob",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/grpklarge.jpg"
+      },
+      {
+        "name": "Look Rock",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/grsmlarge.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "03497300",
+        "name": "USGS site 03497300"
+      },
+      {
+        "type": "usgs",
+        "id": "03512000",
+        "name": "USGS site 03512000"
+      },
+      {
+        "type": "usgs",
+        "id": "03461500",
+        "name": "USGS site 03461500"
+      },
+      {
+        "type": "usgs",
+        "id": "03470000",
+        "name": "USGS site 03470000"
+      }
+    ]
+  },
+  {
+    "name": "Rocky Mountain",
+    "file": "rocky_mountain_cams.html",
+    "cams": [
+      {
+        "name": "Beaver Meadows Entrance",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/bme.jpeg"
+      },
+      {
+        "name": "Fall River Entrance",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/fre.jpg"
+      },
+      {
+        "name": "Grand Lake Entrance",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/Grand_Lake_Entrance.jpg"
+      },
+      {
+        "name": "Alpine Visitor Center",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/alpine_visitor_center.jpg"
+      },
+      {
+        "name": "Kawuneeche Valley",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/kawuneeche_valley.jpeg"
+      },
+      {
+        "name": "Longs Peak",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/longs_peak.jpg"
+      },
+      {
+        "name": "Continental Divide",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-romo/glacier_basin.jpeg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "09014050",
+        "name": "USGS site 09014050"
+      },
+      {
+        "type": "usgs",
+        "id": "09015000",
+        "name": "USGS site 09015000"
+      }
+    ]
+  },
+  {
+    "name": "Mesa Verde",
+    "file": "mesa_verde_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Big Bend",
+    "file": "big_bend_cams.html",
+    "cams": [
+      {
+        "name": "Panther Junction",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/bibelarge.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "08375300",
+        "name": "USGS site 08375300"
+      },
+      {
+        "type": "usgs",
+        "id": "08374550",
+        "name": "USGS site 08374550"
+      }
+    ]
+  },
+  {
+    "name": "Great Sand Dunes",
+    "file": "great_sand_dunes_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Black Canyon",
+    "file": "black_canyon_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "09128000",
+        "name": "USGS site 09128000"
+      }
+    ]
+  },
+  {
+    "name": "Guadalupe Mountains",
+    "file": "guadalupe_mountains_cams.html",
+    "cams": [
+      {
+        "name": "McKittrick Canyon Parking Lot",
+        "type": "image",
+        "url": "https://www.nps.gov/webcams-gumo/gumo5.jpg"
+      }
+    ],
+    "gauges": []
+  },
+  {
+    "name": "Acadia",
+    "file": "acadia_cams.html",
+    "cams": [
+      {
+        "name": "Acadia Air Quality Camera",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/acadlarge.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "noaa-tide",
+        "id": "8413320",
+        "name": "NOAA tide station 8413320"
+      }
+    ]
+  },
+  {
+    "name": "Shenandoah",
+    "file": "shenandoah_cams.html",
+    "cams": [
+      {
+        "name": "Shenandoah Air Quality Camera",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/shenlarge.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "01665500",
+        "name": "USGS site 01665500"
+      },
+      {
+        "type": "usgs",
+        "id": "01666500",
+        "name": "USGS site 01666500"
+      },
+      {
+        "type": "usgs",
+        "id": "01626850",
+        "name": "USGS site 01626850"
+      }
+    ]
+  },
+  {
+    "name": "Denali",
+    "file": "denali_cams.html",
+    "cams": [
+      {
+        "name": "Denali Air Quality Camera",
+        "type": "image",
+        "url": "https://www.nps.gov/featurecontent/ard/webcams/images/denalarge.jpg"
+      }
+    ],
+    "gauges": [
+      {
+        "type": "noaa-gauge",
+        "id": "icda2",
+        "name": "NOAA/NWS gauge ICDA2"
+      }
+    ]
+  },
+  {
+    "name": "Glacier Bay",
+    "file": "glacier_bay_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Katmai",
+    "file": "katmai_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Kenai Fjords",
+    "file": "kenai_fjords_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Kobuk Valley",
+    "file": "kobuk_valley_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Lake Clark",
+    "file": "lake_clark_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Wrangell-St. Elias",
+    "file": "wrangell_st_elias_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Gates of the Arctic",
+    "file": "gates_of_the_arctic_cams.html",
+    "cams": [],
+    "gauges": []
+  }
+]

@@ -348,6 +348,13 @@
       "runtimeArgs": ["-m", "http.server", "8047"],
       "port": 8047,
       "rootPath": "/gates_of_the_arctic_cams.html"
+    },
+    {
+      "name": "dashboard-status",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8048"],
+      "port": 8048,
+      "rootPath": "/status.html"
     }
   ]
 }
