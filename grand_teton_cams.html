@@ -1466,6 +1466,7 @@
           <span><span id="riverTemp">--</span> <span style="font-weight:400;font-size:0.65rem;color:var(--text-dim);">°F water</span></span>
         </div>
         <a class="traffic-link" href="https://waterdata.usgs.gov/monitoring-location/USGS-13013650/" target="_blank">USGS live data ↗</a>
+        <div id="riverBlockedHint" style="display:none; font-size:0.68rem; color:var(--text-dim); margin-top:6px;">Some ad/privacy blockers block this widget's request — the USGS link above always works directly.</div>
       </div>
     </div>
     </div>
@@ -1794,6 +1795,8 @@
       const el = document.getElementById('riverCond');
       el.textContent = 'Unavailable';
       el.className = 'traffic-badge badge-unknown';
+      const hint = document.getElementById('riverBlockedHint');
+      if (hint) hint.style.display = 'block';
     }
   }
 
@@ -1814,11 +1817,16 @@
               allow="autoplay; encrypted-media"
               allowfullscreen
             ></iframe>
+            <a href="https://www.youtube.com/watch?v=${cam.embedId}" target="_blank"
+               style="position:absolute; top:8px; right:8px; font-size:0.68rem; color:#fff; background:rgba(0,0,0,0.55); padding:4px 10px; border-radius:6px; text-decoration:none; z-index:2;">
+              ▶ Watch on YouTube ↗
+            </a>
           </div>
           <div class="cam-footer">
             <div>
               <div class="cam-name">${cam.name}</div>
-              <div class="cam-meta">${cam.meta} · ${cam.source} · <a href="https://www.youtube.com/watch?v=${cam.embedId}" target="_blank" style="color: var(--blue);">Watch on YouTube ↗</a></div>
+              <div class="cam-meta">${cam.meta} · ${cam.source}</div>
+              <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">If the embed above stays blank, an ad/privacy blocker is likely blocking it — use the "Watch on YouTube" link.</div>
             </div>
             <div class="cam-status">
               <div class="status-dot live"></div>
