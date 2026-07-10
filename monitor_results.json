@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-10T21:37:10.241648+00:00",
-  "ok_count": 91,
+  "generated_at": "2026-07-10T22:19:04.799653+00:00",
+  "ok_count": 97,
   "error_count": 2,
   "parks": [
     {
@@ -769,6 +769,50 @@
       "name": "Gates of the Arctic",
       "file": "gates_of_the_arctic_cams.html",
       "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Haleakal\u0101",
+      "file": "haleakala_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 16501200",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Hawai\u02bbi Volcanoes",
+      "file": "hawaii_volcanoes_cams.html",
+      "cams": [
+        {
+          "name": "Halema\u02bbuma\u02bbu (V2cam)",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "West Vent / Lava Lake (V1cam)",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "U\u0113kahuna Bluff (K2cam)",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Maunaulu (MUcam)",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        },
+        {
+          "name": "Hawai\u02bbi Volcanoes Air Quality Camera",
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
+        }
+      ],
       "gauges": []
     }
   ]
