@@ -397,6 +397,20 @@
       "runtimeArgs": ["-m", "http.server", "8054"],
       "port": 8054,
       "rootPath": "/cuyahoga_valley_cams.html"
+    },
+    {
+      "name": "hot-springs-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8055"],
+      "port": 8055,
+      "rootPath": "/hot_springs_cams.html"
+    },
+    {
+      "name": "indiana-dunes-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8056"],
+      "port": 8056,
+      "rootPath": "/indiana_dunes_cams.html"
     }
   ]
 }

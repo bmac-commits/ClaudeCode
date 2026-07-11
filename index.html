@@ -637,6 +637,14 @@
       <path d="M6 26c14 0 14 12 28 12s14-12 28-12s14 12 28 12" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9"/>
       <path d="M10 92 C30 40, 70 40, 90 92" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.6"/>
     </svg>`,
+    hotSprings: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 12c-6 10-14 18-14 30a14 14 0 0 0 28 0c0-12-8-20-14-30Z" fill="#fff" opacity="0.9"/>
+      <path d="M4 88c11-6 19-6 28 0s19 6 28 0s19-6 28 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.6"/>
+    </svg>`,
+    indianaDunes: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 70 Q30 30 56 70 Q70 46 96 70 L96 92 L4 92 Z" fill="#fff" opacity="0.9"/>
+      <path d="M4 30c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.55"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -1140,9 +1148,29 @@
       features: 'Live River Gauge · Scenic Railroad · Brandywine Falls',
       href: 'cuyahoga_valley_cams.html',
     },
+    {
+      name: 'Hot Springs',
+      states: ['Arkansas'],
+      accent: '#c9832e',
+      grad: 'linear-gradient(135deg, #180f08 0%, #6a4418 55%, #c9832e 100%)',
+      icon: ICONS.hotSprings,
+      desc: "America's oldest federal reservation — a historic bathhouse row built over 47 thermal springs, woven directly into a small Arkansas downtown.",
+      features: 'No Entrance Fee · Live Creek Gauge · Historic Bathhouses',
+      href: 'hot_springs_cams.html',
+    },
+    {
+      name: 'Indiana Dunes',
+      states: ['Indiana'],
+      accent: '#3e8ac4',
+      grad: 'linear-gradient(135deg, #081018 0%, #1c4868 55%, #3e8ac4 100%)',
+      icon: ICONS.indianaDunes,
+      desc: "Fifteen miles of Lake Michigan shoreline and towering sand dunes, tucked between steel mills and Chicago's south suburbs.",
+      features: 'Lake Michigan Beaches · Mount Baldy · Rip Current Safety',
+      href: 'indiana_dunes_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana'];
   let activeTab = 'All Parks';
   let searchQuery = '';
 
@@ -1155,7 +1183,7 @@
     'Arizona': 'AZ', 'Idaho': 'ID', 'Montana': 'MT', 'Utah': 'UT', 'Wyoming': 'WY',
     'Tennessee': 'TN', 'North Carolina': 'NC', 'Colorado': 'CO', 'Texas': 'TX',
     'Maine': 'ME', 'Virginia': 'VA', 'Alaska': 'AK', 'Hawaii': 'HI',
-    'Florida': 'FL', 'Ohio': 'OH',
+    'Florida': 'FL', 'Ohio': 'OH', 'Arkansas': 'AR', 'Indiana': 'IN',
   };
 
   function stateLabel(states) {

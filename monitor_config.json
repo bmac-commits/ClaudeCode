@@ -870,5 +870,24 @@
         "parameterCd": "00060,00065"
       }
     ]
+  },
+  {
+    "name": "Hot Springs",
+    "file": "hot_springs_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "07358280",
+        "name": "USGS site 07358280",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "Indiana Dunes",
+    "file": "indiana_dunes_cams.html",
+    "cams": [],
+    "gauges": []
   }
 ]
