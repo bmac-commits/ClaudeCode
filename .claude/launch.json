@@ -411,6 +411,34 @@
       "runtimeArgs": ["-m", "http.server", "8056"],
       "port": 8056,
       "rootPath": "/indiana_dunes_cams.html"
+    },
+    {
+      "name": "mammoth-cave-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8057"],
+      "port": 8057,
+      "rootPath": "/mammoth_cave_cams.html"
+    },
+    {
+      "name": "isle-royale-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8058"],
+      "port": 8058,
+      "rootPath": "/isle_royale_cams.html"
+    },
+    {
+      "name": "voyageurs-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8059"],
+      "port": 8059,
+      "rootPath": "/voyageurs_cams.html"
+    },
+    {
+      "name": "gateway-arch-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8060"],
+      "port": 8060,
+      "rootPath": "/gateway_arch_cams.html"
     }
   ]
 }

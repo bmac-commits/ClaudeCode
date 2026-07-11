@@ -889,5 +889,50 @@
     "file": "indiana_dunes_cams.html",
     "cams": [],
     "gauges": []
+  },
+  {
+    "name": "Mammoth Cave",
+    "file": "mammoth_cave_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "03309000",
+        "name": "USGS site 03309000",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "Isle Royale",
+    "file": "isle_royale_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Voyageurs",
+    "file": "voyageurs_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "05129515",
+        "name": "USGS site 05129515",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "Gateway Arch",
+    "file": "gateway_arch_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "07010000",
+        "name": "USGS site 07010000",
+        "parameterCd": "00060,00065"
+      }
+    ]
   }
 ]

@@ -645,6 +645,24 @@
       <path d="M4 70 Q30 30 56 70 Q70 46 96 70 L96 92 L4 92 Z" fill="#fff" opacity="0.9"/>
       <path d="M4 30c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.55"/>
     </svg>`,
+    mammothCave: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 92 L6 60 Q50 20 94 60 L94 92 Z" fill="#fff" opacity="0.9"/>
+      <path d="M30 92 L30 66 Q50 48 70 66 L70 92 Z" fill="#1a130a"/>
+    </svg>`,
+    isleRoyale: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 66c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M4 82c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M28 58 L40 30 L52 50 L62 26 L78 58 Z" fill="#fff" opacity="0.95"/>
+    </svg>`,
+    voyageurs: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 60c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M4 76c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <circle cx="30" cy="34" r="8" fill="#fff" opacity="0.9"/>
+      <circle cx="66" cy="26" r="5" fill="#fff" opacity="0.7"/>
+    </svg>`,
+    gatewayArch: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 92 C18 40, 82 40, 82 92" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.95"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -1168,9 +1186,49 @@
       features: 'Lake Michigan Beaches · Mount Baldy · Rip Current Safety',
       href: 'indiana_dunes_cams.html',
     },
+    {
+      name: 'Mammoth Cave',
+      states: ['Kentucky'],
+      accent: '#b8863a',
+      grad: 'linear-gradient(135deg, #120e08 0%, #5c441c 55%, #b8863a 100%)',
+      icon: ICONS.mammothCave,
+      desc: 'The longest known cave system on Earth — over 420 surveyed miles and counting, beneath rolling Kentucky hill country and the Green River.',
+      features: 'Longest Cave on Earth · Live River Gauge · Cave Tours',
+      href: 'mammoth_cave_cams.html',
+    },
+    {
+      name: 'Isle Royale',
+      states: ['Michigan'],
+      accent: '#2a7a9a',
+      grad: 'linear-gradient(135deg, #081418 0%, #163a48 55%, #2a7a9a 100%)',
+      icon: ICONS.isleRoyale,
+      desc: 'A roadless island wilderness in northern Lake Superior, reachable only by boat or seaplane — home to the longest continuous predator-prey study in the world.',
+      features: 'Boat/Plane Only · Wolf-Moose Study · No Roads',
+      href: 'isle_royale_cams.html',
+    },
+    {
+      name: 'Voyageurs',
+      states: ['Minnesota'],
+      accent: '#2a8a6a',
+      grad: 'linear-gradient(135deg, #081410 0%, #1c3c2c 55%, #2a8a6a 100%)',
+      icon: ICONS.voyageurs,
+      desc: 'A water-based wilderness on the Canadian border — four large lakes, 500+ islands, and some of the darkest skies in the Midwest for aurora viewing.',
+      features: 'Boat-Based Park · Live River Gauge · Dark Sky',
+      href: 'voyageurs_cams.html',
+    },
+    {
+      name: 'Gateway Arch',
+      states: ['Missouri'],
+      accent: '#5a8ab4',
+      grad: 'linear-gradient(135deg, #0a0e14 0%, #1c2c3c 55%, #5a8ab4 100%)',
+      icon: ICONS.gatewayArch,
+      desc: "The nation's tallest monument and smallest national park by acreage — a 630-foot stainless steel catenary curve on the St. Louis riverfront.",
+      features: 'Tallest US Monument · Live River Gauge · Free Museum',
+      href: 'gateway_arch_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana', 'Kentucky', 'Michigan', 'Minnesota', 'Missouri'];
   let activeTab = 'All Parks';
   let searchQuery = '';
 
@@ -1184,6 +1242,7 @@
     'Tennessee': 'TN', 'North Carolina': 'NC', 'Colorado': 'CO', 'Texas': 'TX',
     'Maine': 'ME', 'Virginia': 'VA', 'Alaska': 'AK', 'Hawaii': 'HI',
     'Florida': 'FL', 'Ohio': 'OH', 'Arkansas': 'AR', 'Indiana': 'IN',
+    'Kentucky': 'KY', 'Michigan': 'MI', 'Minnesota': 'MN', 'Missouri': 'MO',
   };
 
   function stateLabel(states) {
