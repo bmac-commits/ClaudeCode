@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T14:16:27.594797+00:00",
-  "ok_count": 97,
+  "generated_at": "2026-07-11T16:29:55.966317+00:00",
+  "ok_count": 99,
   "error_count": 2,
   "parks": [
     {
@@ -814,6 +814,42 @@
         }
       ],
       "gauges": []
+    },
+    {
+      "name": "Everglades",
+      "file": "everglades_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 253044080555900",
+          "status": "ok",
+          "detail": "1 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Dry Tortugas",
+      "file": "dry_tortugas_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Biscayne",
+      "file": "biscayne_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Cuyahoga Valley",
+      "file": "cuyahoga_valley_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 04206425",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
     }
   ]
 }
