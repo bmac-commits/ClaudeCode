@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T16:29:55.966317+00:00",
-  "ok_count": 99,
+  "generated_at": "2026-07-11T17:57:44.094457+00:00",
+  "ok_count": 100,
   "error_count": 2,
   "parks": [
     {
@@ -850,6 +850,24 @@
           "detail": "2 parameter(s) reporting"
         }
       ]
+    },
+    {
+      "name": "Hot Springs",
+      "file": "hot_springs_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 07358280",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Indiana Dunes",
+      "file": "indiana_dunes_cams.html",
+      "cams": [],
+      "gauges": []
     }
   ]
 }
