@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T17:57:44.094457+00:00",
-  "ok_count": 100,
+  "generated_at": "2026-07-11T18:22:43.029436+00:00",
+  "ok_count": 103,
   "error_count": 2,
   "parks": [
     {
@@ -868,6 +868,48 @@
       "file": "indiana_dunes_cams.html",
       "cams": [],
       "gauges": []
+    },
+    {
+      "name": "Mammoth Cave",
+      "file": "mammoth_cave_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 03309000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Isle Royale",
+      "file": "isle_royale_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Voyageurs",
+      "file": "voyageurs_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 05129515",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Gateway Arch",
+      "file": "gateway_arch_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 07010000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
     }
   ]
 }
