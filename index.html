@@ -103,7 +103,6 @@
     /* ── State filter tabs ── */
     .tabs {
       display: flex;
-      justify-content: center;
       gap: 6px;
       margin: 40px auto 0;
       padding: 5px;
@@ -111,8 +110,14 @@
       border: 1px solid var(--border);
       border-radius: 100px;
       width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
       animation: fadeUp 0.6s ease 0.15s both;
     }
+
+    .tabs::-webkit-scrollbar { display: none; }
 
     .tab {
       appearance: none;
@@ -286,7 +291,7 @@
 
     @media (max-width: 640px) {
       .hero { padding: 88px 20px 48px; }
-      .tabs { flex-wrap: wrap; width: calc(100% - 40px); justify-content: center; }
+      .tabs { width: calc(100% - 40px); justify-content: flex-start; }
     }
   </style>
 </head>
