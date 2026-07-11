@@ -832,5 +832,43 @@
       }
     ],
     "gauges": []
+  },
+  {
+    "name": "Everglades",
+    "file": "everglades_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "253044080555900",
+        "name": "USGS site 253044080555900",
+        "parameterCd": "00065"
+      }
+    ]
+  },
+  {
+    "name": "Dry Tortugas",
+    "file": "dry_tortugas_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Biscayne",
+    "file": "biscayne_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Cuyahoga Valley",
+    "file": "cuyahoga_valley_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "04206425",
+        "name": "USGS site 04206425",
+        "parameterCd": "00060,00065"
+      }
+    ]
   }
 ]

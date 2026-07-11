@@ -613,6 +613,30 @@
       <path d="M14 88 L38 30 L46 42 L50 22 L54 42 L62 30 L86 88 Z" fill="#fff" opacity="0.95"/>
       <circle cx="50" cy="24" r="6" fill="#fff" opacity="0.6"/>
     </svg>`,
+    everglades: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 70c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.8"/>
+      <path d="M4 84c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M30 60 L36 20 L42 60 Z" fill="#fff" opacity="0.9"/>
+      <path d="M56 60 L62 14 L68 60 Z" fill="#fff" opacity="0.9"/>
+    </svg>`,
+    dryTortugas: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 60c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.75"/>
+      <rect x="30" y="30" width="40" height="26" fill="#fff" opacity="0.9"/>
+      <path d="M30 30 L50 14 L70 30 Z" fill="#fff" opacity="0.95"/>
+      <rect x="46" y="6" width="4" height="12" fill="#fff" opacity="0.8"/>
+    </svg>`,
+    biscayne: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 50c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M4 66c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.6"/>
+      <path d="M4 82c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.4"/>
+      <rect x="22" y="26" width="3" height="20" fill="#fff" opacity="0.9"/>
+      <rect x="44" y="18" width="3" height="28" fill="#fff" opacity="0.9"/>
+      <rect x="66" y="30" width="3" height="16" fill="#fff" opacity="0.9"/>
+    </svg>`,
+    cuyahogaValley: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 26c14 0 14 12 28 12s14-12 28-12s14 12 28 12" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M10 92 C30 40, 70 40, 90 92" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.6"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -1076,9 +1100,49 @@
       features: 'Active Volcano · 5 Live Cams · Real-Time Alert Level',
       href: 'hawaii_volcanoes_cams.html',
     },
+    {
+      name: 'Everglades',
+      states: ['Florida'],
+      accent: '#7ba648',
+      grad: 'linear-gradient(135deg, #0c1408 0%, #3a5424 55%, #7ba648 100%)',
+      icon: ICONS.everglades,
+      desc: 'A 1.5-million-acre "River of Grass" — the largest wilderness in the eastern U.S., and the only place American alligators and crocodiles coexist.',
+      features: 'Live EDEN Gauge · Shark Valley · Alligators & Crocs',
+      href: 'everglades_cams.html',
+    },
+    {
+      name: 'Dry Tortugas',
+      states: ['Florida'],
+      accent: '#3ea8c4',
+      grad: 'linear-gradient(135deg, #081418 0%, #1e5868 55%, #3ea8c4 100%)',
+      icon: ICONS.dryTortugas,
+      desc: 'A 19th-century fort on a turquoise reef, 70 miles from Key West — reachable only by boat or seaplane, with no cell service once you arrive.',
+      features: 'Boat/Seaplane Only · Fort Jefferson · Coral Reef',
+      href: 'dry_tortugas_cams.html',
+    },
+    {
+      name: 'Biscayne',
+      states: ['Florida'],
+      accent: '#2fa88a',
+      grad: 'linear-gradient(135deg, #081612 0%, #1c5040 55%, #2fa88a 100%)',
+      icon: ICONS.biscayne,
+      desc: '95% water — coral reefs, mangrove shoreline, and the stilt houses of Stiltsville, with only one mile of road in the entire park.',
+      features: 'Boat-In Only · Florida Reef · Stiltsville',
+      href: 'biscayne_cams.html',
+    },
+    {
+      name: 'Cuyahoga Valley',
+      states: ['Ohio'],
+      accent: '#6a9c3e',
+      grad: 'linear-gradient(135deg, #0a1408 0%, #385c24 55%, #6a9c3e 100%)',
+      icon: ICONS.cuyahogaValley,
+      desc: 'A green corridor between Cleveland and Akron along the Cuyahoga River, with waterfalls, a historic canal towpath, and a scenic excursion railroad.',
+      features: 'Live River Gauge · Scenic Railroad · Brandywine Falls',
+      href: 'cuyahoga_valley_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio'];
   let activeTab = 'All Parks';
   let searchQuery = '';
 
@@ -1091,6 +1155,7 @@
     'Arizona': 'AZ', 'Idaho': 'ID', 'Montana': 'MT', 'Utah': 'UT', 'Wyoming': 'WY',
     'Tennessee': 'TN', 'North Carolina': 'NC', 'Colorado': 'CO', 'Texas': 'TX',
     'Maine': 'ME', 'Virginia': 'VA', 'Alaska': 'AK', 'Hawaii': 'HI',
+    'Florida': 'FL', 'Ohio': 'OH',
   };
 
   function stateLabel(states) {

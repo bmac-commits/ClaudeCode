@@ -369,6 +369,34 @@
       "runtimeArgs": ["-m", "http.server", "8050"],
       "port": 8050,
       "rootPath": "/hawaii_volcanoes_cams.html"
+    },
+    {
+      "name": "dry-tortugas-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8051"],
+      "port": 8051,
+      "rootPath": "/dry_tortugas_cams.html"
+    },
+    {
+      "name": "everglades-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8052"],
+      "port": 8052,
+      "rootPath": "/everglades_cams.html"
+    },
+    {
+      "name": "biscayne-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8053"],
+      "port": 8053,
+      "rootPath": "/biscayne_cams.html"
+    },
+    {
+      "name": "cuyahoga-valley-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8054"],
+      "port": 8054,
+      "rootPath": "/cuyahoga_valley_cams.html"
     }
   ]
 }
