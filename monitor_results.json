@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T21:00:43.772131+00:00",
-  "ok_count": 103,
+  "generated_at": "2026-07-11T23:16:54.931618+00:00",
+  "ok_count": 105,
   "error_count": 2,
   "parks": [
     {
@@ -725,7 +725,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.36 ft"
+          "detail": "Current reading: 2.32 ft"
         }
       ]
     },
@@ -906,6 +906,42 @@
       "gauges": [
         {
           "name": "USGS site 07010000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Carlsbad Caverns",
+      "file": "carlsbad_caverns_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "White Sands",
+      "file": "white_sands_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Theodore Roosevelt",
+      "file": "theodore_roosevelt_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 06336000",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "Congaree",
+      "file": "congaree_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 02169625",
           "status": "ok",
           "detail": "2 parameter(s) reporting"
         }
