@@ -934,5 +934,43 @@
         "parameterCd": "00060,00065"
       }
     ]
+  },
+  {
+    "name": "Carlsbad Caverns",
+    "file": "carlsbad_caverns_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "White Sands",
+    "file": "white_sands_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Theodore Roosevelt",
+    "file": "theodore_roosevelt_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "06336000",
+        "name": "USGS site 06336000",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "Congaree",
+    "file": "congaree_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "02169625",
+        "name": "USGS site 02169625",
+        "parameterCd": "00060,00065"
+      }
+    ]
   }
 ]

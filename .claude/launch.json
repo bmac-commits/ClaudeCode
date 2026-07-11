@@ -439,6 +439,34 @@
       "runtimeArgs": ["-m", "http.server", "8060"],
       "port": 8060,
       "rootPath": "/gateway_arch_cams.html"
+    },
+    {
+      "name": "carlsbad-caverns-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8061"],
+      "port": 8061,
+      "rootPath": "/carlsbad_caverns_cams.html"
+    },
+    {
+      "name": "white-sands-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8062"],
+      "port": 8062,
+      "rootPath": "/white_sands_cams.html"
+    },
+    {
+      "name": "theodore-roosevelt-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8063"],
+      "port": 8063,
+      "rootPath": "/theodore_roosevelt_cams.html"
+    },
+    {
+      "name": "congaree-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8064"],
+      "port": 8064,
+      "rootPath": "/congaree_cams.html"
     }
   ]
 }

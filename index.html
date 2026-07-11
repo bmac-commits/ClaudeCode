@@ -663,6 +663,25 @@
     gatewayArch: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M18 92 C18 40, 82 40, 82 92" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.95"/>
     </svg>`,
+    carlsbadCaverns: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 92 L6 58 Q50 12 94 58 L94 92 Z" fill="#fff" opacity="0.9"/>
+      <path d="M30 74 Q36 58 42 74" stroke="#1a1420" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <path d="M58 78 Q64 62 70 78" stroke="#1a1420" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>`,
+    whiteSands: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 66 Q20 46 38 66 Q50 50 62 66 Q78 48 98 66 L98 92 L2 92 Z" fill="#fff" opacity="0.95"/>
+      <path d="M2 78 Q20 64 38 78 Q50 66 62 78 Q78 62 98 78" stroke="#1a1420" stroke-width="2" fill="none" opacity="0.3"/>
+    </svg>`,
+    theodoreRoosevelt: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 92 L18 50 L30 70 L42 40 L54 70 L66 46 L78 70 L88 54 L96 92 Z" fill="#fff" opacity="0.9"/>
+    </svg>`,
+    congaree: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="70" width="84" height="6" fill="#fff" opacity="0.9"/>
+      <rect x="16" y="76" width="4" height="16" fill="#fff" opacity="0.8"/>
+      <rect x="80" y="76" width="4" height="16" fill="#fff" opacity="0.8"/>
+      <path d="M20 70 L28 26 L36 70 Z" fill="#fff" opacity="0.85"/>
+      <path d="M50 70 L60 14 L70 70 Z" fill="#fff" opacity="0.85"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -1226,9 +1245,49 @@
       features: 'Tallest US Monument · Live River Gauge · Free Museum',
       href: 'gateway_arch_cams.html',
     },
+    {
+      name: 'Carlsbad Caverns',
+      states: ['New Mexico'],
+      accent: '#8a6cb8',
+      grad: 'linear-gradient(135deg, #100c14 0%, #2c2038 55%, #8a6cb8 100%)',
+      icon: ICONS.carlsbadCaverns,
+      desc: 'A vast limestone cave system beneath the Chihuahuan Desert — home to the cathedral-scale Big Room and hundreds of thousands of Brazilian free-tailed bats each summer.',
+      features: 'Big Room · Bat Flight Program · World Heritage Site',
+      href: 'carlsbad_caverns_cams.html',
+    },
+    {
+      name: 'White Sands',
+      states: ['New Mexico'],
+      accent: '#7a94b8',
+      grad: 'linear-gradient(135deg, #10141c 0%, #303844 55%, #d8dce4 100%)',
+      icon: ICONS.whiteSands,
+      desc: 'The largest gypsum dune field on Earth — brilliant white dunes rising from the Tularosa Basin, next to an active missile test range.',
+      features: 'Largest Gypsum Dunes · Dune Sledding · Missile Range Closures',
+      href: 'white_sands_cams.html',
+    },
+    {
+      name: 'Theodore Roosevelt',
+      states: ['North Dakota'],
+      accent: '#b8703a',
+      grad: 'linear-gradient(135deg, #140e08 0%, #382818 55%, #b8703a 100%)',
+      icon: ICONS.theodoreRoosevelt,
+      desc: "Rugged North Dakota badlands along the Little Missouri River — wild horses, free-roaming bison, and the ranchland that shaped a president's conservation legacy.",
+      features: 'Wild Horses · Live River Gauge · Free-Roaming Bison',
+      href: 'theodore_roosevelt_cams.html',
+    },
+    {
+      name: 'Congaree',
+      states: ['South Carolina'],
+      accent: '#5a9c3e',
+      grad: 'linear-gradient(135deg, #0a1408 0%, #1e3418 55%, #5a9c3e 100%)',
+      icon: ICONS.congaree,
+      desc: 'The largest intact old-growth bottomland hardwood forest left in the US — champion trees, a 2.4-mile elevated boardwalk, and a rare synchronous firefly show each spring.',
+      features: 'Old-Growth Forest · Synchronous Fireflies · Live River Gauge',
+      href: 'congaree_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana', 'Kentucky', 'Michigan', 'Minnesota', 'Missouri'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana', 'Kentucky', 'Michigan', 'Minnesota', 'Missouri', 'New Mexico', 'North Dakota', 'South Carolina'];
   let activeTab = 'All Parks';
   let searchQuery = '';
 
@@ -1243,6 +1302,7 @@
     'Maine': 'ME', 'Virginia': 'VA', 'Alaska': 'AK', 'Hawaii': 'HI',
     'Florida': 'FL', 'Ohio': 'OH', 'Arkansas': 'AR', 'Indiana': 'IN',
     'Kentucky': 'KY', 'Michigan': 'MI', 'Minnesota': 'MN', 'Missouri': 'MO',
+    'New Mexico': 'NM', 'North Dakota': 'ND', 'South Carolina': 'SC',
   };
 
   function stateLabel(states) {
