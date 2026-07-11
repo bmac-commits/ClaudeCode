@@ -157,36 +157,17 @@
     .search-meta {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      justify-content: center;
       margin-top: 12px;
       font-size: 0.76rem;
       color: var(--text-faint);
     }
 
-    .browse-toggle {
-      appearance: none;
-      border: none;
-      background: transparent;
-      color: var(--text-dim);
-      font-family: inherit;
-      font-size: 0.76rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 2px 0;
-      transition: color 0.15s;
-    }
-
-    .browse-toggle:hover { color: var(--text); }
-
-    #browseChevron { display: inline-block; transition: transform 0.2s; font-size: 0.7em; }
-    .browse-toggle.open #browseChevron { transform: rotate(180deg); }
-
-    /* ── State filter tabs (collapsed behind "Browse by state") ── */
+    /* ── State filter tabs ── */
     .tabs {
       display: flex;
       gap: 6px;
-      margin-top: 0;
+      margin: 18px auto 0;
       padding: 5px;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -194,18 +175,8 @@
       width: fit-content;
       max-width: 100%;
       overflow-x: auto;
-      overflow-y: hidden;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 0.25s ease, opacity 0.2s ease, margin-top 0.25s ease;
-    }
-
-    .tabs.open {
-      max-height: 60px;
-      opacity: 1;
-      margin-top: 14px;
     }
 
     .tabs::-webkit-scrollbar { display: none; }
@@ -403,10 +374,10 @@
     </div>
     <div class="search-meta">
       <span id="resultHint">Showing all 46 parks</span>
-      <button id="browseToggle" class="browse-toggle">Browse by state <span id="browseChevron">▾</span></button>
     </div>
-    <div class="tabs" id="tabs"></div>
   </div>
+
+  <div class="tabs" id="tabs"></div>
 </div>
 
 <main>
@@ -1137,7 +1108,6 @@
         searchQuery = '';
         searchInput.value = '';
         searchClearBtn.hidden = true;
-        setBrowseOpen(false);
         renderTabs();
         renderGrid();
       });
@@ -1184,14 +1154,8 @@
       : `<div class="empty-state">No parks match "${searchQuery.trim()}" — try a park name, state, or feature like "volcano" or "glacier".</div>`;
   }
 
-  function setBrowseOpen(open) {
-    document.getElementById('tabs').classList.toggle('open', open);
-    browseToggleBtn.classList.toggle('open', open);
-  }
-
   const searchInput = document.getElementById('search');
   const searchClearBtn = document.getElementById('searchClear');
-  const browseToggleBtn = document.getElementById('browseToggle');
 
   searchInput.addEventListener('input', () => {
     searchQuery = searchInput.value;
@@ -1205,10 +1169,6 @@
     searchClearBtn.hidden = true;
     searchInput.focus();
     renderGrid();
-  });
-
-  browseToggleBtn.addEventListener('click', () => {
-    setBrowseOpen(!document.getElementById('tabs').classList.contains('open'));
   });
 
   renderTabs();
