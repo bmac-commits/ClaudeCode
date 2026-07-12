@@ -164,24 +164,25 @@
     }
 
     /* ── State filter tabs ── */
+    .tabs-wrap {
+      position: relative;
+      margin: 18px auto 0;
+      width: fit-content;
+      max-width: 100%;
+    }
+
     .tabs {
       display: flex;
       gap: 6px;
-      margin: 18px auto 0;
+      flex-wrap: wrap;
+      justify-content: center;
       padding: 5px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 100px;
+      border-radius: 24px;
       width: fit-content;
       max-width: 100%;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      cursor: grab;
     }
-
-    .tabs::-webkit-scrollbar { display: none; }
-    .tabs.dragging { cursor: grabbing; user-select: none; }
 
     .tab {
       appearance: none;
@@ -201,6 +202,64 @@
     .tab:hover { color: var(--text); }
 
     .tab.active {
+      background: var(--text);
+      color: #0a0a0a;
+    }
+
+    .tab-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--orange);
+    }
+
+    .tab-more:hover { color: var(--orange); opacity: 0.85; }
+
+    .tab-more.active {
+      background: color-mix(in srgb, var(--orange) 18%, transparent);
+      color: var(--orange);
+    }
+
+    .tab-more svg {
+      transition: transform 0.2s;
+    }
+
+    .tab-more.open svg { transform: rotate(180deg); }
+
+    .tabs-popover {
+      display: none;
+      position: absolute;
+      transform: translateX(-50%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 14px 36px -12px rgba(0,0,0,0.5);
+      z-index: 20;
+      width: 340px;
+      max-width: calc(100vw - 40px);
+      max-height: 280px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .tabs-popover::-webkit-scrollbar { width: 6px; }
+    .tabs-popover::-webkit-scrollbar-track { background: transparent; }
+    .tabs-popover::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .tabs-popover.open { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+
+    .tabs-popover .tab {
+      padding: 8px 10px;
+      text-align: left;
+      justify-content: flex-start;
+      white-space: normal;
+      line-height: 1.25;
+    }
+
+    .tabs-popover .tab.active {
       background: var(--text);
       color: #0a0a0a;
     }
@@ -355,7 +414,9 @@
 
     @media (max-width: 640px) {
       .hero { padding: 88px 20px 48px; }
-      .tabs { width: calc(100% - 40px); justify-content: flex-start; }
+      .tabs-wrap { width: calc(100% - 40px); }
+      .tabs { width: 100%; }
+      .tabs-popover { grid-template-columns: repeat(2, 1fr) !important; }
     }
   </style>
 </head>
@@ -379,8 +440,12 @@
     </div>
   </div>
 
-  <div class="tabs" id="tabs"></div>
+  <div class="tabs-wrap" id="tabsWrap">
+    <div class="tabs" id="tabs"></div>
+  </div>
 </div>
+
+<div class="tabs-popover" id="tabsPopover"></div>
 
 <main>
   <div class="park-grid" id="grid"></div>
@@ -1361,8 +1426,11 @@
   ];
 
   const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana', 'Kentucky', 'Michigan', 'Minnesota', 'Missouri', 'New Mexico', 'North Dakota', 'South Carolina', 'South Dakota', 'West Virginia', 'American Samoa', 'U.S. Virgin Islands'];
+  const POPULAR_STATES = ['California', 'Alaska', 'Utah', 'Colorado', 'Washington', 'Arizona', 'Wyoming', 'Florida'];
+  const OVERFLOW_STATES = TABS.filter(t => t !== 'All Parks' && !POPULAR_STATES.includes(t)).sort();
   let activeTab = 'All Parks';
   let searchQuery = '';
+  let popoverOpen = false;
 
   function arrowIcon() {
     return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
@@ -1383,22 +1451,67 @@
     return states.length > 1 ? states.map(s => STATE_ABBR[s] || s).join(' · ') : states[0];
   }
 
+  function selectTab(tab) {
+    activeTab = tab;
+    searchQuery = '';
+    searchInput.value = '';
+    searchClearBtn.hidden = true;
+    popoverOpen = false;
+    renderTabs();
+    renderGrid();
+  }
+
   function renderTabs() {
     const tabs = document.getElementById('tabs');
-    tabs.innerHTML = TABS.map(t =>
+    const popover = document.getElementById('tabsPopover');
+    const overflowActive = OVERFLOW_STATES.includes(activeTab);
+    const visibleTabs = ['All Parks', ...POPULAR_STATES];
+
+    tabs.innerHTML = visibleTabs.map(t =>
+      `<button class="tab${t === activeTab ? ' active' : ''}" data-tab="${t}">${t}</button>`
+    ).join('') + `
+      <button class="tab tab-more${overflowActive ? ' active' : ''}${popoverOpen ? ' open' : ''}" id="moreTabBtn">
+        ${overflowActive ? activeTab : `+${OVERFLOW_STATES.length} more`}
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>`;
+
+    tabs.querySelectorAll('.tab:not(.tab-more)').forEach(btn => {
+      btn.addEventListener('click', () => selectTab(btn.dataset.tab));
+    });
+
+    document.getElementById('moreTabBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      popoverOpen = !popoverOpen;
+      renderTabs();
+    });
+
+    popover.className = 'tabs-popover' + (popoverOpen ? ' open' : '');
+    if (popoverOpen) {
+      const wrapRect = document.getElementById('tabsWrap').getBoundingClientRect();
+      popover.style.top = (wrapRect.bottom + window.scrollY + 8) + 'px';
+      popover.style.left = (wrapRect.left + window.scrollX + wrapRect.width / 2) + 'px';
+    }
+    popover.innerHTML = OVERFLOW_STATES.map(t =>
       `<button class="tab${t === activeTab ? ' active' : ''}" data-tab="${t}">${t}</button>`
     ).join('');
-    tabs.querySelectorAll('.tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeTab = btn.dataset.tab;
-        searchQuery = '';
-        searchInput.value = '';
-        searchClearBtn.hidden = true;
-        renderTabs();
-        renderGrid();
-      });
+    popover.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => selectTab(btn.dataset.tab));
     });
   }
+
+  document.addEventListener('click', (e) => {
+    if (popoverOpen && !document.getElementById('tabsWrap').contains(e.target) && !document.getElementById('tabsPopover').contains(e.target)) {
+      popoverOpen = false;
+      renderTabs();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popoverOpen) {
+      popoverOpen = false;
+      renderTabs();
+    }
+  });
 
   function renderCard(park, i) {
     return `
@@ -1457,42 +1570,8 @@
     renderGrid();
   });
 
-  function setupTabsScroll() {
-    const tabs = document.getElementById('tabs');
-    tabs.addEventListener('wheel', (e) => {
-      if (tabs.scrollWidth > tabs.clientWidth) {
-        e.preventDefault();
-        tabs.scrollLeft += e.deltaY;
-      }
-    }, { passive: false });
-
-    let isDown = false, startX = 0, startScroll = 0, moved = false;
-
-    tabs.addEventListener('mousedown', (e) => {
-      isDown = true;
-      moved = false;
-      tabs.classList.add('dragging');
-      startX = e.pageX;
-      startScroll = tabs.scrollLeft;
-    });
-    window.addEventListener('mouseup', () => {
-      isDown = false;
-      tabs.classList.remove('dragging');
-    });
-    tabs.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      const dx = e.pageX - startX;
-      if (Math.abs(dx) > 3) moved = true;
-      tabs.scrollLeft = startScroll - dx;
-    });
-    tabs.addEventListener('click', (e) => {
-      if (moved) { e.stopPropagation(); e.preventDefault(); }
-    }, true);
-  }
-
   renderTabs();
   renderGrid();
-  setupTabsScroll();
 </script>
 </body>
 </html>
