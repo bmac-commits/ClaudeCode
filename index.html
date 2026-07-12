@@ -682,6 +682,27 @@
       <path d="M20 70 L28 26 L36 70 Z" fill="#fff" opacity="0.85"/>
       <path d="M50 70 L60 14 L70 70 Z" fill="#fff" opacity="0.85"/>
     </svg>`,
+    badlands: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 92 L14 62 L22 78 L32 48 L42 74 L52 40 L62 76 L72 54 L82 80 L96 92 Z" fill="#fff" opacity="0.9"/>
+    </svg>`,
+    windCave: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 92 L6 58 Q50 20 94 58 L94 92 Z" fill="#fff" opacity="0.9"/>
+      <path d="M24 92 L24 68 L36 68 L36 78 L48 78 L48 68 L60 68 L60 78 L72 78 L72 68 L84 68 L84 92" stroke="#1a1420" stroke-width="3" fill="none" opacity="0.4"/>
+    </svg>`,
+    newRiverGorge: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 60 Q50 10 94 60" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M20 92 L20 54 M40 92 L40 40 M60 92 L60 40 M80 92 L80 54" stroke="#fff" stroke-width="3" opacity="0.6"/>
+    </svg>`,
+    americanSamoa: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 66c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M4 82c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M28 58 L44 24 L56 44 L70 20 L84 58 Z" fill="#fff" opacity="0.9"/>
+    </svg>`,
+    virginIslands: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 60c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M4 76c11-6 19-6 28 0s19 6 28 0s19-6 28 0s19 6 8 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M30 56 L42 30 L54 50 L66 26 L78 56 Z" fill="#fff" opacity="0.9"/>
+    </svg>`,
   };
 
   const PARKS = [
@@ -1285,9 +1306,59 @@
       features: 'Old-Growth Forest · Synchronous Fireflies · Live River Gauge',
       href: 'congaree_cams.html',
     },
+    {
+      name: 'Badlands',
+      states: ['South Dakota'],
+      accent: '#c46c8a',
+      grad: 'linear-gradient(135deg, #140c10 0%, #3c2436 55%, #c46c8a 100%)',
+      icon: ICONS.badlands,
+      desc: 'Sharply eroded buttes and pinnacles rising from the largest protected mixed-grass prairie in the US — bison, bighorn sheep, and some of the richest fossil beds on Earth.',
+      features: 'Eroded Buttes · Free-Roaming Bison · Rich Fossil Beds',
+      href: 'badlands_cams.html',
+    },
+    {
+      name: 'Wind Cave',
+      states: ['South Dakota'],
+      accent: '#6a9c6a',
+      grad: 'linear-gradient(135deg, #0e1410 0%, #223a24 55%, #6a9c6a 100%)',
+      icon: ICONS.windCave,
+      desc: 'One of the longest, most complex cave systems on Earth — famous for its honeycomb-like boxwork — beneath a rolling native prairie roamed by bison and prairie dogs.',
+      features: 'Rare Boxwork Formations · Free Surface Entry · Bison Prairie',
+      href: 'wind_cave_cams.html',
+    },
+    {
+      name: 'New River Gorge',
+      states: ['West Virginia'],
+      accent: '#4a8ab8',
+      grad: 'linear-gradient(135deg, #0a1218 0%, #1c3446 55%, #4a8ab8 100%)',
+      icon: ICONS.newRiverGorge,
+      desc: "America's newest national park — a 53-mile ancient river canyon spanned by one of the world's longest steel arch bridges, and a whitewater and climbing mecca.",
+      features: 'Iconic Steel Bridge · Live River Gauge · World-Class Climbing',
+      href: 'new_river_gorge_cams.html',
+    },
+    {
+      name: 'American Samoa',
+      states: ['American Samoa'],
+      accent: '#2ab894',
+      grad: 'linear-gradient(135deg, #061414 0%, #16342e 55%, #2ab894 100%)',
+      icon: ICONS.americanSamoa,
+      desc: 'The only US national park south of the equator — paleotropical rainforest, coral reefs, and flying foxes spread across three remote South Pacific islands.',
+      features: 'Only Park South of Equator · Coral Reefs · Flying Foxes',
+      href: 'american_samoa_cams.html',
+    },
+    {
+      name: 'Virgin Islands',
+      states: ['U.S. Virgin Islands'],
+      accent: '#2ab8c4',
+      grad: 'linear-gradient(135deg, #061420 0%, #164450 55%, #2ab8c4 100%)',
+      icon: ICONS.virginIslands,
+      desc: 'Roughly 60% of St. John island — turquoise Caribbean bays, coral reefs, and the ruins of 18th-century sugar plantations woven through tropical forest.',
+      features: 'Turquoise Bays · Coral Reefs · Sugar Plantation Ruins',
+      href: 'virgin_islands_cams.html',
+    },
   ];
 
-  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana', 'Kentucky', 'Michigan', 'Minnesota', 'Missouri', 'New Mexico', 'North Dakota', 'South Carolina'];
+  const TABS = ['All Parks', 'California', 'Nevada', 'Oregon', 'Washington', 'Arizona', 'Idaho', 'Montana', 'Utah', 'Wyoming', 'Tennessee', 'North Carolina', 'Colorado', 'Texas', 'Maine', 'Virginia', 'Alaska', 'Hawaii', 'Florida', 'Ohio', 'Arkansas', 'Indiana', 'Kentucky', 'Michigan', 'Minnesota', 'Missouri', 'New Mexico', 'North Dakota', 'South Carolina', 'South Dakota', 'West Virginia', 'American Samoa', 'U.S. Virgin Islands'];
   let activeTab = 'All Parks';
   let searchQuery = '';
 
@@ -1303,6 +1374,7 @@
     'Florida': 'FL', 'Ohio': 'OH', 'Arkansas': 'AR', 'Indiana': 'IN',
     'Kentucky': 'KY', 'Michigan': 'MI', 'Minnesota': 'MN', 'Missouri': 'MO',
     'New Mexico': 'NM', 'North Dakota': 'ND', 'South Carolina': 'SC',
+    'South Dakota': 'SD', 'West Virginia': 'WV', 'American Samoa': 'AS', 'U.S. Virgin Islands': 'VI',
   };
 
   function stateLabel(states) {

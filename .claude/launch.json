@@ -467,6 +467,41 @@
       "runtimeArgs": ["-m", "http.server", "8064"],
       "port": 8064,
       "rootPath": "/congaree_cams.html"
+    },
+    {
+      "name": "badlands-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8065"],
+      "port": 8065,
+      "rootPath": "/badlands_cams.html"
+    },
+    {
+      "name": "wind-cave-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8066"],
+      "port": 8066,
+      "rootPath": "/wind_cave_cams.html"
+    },
+    {
+      "name": "new-river-gorge-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8067"],
+      "port": 8067,
+      "rootPath": "/new_river_gorge_cams.html"
+    },
+    {
+      "name": "american-samoa-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8068"],
+      "port": 8068,
+      "rootPath": "/american_samoa_cams.html"
+    },
+    {
+      "name": "virgin-islands-cams",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.12",
+      "runtimeArgs": ["-m", "http.server", "8069"],
+      "port": 8069,
+      "rootPath": "/virgin_islands_cams.html"
     }
   ]
 }

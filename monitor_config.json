@@ -972,5 +972,42 @@
         "parameterCd": "00060,00065"
       }
     ]
+  },
+  {
+    "name": "Badlands",
+    "file": "badlands_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Wind Cave",
+    "file": "wind_cave_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "New River Gorge",
+    "file": "new_river_gorge_cams.html",
+    "cams": [],
+    "gauges": [
+      {
+        "type": "usgs",
+        "id": "03185400",
+        "name": "USGS site 03185400",
+        "parameterCd": "00060,00065"
+      }
+    ]
+  },
+  {
+    "name": "American Samoa",
+    "file": "american_samoa_cams.html",
+    "cams": [],
+    "gauges": []
+  },
+  {
+    "name": "Virgin Islands",
+    "file": "virgin_islands_cams.html",
+    "cams": [],
+    "gauges": []
   }
 ]
