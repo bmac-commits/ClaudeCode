@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T23:16:54.931618+00:00",
-  "ok_count": 105,
+  "generated_at": "2026-07-12T00:31:14.934466+00:00",
+  "ok_count": 106,
   "error_count": 2,
   "parks": [
     {
@@ -725,7 +725,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.32 ft"
+          "detail": "Current reading: 2.42 ft"
         }
       ]
     },
@@ -946,6 +946,42 @@
           "detail": "2 parameter(s) reporting"
         }
       ]
+    },
+    {
+      "name": "Badlands",
+      "file": "badlands_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Wind Cave",
+      "file": "wind_cave_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "New River Gorge",
+      "file": "new_river_gorge_cams.html",
+      "cams": [],
+      "gauges": [
+        {
+          "name": "USGS site 03185400",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
+        }
+      ]
+    },
+    {
+      "name": "American Samoa",
+      "file": "american_samoa_cams.html",
+      "cams": [],
+      "gauges": []
+    },
+    {
+      "name": "Virgin Islands",
+      "file": "virgin_islands_cams.html",
+      "cams": [],
+      "gauges": []
     }
   ]
 }
