@@ -177,9 +177,11 @@
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
+      cursor: grab;
     }
 
     .tabs::-webkit-scrollbar { display: none; }
+    .tabs.dragging { cursor: grabbing; user-select: none; }
 
     .tab {
       appearance: none;
@@ -1455,8 +1457,42 @@
     renderGrid();
   });
 
+  function setupTabsScroll() {
+    const tabs = document.getElementById('tabs');
+    tabs.addEventListener('wheel', (e) => {
+      if (tabs.scrollWidth > tabs.clientWidth) {
+        e.preventDefault();
+        tabs.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    let isDown = false, startX = 0, startScroll = 0, moved = false;
+
+    tabs.addEventListener('mousedown', (e) => {
+      isDown = true;
+      moved = false;
+      tabs.classList.add('dragging');
+      startX = e.pageX;
+      startScroll = tabs.scrollLeft;
+    });
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+      tabs.classList.remove('dragging');
+    });
+    tabs.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      tabs.scrollLeft = startScroll - dx;
+    });
+    tabs.addEventListener('click', (e) => {
+      if (moved) { e.stopPropagation(); e.preventDefault(); }
+    }, true);
+  }
+
   renderTabs();
   renderGrid();
+  setupTabsScroll();
 </script>
 </body>
 </html>
