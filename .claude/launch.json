@@ -154,6 +154,13 @@
       "cwd": "/Users/bryanmcclain/ClaudeCode/nps-alerts-proxy"
     },
     {
+      "name": "site-analytics-proxy",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "8788"],
+      "port": 8788,
+      "cwd": "/Users/bryanmcclain/ClaudeCode/site-analytics-proxy"
+    },
+    {
       "name": "craters-of-the-moon-cams",
       "runtimeExecutable": "/opt/homebrew/bin/python3.12",
       "runtimeArgs": ["-m", "http.server", "8020"],
