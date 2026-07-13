@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-13T04:01:15.463633+00:00",
+  "generated_at": "2026-07-13T14:04:29.512417+00:00",
   "ok_count": 106,
   "error_count": 2,
   "parks": [
@@ -725,7 +725,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.39 ft"
+          "detail": "Current reading: 2.38 ft"
         }
       ]
     },
