@@ -51,8 +51,6 @@
     .summary-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
     .summary-stat.ok .summary-num { color: var(--green); }
     .summary-stat.error .summary-num { color: var(--red); }
-    .summary-stat.traffic .summary-num { color: var(--orange); }
-    .summary-divider { width: 1px; height: 28px; background: var(--border); }
     .generated-at { margin-left: auto; font-size: 0.74rem; color: var(--text-faint); }
 
     main { padding: 8px 24px 60px; max-width: 1100px; margin: 0 auto; }
@@ -105,7 +103,7 @@
       All Parks
     </a>
     <h1>Dashboard Monitor</h1>
-    <div class="subtitle">Live camera and river/tide gauge health across all 44 park dashboards — checked automatically 3x/day.</div>
+    <div class="subtitle">Live camera and river/tide gauge health across all 65 park dashboards — checked automatically 3x/day.</div>
   </div>
 </header>
 
@@ -150,31 +148,8 @@
         <span class="summary-num">${data.error_count}</span>
         <span class="summary-label">Failing</span>
       </div>
-      <div class="summary-divider"></div>
-      <div class="summary-stat traffic">
-        <span class="summary-num">${'…'}</span>
-        <span class="summary-label">Visits (30d)</span>
-      </div>
-      <div class="summary-stat traffic">
-        <span class="summary-num">${'…'}</span>
-        <span class="summary-label">Pageviews (30d)</span>
-      </div>
       <span class="generated-at">Last checked ${timeAgo(data.generated_at)} · ${new Date(data.generated_at).toLocaleString()}</span>
     `;
-  }
-
-  async function loadTraffic() {
-    const nums = document.querySelectorAll('.summary-stat.traffic .summary-num');
-    if (!nums.length) return;
-    try {
-      const res = await fetch('https://site-analytics-proxy.bryanumcclain.workers.dev/stats');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      nums[0].textContent = data.visits.toLocaleString();
-      nums[1].textContent = data.pageviews.toLocaleString();
-    } catch (e) {
-      nums.forEach(n => n.textContent = '—');
-    }
   }
 
   function renderChecks(items) {
@@ -239,7 +214,6 @@
       resultsData = await res.json();
       renderSummary(resultsData);
       renderParks();
-      loadTraffic();
     } catch (e) {
       document.getElementById('parkList').innerHTML =
         `<div class="error-state">Could not load monitor_results.json — the monitor may not have run yet.<br><span style="font-size:0.72rem;">${e.message}</span></div>`;
