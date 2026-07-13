@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-13T04:00:57.183963+00:00",
-  "ok_count": 95,
-  "error_count": 13,
+  "generated_at": "2026-07-13T04:01:15.463633+00:00",
+  "ok_count": 106,
+  "error_count": 2,
   "parks": [
     {
       "name": "Yosemite",
@@ -248,13 +248,13 @@
       "gauges": [
         {
           "name": "USGS site 12082500",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "USGS site 12097850",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -276,23 +276,23 @@
       "gauges": [
         {
           "name": "USGS site 12041200",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "USGS site 12039500",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 12045500",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "USGS site 12042400",
           "status": "error",
-          "detail": "HTTP 503"
+          "detail": "No current readings in response (site may be inactive/offline)"
         }
       ]
     },
@@ -303,13 +303,13 @@
       "gauges": [
         {
           "name": "USGS site 12181000",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 12451000",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -320,13 +320,13 @@
       "gauges": [
         {
           "name": "USGS site 09380000",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 09402500",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -355,13 +355,13 @@
       "gauges": [
         {
           "name": "USGS site 12358500",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 05014500",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
