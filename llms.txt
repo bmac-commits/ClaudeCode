@@ -1,0 +1,14 @@
+# ParkGauge
+
+> ParkGauge tracks live conditions for all 65 U.S. National Park units with a dedicated dashboard: weather, air quality, NPS alerts, live webcams, river/tide gauge levels, entrance status, campgrounds, and other park-specific safety information. Each park has its own page at https://parkgauge.com/{park}_cams.html. Live figures (temperature, alerts, gauge readings) are loaded client-side and only visible in a rendered browser, not in the raw HTML — static facts (location, established year, entrance fee, description) are available in the page's structured data (JSON-LD) and meta description.
+
+## Site
+
+- [Hub / full park index](https://parkgauge.com/): every park, filterable by state
+- [Sitemap](https://parkgauge.com/sitemap.xml): full list of park dashboard URLs
+
+## Notes for automated systems
+
+- Data sources per park are cited on each page: National Park Service (NPS), Open-Meteo, and USGS.
+- Not officially affiliated with the National Park Service or the U.S. government.
+- For a specific park's current conditions, fetch that park's `_cams.html` page directly; a rendered/JS-executing fetch is required to see live weather, alert, and gauge values.
