@@ -13,6 +13,7 @@ the latest run, same pattern as scrape_waittimes.py.
 import json
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -22,6 +23,20 @@ REPO_DIR = Path(__file__).parent
 CONFIG_FILE = REPO_DIR / "monitor_config.json"
 RESULTS_FILE = REPO_DIR / "monitor_results.json"
 TIMEOUT = 15
+GAUGE_DELAY = 0.4  # seconds between sequential gauge requests to avoid tripping upstream rate limits
+
+
+def get_with_retry(session, url, timeout, max_retries=3):
+    """GET with retry-with-backoff on transient 5xx responses (e.g. USGS 503s under burst load)."""
+    last = None
+    for attempt in range(max_retries):
+        r = session.get(url, timeout=timeout)
+        if r.status_code < 500:
+            return r
+        last = r
+        if attempt < max_retries - 1:
+            time.sleep(2 ** attempt)
+    return last
 
 
 def check_image_cam(cam):
@@ -57,7 +72,7 @@ def check_usgs_gauge(gauge):
         session = requests.Session(impersonate="chrome124")
         param_cd = gauge.get("parameterCd", "00060,00065,00010")
         url = f"https://waterservices.usgs.gov/nwis/iv/?sites={gauge['id']}&parameterCd={param_cd}&format=json&period=PT2H"
-        r = session.get(url, timeout=TIMEOUT)
+        r = get_with_retry(session, url, TIMEOUT)
         if r.status_code != 200:
             return {"status": "error", "detail": f"HTTP {r.status_code}"}
         data = r.json()
@@ -74,7 +89,7 @@ def check_noaa_tide_gauge(gauge):
     try:
         session = requests.Session(impersonate="chrome124")
         url = f"https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station={gauge['id']}&product=water_level&datum=MLLW&units=english&time_zone=lst_ldt&format=json&date=latest"
-        r = session.get(url, timeout=TIMEOUT)
+        r = get_with_retry(session, url, TIMEOUT)
         if r.status_code != 200:
             return {"status": "error", "detail": f"HTTP {r.status_code}"}
         data = r.json()
@@ -89,7 +104,7 @@ def check_noaa_water_gauge(gauge):
     try:
         session = requests.Session(impersonate="chrome124")
         url = f"https://api.water.noaa.gov/nwps/v1/gauges/{gauge['id']}"
-        r = session.get(url, timeout=TIMEOUT)
+        r = get_with_retry(session, url, TIMEOUT)
         if r.status_code != 200:
             return {"status": "error", "detail": f"HTTP {r.status_code}"}
         data = r.json()
@@ -134,6 +149,7 @@ def run_checks():
             park_result["gauges"].append({"name": gauge["name"], **outcome})
             ok_count += outcome["status"] == "ok"
             error_count += outcome["status"] == "error"
+            time.sleep(GAUGE_DELAY)
 
         results.append(park_result)
         print(f"[monitor] {park['name']}: {len(park['cams'])} cam(s), {len(park['gauges'])} gauge(s) checked")
