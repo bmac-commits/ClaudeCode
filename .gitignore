@@ -4,3 +4,26 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# unrelated side-project files that live in this directory but aren't part
+# of the parkgauge.com site — keeps them from ever being swept in by a
+# *_cams.html or similar glob
+norcal_cams.html
+norcal_waves.py
+daily_digest.py
+daily_digest.log
+real_estate_agent.py
+wave_map.html
+wave_server.py
+hero_photo_demo.html
+design_mockups.html
+gee_waves.py
+gee-env/
+static/
+templates/
+.gee_cache.json
+monitor.log
+waittimes_scraper.log
+waittimes_scraper.log.previous
+__pycache__/
+.DS_Store
