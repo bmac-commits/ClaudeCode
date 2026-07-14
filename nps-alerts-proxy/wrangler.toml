@@ -4,3 +4,11 @@ compatibility_date = "2024-11-01"
 
 [observability]
 enabled = true
+
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 30
+  period = 60

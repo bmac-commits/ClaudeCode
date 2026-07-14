@@ -30,6 +30,12 @@ export default {
       return json({ error: 'Missing required parkCode query parameter' }, 400);
     }
 
+    const clientIp = request.headers.get('CF-Connecting-IP') || 'unknown';
+    const { success } = await env.RATE_LIMITER.limit({ key: clientIp });
+    if (!success) {
+      return json({ error: 'Rate limit exceeded. Try again shortly.' }, 429);
+    }
+
     // Cache is keyed on the incoming request URL, so each parkCode gets its
     // own cache entry. This is what turns millions of client requests into a
     // handful of upstream NPS calls per cache window, instead of one NPS
