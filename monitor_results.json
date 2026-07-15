@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-15T14:12:57.369913+00:00",
+  "generated_at": "2026-07-15T20:39:47.497943+00:00",
   "ok_count": 106,
-  "error_count": 2,
+  "error_count": 3,
   "parks": [
     {
       "name": "Yosemite",
@@ -63,6 +63,11 @@
           "name": "USGS site 11266500",
           "status": "ok",
           "detail": "2 parameter(s) reporting"
+        },
+        {
+          "name": "Yosemite entrance wait times",
+          "status": "ok",
+          "detail": "Updated 7 min ago"
         }
       ]
     },
@@ -548,8 +553,8 @@
         },
         {
           "name": "USGS site 03470000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
         }
       ]
     },
@@ -725,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.35 ft"
+          "detail": "Current reading: 2.33 ft"
         }
       ]
     },
