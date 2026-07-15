@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-15T20:39:47.497943+00:00",
-  "ok_count": 106,
-  "error_count": 3,
+  "generated_at": "2026-07-15T21:00:54.361918+00:00",
+  "ok_count": 105,
+  "error_count": 4,
   "parks": [
     {
       "name": "Yosemite",
@@ -24,8 +24,8 @@
         },
         {
           "name": "Turtleback Dome & Air Quality",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "HTTP 404, content-type=text/html"
         },
         {
           "name": "El Capitan",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 7 min ago"
+          "detail": "Updated 8 min ago"
         }
       ]
     },
