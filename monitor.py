@@ -116,10 +116,36 @@ def check_noaa_water_gauge(gauge):
         return {"status": "error", "detail": f"{type(e).__name__}: {e}"}
 
 
+WAITTIMES_STALE_MINUTES = 120  # scraper runs every 10 min; this generously covers a sleeping laptop
+
+
+def check_wait_times(gauge):
+    try:
+        session = requests.Session(impersonate="chrome124")
+        url = "https://raw.githubusercontent.com/bmac-commits/ClaudeCode/main/wait_times.json"
+        r = get_with_retry(session, url, TIMEOUT)
+        if r.status_code != 200:
+            return {"status": "error", "detail": f"HTTP {r.status_code}"}
+        data = r.json()
+        if data.get("error"):
+            return {"status": "error", "detail": f"Scraper reported an error: {data['error']}"}
+        updated = datetime.fromisoformat(data["updated"])
+        age_min = (datetime.now(timezone.utc) - updated).total_seconds() / 60
+        if age_min > WAITTIMES_STALE_MINUTES:
+            return {"status": "error", "detail": f"Data is {int(age_min)} min old (stale — scraper may not be running)"}
+        entrances = data.get("entrances", {})
+        if not any(e.get("wait") is not None for e in entrances.values()):
+            return {"status": "error", "detail": "No entrance has a reported wait time"}
+        return {"status": "ok", "detail": f"Updated {int(age_min)} min ago"}
+    except Exception as e:
+        return {"status": "error", "detail": f"{type(e).__name__}: {e}"}
+
+
 GAUGE_CHECKERS = {
     "usgs": check_usgs_gauge,
     "noaa-tide": check_noaa_tide_gauge,
     "noaa-gauge": check_noaa_water_gauge,
+    "waittimes": check_wait_times,
 }
 
 

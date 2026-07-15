@@ -61,6 +61,11 @@
         "id": "11266500",
         "name": "USGS site 11266500",
         "parameterCd": "00060,00065,00010"
+      },
+      {
+        "type": "waittimes",
+        "id": "yosemite-entrance-waits",
+        "name": "Yosemite entrance wait times"
       }
     ]
   },

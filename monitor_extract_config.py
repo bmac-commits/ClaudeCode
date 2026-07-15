@@ -152,6 +152,15 @@ def main():
         html_text = path.read_text()
         cams = extract_cams(html_text)
         gauges = extract_gauges(html_text)
+        if park["file"] == "yosemite_cams.html":
+            # Not extractable from a URL pattern like other gauges — this
+            # checks scrape_waittimes.py's published output (via the same
+            # GitHub raw URL the live page fetches) rather than a live API.
+            gauges.append({
+                "type": "waittimes",
+                "id": "yosemite-entrance-waits",
+                "name": "Yosemite entrance wait times",
+            })
         config.append({
             "name": park["name"],
             "file": park["file"],
