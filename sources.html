@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sources — ParkGauge</title>
+  <meta name="description" content="The public data sources ParkGauge pulls live park weather, alerts, and conditions from: National Park Service, Open-Meteo, USGS, and NOAA." />
+  <style>
+    :root {
+      --bg: #08080a;
+      --surface: #151517;
+      --surface-hover: #1c1c1f;
+      --border: rgba(255,255,255,0.09);
+      --border-hover: rgba(255,255,255,0.2);
+      --text: #f5f5f7;
+      --text-dim: #a1a1a6;
+      --text-faint: #6e6e73;
+      --green: #4ade80;
+      --orange: #fb923c;
+      --amber: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 28px 24px 24px 80px;
+      border-bottom: 1px solid var(--border);
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600;
+      color: var(--text-dim); text-decoration: none; padding: 6px 12px 6px 8px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+    }
+    .back-link:hover { background: var(--surface-hover); border-color: var(--border-hover); color: var(--text); }
+    h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; margin-top: 16px; }
+    .subtitle { font-size: 0.92rem; color: var(--text-dim); margin-top: 8px; max-width: 640px; line-height: 1.6; }
+
+    main { padding: 40px 24px 80px; max-width: 720px; margin: 0 auto; }
+
+    .source-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 26px; margin-bottom: 16px;
+    }
+    .source-name { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .source-name a { color: inherit; text-decoration: none; }
+    .source-name a:hover { text-decoration: underline; }
+    .source-used-for {
+      display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.4px; color: var(--orange); margin-top: 6px;
+    }
+    .source-desc { font-size: 0.92rem; line-height: 1.65; color: var(--text-dim); margin-top: 10px; }
+    .source-link { font-size: 0.8rem; margin-top: 10px; display: inline-block; color: var(--green); text-decoration: none; }
+    .source-link:hover { text-decoration: underline; }
+
+    .note {
+      margin-top: 32px; font-size: 0.85rem; line-height: 1.7; color: var(--text-faint);
+    }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 20px 24px; font-size: 0.72rem; color: var(--text-faint);
+      text-align: center;
+    }
+
+    /* ── Hamburger Menu ── */
+    .hamburger-btn {
+      position: fixed; top: 20px; left: 20px; z-index: 200;
+      width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); cursor: pointer; transition: background 0.15s, border-color 0.15s;
+    }
+    .hamburger-btn:hover { background: var(--surface-hover); border-color: var(--border-hover); }
+    .hamburger-menu {
+      position: fixed; top: 70px; left: 20px; z-index: 200;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45); padding: 6px; min-width: 170px;
+      display: none; flex-direction: column; gap: 2px;
+    }
+    .hamburger-menu.open { display: flex; }
+    .hamburger-link {
+      display: block; padding: 11px 14px; border-radius: 8px; color: var(--text);
+      text-decoration: none; font-size: 0.84rem; font-weight: 600; transition: background 0.15s;
+    }
+    .hamburger-link:hover { background: var(--surface-hover); }
+    .hamburger-link.current { color: var(--orange); }
+  </style>
+</head>
+<body>
+
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" onclick="toggleHamburgerMenu(event)">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="hamburger-menu" id="hamburgerMenu">
+  <a href="about.html" class="hamburger-link">About Us</a>
+  <a href="sources.html" class="hamburger-link current">Sources</a>
+</div>
+
+<header>
+  <a class="back-link" href="index.html">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    All Parks
+  </a>
+  <h1>Sources</h1>
+  <div class="subtitle">We rely on trusted, authoritative sources like the ones below to make sure every figure on ParkGauge is accurate and up to date.</div>
+</header>
+
+<main>
+  <div class="source-card">
+    <div class="source-name"><a href="https://www.nps.gov/" target="_blank" rel="noopener">National Park Service (NPS)</a></div>
+    <div class="source-used-for">Alerts · Park info · Entrance fees</div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-name"><a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></div>
+    <div class="source-used-for">Weather · Air quality</div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-name"><a href="https://www.usgs.gov/" target="_blank" rel="noopener">USGS (U.S. Geological Survey)</a></div>
+    <div class="source-used-for">River &amp; stream gauges</div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-name"><a href="https://tidesandcurrents.noaa.gov/" target="_blank" rel="noopener">NOAA (National Oceanic and Atmospheric Administration)</a></div>
+    <div class="source-used-for">Tide gauges</div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-name">Live webcams</div>
+    <div class="source-used-for">Camera feeds</div>
+  </div>
+</main>
+
+<footer>
+  ParkGauge is an independent project and is not affiliated with the National Park Service or the U.S. government.
+</footer>
+
+<script>
+  function toggleHamburgerMenu(e) {
+    e.stopPropagation();
+    document.getElementById('hamburgerMenu').classList.toggle('open');
+  }
+  document.addEventListener('click', (e) => {
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('hamburgerMenu');
+    if (menu.classList.contains('open') && !btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') document.getElementById('hamburgerMenu').classList.remove('open');
+  });
+</script>
+</body>
+</html>
