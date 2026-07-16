@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-15T21:00:54.361918+00:00",
-  "ok_count": 105,
-  "error_count": 4,
+  "generated_at": "2026-07-16T04:01:23.533627+00:00",
+  "ok_count": 99,
+  "error_count": 10,
   "parks": [
     {
       "name": "Yosemite",
@@ -24,8 +24,8 @@
         },
         {
           "name": "Turtleback Dome & Air Quality",
-          "status": "error",
-          "detail": "HTTP 404, content-type=text/html"
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "El Capitan",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 8 min ago"
+          "detail": "Updated 4 min ago"
         }
       ]
     },
@@ -538,8 +538,8 @@
       "gauges": [
         {
           "name": "USGS site 03497300",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
         },
         {
           "name": "USGS site 03512000",
@@ -701,13 +701,13 @@
       "gauges": [
         {
           "name": "USGS site 01665500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
         },
         {
           "name": "USGS site 01666500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
         },
         {
           "name": "USGS site 01626850",
@@ -911,8 +911,8 @@
       "gauges": [
         {
           "name": "USGS site 07010000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
         }
       ]
     },
@@ -935,8 +935,8 @@
       "gauges": [
         {
           "name": "USGS site 06336000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "HTTP 503"
         }
       ]
     },
@@ -947,8 +947,8 @@
       "gauges": [
         {
           "name": "USGS site 02169625",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "HTTP 503"
         }
       ]
     },
@@ -971,8 +971,8 @@
       "gauges": [
         {
           "name": "USGS site 03185400",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "No current readings in response (site may be inactive/offline)"
         }
       ]
     },
