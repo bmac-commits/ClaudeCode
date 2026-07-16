@@ -28,16 +28,52 @@
       min-height: 100vh;
     }
 
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-photo {
+      position: relative;
+      height: clamp(220px, 32vw, 420px);
+      overflow: hidden;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+    }
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, var(--bg) 100%);
+    }
+    .hero-caption {
+      position: absolute;
+      right: 20px;
+      bottom: 12px;
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.2px;
+      z-index: 1;
+    }
+    @media (max-width: 560px) {
+      .hero-caption { display: none; }
+    }
     header {
-      padding: 28px 24px 24px 80px;
-      border-bottom: 1px solid var(--border);
+      position: relative;
+      padding: 20px 24px 24px 80px;
+      margin-top: -64px;
     }
     .back-link {
       display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600;
-      color: var(--text-dim); text-decoration: none; padding: 6px 12px 6px 8px; border-radius: 100px;
-      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      color: rgba(255,255,255,0.85); text-decoration: none; padding: 6px 12px 6px 8px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); backdrop-filter: blur(12px);
+      transition: background 0.15s, border-color 0.15s;
     }
-    .back-link:hover { background: var(--surface-hover); border-color: var(--border-hover); color: var(--text); }
+    .back-link:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); color: #fff; }
     h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; margin-top: 16px; }
 
     main { padding: 40px 24px 80px; max-width: 720px; margin: 0 auto; }
@@ -71,10 +107,11 @@
     .hamburger-btn {
       position: fixed; top: 20px; left: 20px; z-index: 200;
       width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); cursor: pointer; transition: background 0.15s, border-color 0.15s;
+      border-radius: 50%; background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.9); cursor: pointer; transition: background 0.15s, border-color 0.15s;
     }
-    .hamburger-btn:hover { background: var(--surface-hover); border-color: var(--border-hover); }
+    .hamburger-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.32); }
     .hamburger-menu {
       position: fixed; top: 70px; left: 20px; z-index: 200;
       background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
@@ -100,13 +137,19 @@
   <a href="sources.html" class="hamburger-link">Sources</a>
 </div>
 
-<header>
-  <a class="back-link" href="index.html">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    All Parks
-  </a>
-  <h1>About ParkGauge</h1>
-</header>
+<div class="hero">
+  <div class="hero-photo">
+    <img src="https://www.nps.gov/common/uploads/structured_data/3C84C82D-1DD8-B71B-0B8D6902B62369E2.jpg" alt="Glen Aulin meadow and river under a summer blue sky, Yosemite National Park" />
+    <span class="hero-caption">Glen Aulin, Yosemite National Park &middot; NPS</span>
+  </div>
+  <header>
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
+    </a>
+    <h1>About ParkGauge</h1>
+  </header>
+</div>
 
 <main>
   <p class="lede">Every great National Park adventure begins long before you arrive at the park.</p>
