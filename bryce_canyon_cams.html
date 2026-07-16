@@ -1026,6 +1026,32 @@
     .glance-lbl { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 1px; }
     @media (max-width: 700px) { .glance-strip { flex-wrap: wrap; } .glance-item { flex: 1 1 33%; border-bottom: 1px solid var(--border); } }
 
+    /* -- Historic Crowd Data -- */
+    .busy-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px 14px; margin-bottom: 28px; background: var(--surface); }
+    .busy-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .busy-title { font-size: 0.78rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .busy-sub { font-size: 0.6rem; color: var(--text-dim); }
+    .busy-chart { display: flex; align-items: flex-end; gap: 4px; height: 56px; }
+    .busy-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; position: relative; }
+    .busy-bar { width: 100%; border-radius: 2px 2px 0 0; min-height: 3px; transition: opacity 0.15s; }
+    .busy-bar-col:hover .busy-bar { opacity: 0.8; }
+    .busy-bar-col[data-tier="light"] .busy-bar { background: var(--blue); }
+    .busy-bar-col[data-tier="moderate"] .busy-bar { background: #a8c47a; }
+    .busy-bar-col[data-tier="busy"] .busy-bar { background: var(--yellow); }
+    .busy-bar-col[data-tier="verybusy"] .busy-bar { background: var(--red); }
+    .busy-bar-label { font-size: 0.56rem; color: var(--text-dim); margin-top: 4px; }
+    .busy-bar-col.is-now .busy-bar-label { color: var(--text); font-weight: 700; }
+    .busy-bar-col.is-now::before { content: ''; position: absolute; top: -9px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #a8c47a; }
+    .busy-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 6px; }
+    .busy-legend span { display: flex; align-items: center; gap: 4px; font-size: 0.58rem; color: var(--text-dim); }
+    .busy-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .busy-dot.tier-light { background: var(--blue); }
+    .busy-dot.tier-moderate { background: #a8c47a; }
+    .busy-dot.tier-busy { background: var(--yellow); }
+    .busy-dot.tier-verybusy { background: var(--red); }
+    .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
+    .busy-note strong { color: var(--text); }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1206,6 +1232,35 @@
     <div class="glance-item"><div class="glance-icon">🏕</div><div class="glance-val">2 areas</div><div class="glance-lbl">Campgrounds</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$35</div><div class="glance-lbl">7-day fee</div></div>
     <div class="glance-item"><div class="glance-icon">🌙</div><div class="glance-val">Dark Sky Park</div><div class="glance-lbl">Since 2019</div></div>
+  </div>
+
+  <!-- Historic Crowd Data -->
+  <div class="busy-card">
+    <div class="busy-header">
+      <div class="busy-title">Historic Crowd Data</div>
+      <div class="busy-sub">Avg. monthly visitors, 2015&ndash;2024 &middot; National Park Service</div>
+    </div>
+    <div class="busy-chart">
+      <div class="busy-bar-col" data-tier="light"><div class="busy-bar" style="height:8.8%"></div><div class="busy-bar-label">Jan</div></div>
+      <div class="busy-bar-col" data-tier="light"><div class="busy-bar" style="height:10.0%"></div><div class="busy-bar-label">Feb</div></div>
+      <div class="busy-bar-col" data-tier="light"><div class="busy-bar" style="height:24.1%"></div><div class="busy-bar-label">Mar</div></div>
+      <div class="busy-bar-col" data-tier="moderate"><div class="busy-bar" style="height:48.7%"></div><div class="busy-bar-label">Apr</div></div>
+      <div class="busy-bar-col" data-tier="verybusy"><div class="busy-bar" style="height:80.8%"></div><div class="busy-bar-label">May</div></div>
+      <div class="busy-bar-col" data-tier="verybusy"><div class="busy-bar" style="height:100.0%"></div><div class="busy-bar-label">Jun</div></div>
+      <div class="busy-bar-col is-now" data-tier="verybusy"><div class="busy-bar" style="height:97.8%"></div><div class="busy-bar-label">Jul</div></div>
+      <div class="busy-bar-col" data-tier="verybusy"><div class="busy-bar" style="height:89.8%"></div><div class="busy-bar-label">Aug</div></div>
+      <div class="busy-bar-col" data-tier="verybusy"><div class="busy-bar" style="height:99.2%"></div><div class="busy-bar-label">Sep</div></div>
+      <div class="busy-bar-col" data-tier="busy"><div class="busy-bar" style="height:64.6%"></div><div class="busy-bar-label">Oct</div></div>
+      <div class="busy-bar-col" data-tier="light"><div class="busy-bar" style="height:20.9%"></div><div class="busy-bar-label">Nov</div></div>
+      <div class="busy-bar-col" data-tier="light"><div class="busy-bar" style="height:13.6%"></div><div class="busy-bar-label">Dec</div></div>
+    </div>
+    <div class="busy-legend">
+      <span><i class="busy-dot tier-light"></i>Light</span>
+      <span><i class="busy-dot tier-moderate"></i>Moderate</span>
+      <span><i class="busy-dot tier-busy"></i>Busy</span>
+      <span><i class="busy-dot tier-verybusy"></i>Very Busy</span>
+    </div>
+    <div class="busy-note">Peak season is <strong>May–September</strong>, when around <strong>71%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–March</strong>.</div>
   </div>
 
   <!-- High Elevation Safety -->
