@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-16T04:01:23.533627+00:00",
-  "ok_count": 99,
-  "error_count": 10,
+  "generated_at": "2026-07-16T14:16:57.393879+00:00",
+  "ok_count": 103,
+  "error_count": 6,
   "parks": [
     {
       "name": "Yosemite",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 4 min ago"
+          "detail": "Updated 52 min ago"
         }
       ]
     },
@@ -200,8 +200,8 @@
         },
         {
           "name": "USGS site 11503000",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "HTTP 503"
         }
       ]
     },
@@ -253,13 +253,13 @@
       "gauges": [
         {
           "name": "USGS site 12082500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "HTTP 503"
         },
         {
           "name": "USGS site 12097850",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "HTTP 503"
         }
       ]
     },
@@ -538,8 +538,8 @@
       "gauges": [
         {
           "name": "USGS site 03497300",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 03512000",
@@ -701,13 +701,13 @@
       "gauges": [
         {
           "name": "USGS site 01665500",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "USGS site 01666500",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "USGS site 01626850",
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.33 ft"
+          "detail": "Current reading: 2.32 ft"
         }
       ]
     },
@@ -911,8 +911,8 @@
       "gauges": [
         {
           "name": "USGS site 07010000",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -935,8 +935,8 @@
       "gauges": [
         {
           "name": "USGS site 06336000",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -947,8 +947,8 @@
       "gauges": [
         {
           "name": "USGS site 02169625",
-          "status": "error",
-          "detail": "HTTP 503"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -971,8 +971,8 @@
       "gauges": [
         {
           "name": "USGS site 03185400",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
