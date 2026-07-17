@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-17T04:02:59.175559+00:00",
-  "ok_count": 106,
-  "error_count": 3,
+  "generated_at": "2026-07-17T14:44:12.010804+00:00",
+  "ok_count": 93,
+  "error_count": 16,
   "parks": [
     {
       "name": "Yosemite",
@@ -66,8 +66,8 @@
         },
         {
           "name": "Yosemite entrance wait times",
-          "status": "ok",
-          "detail": "Updated 36 min ago"
+          "status": "error",
+          "detail": "Data is 159 min old (stale \u2014 scraper may not be running)"
         }
       ]
     },
@@ -291,8 +291,8 @@
         },
         {
           "name": "USGS site 12045500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 944760 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 12042400",
@@ -579,8 +579,8 @@
         },
         {
           "name": "Alpine Visitor Center",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 163270 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Kawuneeche Valley",
@@ -623,20 +623,20 @@
       "cams": [
         {
           "name": "Panther Junction",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
         {
           "name": "USGS site 08375300",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 08374550",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -653,8 +653,8 @@
       "gauges": [
         {
           "name": "USGS site 09128000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -664,8 +664,8 @@
       "cams": [
         {
           "name": "McKittrick Canyon Parking Lot",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": []
@@ -676,15 +676,15 @@
       "cams": [
         {
           "name": "Acadia Air Quality Camera",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
         {
           "name": "NOAA tide station 8413320",
-          "status": "ok",
-          "detail": "Current water level reported"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: api.tidesandcurrents.noaa.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -694,20 +694,20 @@
       "cams": [
         {
           "name": "Shenandoah Air Quality Camera",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
         {
           "name": "USGS site 01665500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 01666500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 01626850",
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.28 ft"
+          "detail": "Current reading: 2.35 ft"
         }
       ]
     },
