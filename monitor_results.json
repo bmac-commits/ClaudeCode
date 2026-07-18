@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-17T23:18:28.794786+00:00",
-  "ok_count": 98,
-  "error_count": 11,
+  "generated_at": "2026-07-18T05:29:55.416024+00:00",
+  "ok_count": 99,
+  "error_count": 10,
   "parks": [
     {
       "name": "Yosemite",
@@ -9,8 +9,8 @@
       "cams": [
         {
           "name": "Half Dome",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Resolving timed out after 30042 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Yosemite Falls",
@@ -49,25 +49,25 @@
         },
         {
           "name": "Big Creek Meadow",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 980849 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         }
       ],
       "gauges": [
         {
           "name": "USGS site 11264500",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 172523 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 11266500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Resolving timed out after 34719 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Yosemite entrance wait times",
           "status": "error",
-          "detail": "Data is 179 min old (stale \u2014 scraper may not be running)"
+          "detail": "Data is 557 min old (stale \u2014 scraper may not be running)"
         }
       ]
     },
@@ -95,8 +95,8 @@
       "cams": [
         {
           "name": "Kuchel Visitor Center",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 86219 milliseconds with 69123 out of 252982 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Elk Prairie",
@@ -211,8 +211,8 @@
       "cams": [
         {
           "name": "Paradise Mountain View",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 932682 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Jackson Visitor Center \u2014 East",
@@ -231,13 +231,13 @@
         },
         {
           "name": "Tatoosh Range",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 592944 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Longmire Administration Building",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 959690 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Sunrise Mountain View",
@@ -274,8 +274,8 @@
         },
         {
           "name": "Hurricane Ridge Parking Lot",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 943000 milliseconds with 62444 out of 1062717 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
@@ -459,8 +459,8 @@
         },
         {
           "name": "West Entrance \u2014 Into Park",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 960281 milliseconds with 31179 out of 359986 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "East Entrance \u2014 Into Park",
@@ -516,8 +516,8 @@
       "cams": [
         {
           "name": "Kuwohi (Clingmans Dome)",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 326836 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Newfound Gap",
@@ -531,8 +531,8 @@
         },
         {
           "name": "Look Rock",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 446376 milliseconds with 872858 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         }
       ],
       "gauges": [
@@ -594,8 +594,8 @@
         },
         {
           "name": "Continental Divide",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 34423 milliseconds with 87219 out of 302809 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         }
       ],
       "gauges": [
@@ -683,8 +683,8 @@
       "gauges": [
         {
           "name": "NOAA tide station 8413320",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 922576 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "Current water level reported"
         }
       ]
     },
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.31 ft"
+          "detail": "Current reading: 2.25 ft"
         }
       ]
     },
@@ -935,8 +935,8 @@
       "gauges": [
         {
           "name": "USGS site 06336000",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 1074560 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
