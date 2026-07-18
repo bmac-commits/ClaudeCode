@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-18T05:29:55.416024+00:00",
-  "ok_count": 99,
-  "error_count": 10,
+  "generated_at": "2026-07-18T16:25:37.520736+00:00",
+  "ok_count": 81,
+  "error_count": 28,
   "parks": [
     {
       "name": "Yosemite",
@@ -9,8 +9,8 @@
       "cams": [
         {
           "name": "Half Dome",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Resolving timed out after 30042 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Yosemite Falls",
@@ -39,8 +39,8 @@
         },
         {
           "name": "Merced River at Happy Isles",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 981306 milliseconds with 140552 out of 514084 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Tenaya Lodge",
@@ -56,18 +56,18 @@
       "gauges": [
         {
           "name": "USGS site 11264500",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 172523 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 11266500",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Resolving timed out after 34719 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "Yosemite entrance wait times",
           "status": "error",
-          "detail": "Data is 557 min old (stale \u2014 scraper may not be running)"
+          "detail": "Data is 1173 min old (stale \u2014 scraper may not be running)"
         }
       ]
     },
@@ -77,8 +77,8 @@
       "cams": [
         {
           "name": "Belle Mountain",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 914294 milliseconds with 264595 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": []
@@ -128,8 +128,8 @@
       "cams": [
         {
           "name": "Giant Forest",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 822384 milliseconds with 845981 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
@@ -211,8 +211,8 @@
       "cams": [
         {
           "name": "Paradise Mountain View",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 932682 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Jackson Visitor Center \u2014 East",
@@ -236,8 +236,8 @@
         },
         {
           "name": "Longmire Administration Building",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 959690 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Sunrise Mountain View",
@@ -253,8 +253,8 @@
       "gauges": [
         {
           "name": "USGS site 12082500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 1036691 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 12097850",
@@ -274,8 +274,8 @@
         },
         {
           "name": "Hurricane Ridge Parking Lot",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 943000 milliseconds with 62444 out of 1062717 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         }
       ],
       "gauges": [
@@ -313,8 +313,8 @@
         },
         {
           "name": "USGS site 12451000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 1077129 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -481,8 +481,8 @@
       "cams": [
         {
           "name": "Teton Range Live Webcam",
-          "status": "ok",
-          "detail": "oEmbed + thumbnail both reachable"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 982038 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
@@ -516,8 +516,8 @@
       "cams": [
         {
           "name": "Kuwohi (Clingmans Dome)",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 326836 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Newfound Gap",
@@ -526,35 +526,35 @@
         },
         {
           "name": "Purchase Knob",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 961648 milliseconds with 1743171 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Look Rock",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
         {
           "name": "USGS site 03497300",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 03512000",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 03461500",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 03470000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -564,50 +564,50 @@
       "cams": [
         {
           "name": "Beaver Meadows Entrance",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Fall River Entrance",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Grand Lake Entrance",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Alpine Visitor Center",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Kawuneeche Valley",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Longs Peak",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Continental Divide",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
         {
           "name": "USGS site 09014050",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 09015000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -623,20 +623,20 @@
       "cams": [
         {
           "name": "Panther Junction",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: www.nps.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ],
       "gauges": [
         {
           "name": "USGS site 08375300",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 08374550",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -653,8 +653,8 @@
       "gauges": [
         {
           "name": "USGS site 09128000",
-          "status": "ok",
-          "detail": "2 parameter(s) reporting"
+          "status": "error",
+          "detail": "DNSError: Failed to perform, curl: (6) Could not resolve host: waterservices.usgs.gov. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         }
       ]
     },
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.25 ft"
+          "detail": "Current reading: 2.28 ft"
         }
       ]
     },
