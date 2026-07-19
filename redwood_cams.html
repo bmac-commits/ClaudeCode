@@ -1548,10 +1548,10 @@
 
       <div class="angler-card">
         <div class="angler-card-header">
-          <span class="angler-station">Redwood Creek above Panther Creek</span>
+          <span class="angler-station">Redwood Creek near Blue Lake</span>
           <span id="cond2" class="angler-condition cond-good">⏳</span>
         </div>
-        <div class="angler-site">USGS 11482120</div>
+        <div class="angler-site">USGS 11481500</div>
         <div class="angler-stats">
           <span><span id="flow2">--</span><span class="unit"> cfs</span><span class="sep">&middot;</span><span id="gauge2">--</span><span class="unit"> ft</span></span>
         </div>
@@ -1829,10 +1829,21 @@
   // erroring, which used to leave weather/AQI stuck on "Loading…"
   // indefinitely. Bounding every request means a slow API fails fast
   // and falls back to "unavailable" instead of hanging the widget. ──
-  function fetchWithTimeout(url, ms = 8000) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), ms);
-    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  async function fetchWithTimeout(url, ms = 8000, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ms);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok && attempt < retries) throw new Error('HTTP ' + res.status);
+        return res;
+      } catch (e) {
+        clearTimeout(timer);
+        if (attempt === retries) throw e;
+        await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
+      }
+    }
   }
 
   async function loadWeather() {
@@ -1966,13 +1977,13 @@
 
   async function loadRiverData(attempt = 1) {
     try {
-      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11482500,11482120&parameterCd=00060,00065,00010&format=json&period=PT2H';
+      const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=11482500,11481500&parameterCd=00060,00065,00010&format=json&period=PT2H';
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const d = await res.json();
       const series = d.value.timeSeries;
 
-      const data = { '11482500': {}, '11482120': {} };
+      const data = { '11482500': {}, '11481500': {} };
       series.forEach(ts => {
         const site = ts.sourceInfo.siteCode[0].value;
         const code = ts.variable.variableCode[0].value;
@@ -1987,7 +1998,7 @@
         data[site].time = latest.dateTime;
       });
 
-      [['11482500', '1'], ['11482120', '2']].forEach(([site, n]) => {
+      [['11482500', '1'], ['11481500', '2']].forEach(([site, n]) => {
         const s = data[site];
         if (s.flow !== undefined) {
           document.getElementById('flow' + n).textContent = Math.round(s.flow).toLocaleString();
@@ -2111,7 +2122,10 @@
     });
   }
 
+  const camRetryCount = {};
+
   function camLoaded(id) {
+    camRetryCount[id] = 0;
     const img = document.getElementById('img-' + id);
     if (img) img.classList.remove('loading');
     const dot = document.getElementById('dot-' + id);
@@ -2121,6 +2135,16 @@
   }
 
   function camError(id) {
+    const retries = camRetryCount[id] || 0;
+    if (retries < 1) {
+      camRetryCount[id] = retries + 1;
+      setTimeout(() => {
+        const img = document.getElementById('img-' + id);
+        const cam = CAMS.find(c => c.id === id);
+        if (img && cam) img.src = cam.url + '?_retry=' + Date.now();
+      }, 3000);
+      return;
+    }
     const img = document.getElementById('img-' + id);
     if (img) img.style.display = 'none';
     const err = document.getElementById('err-' + id);
@@ -2159,6 +2183,7 @@
       if (dot) { dot.className = 'status-dot'; }
       const st = document.getElementById('status-' + cam.id);
       if (st) st.textContent = 'Loading…';
+      camRetryCount[cam.id] = 0;
       img.src = cam.url + '?_t=' + Date.now();
     });
     loadWeather();

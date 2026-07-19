@@ -1597,10 +1597,21 @@
   // erroring, which used to leave weather/AQI stuck on "Loading…"
   // indefinitely. Bounding every request means a slow API fails fast
   // and falls back to "unavailable" instead of hanging the widget. ──
-  function fetchWithTimeout(url, ms = 8000) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), ms);
-    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  async function fetchWithTimeout(url, ms = 8000, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ms);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok && attempt < retries) throw new Error('HTTP ' + res.status);
+        return res;
+      } catch (e) {
+        clearTimeout(timer);
+        if (attempt === retries) throw e;
+        await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
+      }
+    }
   }
 
   async function loadWeather() {
@@ -1727,7 +1738,7 @@
   async function loadStreamFlow() {
     const siteId = '10243260';
     try {
-      const res = await fetch(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
+      const res = await fetchWithTimeout(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
       const d = await res.json();
       const series = d.value.timeSeries || [];
 

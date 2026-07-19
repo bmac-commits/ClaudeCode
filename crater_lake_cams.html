@@ -1489,10 +1489,21 @@
   // erroring, which used to leave weather/AQI stuck on "Loading…"
   // indefinitely. Bounding every request means a slow API fails fast
   // and falls back to "unavailable" instead of hanging the widget. ──
-  function fetchWithTimeout(url, ms = 8000) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), ms);
-    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  async function fetchWithTimeout(url, ms = 8000, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ms);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok && attempt < retries) throw new Error('HTTP ' + res.status);
+        return res;
+      } catch (e) {
+        clearTimeout(timer);
+        if (attempt === retries) throw e;
+        await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
+      }
+    }
   }
 
   async function loadWeather() {
@@ -1618,7 +1629,7 @@
   // ── USGS Lake & Stream Levels ──
   async function loadLakeLevel() {
     try {
-      const res = await fetch('https://waterservices.usgs.gov/nwis/iv/?sites=11492200&parameterCd=62614&format=json');
+      const res = await fetchWithTimeout('https://waterservices.usgs.gov/nwis/iv/?sites=11492200&parameterCd=62614&format=json');
       const d = await res.json();
       const series = d.value.timeSeries || [];
       const el = document.getElementById('gauge-11492200');
@@ -1637,7 +1648,7 @@
   async function loadAnnieSpring() {
     const siteId = '11503000';
     try {
-      const res = await fetch(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
+      const res = await fetchWithTimeout(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
       const d = await res.json();
       const series = d.value.timeSeries || [];
 
@@ -1762,7 +1773,10 @@
     });
   }
 
+  const camRetryCount = {};
+
   function camLoaded(id) {
+    camRetryCount[id] = 0;
     const img = document.getElementById('img-' + id);
     if (img) img.classList.remove('loading');
     const dot = document.getElementById('dot-' + id);
@@ -1772,6 +1786,16 @@
   }
 
   function camError(id) {
+    const retries = camRetryCount[id] || 0;
+    if (retries < 1) {
+      camRetryCount[id] = retries + 1;
+      setTimeout(() => {
+        const img = document.getElementById('img-' + id);
+        const cam = CAMS.find(c => c.id === id);
+        if (img && cam) img.src = cam.url + '?_retry=' + Date.now();
+      }, 3000);
+      return;
+    }
     const img = document.getElementById('img-' + id);
     if (img) img.style.display = 'none';
     const err = document.getElementById('err-' + id);
@@ -1810,6 +1834,7 @@
       if (dot) { dot.className = 'status-dot'; }
       const st = document.getElementById('status-' + cam.id);
       if (st) st.textContent = 'Loading…';
+      camRetryCount[cam.id] = 0;
       img.src = cam.url + '?_t=' + Date.now();
     });
     loadWeather();

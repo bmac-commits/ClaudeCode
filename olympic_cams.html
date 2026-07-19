@@ -1118,10 +1118,10 @@
         <div class="angler-row"><span class="angler-key">Water Temp</span><span class="angler-val" id="temp-12045500">Loading…</span></div>
       </div>
       <div class="angler-card">
-        <div class="angler-name">Sol Duc River at Hwy 101 at Forks, WA</div>
-        <div class="angler-row"><span class="angler-key">Flow</span><span class="angler-val highlight" id="flow-12042400">Loading…</span></div>
-        <div class="angler-row"><span class="angler-key">Gauge Height</span><span class="angler-val" id="gauge-12042400">Loading…</span></div>
-        <div class="angler-row"><span class="angler-key">Water Temp</span><span class="angler-val" id="temp-12042400">Loading…</span></div>
+        <div class="angler-name">Calawah River near Forks, WA</div>
+        <div class="angler-row"><span class="angler-key">Flow</span><span class="angler-val highlight" id="flow-12043000">Loading…</span></div>
+        <div class="angler-row"><span class="angler-key">Gauge Height</span><span class="angler-val" id="gauge-12043000">Loading…</span></div>
+        <div class="angler-row"><span class="angler-key">Water Temp</span><span class="angler-val" id="temp-12043000">Loading…</span></div>
       </div>
     </div>
     </div>
@@ -1234,10 +1234,21 @@
     },
   ];
 
-  function fetchWithTimeout(url, ms = 8000) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), ms);
-    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+  async function fetchWithTimeout(url, ms = 8000, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), ms);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok && attempt < retries) throw new Error('HTTP ' + res.status);
+        return res;
+      } catch (e) {
+        clearTimeout(timer);
+        if (attempt === retries) throw e;
+        await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
+      }
+    }
   }
 
   function wxInfo(code) {
@@ -1377,10 +1388,10 @@
   }
 
   async function loadRiverData() {
-    const sites = ['12041200', '12039500', '12045500', '12042400'];
+    const sites = ['12041200', '12039500', '12045500', '12043000'];
     for (const siteId of sites) {
       try {
-        const res = await fetch(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
+        const res = await fetchWithTimeout(`https://waterservices.usgs.gov/nwis/iv/?sites=${siteId}&parameterCd=00060,00065,00010&format=json`);
         const d = await res.json();
         const series = d.value.timeSeries || [];
 
@@ -1504,7 +1515,10 @@
     });
   }
 
+  const camRetryCount = {};
+
   function camLoaded(id) {
+    camRetryCount[id] = 0;
     const img = document.getElementById('img-' + id);
     if (img) img.classList.remove('loading');
     const dot = document.getElementById('dot-' + id);
@@ -1514,6 +1528,16 @@
   }
 
   function camError(id) {
+    const retries = camRetryCount[id] || 0;
+    if (retries < 1) {
+      camRetryCount[id] = retries + 1;
+      setTimeout(() => {
+        const img = document.getElementById('img-' + id);
+        const cam = CAMS.find(c => c.id === id);
+        if (img && cam) img.src = cam.url + '?_retry=' + Date.now();
+      }, 3000);
+      return;
+    }
     const img = document.getElementById('img-' + id);
     if (img) img.style.display = 'none';
     const err = document.getElementById('err-' + id);
@@ -1551,6 +1575,7 @@
       if (dot) { dot.className = 'status-dot'; }
       const st = document.getElementById('status-' + cam.id);
       if (st) st.textContent = 'Loading…';
+      camRetryCount[cam.id] = 0;
       img.src = cam.url + '?_t=' + Date.now();
     });
     loadWeather();
