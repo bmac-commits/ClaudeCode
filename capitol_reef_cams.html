@@ -413,11 +413,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--orchard-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -431,6 +431,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -1094,6 +1099,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--orchard); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1267,6 +1283,8 @@
 </header>
 
 <main>
+  <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌊</div><div class="glance-val danger">Flash flood</div><div class="glance-lbl">Backcountry risk</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">3 roads</div><div class="glance-lbl">Access routes</div></div>
@@ -1305,8 +1323,21 @@
     <div class="busy-note">Peak season is <strong>May–June</strong>, when around <strong>28%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-waterpocket" class="quicknav-link" data-target="sec-waterpocket">🌊 Backcountry Roads</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Scenic Drive</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 River Conditions</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍑 Orchards &amp; Dining</a>
+  </nav>
+
   <!-- Waterpocket Fold & Backcountry Roads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-waterpocket">
     <summary><span class="sa-title"><span class="sa-icon">🌊</span>Waterpocket Fold &amp; Backcountry Roads</span><span class="sa-badge danger">Flash flood risk</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1317,7 +1348,7 @@
   </details>
 
   <!-- Park Entrance & Scenic Drive -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Scenic Drive</span><span class="sa-badge ok">3 routes · $20</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1377,7 +1408,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge ok">4 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1433,7 +1464,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1459,8 +1490,57 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Grand Wash</span><span class="conc-type">Flat walk through a narrow wash canyon connecting the Scenic Drive and Highway 24</span><span class="conc-hrs">~4.4 mi RT · 200 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Capitol Gorge</span><span class="conc-type">Historic wagon route through a narrow canyon, passing the 1871 "Pioneer Register" inscriptions</span><span class="conc-hrs">~2.0 mi RT · 80 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Hickman Bridge</span><span class="conc-type">One of the park's most popular trails, climbing to a large natural sandstone bridge</span><span class="conc-hrs">~1.8 mi RT · 400 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Cohab Canyon</span><span class="conc-type">Switchbacks up from Fruita into a hidden side canyon, locally said to be named for polygamists once hiding from federal marshals</span><span class="conc-hrs">~3.4 mi RT · 440 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Golden Throne</span><span class="conc-type">Climbs to a viewpoint below a massive golden-hued sandstone dome</span><span class="conc-hrs">~4.0 mi RT · 730 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Navajo Knobs</span><span class="conc-type">Ridge-line hike ending at sweeping views over the Fremont River Gorge and Waterpocket Fold</span><span class="conc-hrs">~9.4 mi RT · 1,620 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Canyoneering<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Wife 1 &amp; Wife 2 Canyons</span><span class="conc-type">Technical slot canyons near Fruita with rappels through Navajo Sandstone</span><span class="conc-hrs">Permit (free)</span></div>
+          <div class="conc-row"><span class="conc-name">Self-Guided Canyoneering</span><span class="conc-type">Free day-use permit required per route, plus a backcountry permit for overnight trips; groups capped at 8</span><span class="conc-hrs">Permit (free)</span></div>
+          <div class="conc-row"><span class="conc-name">Seasonal Route Closures</span><span class="conc-type">Burro Wash, Fivemile Wash, Shinob Canyon &amp; connected routes, and Arch Nemesis close annually for resource protection</span><span class="conc-hrs">Apr 1 – Aug 31</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Scenic Drive</span><span class="conc-type">Paved road through the park's interior, popular with road cyclists</span><span class="conc-hrs">7.9 mi paved</span></div>
+          <div class="conc-row"><span class="conc-name">Cathedral Valley Loop</span><span class="conc-type">Unpaved high-clearance 4WD route through Cathedral Valley with a Fremont River ford; long and very strenuous</span><span class="conc-hrs">57.6 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Where Bikes Are Allowed</span><span class="conc-type">Roads only, plus the paved path between the visitor center and Fruita Campground; not permitted on hiking trails, washes, or backcountry routes</span><span class="conc-hrs">Roads only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Petroglyphs &amp; Historic Sites<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Capitol Reef Petroglyph Panel</span><span class="conc-type">Fremont Culture rock art with bighorn sheep &amp; human figures, viewed from roadside boardwalks along Hwy 24</span><span class="conc-hrs">1.1 mi E of visitor center</span></div>
+          <div class="conc-row"><span class="conc-name">Behunin Cabin</span><span class="conc-type">1883 sandstone pioneer cabin built by Elijah Behunin for his family of 15; the park's most intact settler cabin</span><span class="conc-hrs">On Hwy 24</span></div>
+          <div class="conc-row"><span class="conc-name">Fruita Schoolhouse</span><span class="conc-type">One-room schoolhouse used by the Fruita community 1896&ndash;1941, restored to its 1930s appearance</span><span class="conc-hrs">Scenic Drive</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions</span><span class="sa-badge">1 live gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" id="anglerGrid">
@@ -1474,7 +1554,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Excellent, informal</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1492,7 +1572,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍑</span>Historic Orchards &amp; Concessions</span><span class="sa-badge">1 location</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1782,6 +1862,14 @@
     if (miniName) miniName.textContent = m.name;
     if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

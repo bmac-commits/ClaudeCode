@@ -413,11 +413,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--hoodoo-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -431,6 +431,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -1052,6 +1057,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--hoodoo); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1226,6 +1242,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🥾</div><div class="glance-val danger">9,115 ft</div><div class="glance-lbl">Max elevation</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">Open year-round</div><div class="glance-lbl">Entrance</div></div>
@@ -1263,8 +1280,20 @@
     <div class="busy-note">Peak season is <strong>May–September</strong>, when around <strong>71%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–March</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">🥾 High-Elevation Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Scenic Drive</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Trailheads</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+  </nav>
+
   <!-- High Elevation Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">🥾</span>High-Elevation Safety</span><span class="sa-badge danger">9,115 ft max</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1285,7 +1314,7 @@
   </details>
 
   <!-- Park Entrance & Scenic Drive -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Scenic Drive</span><span class="sa-badge ok">Open year-round · $35</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1345,7 +1374,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge">2 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1379,7 +1408,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1405,8 +1434,62 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Rim Trail</span><span class="conc-type">Follows the canyon edge from Fairyland Point to Bryce Point; walk any portion or the whole thing</span><span class="conc-hrs">1&ndash;11 mi · 719 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Mossy Cave Trail</span><span class="conc-type">Short walk to a seasonal waterfall and a moss-lined alcove, on the park's east side near Tropic</span><span class="conc-hrs">0.8 mi RT · 150 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Queen's Garden &amp; Navajo Loop Combo</span><span class="conc-type">The park's classic below-the-rim loop through hoodoo formations, connecting two trailheads</span><span class="conc-hrs">2.9 mi RT · 625 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Tower Bridge Trail</span><span class="conc-type">Descends from Sunrise Point to a natural rock-bridge formation resembling its namesake</span><span class="conc-hrs">3.0 mi RT · 760 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Peekaboo Loop Trail</span><span class="conc-type">Below-the-rim loop through the Wall of Windows and Cathedral formations; shared with horse traffic</span><span class="conc-hrs">5.5 mi RT · 1,560 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Fairyland Loop Trail</span><span class="conc-type">The longest amphitheater loop, passing Tower Bridge and China Wall with far fewer crowds</span><span class="conc-hrs">8.0 mi RT · 1,900 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Guided Rides — Canyon Trail Rides</span><span class="conc-type">2- and 3-hour rides on a dedicated horse trail through the amphitheater and the Peekaboo Loop &middot; 435/679-8665</span><span class="conc-hrs">Apr&ndash;Oct 31</span></div>
+          <div class="conc-row"><span class="conc-name">Private Stock Rides</span><span class="conc-type">Reserve via Recreation.gov (no walk-ins); up to 10 riders per half-hour slot, 4:30&ndash;7:30 PM; health certificate &amp; proof of ownership required</span><span class="conc-hrs">~May&ndash;Oct</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Canyon to Canyon Shared-Use Path</span><span class="conc-type">Paved path linking Bryce Canyon City through the park to Red Canyon in Dixie National Forest</span><span class="conc-hrs">22 mi total</span></div>
+          <div class="conc-row"><span class="conc-name">Final Segment Construction (2026)</span><span class="conc-type">The last 2.3-mi segment from Hwy 63 to Bryce Point is fully closed to bicycles during construction, weekdays 8 AM&ndash;6 PM</span><span class="conc-hrs">Late May&ndash;~Oct 2026</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing</span><span class="conc-type">Marked routes above the rim; skiing down into the amphitheater is prohibited</span><span class="conc-hrs">Snow-dependent</span></div>
+          <div class="conc-row"><span class="conc-name">Snowshoeing</span><span class="conc-type">Allowed park-wide on all trails; no rental program, but traction devices are sold at the visitor center bookstore</span><span class="conc-hrs">Snow-dependent</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger &amp; Astronomy Programs<span class="conc-count">2 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Annual Astronomy Festival</span><span class="conc-type">Multi-day June event: daytime solar telescopes, evening speaker talks, public stargazing 10 PM&ndash;midnight, and an astrophotography workshop (15-person cap, registration required)</span><span class="conc-hrs">Free w/ admission</span></div>
+          <div class="conc-row"><span class="conc-name">Full Moon Hikes</span><span class="conc-type">Ranger-led 1&ndash;2 mile moonlit hikes on the night of each month's full moon (except Jan); canceled below 10&deg;F or under cloud cover</span><span class="conc-hrs">Permit via Recreation.gov</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Dark Sky Park</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1424,7 +1507,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">3 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1683,6 +1766,14 @@
     if (miniName) miniName.textContent = m.name;
     if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

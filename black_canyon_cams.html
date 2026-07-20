@@ -131,11 +131,12 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--painted-light);
       margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     /* ── Entrances Section ── */
     .traffic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
@@ -334,6 +335,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--painted); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -497,6 +509,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">⚠️</div><div class="glance-val danger">Unfenced</div><div class="glance-lbl">Rim edges</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">24/7</div><div class="glance-lbl">South Rim access</div></div>
@@ -535,8 +548,21 @@
     <div class="busy-note">Peak season is <strong>June–September</strong>, when around <strong>60%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Rim Safety</a>
+    <a href="#sec-fire" class="quicknav-link" data-target="sec-fire">🔥 Fire Recovery</a>
+    <a href="#sec-fees" class="quicknav-link" data-target="sec-fees">🪧 Access &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Rim Edge & Altitude Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Rim Edge &amp; Altitude Safety</span><span class="sa-badge danger">No guardrails</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -559,7 +585,7 @@
   </details>
 
   <!-- South Rim Fire & Current Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fire">
     <summary><span class="sa-title"><span class="sa-icon">🔥</span>South Rim Fire Recovery</span><span class="sa-badge danger">2025 fire impact</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -570,7 +596,7 @@
   </details>
 
   <!-- Park Access & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fees">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">South Rim 24/7 · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -618,7 +644,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge danger">Reduced capacity</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -652,7 +678,7 @@
   </details>
 
   <!-- Landmarks & Overlooks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Overlooks</span><span class="sa-badge">7 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -686,8 +712,60 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Uplands Trail</span><span class="conc-type">South Rim &middot; links Rim Rock Trail near the campground to Oak Flat Trail near the Visitor Center</span><span class="conc-hrs">.9 mi &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Rim Rock Trail</span><span class="conc-type">South Rim &middot; rocky path with stairs connecting South Rim Campground and the Visitor Center</span><span class="conc-hrs">1 mi &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Oak Flat Trail</span><span class="conc-type">South Rim &middot; loop below the rim through aspen and Gambel oak</span><span class="conc-hrs">1.6 mi RT &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Chasm View Trail</span><span class="conc-type">North Rim &middot; short walk from North Rim Campground to a dramatic overlook</span><span class="conc-hrs">.3 mi &middot; Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Deadhorse Trail</span><span class="conc-type">North Rim &middot; old road to a former uranium prospect site above the canyon; loop option goes farther</span><span class="conc-hrs">2.6&ndash;6.6 mi RT &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">North Vista Trail</span><span class="conc-type">North Rim &middot; ridge walk to Exclamation Point, continuing to the summit of Green Mountain</span><span class="conc-hrs">1.6&ndash;3.6 mi &middot; Moderate</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Descent Routes<span class="conc-count">6 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Gunnison Route</span><span class="conc-type">South Rim &middot; recommended for a first inner-canyon descent, still very strenuous</span><span class="conc-hrs">1.5 mi &middot; 1,800 ft loss</span></div>
+          <div class="conc-row"><span class="conc-name">Tomichi Route</span><span class="conc-type">South Rim &middot; the steepest South Rim route</span><span class="conc-hrs">1 mi &middot; 1,960 ft loss</span></div>
+          <div class="conc-row"><span class="conc-name">Warner Route</span><span class="conc-type">South Rim &middot; longest South Rim route; overnight travel highly suggested</span><span class="conc-hrs">2.75 mi &middot; 2,722 ft loss</span></div>
+          <div class="conc-row"><span class="conc-name">Pinyon Draw (S.O.B. Draw)</span><span class="conc-type">North Rim &middot; suggested for a first North Rim descent; 6 designated campsites</span><span class="conc-hrs">1.75 mi &middot; 1,800 ft loss</span></div>
+          <div class="conc-row"><span class="conc-name">Long Draw (Devil's Slide)</span><span class="conc-type">North Rim &middot; 8&ndash;12 ft ledges to climb, including one near-vertical section</span><span class="conc-hrs">1 mi &middot; 1,800 ft loss</span></div>
+          <div class="conc-row"><span class="conc-name">Slide Draw</span><span class="conc-type">North Rim &middot; the most challenging and hazardous route, extremely steep with loose rock</span><span class="conc-hrs">1 mi &middot; 1,620 ft loss</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">2 things to know</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">North &amp; South Chasm Walls</span><span class="conc-type">145 routes on the canyon's namesake walls, including the 2,250-ft Painted Wall (Colorado's tallest cliff); free wilderness permit &amp; clean-climbing gear required, not recommended for beginners</span><span class="conc-hrs">145 routes &middot; 5.8&ndash;5.13</span></div>
+          <div class="conc-row"><span class="conc-name">Raptor Nesting Closures</span><span class="conc-type">Select routes close annually to protect nesting raptors</span><span class="conc-hrs">Mar 15&ndash;Jul 15</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing the Gunnison River<span class="conc-count">4 things to know</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Gunnison River</span><span class="conc-type">Gold Medal &amp; Wild Trout Water below the dams; Colorado fishing license required, artificial flies or lures only &mdash; no bait</span><span class="conc-hrs">License req.</span></div>
+          <div class="conc-row"><span class="conc-name">Rainbow Trout</span><span class="conc-type">Catch-and-release only, park-wide</span><span class="conc-hrs">Catch &amp; release</span></div>
+          <div class="conc-row"><span class="conc-name">Brown Trout</span><span class="conc-type">May be kept within daily &amp; possession limits</span><span class="conc-hrs">4 daily &middot; 8 poss.</span></div>
+          <div class="conc-row"><span class="conc-name">East Portal Road</span><span class="conc-type">Steep access route down to the river; max vehicle length 22 ft including trailers; closes in winter</span><span class="conc-hrs">16% grade</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- River Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Gunnison River Conditions</span><span class="sa-badge ok">1 live gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -709,7 +787,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Certified 2015</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -992,6 +1070,14 @@
     loadMoonPhase();
     loadTwilight();
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

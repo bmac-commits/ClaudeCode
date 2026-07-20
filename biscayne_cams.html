@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--reef-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -250,6 +251,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--reef); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -404,6 +416,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌊</div><div class="glance-val danger">Boating accidents</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -442,8 +455,18 @@
     <div class="busy-note">Peak season is <strong>May</strong>, when around <strong>10%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–November</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Water Safety</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">🚤 Access &amp; Entry</a>
+    <a href="#sec-reef" class="quicknav-link" data-target="sec-reef">🐠 Coral Reef</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Access & Water Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Access &amp; Water Safety</span><span class="sa-badge danger">Boating hazards</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +489,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">🚤</span>Access &amp; Entry</span><span class="sa-badge ok">Fee-free</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -477,7 +500,7 @@
   </details>
 
   <!-- Coral Reef & Stiltsville -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-reef">
     <summary><span class="sa-title"><span class="sa-icon">🐠</span>Coral Reef &amp; Stiltsville</span><span class="sa-badge">Florida Reef</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -499,8 +522,69 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Boating<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Open Water</span><span class="conc-type">Over 250 square miles of mostly shallow, tide-dependent water; NPS recommends NOAA chart 11451 for navigation</span><span class="conc-hrs">Boat required</span></div>
+          <div class="conc-row"><span class="conc-name">Personal Watercraft</span><span class="conc-type">Jet skis and other personal watercraft are prohibited throughout the park</span><span class="conc-hrs">Prohibited</span></div>
+          <div class="conc-row"><span class="conc-name">Reef Protection</span><span class="conc-type">Slow-speed zones apply in shallow areas; anchoring on coral is forbidden and mooring buoys are provided at popular sites</span><span class="conc-hrs">Mooring buoys</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Snorkeling &amp; Diving<span class="conc-count">Maritime Heritage Trail</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Maritime Heritage Trail</span><span class="conc-type">Six historic shipwrecks plus the 1878 Fowey Rocks Lighthouse; all sites are boat-access only</span><span class="conc-hrs">7 sites · Boat-only</span></div>
+          <div class="conc-row"><span class="conc-name">Lugano</span><span class="conc-type">1913 steamship wreck resting on Long Reef; a popular scuba site</span><span class="conc-hrs">25 ft deep</span></div>
+          <div class="conc-row"><span class="conc-name">Mandalay</span><span class="conc-type">1966 wreck of a two-masted schooner, shallow enough for snorkeling</span><span class="conc-hrs">Snorkel-friendly</span></div>
+          <div class="conc-row"><span class="conc-name">Fowey Rocks Lighthouse</span><span class="conc-type">1878 lighthouse marking the trail's northern end; snorkeling is permitted around the base, but the tower is closed to visitors</span><span class="conc-hrs">Not open to public</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">Valid Florida fishing license required for anglers 16+; extra permits apply for snook, spiny lobster, tarpon, and shore-based shark fishing</span><span class="conc-hrs">FL license + permits</span></div>
+          <div class="conc-row"><span class="conc-name">Species &amp; Limits</span><span class="conc-type">Popular catches include snapper, grouper, tarpon, and bonefish; federal size and bag limits are often stricter than state waters</span><span class="conc-hrs">Federal rules apply</span></div>
+          <div class="conc-row"><span class="conc-name">Closed Areas</span><span class="conc-type">Fishing is prohibited near the Boca Chita and Elliott Key harbors, the visitor center boat basin, and Convoy Point entrance channels</span><span class="conc-hrs">No-fish zones</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Kayaking &amp; Canoeing<span class="conc-count">1 note</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Mangrove Shoreline</span><span class="conc-type">NPS recommends paddling to explore the mangrove-fringed shorelines and shallow bay waters near Convoy Point</span><span class="conc-hrs">Self-guided</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Guided Tours &amp; Charters<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Biscayne National Park Institute</span><span class="conc-type">Official concessioner running snorkel trips to Maritime Heritage Trail wrecks and reefs, Boca Chita lighthouse cruises, sailing, and Jones Lagoon eco-tours; reservations advised</span><span class="conc-hrs">786-335-3644</span></div>
+          <div class="conc-row"><span class="conc-name">Other Authorized Operators</span><span class="conc-type">Eight additional companies are permitted to run snorkeling, diving, boating, and fishing charters in the park</span><span class="conc-hrs">8 operators</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking<span class="conc-count">2 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Convoy Point Jetty Walk</span><span class="conc-type">Flat, self-guided walk along the jetty at the Dante Fascell Visitor Center with 10 interpretive stops</span><span class="conc-hrs">0.8 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Elliott Key Trails</span><span class="conc-type">Boat-access-only island with two hiking trails, including a route along its length</span><span class="conc-hrs">Boat-access only</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Boat-in · FCFS</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -694,6 +778,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
