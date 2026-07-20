@@ -91,8 +91,20 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--amber-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--amber); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -416,6 +428,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🕳️</div><div class="glance-val">420+ miles</div><div class="glance-lbl">Longest cave on Earth</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Surface entrance fee</div></div>
@@ -454,8 +467,18 @@
     <div class="busy-note">Peak season is <strong>July</strong>, when around <strong>17%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-tours" class="quicknav-link" data-target="sec-tours">🎟️ Cave Tours</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 Green River</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Cave & Trail Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Cave &amp; Trail Safety</span><span class="sa-badge danger">Uneven, wet trails</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +489,7 @@
   </details>
 
   <!-- Cave Tours & Reservations -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-tours">
     <summary><span class="sa-title"><span class="sa-icon">🎟️</span>Cave Tours &amp; Reservations</span><span class="sa-badge ok">Book ahead</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -489,7 +512,7 @@
   </details>
 
   <!-- Green River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>Green River</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -513,8 +536,60 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Green River Bluffs Trail</span><span class="conc-type">Visitor Center area trail along the bluffs above the river</span><span class="conc-hrs">1.3 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Echo River Springs Loop Trail</span><span class="conc-type">Wheelchair-accessible loop near the visitor center</span><span class="conc-hrs">1.0 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Sinkhole Trail</span><span class="conc-type">Visitor Center area trail; partially closed &mdash; check current conditions</span><span class="conc-hrs">1.0 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Cedar Sink Trail</span><span class="conc-type">South side trail off Mammoth Cave Parkway</span><span class="conc-hrs">1.0 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Turnhole Bend Nature Trail</span><span class="conc-type">South side nature trail along the Green River</span><span class="conc-hrs">0.5 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Sloan's Crossing Pond Walk</span><span class="conc-type">Wheelchair-accessible pond walk, south side</span><span class="conc-hrs">0.4 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Canoeing, Kayaking &amp; Boating<span class="conc-count">Green &amp; Nolin Rivers</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Dennison Ferry → Green River Ferry</span><span class="conc-type">Green River paddle route</span><span class="conc-hrs">7.6 mi · 2.5&ndash;4 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Green River Ferry → Houchin Ferry</span><span class="conc-type">Green River paddle route</span><span class="conc-hrs">12.4 mi · 4&ndash;6 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Nolin Dam → Houchin Ferry</span><span class="conc-type">Nolin River paddle route</span><span class="conc-hrs">11.1 mi · 4&ndash;6 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Houchin Ferry → Brownsville</span><span class="conc-type">Green River paddle route, exits the park</span><span class="conc-hrs">3.6 mi · 1.5&ndash;2 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">PFD Requirement</span><span class="conc-type">Required for all paddlers age 12 &amp; under at all times on park rivers</span><span class="conc-hrs">Mandatory ≤12</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Bicycling<span class="conc-count">3 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Mammoth Cave Railroad Hike &amp; Bike Trail</span><span class="conc-type">Former railroad grade linking Park City to the visitor center area</span><span class="conc-hrs">9 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Big Hollow Trail Loop</span><span class="conc-type">Single-track mountain bike trail through woodlands &amp; rocky terrain</span><span class="conc-hrs">9.1 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Connector Trail</span><span class="conc-type">Links Big Hollow Trailhead to Maple Springs Trailhead</span><span class="conc-hrs">1 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">60 mi network</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Backcountry Horse Trails</span><span class="conc-type">Wide dirt paths to single-file ridgeline routes, north of the Green River</span><span class="conc-hrs">60 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Trailer Parking</span><span class="conc-type">Five day-use trailheads: First Creek, Lincoln, Maple Springs, Temple Hill &amp; Maple Springs Campground</span><span class="conc-hrs">5 trailheads</span></div>
+          <div class="conc-row"><span class="conc-name">Maple Springs Campground</span><span class="conc-type">Four horse-specific campsites with picket areas</span><span class="conc-hrs">Horse camping</span></div>
+          <div class="conc-row"><span class="conc-name">Guided Rides</span><span class="conc-type">Available through authorized commercial outfitters such as Double J Riding Stables</span><span class="conc-hrs">Concessioner</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">3 campgrounds</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -744,6 +819,15 @@
     }
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

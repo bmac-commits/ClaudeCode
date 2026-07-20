@@ -131,11 +131,12 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--adobe-light);
       margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     /* ── Entrances Section ── */
     .traffic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
@@ -339,6 +340,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--adobe); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -503,6 +515,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">⛈️</div><div class="glance-val danger">High</div><div class="glance-lbl">Storm risk</div></div>
     <div class="glance-item"><div class="glance-icon">🎟️</div><div class="glance-val">$8/person</div><div class="glance-lbl">Tour tickets</div></div>
@@ -541,8 +554,20 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>53%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Storm &amp; Elevation Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-tours" class="quicknav-link" data-target="sec-tours">🎟️ Cliff Dwelling Tours</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campground</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Museum</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Storm & Elevation Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Storm &amp; Elevation Safety</span><span class="sa-badge danger">Afternoon storms</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -565,7 +590,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">1 entrance · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -613,7 +638,7 @@
   </details>
 
   <!-- Cliff Dwelling Tours -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-tours">
     <summary><span class="sa-title"><span class="sa-icon">🎟️</span>Cliff Dwelling Tours</span><span class="sa-badge">$8/person</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -695,7 +720,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">267 sites</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -723,7 +748,7 @@
   </details>
 
   <!-- Landmarks & Museum -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Museum</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -748,8 +773,63 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Chapin Mesa Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Petroglyph Point Trail</span><span class="conc-type">Narrow, unmaintained loop past a large ancient petroglyph panel; hiked counterclockwise, with scrambling over exposed rock</span><span class="conc-hrs">2.4 mi loop · 227 ft · Very Challenging</span></div>
+          <div class="conc-row"><span class="conc-name">Spruce Canyon Trail</span><span class="conc-type">Steep descent into Spruce Canyon and back up via Navajo Canyon, from the same trailhead as Petroglyph Point</span><span class="conc-hrs">2.4 mi RT · 558 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Farming Terrace Trail</span><span class="conc-type">Short loop past ancient check-dam terraces once used to farm the canyon floor</span><span class="conc-hrs">0.5 mi loop · 150 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Far View Sites Trail</span><span class="conc-type">Paved, level walk past a cluster of excavated mesa-top villages, 4 miles north of the museum</span><span class="conc-hrs">0.75 mi RT · Easy</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Morefield Canyon Trails<span class="conc-count">3 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Point Lookout Trail</span><span class="conc-type">Climbs to a mesa-top overlook above Morefield Campground with sweeping canyon views</span><span class="conc-hrs">2.2 mi RT · 400 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Prater Ridge Trail</span><span class="conc-type">Park's longest maintained trail, looping along a ridge above Morefield Canyon; a shorter north-only loop is also possible</span><span class="conc-hrs">7.8 mi loop (5.7 mi N. option) · 675 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Knife Edge Trail</span><span class="conc-type">Follows the original 1914 park entrance road along a canyon-rim ledge to a sunset-view point; final stretch flagged for rockfall</span><span class="conc-hrs">2 mi RT · 60 ft · Easy</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wetherill Mesa Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Step House Trail</span><span class="conc-type">Paved loop down to Step House, the one cliff dwelling that doesn't require a ticketed tour; open May 22–Oct 21 only</span><span class="conc-hrs">1 mi RT · 165 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Nordenskiöld Site No. 16 Trail</span><span class="conc-type">Short walk to an excavated mesa-top pueblo; pets permitted, open May 22–Oct 21 only</span><span class="conc-hrs">2 mi RT · 95 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Badger House Community Trail</span><span class="conc-type">Loop past four excavated sites spanning the shift from mesa-top farming to cliff dwellings; pets permitted, open May 22–Oct 21 only</span><span class="conc-hrs">2.25 mi RT · 111 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Long House Loop</span><span class="conc-type">Combines the Long House tour route with additional mesa-top walking; pets permitted on the loop portion, open May 22–Oct 21 only</span><span class="conc-hrs">5 mi RT · 177 ft · Moderate</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mesa Top Loop Road<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Self-Guided Drive</span><span class="conc-type">Six-mile loop past 12 excavated sites, from early pithouses to Sun Point's cross-canyon view of Cliff Palace</span><span class="conc-hrs">6 mi · 45&ndash;60 min · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">&quot;A Pueblo Perspective&quot; Audio Tour</span><span class="conc-type">Downloadable narrated guide covering ten stops along the loop, playable from a phone or car stereo</span><span class="conc-hrs">Free download</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger &amp; Family Programs<span class="conc-count">2 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Evening Ranger Programs</span><span class="conc-type">Ranger-led talks and presentations at the Morefield Campground Amphitheater</span><span class="conc-hrs">Summer evenings</span></div>
+          <div class="conc-row"><span class="conc-name">Junior Ranger Program</span><span class="conc-type">Activity booklet from the Visitor Center; complete it to earn a Junior Ranger badge</span><span class="conc-hrs">All ages · Free</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">100th IDSP</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -988,6 +1068,14 @@
     loadMoonPhase();
     loadTwilight();
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--turq-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--turq); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -403,6 +415,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🧭</div><div class="glance-val danger">Remoteness</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -441,8 +454,20 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>59%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">🛩️ Access</a>
+    <a href="#sec-bears" class="quicknav-link" data-target="sec-bears">🐻 Bears &amp; Volcanoes</a>
+    <a href="#sec-cabin" class="quicknav-link" data-target="sec-cabin">🪵 Proenneke's Cabin</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+  </nav>
+
   <!-- Remoteness & Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Remoteness &amp; Safety</span><span class="sa-badge danger">Self-sufficiency required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -465,7 +490,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">🛩️</span>Access &amp; Entry</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -486,7 +511,7 @@
   </details>
 
   <!-- Bear Viewing & Volcanoes -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-bears">
     <summary><span class="sa-title"><span class="sa-icon">🐻</span>Bear Viewing &amp; Volcanoes</span><span class="sa-badge">2 sites · 2 volcanoes</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -509,7 +534,7 @@
   </details>
 
   <!-- Dick Proenneke's Cabin -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-cabin">
     <summary><span class="sa-title"><span class="sa-icon">🪵</span>Dick Proenneke's Cabin</span><span class="sa-badge">National Historic Site</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -520,7 +545,7 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">No permit required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -531,7 +556,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -545,6 +570,66 @@
           <div class="conc-row"><span class="conc-name">Chinitna Bay</span><span class="conc-type">See Bear Viewing above</span></div>
         </div>
       </details>
+    </div>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Crescent Lake</span><span class="conc-type">The park's most popular fishing destination, tucked in the Chigmit Mountains near Redoubt Volcano</span><span class="conc-hrs">May&ndash;Oct &middot; peak Jul&ndash;Aug</span></div>
+          <div class="conc-row"><span class="conc-name">Silver Salmon Creek</span><span class="conc-type">Productive salmon water shared with actively fishing brown bears &mdash; anglers must yield fishing spots to bears</span><span class="conc-hrs">Peak salmon runs</span></div>
+          <div class="conc-row"><span class="conc-name">Kijik, Telaquana &amp; Tanalian Waters</span><span class="conc-type">Home to arctic char, arctic grayling, Dolly Varden, lake &amp; rainbow trout, northern pike, and all five Pacific salmon species</span><span class="conc-hrs">AK license required</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Beyond Tanalian Falls<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Kontrashibuna Lake Trail</span><span class="conc-type">Maintained Tanalian Trails route continuing past Tanalian Falls into designated wilderness</span><span class="conc-hrs">5.5 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Beaver Pond Trail</span><span class="conc-type">Quiet birch-grove walk from Port Alsworth to a viewpoint over an old beaver pond</span><span class="conc-hrs">3.2 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Tanalian Mountain</span><span class="conc-type">Steep, full-day climb from Port Alsworth with panoramic summit views</span><span class="conc-hrs">8.6 mi RT &middot; 8+ hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Portage Creek Trail</span><span class="conc-type">Single-track climb through spruce &amp; birch forest to alpine tundra near Joe Thompson Cabin</span><span class="conc-hrs">3.25 mi &middot; 1,850 ft gain</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Paddling &amp; Boating<span class="conc-count">2 lakes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lake Clark</span><span class="conc-type">42-mile glacially fed lake ringed by hanging valleys; motorized boat access via lodges &amp; commercial operators</span><span class="conc-hrs">Guided &amp; self-guided</span></div>
+          <div class="conc-row"><span class="conc-name">Crescent Lake</span><span class="conc-type">Popular paddling &amp; motorboat destination in the Chigmit Mountains near Redoubt Volcano; PFDs required aboard</span><span class="conc-hrs">Fly-in access</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wild &amp; Scenic River Rafting<span class="conc-count">3 rivers</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Tlikakila River</span><span class="conc-type">Mostly Class I float from Summit Lake to Lake Clark with a brief Class II/III section; float plane plus 2-mi portage to put-in</span><span class="conc-hrs">~70 mi &middot; 2&ndash;4 days</span></div>
+          <div class="conc-row"><span class="conc-name">Mulchatna River</span><span class="conc-type">Fast Class I&ndash;II river with Class III canyon water at low flow, forming the park's western border</span><span class="conc-hrs">100&ndash;230 mi &middot; up to a week+</span></div>
+          <div class="conc-row"><span class="conc-name">Chilikadrotna River</span><span class="conc-type">Fast single-thread Class I&ndash;II channel flowing from Twin Lakes</span><span class="conc-hrs">70&ndash;200 mi &middot; Jun&ndash;Sep</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Birding<span class="conc-count">187 species</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Park-wide Birding</span><span class="conc-type">187 documented bird species across tundra, wetland, coastal &amp; forest habitats</span><span class="conc-hrs">Year-round</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hunting &amp; Trapping<span class="conc-count">Preserve only</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">National Preserve Lands</span><span class="conc-type">Sport hunting &amp; trapping permitted under Alaska state regulations; not allowed on national park lands</span><span class="conc-hrs">State license required</span></div>
+        </div>
+      </details>
+
     </div>
     </div>
   </details>
@@ -719,6 +804,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
