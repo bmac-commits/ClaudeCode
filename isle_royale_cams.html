@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--superior-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--superior); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -404,6 +416,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🚤</div><div class="glance-val">Boat/plane only</div><div class="glance-lbl">No roads, no cars</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$7/day</div><div class="glance-lbl">Per person entrance fee</div></div>
@@ -442,8 +455,18 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>63%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety &amp; Water</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">🚤 Ferry &amp; Seaplane</a>
+    <a href="#sec-wildlife" class="quicknav-link" data-target="sec-wildlife">🐺 Wolf-Moose Study</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+  </nav>
+
   <!-- Remoteness & Water Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Remoteness &amp; Water Safety</span><span class="sa-badge danger">Self-reliance required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -454,7 +477,7 @@
   </details>
 
   <!-- Ferry & Seaplane Access -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">🚤</span>Ferry &amp; Seaplane Access</span><span class="sa-badge ok">Multiple operators</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="traffic-grid">
@@ -488,7 +511,7 @@
   </details>
 
   <!-- Wolf-Moose Study -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-wildlife">
     <summary><span class="sa-title"><span class="sa-icon">🐺</span>Wolf-Moose Study</span><span class="sa-badge">Longest-running in the world</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -499,12 +522,56 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">Backcountry permit</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
       <span class="notice-icon">🎒</span>
       <span>No vehicles are permitted on Isle Royale at all, so there's no drive-up camping — every site is backcountry, reached on foot or by boat, with three-sided shelters and tent pads scattered along the island's trail network. A free backcountry permit (filled out at the dock on arrival) is required for every overnight stay. <a href="https://www.nps.gov/isro/planyourvisit/camping.htm" target="_blank">Full camping details on NPS.gov ↗</a></span>
+    </div>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Stoll Trail — Scoville Point</span><span class="conc-type">Figure-eight day hike from Rock Harbor past old mine sites to the rocky tip of Scoville Point; wooded on the Tobin Harbor side, rocky and exposed on the Rock Harbor side</span><span class="conc-hrs">1.9&ndash;4.2 mi loop · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Greenstone Ridge Trail</span><span class="conc-type">The island's backbone route along its highest ridge, running from Windigo to Lookout Louise</span><span class="conc-hrs">40+ mi one-way · Multi-day</span></div>
+          <div class="conc-row"><span class="conc-name">Feldtmann Loop</span><span class="conc-type">Loop through the island's southwestern end past Feldtmann Lake and Rainbow Cove</span><span class="conc-hrs">30+ mi loop · Multi-day</span></div>
+          <div class="conc-row"><span class="conc-name">Minong Ridge Trail</span><span class="conc-type">The island's most challenging route — bare ridge walking, steep climbs/descents, and changing trail conditions</span><span class="conc-hrs">30+ mi · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Paddling<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Inland Lake Canoeing</span><span class="conc-type">Calmer paddling on the island's interior lakes, linked in places by portage trails</span><span class="conc-hrs">Permit for overnight stays</span></div>
+          <div class="conc-row"><span class="conc-name">Lake Superior Kayaking</span><span class="conc-type">Open-water paddling requires ACA Level 3 certification (or equivalent) and a sea kayak 15+ ft with sealed bulkheads; 1&ndash;3+ ft waves and fog are common</span><span class="conc-hrs">Experienced paddlers only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Scuba Diving<span class="conc-count">2 things to know</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Shipwreck Diving</span><span class="conc-type">One of the best-preserved shipwreck collections in the National Park System, spanning 70 years of Lake Superior shipping — including the SS Kamloops, SS America &amp; SS Congdon</span><span class="conc-hrs">Register at Rock Harbor/Windigo/Houghton</span></div>
+          <div class="conc-row"><span class="conc-name">Cold-Water Conditions</span><span class="conc-type">Surface temps rarely top 55°F, dropping to 34&ndash;37°F below 50 ft; full wetsuit required, drysuit recommended</span><span class="conc-hrs">Drysuit recommended</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lake Superior Fishing</span><span class="conc-type">Bays, harbors &amp; open water; Michigan fishing license required (anglers 17 and under exempt)</span><span class="conc-hrs">License required</span></div>
+          <div class="conc-row"><span class="conc-name">Interior Lakes Fishing</span><span class="conc-type">No license needed; barbless hooks and artificial lures only, live/preserved bait prohibited. Brook trout and lake herring/whitefish are catch-and-release only</span><span class="conc-hrs">No license needed</span></div>
+        </div>
+      </details>
+
     </div>
     </div>
   </details>
@@ -679,6 +746,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

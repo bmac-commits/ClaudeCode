@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--bear-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -248,6 +249,17 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--bear); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -407,6 +419,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🐻</div><div class="glance-val danger">50-yd rule</div><div class="glance-lbl">Bear distance</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -445,8 +458,20 @@
     <div class="busy-note">Peak season is <strong>July</strong>, when around <strong>40%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-bear-safety" class="quicknav-link" data-target="sec-bear-safety">⚠️ Bear Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🛩️ Access &amp; Entry</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Bear Cam</a>
+    <a href="#sec-vtts" class="quicknav-link" data-target="sec-vtts">🌋 Valley of Ten Thousand Smokes</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+  </nav>
+
   <!-- Bear Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-bear-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Bear Safety</span><span class="sa-badge danger">Highest bear density</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -469,7 +494,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🛩️</span>Access &amp; Entry</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -488,8 +513,72 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Brooks Falls Trail</span><span class="conc-type">Wheelchair-accessible boardwalk to two raised platforms overlooking bears fishing in Brooks River</span><span class="conc-hrs">1.2 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Cultural Site Trail</span><span class="conc-type">Self-guided walk past prehistoric camps, including a reconstructed semi-subterranean native dwelling</span><span class="conc-hrs">0.1 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Lake Brooks Road</span><span class="conc-type">Walk to a glacially carved lake with a salmon-viewing area (Aug&ndash;Sep) and picnic site</span><span class="conc-hrs">1 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Dumpling Mountain Trail</span><span class="conc-type">Climbs through alpine tundra to views of Naknek Lake, Brooks River &amp; Lake Brooks; continues on to the summit</span><span class="conc-hrs">1.5 mi to overlook (800 ft), +4 mi to summit · Mod.&ndash;Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing (Brooks River)<span class="conc-count">4 key rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Alaska Fishing License</span><span class="conc-type">Required for all anglers park-wide; a state license, separate from any NPS permit</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">Brooks River Access Permit</span><span class="conc-type">Booked via Recreation.gov; free permit plus $6 booking fee, valid 7 days, max group of 6</span><span class="conc-hrs">Jun 15&ndash;Oct 31</span></div>
+          <div class="conc-row"><span class="conc-name">Fly-Fishing-Only Water</span><span class="conc-type">Only unbaited, single-hook artificial flies allowed in Brooks River; fishing from the bridge is prohibited</span><span class="conc-hrs">Catch &amp; release (most of river)</span></div>
+          <div class="conc-row"><span class="conc-name">Bear-Related Closures</span><span class="conc-type">Area within 50 yd of the river and 100 yd of Brooks Falls closes to entry; marked detours required</span><span class="conc-hrs">Jun 15&ndash;Aug 15</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Flightseeing &amp; Air Taxi<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Flightseeing Tours</span><span class="conc-type">Small-plane views of tundra, lakes, the Pacific coast &amp; Aleutian Range volcanoes; pilots often spot bears, salmon runs &amp; seabird rookeries</span><span class="conc-hrs">Authorized operators only</span></div>
+          <div class="conc-row"><span class="conc-name">Air Taxi to Brooks Camp</span><span class="conc-type">Most park destinations, including Brooks Camp, are reached only by floatplane or air taxi from King Salmon, Anchorage, Homer, Kodiak or Soldotna</span><span class="conc-hrs">No roads to park</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger-Led Programs<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cultural Walk</span><span class="conc-type">Ranger-led walk from the Brooks Camp Visitor Center covering the area's human history</span><span class="conc-hrs">Daily 2 PM, Jun 7&ndash;Sep 17</span></div>
+          <div class="conc-row"><span class="conc-name">Evening Program</span><span class="conc-type">Ranger talk at the Brooks Camp Auditorium; no reservation needed</span><span class="conc-hrs">Daily 8 PM, Jun 7&ndash;Sep 17</span></div>
+          <div class="conc-row"><span class="conc-name">Bear Cam Live Chats</span><span class="conc-type">Rangers answer questions live on the bear cams; schedule on the park's events calendar, replays on explore.org's YouTube channel</span><span class="conc-hrs">Seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Boating &amp; Backcountry Travel<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Boating</span><span class="conc-type">Katmai's lakes, rivers &amp; streams are open to boat, canoe, kayak &amp; raft travel</span><span class="conc-hrs">Numerous waterways</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Camping</span><span class="conc-type">No permit required anywhere in the park's backcountry; fewer than 5 miles of maintained trails exist outside Brooks Camp</span><span class="conc-hrs">Permit-free</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hunting &amp; Trapping (Preserve)<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Sport Hunting &amp; Trapping</span><span class="conc-type">Guided &amp; unguided sport hunting/trapping permitted under State of Alaska regulations, preserve lands only (not park lands)</span><span class="conc-hrs">Preserve only</span></div>
+          <div class="conc-row"><span class="conc-name">Subsistence Hunting</span><span class="conc-type">Limited to local rural residents with a customary-and-traditional-use determination for the species and area</span><span class="conc-hrs">Local residents only</span></div>
+          <div class="conc-row"><span class="conc-name">Bear Baiting</span><span class="conc-type">Prohibited in Alaska national preserves under an NPS rule effective August 2, 2024</span><span class="conc-hrs">Prohibited (2024)</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Brooks Falls Bear Cam -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-cameras">
     <summary><span class="sa-title"><span class="sa-icon">📷</span>Brooks Falls Bear Cam</span><span class="sa-badge">Seasonal · late June–Sept</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -503,7 +592,7 @@
   </details>
 
   <!-- Valley of Ten Thousand Smokes -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-vtts">
     <summary><span class="sa-title"><span class="sa-icon">🌋</span>Valley of Ten Thousand Smokes</span><span class="sa-badge">1912 eruption</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -514,7 +603,7 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">Reservation required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -531,7 +620,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -718,6 +807,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

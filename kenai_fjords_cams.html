@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--fjord-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -250,6 +251,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--fjord); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -405,6 +417,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🧊</div><div class="glance-val danger">Glacier calving</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -443,8 +456,19 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>80%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Glacier &amp; Boat Safety</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">🚗 Access &amp; Entry</a>
+    <a href="#sec-trails" class="quicknav-link" data-target="sec-trails">🥾 Trails &amp; Icefield</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+  </nav>
+
   <!-- Glacier & Boat Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Glacier &amp; Boat Safety</span><span class="sa-badge danger">Calving danger</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -467,7 +491,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">🚗</span>Access &amp; Entry</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -490,7 +514,7 @@
   </details>
 
   <!-- Exit Glacier & Harding Icefield -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-trails">
     <summary><span class="sa-title"><span class="sa-icon">🥾</span>Exit Glacier &amp; Harding Icefield</span><span class="sa-badge">3 trails</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -514,8 +538,51 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger Programs<span class="conc-count">4 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Exit Glacier Ranger-Led Walk</span><span class="conc-type">Guided walk from the Nature Center on glacier geology and history; first portion is wheelchair accessible; no reservations required</span><span class="conc-hrs">1.5 hrs · 10am &amp; 2pm · May 23&ndash;Sep 7</span></div>
+          <div class="conc-row"><span class="conc-name">Exit Glacier Pavilion Talk</span><span class="conc-type">Short interactive ranger talk at the pavilion near the Nature Center</span><span class="conc-hrs">20 min · 1:30pm · Jun 6&ndash;Aug 15</span></div>
+          <div class="conc-row"><span class="conc-name">Exit Glacier Junior Ranger Walk</span><span class="conc-type">Family walk on the lower trails geared to school-aged visitors, all ages welcome with an adult</span><span class="conc-hrs">1.5 hrs · Tue/Thu/Sat 11am · Jun 6&ndash;Aug 15</span></div>
+          <div class="conc-row"><span class="conc-name">Fjord Junior Ranger Walk</span><span class="conc-type">Waterfront walk from the Seward small boat harbor, best suited for ages 8&ndash;12</span><span class="conc-hrs">1.5 hrs · Wed/Sun 3pm · Jun 7&ndash;Aug 12</span></div>
+        </div>
+      </details>
+      <details class="conc-group">
+        <summary class="conc-summary">Boat Tours &amp; Cruises<span class="conc-count">Private operators</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Full-Day Tours</span><span class="conc-type">Travel the outer coast to the park's tidewater glaciers, with chances to see whales, other marine mammals &amp; seabirds</span><span class="conc-hrs">Full day · Seward harbor</span></div>
+          <div class="conc-row"><span class="conc-name">Half-Day Tours</span><span class="conc-type">Stay within the more protected waters of Resurrection Bay</span><span class="conc-hrs">Half day · Seward harbor</span></div>
+          <div class="conc-row"><span class="conc-name">Not NPS-Operated</span><span class="conc-type">NPS states it "does not have any authorized concessioners... nor can it recommend specific companies"; tours depart Seward's small boat harbor daily in summer via independent local operators</span><span class="conc-hrs">Summer</span></div>
+        </div>
+      </details>
+      <details class="conc-group">
+        <summary class="conc-summary">Sea Kayaking<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Aialik Bay, Northwestern Lagoon &amp; Bear Glacier Lagoon</span><span class="conc-type">Primary drop-off points reached by water taxi or air taxi; exposed Gulf of Alaska conditions make this "not for beginners"</span><span class="conc-hrs">Water-taxi access</span></div>
+          <div class="conc-row"><span class="conc-name">Resurrection Bay — Caines Head &amp; Thumb Cove</span><span class="conc-type">More sheltered paddling routes reachable directly from Seward</span><span class="conc-hrs">Seward access</span></div>
+          <div class="conc-row"><span class="conc-name">Guided Trips</span><span class="conc-type">A guide is strongly recommended for inexperienced paddlers; summer swells can push 3+ ft and landings often involve surf</span><span class="conc-hrs">Guide recommended</span></div>
+        </div>
+      </details>
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Activities<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Once cars are barred, the closed Exit Glacier Road becomes a route for skiers &amp; snowshoers</span><span class="conc-hrs">~Nov&ndash;May</span></div>
+          <div class="conc-row"><span class="conc-name">Ice Climbing</span><span class="conc-type">Guided ice climbing on the glacier terminus</span><span class="conc-hrs">Nov&ndash;Mar</span></div>
+          <div class="conc-row"><span class="conc-name">Snowmobiling</span><span class="conc-type">Harding Icefield has year-round snow cover; rest of the park generally opens to snowmobile use when the superintendent determines adequate cover</span><span class="conc-hrs">Nov&ndash;Apr</span></div>
+          <div class="conc-row"><span class="conc-name">Winter Shuttle &amp; Guided Snowshoe Walks</span><span class="conc-type">Adventure Sixty North runs shuttle service to the Exit Glacier area with guided snowshoe walks &amp; independent drop-offs</span><span class="conc-hrs">Winter season</span></div>
+        </div>
+      </details>
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">12 sites · FCFS</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -538,7 +605,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -725,6 +792,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
