@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-19T21:11:30.881883+00:00",
-  "ok_count": 103,
-  "error_count": 6,
+  "generated_at": "2026-07-20T04:00:48.553154+00:00",
+  "ok_count": 106,
+  "error_count": 3,
   "parks": [
     {
       "name": "Yosemite",
@@ -66,8 +66,8 @@
         },
         {
           "name": "Yosemite entrance wait times",
-          "status": "error",
-          "detail": "Data is 488 min old (stale \u2014 scraper may not be running)"
+          "status": "ok",
+          "detail": "Updated 0 min ago"
         }
       ]
     },
@@ -112,8 +112,8 @@
       "gauges": [
         {
           "name": "USGS site 11482500",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 458595 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         },
         {
           "name": "USGS site 11482120",
@@ -241,8 +241,8 @@
         },
         {
           "name": "Sunrise Mountain View",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 68907 milliseconds with 756377 out of 1945158 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Sunrise Parking Lot",
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.2 ft"
+          "detail": "Current reading: 2.29 ft"
         }
       ]
     },
