@@ -413,11 +413,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--rust-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -431,6 +431,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -1105,6 +1110,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--rust); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1279,6 +1295,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🥵</div><div class="glance-val danger">High</div><div class="glance-lbl">Heat risk</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">No timed entry</div><div class="glance-lbl">Entrance</div></div>
@@ -1317,8 +1334,20 @@
     <div class="busy-note">Peak season is <strong>May–September</strong>, when around <strong>60%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>December–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-heat" class="quicknav-link" data-target="sec-heat">🥵 Heat Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Access</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Trailheads</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Goods &amp; Services</a>
+  </nav>
+
   <!-- Desert Heat Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-heat">
     <summary><span class="sa-title"><span class="sa-icon">🥵</span>Desert Heat Safety</span><span class="sa-badge danger">100°F+ summer</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1329,7 +1358,7 @@
   </details>
 
   <!-- Park Entrance & Access -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Access</span><span class="sa-badge ok">No timed entry · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1389,7 +1418,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge">2 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1423,7 +1452,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1449,8 +1478,75 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Park Avenue Trail</span><span class="conc-type">Canyon walk beneath towering sandstone fins; one-way hikers can arrange a shuttle pickup at Courthouse Towers</span><span class="conc-hrs">1.8 mi RT · 320 ft · Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">The Windows Loop</span><span class="conc-type">Loop past North &amp; South Window and Turret Arch, the park's densest cluster of arches near one trailhead</span><span class="conc-hrs">1 mi RT · 99 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Double O Arch</span><span class="conc-type">Devils Garden extension past Landscape Arch across narrow slickrock ledges with steep drop-offs</span><span class="conc-hrs">4.1 mi RT · Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Devils Garden Primitive Loop</span><span class="conc-type">Full loop via Dark Angel with steep scrambling; the most difficult maintained trail in the park</span><span class="conc-hrs">7.9 mi RT · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">4 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Registration</span><span class="conc-type">Free permit via the online reservation system or self-registration kiosk at the visitor center; no daily route limits</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Group Size</span><span class="conc-type">Climbing parties are capped park-wide</span><span class="conc-hrs">Max 5</span></div>
+          <div class="conc-row"><span class="conc-name">Prohibited Climbs</span><span class="conc-type">Named arches with openings over 3 ft and Balanced Rock are off-limits; guided climbing services are banned park-wide</span><span class="conc-hrs">Prohibited</span></div>
+          <div class="conc-row"><span class="conc-name">Raptor Closures</span><span class="conc-type">Many routes close seasonally to protect nesting birds of prey; check the current closure list before climbing</span><span class="conc-hrs">Jan&ndash;Aug</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Canyoneering<span class="conc-count">4 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Permit Options</span><span class="conc-type">Self-register free at the visitor center kiosk, book online via Recreation.gov, or visit the Backcountry Permit Office in Moab</span><span class="conc-hrs">$0&ndash;$6</span></div>
+          <div class="conc-row"><span class="conc-name">Group Size</span><span class="conc-type">Fiery Furnace &amp; Lost Spring Canyon routes are capped lower than the rest of the park</span><span class="conc-hrs">Max 6&ndash;10</span></div>
+          <div class="conc-row"><span class="conc-name">Established Routes</span><span class="conc-type">Dragonfly, Krill &amp; Lomatium, Lost and Found/Undercover, and Bighorn are the park's marked canyoneering routes</span><span class="conc-hrs">4 routes</span></div>
+          <div class="conc-row"><span class="conc-name">Fiery Furnace Add-On</span><span class="conc-type">Canyoneering inside the Fiery Furnace also requires the separate Self-Guided Exploration permit</span><span class="conc-hrs">$10/person</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backpacking<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Permit</span><span class="conc-type">Issued only in person at the Backcountry Permit Office in Moab, up to 7 days ahead; no online booking</span><span class="conc-hrs">$7/person</span></div>
+          <div class="conc-row"><span class="conc-name">Designated Sites</span><span class="conc-type">Only 4 backcountry campsites exist park-wide: 3 at Courthouse Wash, 1 at Devils Garden</span><span class="conc-hrs">4 sites</span></div>
+          <div class="conc-row"><span class="conc-name">Group &amp; Stay Limits</span><span class="conc-type">Each permit covers up to 7 people, up to 3 nights per campsite, 7 nights total</span><span class="conc-hrs">7 people</span></div>
+          <div class="conc-row"><span class="conc-name">Waste Rule</span><span class="conc-type">No campfires or dispersed camping; all solid human waste must be packed out</span><span class="conc-hrs">Pack it out</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger-Led Programs<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Patio Talk</span><span class="conc-type">10-minute geology talks at the Visitor Center; no reservation needed</span><span class="conc-hrs">Free · Daily</span></div>
+          <div class="conc-row"><span class="conc-name">Evening Program</span><span class="conc-type">30&ndash;45 minute talks at the Devils Garden Campground Amphitheater</span><span class="conc-hrs">Nightly from May 31</span></div>
+          <div class="conc-row"><span class="conc-name">Fiery Furnace Ranger Hike</span><span class="conc-type">Physically demanding, ranger-led route-finding hike through the Fiery Furnace, ages 5+; advance Recreation.gov tickets required, no walk-ups</span><span class="conc-hrs">Apr&ndash;early fall</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Scenic Drive</span><span class="conc-type">Cycling is permitted only on the paved park road and pullouts; no off-road or trail biking inside the park</span><span class="conc-hrs">18 mi paved</span></div>
+          <div class="conc-row"><span class="conc-name">Nearby Off-Road Options</span><span class="conc-type">Mountain bike trails exist on public lands just outside the park boundary near Moab</span><span class="conc-hrs">Outside park</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">Milky Way views</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1479,7 +1575,7 @@
   </div>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Goods &amp; Services</span><span class="sa-badge">Moab 5 mi away</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1751,6 +1847,14 @@
     if (miniName) miniName.textContent = m.name;
     if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

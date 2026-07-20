@@ -131,11 +131,12 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--tide-light);
       margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     /* ── Camera Grid ── */
     .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; }
@@ -393,6 +394,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--tide); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -557,6 +569,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌊</div><div class="glance-val danger">Rogue waves</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">🎫</div><div class="glance-val">$6/vehicle</div><div class="glance-lbl">Cadillac Rd permit</div></div>
@@ -595,8 +608,20 @@
     <div class="busy-note">Peak season is <strong>July–September</strong>, when around <strong>59%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Ocean Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-tides" class="quicknav-link" data-target="sec-tides">🌊 Bar Island Tides</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Trails</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Ocean & Rogue Wave Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Ocean &amp; Rogue Wave Safety</span><span class="sa-badge danger">Thunder Hole risk</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -619,7 +644,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">$35 · Cadillac Rd permit</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -669,7 +694,7 @@
   </details>
 
   <!-- Bar Island Tide Crossing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-tides">
     <summary><span class="sa-title"><span class="sa-icon">🌊</span>Bar Island Tide Crossing</span><span class="sa-badge">Live tide data</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -689,7 +714,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">3 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -733,7 +758,7 @@
   </details>
 
   <!-- Landmarks & Trails -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">7 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -767,8 +792,77 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ocean Path Trail</span><span class="conc-type">Flat coastal walk along pink granite slabs from Sand Beach past Thunder Hole to Otter Point</span><span class="conc-hrs">4.4 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Jordan Pond Path</span><span class="conc-type">Boardwalk-and-boulder loop around Jordan Pond below the Bubbles; western half is notably harder than the eastern</span><span class="conc-hrs">3.3 mi loop · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Gorham Mountain Loop</span><span class="conc-type">Rocky coastal-summit loop with views of Cadillac and Otter Point; optional Cadillac Cliffs rock-scramble spur</span><span class="conc-hrs">3.5 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Beehive Loop</span><span class="conc-type">Iron rungs and ladders up a 450-ft cliff above Sand Beach; very slippery when wet, pets prohibited</span><span class="conc-hrs">1.4 mi RT · 450 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Precipice Loop</span><span class="conc-type">Non-technical rung-and-ladder climb gaining over 1,000 ft in under a mile; closed seasonally to protect nesting peregrine falcons</span><span class="conc-hrs">3.2 mi RT · 1,000+ ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Cadillac South Ridge Trail</span><span class="conc-type">Exposed granite ridgeline to Cadillac Mountain's 1,530-ft summit; the longer, more scenic route up</span><span class="conc-hrs">7.1 mi RT · Moderate</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">4 areas</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Otter Cliff</span><span class="conc-type">60-ft sea cliffs with crack &amp; face routes up to 5.12 and rappel access; group permit required for parties of 6&ndash;12, Memorial Day weekend&ndash;Labor Day</span><span class="conc-hrs">Permit (groups)</span></div>
+          <div class="conc-row"><span class="conc-name">The Precipice</span><span class="conc-type">Multi-pitch routes up to 5.12 with good corners and thin cracks; some beginner-friendly lines</span><span class="conc-hrs">Up to 5.12</span></div>
+          <div class="conc-row"><span class="conc-name">South Bubble</span><span class="conc-type">1&ndash;3 pitch friction routes; one of the park's more popular beginner spots</span><span class="conc-hrs">Beginner-friendly</span></div>
+          <div class="conc-row"><span class="conc-name">Seasonal Closures</span><span class="conc-type">Precipice, Jordan Cliffs &amp; Beech Cliffs close to protect nesting peregrine falcons, typically early April&ndash;mid-August</span><span class="conc-hrs">Seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking &amp; Carriage Roads<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Historic Carriage Roads</span><span class="conc-type">45 miles of crushed-stone roads; bicyclists yield to everyone, horses have right-of-way, 20 mph limit</span><span class="conc-hrs">45 mi</span></div>
+          <div class="conc-row"><span class="conc-name">E-Bikes</span><span class="conc-type">Class 1 e-bikes permitted on carriage roads; Class 2/3, tandems, fat-tire bikes &amp; dogs are not allowed</span><span class="conc-hrs">Class 1 only</span></div>
+          <div class="conc-row"><span class="conc-name">Western Mountain Gravel Roads</span><span class="conc-type">Seal Cove, Western Mountain &amp; Lurvey Spring roads open to biking, away from the crowds; watch for ruts and downed wood</span><span class="conc-hrs">Gravel</span></div>
+          <div class="conc-row"><span class="conc-name">Park Loop Road</span><span class="conc-type">Legal for biking but has no shoulder; NPS advises avoiding it roughly 10 AM&ndash;4 PM in peak season</span><span class="conc-hrs">No shoulder</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Water Activities<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ocean Kayaking Access</span><span class="conc-type">Public launch points at Bar Harbor, Northeast &amp; Southwest Harbors, Seal Cove, Bass Harbor, Seal Harbor Beach, Hadley Point &amp; the Bar Island gravel bar</span><span class="conc-hrs">Multiple sites</span></div>
+          <div class="conc-row"><span class="conc-name">Lake &amp; Pond Boating</span><span class="conc-type">Motors capped at 10 hp on Eagle Lake, Jordan Pond, Echo Lake &amp; the Hadlock Ponds; several smaller ponds ban motors entirely</span><span class="conc-hrs">10 hp max</span></div>
+          <div class="conc-row"><span class="conc-name">Swimming</span><span class="conc-type">A handful of freshwater and ocean spots on Mount Desert Island permit swimming; ocean water stays a cold 55&ndash;60°F even in summer</span><span class="conc-hrs">Select spots</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Tidepooling<span class="conc-count">3 spots</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Wonderland &amp; Ship Harbor</span><span class="conc-type">Two of the park's best tidepooling trails, on the quieter southwest side of Mount Desert Island</span><span class="conc-hrs">Tide-dependent</span></div>
+          <div class="conc-row"><span class="conc-name">Bar Island &amp; Schoodic Peninsula</span><span class="conc-type">Additional tidepooling areas; explore only within 1.5 hours before to 1.5 hours after low tide</span><span class="conc-hrs">&plusmn;1.5 hr of low tide</span></div>
+          <div class="conc-row"><span class="conc-name">Tidepool Etiquette</span><span class="conc-type">Stay on rocks, never remove or handle organisms, and rinse off sunscreen or bug spray before exploring</span><span class="conc-hrs">Leave No Trace</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">45 miles of carriage roads, groomed by volunteers once 6+ inches of snow falls on a frozen roadbed</span><span class="conc-hrs">Dec&ndash;Mar</span></div>
+          <div class="conc-row"><span class="conc-name">Ice Skating</span><span class="conc-type">Possible on park lakes and ponds, though they rarely freeze smoothly or stay free of snow; check ice thickness first</span><span class="conc-hrs">Conditions vary</span></div>
+          <div class="conc-row"><span class="conc-name">Winter Park Loop Road</span><span class="conc-type">Most of Park Loop Road closes to vehicles; only Ocean Drive (Schooner Head&ndash;Otter Cliff) and Jordan Pond Road stay open</span><span class="conc-hrs">Dec 1&ndash;Apr 14</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">Not certified</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1214,6 +1308,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

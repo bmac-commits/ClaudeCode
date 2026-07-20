@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--teal-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -220,6 +221,12 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600; color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s; scroll-margin-top: 16px; }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--teal); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -376,6 +383,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">✈️</div><div class="glance-val">Plane/ferry only</div><div class="glance-lbl">3 remote islands</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -414,8 +422,17 @@
     <div class="busy-note">Peak season is <strong>October–November</strong>, when around <strong>25%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>June–August</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-getting-there" class="quicknav-link" data-target="sec-getting-there">✈️ Getting There</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-islands" class="quicknav-link" data-target="sec-islands">🌴 Islands &amp; Ecosystems</a>
+  </nav>
+
   <!-- Ocean & Terrain Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Ocean &amp; Terrain Safety</span><span class="sa-badge danger">Strong currents</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -426,7 +443,7 @@
   </details>
 
   <!-- Getting to the Park -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-getting-there">
     <summary><span class="sa-title"><span class="sa-icon">✈️</span>Getting to the Park</span><span class="sa-badge">3 islands, no fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="traffic-grid">
@@ -448,8 +465,56 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Pola Island Trail</span><span class="conc-type">Short, fairly flat trail from Vatia Village to a rough, rocky beach facing Pola Island's seabird nesting cliffs</span><span class="conc-hrs">0.1 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Lower Sauma Ridge Trail</span><span class="conc-type">Interpretive walk to an archeological star mound site with views of the Vai'ava Strait National Natural Landmark</span><span class="conc-hrs">0.4 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Tuafanua Trail</span><span class="conc-type">Switchbacks from Vatia Village through rainforest, descending ladders and ropes to a secluded rocky beach</span><span class="conc-hrs">2.2 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Mount 'Alava Trail</span><span class="conc-type">Full rainforest climb from Fagasa Pass to panoramic summit views across Tutuila; fruit bats and native birds along the way</span><span class="conc-hrs">7 mi RT · Challenging</span></div>
+          <div class="conc-row"><span class="conc-name">Mount 'Alava Adventure Trail</span><span class="conc-type">Ridgeline loop with 56 ladders and 783 steps, descending to Vatia Village before looping back to the trailhead</span><span class="conc-hrs">5.6 mi RT · Challenging</span></div>
+          <div class="conc-row"><span class="conc-name">Si'u Point Trail</span><span class="conc-type">Old-road trek on Ta'ū past the culturally significant Saua site to the island's southeast tip</span><span class="conc-hrs">5.7 mi RT · Moderate</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Snorkeling &amp; Diving<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ofu Island</span><span class="conc-type">Crystal-clear water and a shallow fringing reef close to shore, suited to beginners and experienced snorkelers alike</span><span class="conc-hrs">Fly/boat via Ta'ū</span></div>
+          <div class="conc-row"><span class="conc-name">Fagatele Bay</span><span class="conc-type">Protected National Marine Sanctuary bay on Tutuila with sea turtles, sharks, and vibrant coral</span><span class="conc-hrs">Snorkel &amp; dive</span></div>
+          <div class="conc-row"><span class="conc-name">Aunu'u Island</span><span class="conc-type">Remote spot off Tutuila with less-visited coral formations and abundant marine life</span><span class="conc-hrs">Off Tutuila</span></div>
+          <div class="conc-row"><span class="conc-name">Alega Beach &amp; Taema Bank</span><span class="conc-type">Recommended dive sites on Tutuila's south coast — easy shore access at Alega, deeper reef walls at Taema Bank</span><span class="conc-hrs">Charter/own gear</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Flying Foxes</span><span class="conc-type">Two fruit bat species (Pteropus samoensis &amp; P. tonganus) with wingspans up to 3 ft, active by day and night over the rainforest canopy</span><span class="conc-hrs">Islandwide</span></div>
+          <div class="conc-row"><span class="conc-name">Marine Wildlife</span><span class="conc-type">Sea turtles, reef sharks, manta rays, and (seasonally) migrating humpback whales visible while snorkeling or diving</span><span class="conc-hrs">Whales seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Village Life &amp; Fa'a Samoa<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Village Etiquette</span><span class="conc-type">Ask permission before photos, beach use, or hiking in villages; pause quietly during evening prayer (sā); Sundays are reserved for church and rest</span><span class="conc-hrs">Local custom</span></div>
+          <div class="conc-row"><span class="conc-name">Homestay Program</span><span class="conc-type">Stay with a Samoan family in a traditional fale on Ofu or Ta'ū, coordinated in advance with the visitor center</span><span class="conc-hrs">Fee varies by host</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Islands & Ecosystems -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-islands">
     <summary><span class="sa-title"><span class="sa-icon">🌴</span>Islands &amp; Ecosystems</span><span class="sa-badge">3 distinct units</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -645,6 +710,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

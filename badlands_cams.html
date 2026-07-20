@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--rose-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -232,6 +233,37 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--rose-light); }
+    .section-accordion { scroll-margin-top: 16px; }
+
+    /* ── Things to Do Accordion ── */
+    .conc-accordion { display: flex; flex-direction: column; gap: 6px; }
+    .conc-group { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .conc-summary { display: flex; align-items: center; gap: 8px; padding: 10px 14px; cursor: pointer; list-style: none; font-size: 0.82rem; font-weight: 600; color: var(--text); user-select: none; }
+    .conc-summary::-webkit-details-marker { display: none; }
+    .conc-count { font-size: 0.62rem; font-weight: 400; color: var(--rock); margin-left: 2px; }
+    .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+    .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
+    .conc-body { padding: 4px 0; }
+    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .conc-row:last-child { border-bottom: none; }
+    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 160px; }
+    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
+    .conc-hrs { font-size: 0.84rem; color: var(--rose-light); white-space: nowrap; }
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -388,6 +420,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🦬</div><div class="glance-val">Free-roaming</div><div class="glance-lbl">Bison herd</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$30</div><div class="glance-lbl">Vehicle · 7 days</div></div>
@@ -426,8 +459,18 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>65%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Wildlife Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Entrance &amp; Fees</a>
+    <a href="#sec-drive" class="quicknav-link" data-target="sec-drive">🚗 Scenic Drive</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+  </nav>
+
   <!-- Wildlife & Terrain Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Wildlife &amp; Terrain Safety</span><span class="sa-badge danger">Bison, 30+ mph</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -438,7 +481,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">Cashless</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="fee-bar">
@@ -458,7 +501,7 @@
   </details>
 
   <!-- Badlands Loop Road -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-drive">
     <summary><span class="sa-title"><span class="sa-icon">🚗</span>Badlands Loop Road</span><span class="sa-badge">Scenic drive</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -469,7 +512,7 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">2 campgrounds</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -485,6 +528,75 @@
       </details>
     </div>
     <a class="transport-link" href="https://www.nps.gov/badl/planyourvisit/camping.htm" target="_blank">Full camping details on NPS.gov ↗</a>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">9 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Notch Trail</span><span class="conc-type">The park's most popular trail — climbs a log ladder through a canyon and along a ledge to a dramatic view of the White River Valley; treacherous when wet</span><span class="conc-hrs">1.5 mi RT · Ladder</span></div>
+          <div class="conc-row"><span class="conc-name">Door Trail</span><span class="conc-type">Wheelchair-accessible boardwalk through a break in the Badlands Wall to a panoramic view, then a primitive route across bedrock marked by yellow posts</span><span class="conc-hrs">0.25 mi boardwalk · ADA</span></div>
+          <div class="conc-row"><span class="conc-name">Window Trail</span><span class="conc-type">Short walk to a natural "window" opening in the Badlands Wall with a view of an intricately eroded canyon</span><span class="conc-hrs">Short · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Castle Trail</span><span class="conc-type">The longest trail in the park, a relatively level route between the Door/Window parking area and the Fossil Exhibit Trail</span><span class="conc-hrs">10 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Medicine Root Loop</span><span class="conc-type">Rolling spur trail through mixed-grass prairie, connecting the Castle and Saddle Pass trails; watch for cactus</span><span class="conc-hrs">Loop w/ Castle Tr.</span></div>
+          <div class="conc-row"><span class="conc-name">Saddle Pass Trail</span><span class="conc-type">One of the shortest trails in the park but also the steepest, climbing the Badlands Wall to the Castle/Medicine Root junction</span><span class="conc-hrs">~300 ft gain · Steep</span></div>
+          <div class="conc-row"><span class="conc-name">Cliff Shelf Nature Trail</span><span class="conc-type">Boardwalk-and-stairs loop through a shaded juniper grove on the Badlands Wall, with a seasonal pond that draws wildlife</span><span class="conc-hrs">Loop · ~200 ft gain</span></div>
+          <div class="conc-row"><span class="conc-name">Fossil Exhibit Trail</span><span class="conc-type">Self-guided, fully accessible boardwalk loop past fossil replicas with tactile, braille-labeled exhibits</span><span class="conc-hrs">Boardwalk · ADA</span></div>
+          <div class="conc-row"><span class="conc-name">Open Hike Policy</span><span class="conc-type">The park allows off-trail hiking anywhere; unmarked routes like Deer Haven range from a short there-and-back to a full loop navigated by map, compass, or GPS</span><span class="conc-hrs">6&ndash;23 mi · Unmarked</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fossils &amp; Paleontology<span class="conc-count">3 sites</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Fossil Preparation Lab</span><span class="conc-type">Watch park paleontologists clean, identify, and catalog real fossils behind viewing windows at Ben Reifel Visitor Center; free, no reservation</span><span class="conc-hrs">9AM&ndash;4:30PM · mid-Jun&ndash;late Sep</span></div>
+          <div class="conc-row"><span class="conc-name">Fossil Exhibit Trail</span><span class="conc-type">Accessible boardwalk loop displaying casts of the fossils found in the park's Oligocene-epoch rock layers</span><span class="conc-hrs">Boardwalk · ADA</span></div>
+          <div class="conc-row"><span class="conc-name">The Big Pig Dig</span><span class="conc-type">A historic excavation near Conata Basin that ran 15 field seasons and recovered more than 19,000 fossils</span><span class="conc-hrs">15 seasons · 19,000+ fossils</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Stargazing &amp; Astronomy<span class="conc-count">2 events</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Badlands Astronomy Festival</span><span class="conc-type">Three-day celebration each July with ranger-led star parties, solar viewing, and guest speakers at Ben Reifel Visitor Center; free, no reservation</span><span class="conc-hrs">Jul 17&ndash;19, 2026 · Free</span></div>
+          <div class="conc-row"><span class="conc-name">International Dark Sky Park</span><span class="conc-type">Certified by DarkSky International in 2026 after a decade of lighting retrofits across the park; minimal light pollution on this stretch of the Great Plains makes for some of the darkest skies in the Midwest</span><span class="conc-hrs">IDA certified · 2026</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing<span class="conc-count">3 species</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Bison</span><span class="conc-type">Free-roaming herds best seen along Sage Creek Rim Road, which overlooks the Badlands Wilderness Area</span><span class="conc-hrs">Sage Creek Rim Rd</span></div>
+          <div class="conc-row"><span class="conc-name">Bighorn Sheep</span><span class="conc-type">Often spotted on rocky ledges at Pinnacles Overlook and around Cedar Pass, including Castle Trail and Big Badlands Overlook</span><span class="conc-hrs">Pinnacles Overlook</span></div>
+          <div class="conc-row"><span class="conc-name">Prairie Dogs</span><span class="conc-type">Colonies visible right from the road at Roberts Prairie Dog Town, Burns Basin Overlook, and Sage Creek Campground</span><span class="conc-hrs">Roberts Prairie Dog Town</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger Programs<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Geology Walk</span><span class="conc-type">Ranger-led walk on the ADA-accessible Door Trail boardwalk covering how the Badlands formations came to be &middot; May 17&ndash;Sep 7, 2026</span><span class="conc-hrs">8:30 AM · 30&ndash;45 min</span></div>
+          <div class="conc-row"><span class="conc-name">Fossil Talks</span><span class="conc-type">Daily talks on Badlands fossil history at the Fossil Exhibit Trail, about 5 miles east of Ben Reifel Visitor Center &middot; May 17&ndash;Sep 7, 2026</span><span class="conc-hrs">10:30 AM &amp; 2 PM · 20&ndash;30 min</span></div>
+          <div class="conc-row"><span class="conc-name">Prairie Walk</span><span class="conc-type">Easy-to-moderate evening hike exploring the mixed-grass prairie, starting at Ben Reifel Visitor Center &middot; May 17&ndash;Sep 7, 2026</span><span class="conc-hrs">5:30&ndash;6:30 PM</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Badlands Loop Road</span><span class="conc-type">Paved and open to cyclists, but narrow with heavy traffic Memorial Day&ndash;Labor Day and grades up to 250 ft of elevation change in under 500 meters; bikes are limited to paved, gravel, and dirt roads, not trails or backcountry</span><span class="conc-hrs">Paved · Steep grades</span></div>
+          <div class="conc-row"><span class="conc-name">Sage Creek Loop</span><span class="conc-type">Gravel-and-paved loop through rolling grassland with good wildlife-viewing chances, starting at the Loop Road/Sage Creek Rim Road junction</span><span class="conc-hrs">23 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Bike Repair Station</span><span class="conc-type">Self-service repair stand located on the west side of the Ben Reifel Visitor Center</span><span class="conc-hrs">Ben Reifel VC</span></div>
+        </div>
+      </details>
+
+    </div>
     </div>
   </details>
 
@@ -658,6 +770,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
