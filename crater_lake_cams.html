@@ -369,17 +369,22 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--lake-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     .section-label::after {
@@ -960,6 +965,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--lake); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1134,6 +1150,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">❄️</div><div class="glance-val danger">40+ ft/yr</div><div class="glance-lbl">Snowfall</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">1/2</div><div class="glance-lbl">Entrances open</div></div>
@@ -1172,8 +1189,22 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>49%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-winter" class="quicknav-link" data-target="sec-winter">❄️ Winter Access</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-boat" class="quicknav-link" data-target="sec-boat">🚧 Lake Access &amp; Boat Tours</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Trailheads</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-water" class="quicknav-link" data-target="sec-water">🌊 Lake &amp; Stream Levels</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+  </nav>
+
   <!-- Winter Access & Snow Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-winter">
     <summary><span class="sa-title"><span class="sa-icon">❄️</span>Winter Access &amp; Snow Safety</span><span class="sa-badge danger">40+ ft/yr snow</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1196,7 +1227,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrances &amp; Fees</span><span class="sa-badge">1 open · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1259,7 +1290,7 @@
   </details>
 
   <!-- Cleetwood Cove & Boat Tours -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-boat">
     <summary><span class="sa-title"><span class="sa-icon">🚧</span>Lake Access &amp; Boat Tours</span><span class="sa-badge danger">Closed thru 2028</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1270,7 +1301,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge">2 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1306,7 +1337,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">7 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1340,8 +1371,45 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">3 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ranger-Led Snowshoe Walks</span><span class="conc-type">Free 2-hour walks through Rim Village forest &amp; meadow; snowshoes provided, ages 8+, no experience needed, reservations required</span><span class="conc-hrs">1&ndash;2 mi · Nov&ndash;May</span></div>
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing</span><span class="conc-type">Ungroomed backcountry routes along West Rim Drive to lake overlooks and East Rim Drive to Vidae Falls; prohibited inside the caldera</span><span class="conc-hrs">Ungroomed · Nov&ndash;May</span></div>
+          <div class="conc-row"><span class="conc-name">Circling the Lake (Ski Loop)</span><span class="conc-type">Multi-day backcountry ski circuit around the caldera rim; best March&ndash;April, requires winter camping &amp; avalanche skills</span><span class="conc-hrs">31 mi · Permit required</span></div>
+          <div class="conc-row"><span class="conc-name">Sledding</span><span class="conc-type">No designated sled hill &mdash; the open meadow south of Crater Lake Lodge is the popular spot; prohibited in the caldera, on roadways &amp; in parking lots</span><span class="conc-hrs">Nov&ndash;May</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Stream &amp; Creek Fishing</span><span class="conc-type">No license required; only non-organic artificial lures allowed, no live or dead bait. Open on most park streams and Annie Creek outside the south entrance</span><span class="conc-hrs">No license · Year-round</span></div>
+          <div class="conc-row"><span class="conc-name">Lake Fishing</span><span class="conc-type">Wizard Island docks stay open when boats aren't present, but Cleetwood Cove &mdash; the only lake-shore access &mdash; is closed through 2028, limiting lake fishing</span><span class="conc-hrs">Closed access thru 2028</span></div>
+          <div class="conc-row"><span class="conc-name">Protected Species</span><span class="conc-type">Bull trout inhabit some streams and must be released immediately if caught; Sun Creek &amp; Lost Creek are closed to protect them</span><span class="conc-hrs">Catch &amp; release</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger &amp; Junior Ranger Programs<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ranger Programs</span><span class="conc-type">Daily talks &amp; walks blending science, history &amp; art, offered during peak summer season</span><span class="conc-hrs">Summer · Free</span></div>
+          <div class="conc-row"><span class="conc-name">Junior Ranger Activities</span><span class="conc-type">Family programs held four times a day at Rim Village during summer months</span><span class="conc-hrs">Summer · Free</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Lake & Stream Levels -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-water">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Lake &amp; Stream Levels</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" id="anglerGrid">
@@ -1360,7 +1428,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">Pending certification</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1378,7 +1446,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">4 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1872,6 +1940,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

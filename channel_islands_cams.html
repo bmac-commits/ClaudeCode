@@ -412,11 +412,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--ocean-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -430,6 +430,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -1092,6 +1097,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--ocean); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1266,6 +1282,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">⛴️</div><div class="glance-val">Boat/plane only</div><div class="glance-lbl">Access</div></div>
     <div class="glance-item"><div class="glance-icon">🏝️</div><div class="glance-val">5 islands</div><div class="glance-lbl">Park area</div></div>
@@ -1312,8 +1329,20 @@
     </div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-ferry" class="quicknav-link" data-target="sec-ferry">⛴️ Ferry &amp; Boat Access</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-tides" class="quicknav-link" data-target="sec-tides">🌊 Tides</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Ferry & Boat Access (replaces the standard highway-entrance section — this park has no roads) -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-ferry">
     <summary><span class="sa-title"><span class="sa-icon">⛴️</span>Ferry &amp; Boat Access</span><span class="sa-badge ok">2 harbors · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1375,8 +1404,67 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 islands</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">East Anacapa Trails</span><span class="conc-type">Figure-eight network over gentle bluffs to dramatic overlooks and the historic lighthouse; reached via a 157-step stairway from the landing cove</span><span class="conc-hrs">~2 mi total · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Scorpion Valley Trails</span><span class="conc-type">Maintained, flat, signed trails from the Santa Cruz Island pier through oak-lined Scorpion Canyon</span><span class="conc-hrs">Signed · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Montañon Ridge Backcountry</span><span class="conc-type">Unmaintained, rugged, unsigned mountainous paths into Santa Cruz Island's interior highlands</span><span class="conc-hrs">Unsigned · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Water Canyon Beach Route</span><span class="conc-type">Relatively flat walk on Santa Rosa Island from the campground out to the long sandy beach</span><span class="conc-hrs">Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Black Mountain</span><span class="conc-type">Rugged, mountainous climb on Santa Rosa Island — the only true mountain trek on any of the park's islands</span><span class="conc-hrs">Moderate&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Point Bennett Hike</span><span class="conc-type">Ranger-guided-only trek across San Miguel Island to the park's largest pinniped haul-out</span><span class="conc-hrs">16 mi RT · Ranger-guided · Summer&ndash;fall</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Sea Kayaking<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Scorpion Beach, Santa Cruz Island</span><span class="conc-type">NPS-described "world class" sea kayaking with easy beach access and clear water; guided tours available via Channel Islands Adventure Company</span><span class="conc-hrs">Beginner-friendly</span></div>
+          <div class="conc-row"><span class="conc-name">Sea Caves &amp; Cliffs</span><span class="conc-type">Dramatic sea caves ring the islands, but swell can fill a cave unexpectedly; NPS strongly recommends kayaking with an authorized guide/outfitter</span><span class="conc-hrs">Guide recommended</span></div>
+          <div class="conc-row"><span class="conc-name">San Miguel &amp; Santa Rosa Waters</span><span class="conc-type">Consistently extreme wind and sea conditions around these outer islands</span><span class="conc-hrs">Experts only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Snorkeling &amp; Diving<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Kelp Forest Diving &amp; Snorkeling</span><span class="conc-type">Best around Santa Barbara, Anacapa &amp; eastern Santa Cruz islands; water runs 55&ndash;70°F so a wetsuit is recommended</span><span class="conc-hrs">Buddy system required</span></div>
+          <div class="conc-row"><span class="conc-name">Sea Cave Diving</span><span class="conc-type">Requires a helmet and extra caution; a dive flag is legally required whenever divers are in the water</span><span class="conc-hrs">Advanced</span></div>
+          <div class="conc-row"><span class="conc-name">Santa Rosa &amp; San Miguel Waters</span><span class="conc-type">Not advised for novice divers or snorkelers due to hazardous wind conditions</span><span class="conc-hrs">Experts only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Tidepooling<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Frenchy's Cove</span><span class="conc-type">Prime tidepool site on Anacapa Island, near the landing cove</span><span class="conc-hrs">Collecting prohibited</span></div>
+          <div class="conc-row"><span class="conc-name">Smuggler's Cove</span><span class="conc-type">Tidepool area on Santa Cruz Island</span><span class="conc-hrs">Collecting prohibited</span></div>
+          <div class="conc-row"><span class="conc-name">Becher's Bay, SE Anchorage &amp; East Point</span><span class="conc-type">Three tidepool areas on Santa Rosa Island</span><span class="conc-hrs">Collecting prohibited</span></div>
+          <div class="conc-row"><span class="conc-name">Eastern Cuyler Harbor</span><span class="conc-type">Tidepool zone on San Miguel Island</span><span class="conc-hrs">Collecting prohibited</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing<span class="conc-count">3 kinds</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Whale Watching</span><span class="conc-type">27 cetacean species pass through the Santa Barbara Channel, including gray, blue, humpback &amp; minke whales, orcas &amp; dolphins</span><span class="conc-hrs">Gray whales Dec&ndash;Mar · Blue/humpback summer</span></div>
+          <div class="conc-row"><span class="conc-name">Point Bennett Pinniped Haul-Out</span><span class="conc-type">Up to 30,000 pinnipeds of five species gather on San Miguel Island — one of the largest haul-outs in the world</span><span class="conc-hrs">Ranger-guided hike only</span></div>
+          <div class="conc-row"><span class="conc-name">Island Fox</span><span class="conc-type">Housecat-sized fox endemic to Santa Cruz, Santa Rosa &amp; San Miguel islands; recovered from near-extinction in the 1990s to a stable population today</span><span class="conc-hrs">Endemic · Near threatened</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">1 location</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1397,7 +1485,7 @@
   </details>
 
   <!-- Tide Predictions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-tides">
     <summary><span class="sa-title"><span class="sa-icon">🌊</span>Today's Tides — Santa Barbara Station</span><span class="sa-badge">NOAA live</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="tide-card">
@@ -1458,7 +1546,7 @@
   </div>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds — All Boat-In / Hike-In Only</span><span class="sa-badge">5 areas · $15/night</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1540,7 +1628,7 @@
   </details>
 
   <!-- Landmarks by Island -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks by Island</span><span class="sa-badge">13 stops · 5 islands</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1593,7 +1681,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Among darkest in US</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1922,6 +2010,14 @@
     loadTwilight();
     startCountdown();
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

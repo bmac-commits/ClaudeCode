@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--violet-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -164,6 +165,17 @@
     .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
     .conc-hrs { font-size: 0.84rem; color: var(--violet-light); white-space: nowrap; }
     @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--violet); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -404,6 +416,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🦇</div><div class="glance-val">~400,000</div><div class="glance-lbl">Bats, summer roost</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$15 + $1</div><div class="glance-lbl">Cave entry + timed entry</div></div>
@@ -442,8 +455,18 @@
     <div class="busy-note">Peak season is <strong>July</strong>, when around <strong>15%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-entry" class="quicknav-link" data-target="sec-entry">🎟️ Cave Entry &amp; Tours</a>
+    <a href="#sec-bats" class="quicknav-link" data-target="sec-bats">🦇 Bat Flight</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Cave & Desert Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Cave &amp; Desert Safety</span><span class="sa-badge danger">Slippery trails</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -454,7 +477,7 @@
   </details>
 
   <!-- Cave Entry & Tours -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entry">
     <summary><span class="sa-title"><span class="sa-icon">🎟️</span>Cave Entry &amp; Tours</span><span class="sa-badge">Tours limited</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -476,7 +499,7 @@
   </details>
 
   <!-- Bat Flight Program -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-bats">
     <summary><span class="sa-title"><span class="sa-icon">🦇</span>Bat Flight Program</span><span class="sa-badge ok">Seasonal, free</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -486,8 +509,50 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Self-Guided Cave Tours<span class="conc-count">2 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Natural Entrance Trail</span><span class="conc-type">Steep switchback descent through the cave's original entrance, dropping roughly 750 ft to the underground rest area</span><span class="conc-hrs">1.25 mi · ~1 hr · Steep</span></div>
+          <div class="conc-row"><span class="conc-name">Big Room Trail</span><span class="conc-type">Mostly flat loop through the cavern's main chamber, with a shorter cutoff partway through; portions wheelchair-accessible</span><span class="conc-hrs">1.25 mi (0.6 mi shortcut) · ~1.5 hr</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger-Guided Cave Tours<span class="conc-count">2 tours</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">King's Palace Tour</span><span class="conc-type">Ranger-led walk through the cave's ornately decorated lower chambers; walk-up tickets only, picked up at the visitor center 30 min ahead</span><span class="conc-hrs">10:30 AM &amp; 1:30 PM, Thu&ndash;Tue · Age 6+</span></div>
+          <div class="conc-row"><span class="conc-name">Lower Cave Tour</span><span class="conc-type">Ranger-led route into an undeveloped section of the cave involving climbing and crawling; knee pads and gloves provided</span><span class="conc-hrs">9:30 AM Wed only · Reservation req.</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Surface Hiking Trails<span class="conc-count">2 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Walnut Canyon Overlook</span><span class="conc-type">Short paved walk from the park road to a viewpoint over Walnut Canyon and the Guadalupe Mountains</span><span class="conc-hrs">180 yd · ~5 min · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Chihuahuan Desert Nature Trail</span><span class="conc-type">Paved interpretive loop near the visitor center with signage on desert plant life; closes during the evening Bat Flight Program</span><span class="conc-hrs">0.5 mi · ~30 min · Easy</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Hiking &amp; Camping<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Guadalupe Ridge Trail</span><span class="conc-type">Designated National Recreation Trail following the park's high desert ridgeline into the surrounding backcountry</span><span class="conc-hrs">Permit for overnight</span></div>
+          <div class="conc-row"><span class="conc-name">Desert Canyon Trails</span><span class="conc-type">Ungraded backcountry routes through Rattlesnake, Slaughter &amp; Yucca canyons; no reliable water source anywhere in the backcountry</span><span class="conc-hrs">Free permit · Age 18+</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">Backcountry permit</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -666,6 +731,14 @@
     toggle.classList.toggle('open', !isOpen);
     body.classList.toggle('open', !isOpen);
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   loadWeather();
   loadAQI();

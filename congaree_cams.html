@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--moss-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,17 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--moss); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -416,6 +428,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌊</div><div class="glance-val">Floods often</div><div class="glance-lbl">Boardwalk may close</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -454,8 +467,19 @@
     <div class="busy-note">Peak season is <strong>March</strong>, when around <strong>12%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>January–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Flood &amp; Wildlife Safety</a>
+    <a href="#sec-entry" class="quicknav-link" data-target="sec-entry">🎫 Park Entry</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 Congaree River</a>
+    <a href="#sec-fireflies" class="quicknav-link" data-target="sec-fireflies">✨ Synchronous Fireflies</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Flood & Wildlife Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Flood &amp; Wildlife Safety</span><span class="sa-badge danger">Boardwalk floods</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +490,7 @@
   </details>
 
   <!-- Park Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entry">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entry</span><span class="sa-badge ok">Free, no gates</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -477,7 +501,7 @@
   </details>
 
   <!-- Congaree River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>Congaree River</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -502,7 +526,7 @@
   </details>
 
   <!-- Synchronous Fireflies -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fireflies">
     <summary><span class="sa-title"><span class="sa-icon">✨</span>Synchronous Fireflies</span><span class="sa-badge">Lottery event</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -512,8 +536,52 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">3 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">11 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Boardwalk Trail</span><span class="conc-type">Elevated loop leading down into the old-growth bottomland hardwood forest; the park's signature, accessible walk</span><span class="conc-hrs">2.6 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Bluff Trail (#1)</span><span class="conc-type">Upland loop north of the Visitor Center through young pine forest</span><span class="conc-hrs">1.8 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Sims Trail (#2)</span><span class="conc-type">Follows an old gravel road from the Bluff Trail to Cedar Creek</span><span class="conc-hrs">3.2 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Weston Lake Trail (#3)</span><span class="conc-type">Great views of Cedar Creek, where otters and wading birds are regularly seen</span><span class="conc-hrs">4.5 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Oakridge Trail (#4)</span><span class="conc-type">Traverses a subtle ridge where a variety of large oak trees grow</span><span class="conc-hrs">7.1 mi RT · Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Boggy Gut Trail (#5)</span><span class="conc-type">Leads to the Congaree River, the lifeblood of the park's natural diversity</span><span class="conc-hrs">11.1 mi RT · Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Kingsnake Trail (#6)</span><span class="conc-type">A favorite among birders for its diverse vegetation and proximity to Cedar Creek</span><span class="conc-hrs">12 mi · Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Bates Ferry Trail (#7)</span><span class="conc-type">Follows a 1920s ferry road south to the Congaree River</span><span class="conc-hrs">2.2 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Longleaf Trail (#8)</span><span class="conc-type">Connects Longleaf Campground to the Harry Hampton Visitor Center</span><span class="conc-hrs">1.3 mi one-way · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Fork Swamp Trail (#9)</span><span class="conc-type">Runs alongside the southern channel of Bates Old River, an oxbow lake</span><span class="conc-hrs">0.6 mi · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Firefly Trail (#10)</span><span class="conc-type">Site of the park's synchronous firefly light show each spring</span><span class="conc-hrs">1.8 mi RT · Easy</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Paddling<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cedar Creek Canoe Trail</span><span class="conc-type">Marked route winding through the Congaree Wilderness from Bannister's Bridge to the Congaree River; BYO canoe or kayak, no in-park rentals</span><span class="conc-hrs">~15 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Congaree River Blue Trail</span><span class="conc-type">Designated National Recreation Trail from downtown Columbia downstream through the park's old-growth floodplain</span><span class="conc-hrs">50 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Outfitters &amp; Guided Tours</span><span class="conc-type">Columbia-area outfitters (River Runner Outdoor Center, Palmetto Outdoor, J.K. Adventure Guides, Carolina Outdoor Adventures) offer rentals and guided 3-hour tours</span><span class="conc-hrs">Seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">SC Fishing License</span><span class="conc-type">Valid South Carolina license required; all state size and creel limits apply. No fishing within 25 ft of the boardwalk, bridges, or overlooks</span><span class="conc-hrs">License required</span></div>
+          <div class="conc-row"><span class="conc-name">Gear &amp; Boat Rules</span><span class="conc-type">Hand lines, hook-and-line, fly rods, or casting rods only, closely attended; live bait such as minnows and amphibians is prohibited; inboard/outboard motors are banned</span><span class="conc-hrs">No motors</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">Primitive, permit required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -730,6 +798,15 @@
     }
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
