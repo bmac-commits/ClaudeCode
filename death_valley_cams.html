@@ -415,11 +415,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--amber-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -433,6 +433,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1156,6 +1161,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--amber); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1329,6 +1345,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌡️</div><div class="glance-val danger">Extreme</div><div class="glance-lbl">Heat risk</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">3/3</div><div class="glance-lbl">Entrances open</div></div>
@@ -1366,8 +1383,20 @@
     <div class="busy-note">Peak season is <strong>February&ndash;April</strong>, when mild temperatures draw the most visitors. Summer months see fewer crowds &mdash; but come with <strong>extreme heat risk</strong>, not easier conditions.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-heat" class="quicknav-link" data-target="sec-heat">⚠️ Heat Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Extreme Heat Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-heat">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Extreme Heat Safety</span><span class="sa-badge danger">134°F record</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1390,7 +1419,7 @@
   </details>
 
   <!-- Park Entrances & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrances &amp; Fees</span><span class="sa-badge ok">3 open · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1454,7 +1483,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">4 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1515,8 +1544,63 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Natural Bridge</span><span class="conc-type">Easy out-and-back to a natural rock span over a wash</span><span class="conc-hrs">1 mi RT · 86 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Golden Canyon</span><span class="conc-type">Badlands canyon walk to Red Cathedral; several route lengths depending on turnaround/loop option</span><span class="conc-hrs">3&ndash;8 mi RT · 535&ndash;834 ft · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Desolation Canyon</span><span class="conc-type">Narrow, colorful badlands canyon south of Golden Canyon</span><span class="conc-hrs">3.6 mi RT · 600 ft · Mod.&ndash;Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Mosaic Canyon</span><span class="conc-type">Polished marble narrows near Stovepipe Wells; scrambling required higher up</span><span class="conc-hrs">4 mi RT · 1,200 ft · Mod.&ndash;Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Wildrose Peak</span><span class="conc-type">Forested climb above the charcoal kilns in the Panamint Range</span><span class="conc-hrs">8.4 mi RT · 2,200 ft · Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Telescope Peak</span><span class="conc-type">The park's highest summit, 11,049 ft, with views down to Badwater Basin</span><span class="conc-hrs">14 mi RT · 3,000 ft · Difficult</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Sand Dune Exploring<span class="conc-count">2 dune fields</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Mesquite Flat Sand Dunes</span><span class="conc-type">No official trail &mdash; free-roam walking on the dunes; best at sunrise before wind erases footprints</span><span class="conc-hrs">2 mi RT · 185 ft · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Panamint Dunes</span><span class="conc-type">Remote, rarely-visited dune field reached via a rough dirt road plus cross-country walk</span><span class="conc-hrs">8 mi RT · 1,028 ft · Mod. Difficult</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Scenic Backcountry Drives<span class="conc-count">2 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Artists Drive</span><span class="conc-type">Paved, one-way loop through colorful volcanic hills; passes Artist's Palette</span><span class="conc-hrs">9 mi · One-way · Paved</span></div>
+          <div class="conc-row"><span class="conc-name">Titus Canyon Road</span><span class="conc-type">One-way graded dirt road east to west through Leadfield ghost town &amp; narrow canyon walls; last 3 mi two-way</span><span class="conc-hrs">27 mi · 2&ndash;3 hrs · High-clearance rec.</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 route types</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Paved Park Roads</span><span class="conc-type">Bikes allowed on all roads open to vehicles, plus the Visitor Center &ndash; Harmony Borax Works bike path</span><span class="conc-hrs">1 mi path</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Dirt Roads</span><span class="conc-type">785+ miles of park roads; popular graded routes include Twenty Mule Team Canyon &amp; Racetrack Road</span><span class="conc-hrs">3&ndash;40 mi routes</span></div>
+          <div class="conc-row"><span class="conc-name">Off-Road Restrictions</span><span class="conc-type">Prohibited off roadways, on trails, in wilderness, or riding abreast</span><span class="conc-hrs">Roads only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback &amp; Stock Use<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Permitted Routes</span><span class="conc-type">Backcountry dirt roads &amp; select trails incl. Wildrose, Ubehebe Peak, Indian Pass, Fall Canyon, Cottonwood/Marble Canyon</span><span class="conc-hrs">Free permit encouraged</span></div>
+          <div class="conc-row"><span class="conc-name">Group &amp; Access Limits</span><span class="conc-type">Max 12 people / 8 stock in wilderness; prohibited on pavement, dune systems &amp; Darwin Falls, Badwater &amp; Telescope Peak trails</span><span class="conc-hrs">12 people · 8 stock max</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">12 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1556,7 +1640,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">10 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1589,7 +1673,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Gold tier</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1862,6 +1946,14 @@
     loadTwilight();
     startCountdown();
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

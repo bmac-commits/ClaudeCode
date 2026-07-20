@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--turq-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -250,6 +251,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--turq); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -405,6 +417,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🧭</div><div class="glance-val danger">No medical help</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$15</div><div class="glance-lbl">Entrance fee</div></div>
@@ -443,8 +456,19 @@
     <div class="busy-note">Peak season is <strong>March–July</strong>, when around <strong>48%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Remoteness &amp; Safety</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">⛴️ Access &amp; Entry</a>
+    <a href="#sec-fort" class="quicknav-link" data-target="sec-fort">🏰 Fort Jefferson</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-snorkeling" class="quicknav-link" data-target="sec-snorkeling">🤿 Snorkeling &amp; Reef Protection</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+  </nav>
+
   <!-- Remoteness & Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Remoteness &amp; Safety</span><span class="sa-badge danger">"It's a long way to the hospital"</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -467,7 +491,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">⛴️</span>Access &amp; Entry</span><span class="sa-badge ok">$15 · digital pass required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -501,7 +525,7 @@
   </details>
 
   <!-- Fort Jefferson -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fort">
     <summary><span class="sa-title"><span class="sa-icon">🏰</span>Fort Jefferson</span><span class="sa-badge">One of the largest forts ever built</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -520,7 +544,7 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Garden Key · FCFS</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -541,12 +565,73 @@
   </details>
 
   <!-- Snorkeling -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-snorkeling">
     <summary><span class="sa-title"><span class="sa-icon">🤿</span>Snorkeling &amp; Reef Protection</span><span class="sa-badge">Not in the moat</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
       <span class="notice-icon">🐠</span>
       <span>Snorkeling around Garden Key's reefs is one of the park's top activities — but NPS explicitly prohibits swimming or snorkeling inside the fort's moat. All coral, living and dead, is protected from collection or contact. <a href="https://www.nps.gov/drto/planyourvisit/things2do.htm" target="_blank">NPS things to do ↗</a></span>
+    </div>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife &amp; Birdwatching<span class="conc-count">3 highlights</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Spring Migration</span><span class="conc-type">The islands are a stopover for songbirds crossing between North and South America; nearly 300 bird species have been documented in the park</span><span class="conc-hrs">Best: spring</span></div>
+          <div class="conc-row"><span class="conc-name">Frigatebird &amp; Sooty Tern Colony</span><span class="conc-type">Bush Key hosts the only nesting colonies of magnificent frigatebirds and sooty terns in the continental US; roughly 100,000 sooty terns return to nest each year</span><span class="conc-hrs">Nesting season</span></div>
+          <div class="conc-row"><span class="conc-name">Sea Turtles</span><span class="conc-type">Green and loggerhead sea turtles nest on the park's sandy beaches; five turtle species are commonly found in park waters</span><span class="conc-hrs">Keep your distance</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Diving &amp; Snorkel Sites<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Windjammer (Avanti) Wreck</span><span class="conc-type">Iron-hulled ship that wrecked off Loggerhead Key in 1901; visible from the surface down to about 20 ft</span><span class="conc-hrs">Loggerhead Key</span></div>
+          <div class="conc-row"><span class="conc-name">Little Africa Reef</span><span class="conc-type">Shallow, calm coral reef NPS calls a great spot for snorkelers and, in most conditions, children</span><span class="conc-hrs">Loggerhead Key</span></div>
+          <div class="conc-row"><span class="conc-name">Historic Coaling Pier Pilings</span><span class="conc-type">Late-1800s Navy pier pilings near Garden Key draw grouper, tarpon, and barracuda</span><span class="conc-hrs">Garden Key</span></div>
+          <div class="conc-row"><span class="conc-name">Scuba Diving</span><span class="conc-type">Neither the ferry nor the seaplane can carry compressed dive tanks, so divers must arrive by private or charter boat</span><span class="conc-hrs">Private/charter boat only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">License &amp; Gear</span><span class="conc-type">Anglers 16 and up need a Florida saltwater fishing license; only circle hooks are allowed, and spearfishing and lobstering are prohibited</span><span class="conc-hrs">Hook-and-line only</span></div>
+          <div class="conc-row"><span class="conc-name">Closed Waters</span><span class="conc-type">The Research Natural Area, the Garden Key moat, and areas within 50 ft of historic structures are off-limits to fishing</span><span class="conc-hrs">Boat permit required</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Paddlesports<span class="conc-count">2 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Garden, Bush &amp; Long Key</span><span class="conc-type">Short paddles around the historic core; circling both Bush and Long Key typically takes a few hours. Bring your own kayak or paddleboard — there are no rentals at the park</span><span class="conc-hrs">BYO gear</span></div>
+          <div class="conc-row"><span class="conc-name">Loggerhead Key Crossing</span><span class="conc-type">3 miles west of Garden Key across deep, open water with very strong currents; NPS recommends this route for experienced paddlers only</span><span class="conc-hrs">3 mi crossing</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fort Tours<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Self-Guided Tour</span><span class="conc-type">Follow the interpretive signage through Fort Jefferson at your own pace; ask at the visitor center for details</span><span class="conc-hrs">Included with entry</span></div>
+          <div class="conc-row"><span class="conc-name">Ranger-Guided Programs</span><span class="conc-type">When staffing allows, rangers lead fort history tours, ecological moat walks, living history demonstrations, and night sky programs</span><span class="conc-hrs">Check w/ ranger on arrival</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Charters &amp; Permitted Tour Guides<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Permitted Operators</span><span class="conc-type">NPS-authorized charter operators run fishing, diving/snorkeling, birdwatching, and eco-tour trips into the park</span><span class="conc-hrs">Permit required</span></div>
+          <div class="conc-row"><span class="conc-name">An Alternative to the Ferry</span><span class="conc-type">NPS describes permitted charters as another option to the daily ferry and seaplane tours for reaching the park</span><span class="conc-hrs">Private charter</span></div>
+        </div>
+      </details>
+
     </div>
     </div>
   </details>
@@ -720,6 +805,14 @@
     toggle.classList.toggle('open', !isOpen);
     body.classList.toggle('open', !isOpen);
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   loadWeather();
   loadAQI();

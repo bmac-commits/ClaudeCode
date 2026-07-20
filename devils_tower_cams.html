@@ -414,11 +414,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--accent-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -432,6 +432,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1155,6 +1160,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--accent-light); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1329,6 +1345,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🧗</div><div class="glance-val">June closure</div><div class="glance-lbl">Climbing</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">1/1</div><div class="glance-lbl">Entrance open</div></div>
@@ -1367,8 +1384,19 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>67%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-sacred" class="quicknav-link" data-target="sec-sacred">🪶 Sacred Site</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campground</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stars" class="quicknav-link" data-target="sec-stars">🌙 Stargazing</a>
+  </nav>
+
   <!-- Climbing Closure & Sacred Site Respect -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-sacred">
     <summary><span class="sa-title"><span class="sa-icon">🪶</span>A Sacred Site — Please Visit Respectfully</span><span class="sa-badge">June closure</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -1383,7 +1411,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">1 open · $25</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1425,7 +1453,7 @@
   </details>
 
   <!-- Campground -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground</span><span class="sa-badge ok">45 sites · FCFS</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1452,7 +1480,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">6 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1485,8 +1513,45 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">3 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">4 details</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Registration</span><span class="conc-type">Free, mandatory self-registration at the climbing kiosk near the Tower Trail before and after every climb</span><span class="conc-hrs">Free · Required</span></div>
+          <div class="conc-row"><span class="conc-name">Route Difficulty</span><span class="conc-type">Traditional crack climbing on mostly gear-protected routes (cams &amp; anchors, few bolts); historic Durrance &amp; Wiessner routes are considered harder than their original ratings</span><span class="conc-hrs">5.7&ndash;5.13</span></div>
+          <div class="conc-row"><span class="conc-name">Voluntary June Closure</span><span class="conc-type">Climbers are asked to voluntarily avoid the Tower throughout June out of respect for Northern Plains tribal ceremonies; NPS reports strong voluntary compliance</span><span class="conc-hrs">June</span></div>
+          <div class="conc-row"><span class="conc-name">Raptor Closures</span><span class="conc-type">Select routes close seasonally each spring to protect nesting prairie falcons and peregrine falcons</span><span class="conc-hrs">Spring, seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing<span class="conc-count">2 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">South Side Trail</span><span class="conc-type">Connector trail passing directly through the black-tailed prairie dog town; links to the Red Beds Trail</span><span class="conc-hrs">0.6 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Valley View Trail</span><span class="conc-type">Winds through the prairie dog town with views of the Belle Fourche River; little elevation change</span><span class="conc-hrs">0.6 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger Programs<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Pop-Up Stations</span><span class="conc-type">Informal, short ranger talks positioned near the visitor center and along the Tower Trail</span><span class="conc-hrs">Memorial Day&ndash;Labor Day</span></div>
+          <div class="conc-row"><span class="conc-name">Ranger Talks</span><span class="conc-type">Formal presentations at the Tower trailhead pavilion and campground amphitheater; topics change seasonally</span><span class="conc-hrs">Weekends, seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Junior Ranger Program</span><span class="conc-type">Activity booklet from the visitor center; complete pages equal to your age (or all pages if 12+) to earn a badge</span><span class="conc-hrs">All ages</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stars">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">No IDA cert.</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1926,6 +1991,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

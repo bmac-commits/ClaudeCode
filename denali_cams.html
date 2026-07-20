@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--peak-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; }
     .cam-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s, transform 0.15s; cursor: pointer; }
@@ -297,6 +298,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--peak); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -451,6 +463,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">⚠️</div><div class="glance-val danger">Falls</div><div class="glance-lbl">Top killer</div></div>
     <div class="glance-item"><div class="glance-icon">🎫</div><div class="glance-val">$15</div><div class="glance-lbl">Entrance fee</div></div>
@@ -489,8 +502,23 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>77%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-road" class="quicknav-link" data-target="sec-road">🚌 Road &amp; Bus Access</a>
+    <a href="#sec-gauge" class="quicknav-link" data-target="sec-gauge">🌊 River Gauge</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-mountain" class="quicknav-link" data-target="sec-mountain">🏔️ The Mountain</a>
+    <a href="#sec-trails" class="quicknav-link" data-target="sec-trails">📍 Landmarks &amp; Trails</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Live Cams</a>
+    <a href="#sec-kennel" class="quicknav-link" data-target="sec-kennel">🐕 Puppy Cam</a>
+  </nav>
+
   <!-- Falls, Bears & Remoteness Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Falls, Bears &amp; Remoteness Safety</span><span class="sa-badge danger">Falls are the top killer</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -513,7 +541,7 @@
   </details>
 
   <!-- Road & Bus Access -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-road">
     <summary><span class="sa-title"><span class="sa-icon">🚌</span>Park Road &amp; Bus Access</span><span class="sa-badge danger">Closed past mile 43</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger" style="margin-bottom: 12px;">
@@ -547,7 +575,7 @@
   </details>
 
   <!-- Igloo Creek River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-gauge">
     <summary><span class="sa-title"><span class="sa-icon">🌊</span>Igloo Creek River Gauge</span><span class="sa-badge">Live NOAA data</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -563,7 +591,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">5 open · 1 closed</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -605,7 +633,7 @@
   </details>
 
   <!-- Denali the Mountain -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-mountain">
     <summary><span class="sa-title"><span class="sa-icon">🏔️</span>Denali the Mountain</span><span class="sa-badge">20,310 ft</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -616,7 +644,7 @@
   </details>
 
   <!-- Landmarks & Trails -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-trails">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -638,8 +666,73 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Frontcountry Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Roadside Trail</span><span class="conc-type">Uphill route from the Denali Visitor Center toward the sled dog kennels</span><span class="conc-hrs">1.8 mi &middot; ~1 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Rock Creek Trail</span><span class="conc-type">Quieter, forested alternate route between the Visitor Center and kennels</span><span class="conc-hrs">2.4 mi &middot; ~1.5 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Mount Healy Overlook Trail</span><span class="conc-type">Steep alpine climb above the entrance area with grades up to 25% and possible Denali views on clear days</span><span class="conc-hrs">2.7 mi &middot; ~2 hr</span></div>
+          <div class="conc-row"><span class="conc-name">Morino &amp; Spruce Forest Trails</span><span class="conc-type">Short, flat loops near the Visitor Center and Riley Creek Campground</span><span class="conc-hrs">Under 15 min</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Permits &amp; Wilderness Hiking<span class="conc-count">87 units</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Free Backcountry Permit</span><span class="conc-type">Required for all overnight trips; issued in person no more than 1 day before departure at the Backcountry Information Center</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Unit Quota System</span><span class="conc-type">The park is divided into 87 backcountry units, each capped on nightly campers to limit crowding</span><span class="conc-hrs">87 units</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Orientation</span><span class="conc-type">Mandatory in-person briefing for every member of the party before a permit is issued</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">Bear-Resistant Food Canister</span><span class="conc-type">Mandatory food storage gear for backcountry travel, since most of the park is off-trail wilderness</span><span class="conc-hrs">Apr 15&ndash;Sep 30</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mountaineering &mdash; Denali &amp; Mount Foraker<span class="conc-count">Permit required</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Special Use Climbing Permit</span><span class="conc-type">Required for all Denali/Foraker attempts; register at least 60 days ahead of your intended start date</span><span class="conc-hrs">$450 adult &middot; $350 under 25</span></div>
+          <div class="conc-row"><span class="conc-name">Climber Orientation</span><span class="conc-type">Mandatory in-person briefing at the Walter Harper Talkeetna Ranger Station</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">Climbing Season</span><span class="conc-type">Most expeditions register and depart during the spring climbing window</span><span class="conc-hrs">Late Apr&ndash;Jul</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing<span class="conc-count">Big 5</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Grizzly Bear, Wolf, Caribou, Moose &amp; Dall Sheep</span><span class="conc-type">Denali's signature large mammals, seen park-wide but never guaranteed like in a zoo</span><span class="conc-hrs">Big 5</span></div>
+          <div class="conc-row"><span class="conc-name">Sable Pass</span><span class="conc-type">NPS cites this stretch of Park Road as one of the most likely places to see a grizzly bear</span><span class="conc-hrs">Road Mile 39</span></div>
+          <div class="conc-row"><span class="conc-name">Bus vs. On Foot</span><span class="conc-type">NPS recommends bus travel over hiking for wildlife viewing &mdash; higher vantage, more eyes, less disturbance</span><span class="conc-hrs">Bus preferred</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Sled Dog Ranger Programs<span class="conc-count">Free &middot; seasonal</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ranger-Led Demonstrations</span><span class="conc-type">30-minute programs on mushing history and the park's working sled dog team, held at the kennels</span><span class="conc-hrs">3x daily &middot; Jun 1&ndash;early Sep</span></div>
+          <div class="conc-row"><span class="conc-name">Free Shuttle to the Kennels</span><span class="conc-type">Bus departs the Denali Visitor Center about 40 minutes before each show; no visitor parking at the kennels</span><span class="conc-hrs">Free &middot; no reservation</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Packrafting<span class="conc-count">Self-guided</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Self-Guided River Floats</span><span class="conc-type">North-side rivers crossing the Park Road are wide and braided, offering the most accessible packrafting</span><span class="conc-hrs">No permit (day trips)</span></div>
+          <div class="conc-row"><span class="conc-name">Overnight Float Permits</span><span class="conc-type">Multi-day packrafting trips fall under the same backcountry unit quota system as backpacking</span><span class="conc-hrs">Free permit</span></div>
+          <div class="conc-row"><span class="conc-name">Cold-Water Hazard</span><span class="conc-type">NPS warns river temperatures run around 38&deg;F, with real risk from strainers and rapidly rising water</span><span class="conc-hrs">~38&deg;F</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing & Aurora -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Aurora</span><span class="sa-badge">Not certified</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -655,7 +748,7 @@
     </div>
   </details>
 
-  <div class="refresh-bar" style="border-top: 1px solid var(--border); padding-top: 16px;">
+  <div class="refresh-bar" id="sec-cameras" style="border-top: 1px solid var(--border); padding-top: 16px;">
     <div class="section-label" style="flex:1; margin-bottom:0; border-top:none; padding-top:0; display:flex; align-items:center; gap:9px;"><span class="sa-icon" style="font-size:1rem;">📷</span>Live Camera Feed</div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
       <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
@@ -666,7 +759,7 @@
   <div class="cam-grid" id="camGrid"></div>
 
   <!-- Puppy Cam -->
-  <details class="section-accordion" style="margin-top: 16px;">
+  <details class="section-accordion" id="sec-kennel" style="margin-top: 16px;">
     <summary><span class="sa-title"><span class="sa-icon">🐕</span>Kennel Puppy Cam</span><span class="sa-badge">Seasonal · spring–fall</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1051,6 +1144,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

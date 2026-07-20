@@ -91,8 +91,20 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--leaf-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--leaf); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -417,6 +429,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🥾</div><div class="glance-val">Trail falls</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -455,8 +468,20 @@
     <div class="busy-note">Peak season is <strong>May–August</strong>, when around <strong>48%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>December–March</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Trail Safety</a>
+    <a href="#sec-entry" class="quicknav-link" data-target="sec-entry">🚗 Park Entry</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 River Gauge</a>
+    <a href="#sec-railroad" class="quicknav-link" data-target="sec-railroad">🚂 Scenic Railroad</a>
+    <a href="#sec-towpath" class="quicknav-link" data-target="sec-towpath">🥤 Towpath Trail</a>
+    <a href="#sec-falls" class="quicknav-link" data-target="sec-falls">🌊 Falls &amp; Ledges</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+  </nav>
+
   <!-- Trail & Waterfall Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Trail &amp; Waterfall Safety</span><span class="sa-badge danger">Slips &amp; falls</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -467,7 +492,7 @@
   </details>
 
   <!-- Park Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entry">
     <summary><span class="sa-title"><span class="sa-icon">🚗</span>Park Entry</span><span class="sa-badge ok">Fee-free, no gates</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -478,7 +503,7 @@
   </details>
 
   <!-- Cuyahoga River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>Cuyahoga River — Jaite Gauge</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -503,7 +528,7 @@
   </details>
 
   <!-- Cuyahoga Valley Scenic Railroad -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-railroad">
     <summary><span class="sa-title"><span class="sa-icon">🚂</span>Cuyahoga Valley Scenic Railroad</span><span class="sa-badge">Concessioner</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -514,7 +539,7 @@
   </details>
 
   <!-- Ohio & Erie Canal Towpath Trail -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-towpath">
     <summary><span class="sa-title"><span class="sa-icon">🥤</span>Ohio &amp; Erie Canal Towpath Trail</span><span class="sa-badge">87 miles</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -525,7 +550,7 @@
   </details>
 
   <!-- Brandywine Falls & The Ledges -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-falls">
     <summary><span class="sa-title"><span class="sa-icon">🌊</span>Brandywine Falls &amp; The Ledges</span><span class="sa-badge">Signature landmarks</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -541,6 +566,72 @@
           <div class="conc-row"><span class="conc-name">Ledges Trail</span><span class="conc-type">2.2-mile loop past massive sandstone outcrops and the Ledges Overlook, one of the best sunset views in the park</span></div>
         </div>
       </details>
+    </div>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Blue Hen Falls Trail</span><span class="conc-type">Rugged out-and-back on the Buckeye Trail from Boston Mill Visitor Center to a cascading waterfall, with steep climbs and staircases both ways</span><span class="conc-hrs">3 mi RT · 580 ft · Steep</span></div>
+          <div class="conc-row"><span class="conc-name">Buckeye Trail — Northern Section</span><span class="conc-type">Rocky, hilly segments of Ohio's cross-state trail as it threads through the park's north end</span><span class="conc-hrs">1.5&ndash;7 mi segments · up to 200 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Buckeye Trail — Southern Section</span><span class="conc-type">Passes the historic Everett Covered Bridge on hilly, moderate-to-challenging terrain near the park's south end</span><span class="conc-hrs">3&ndash;4.1 mi segments · up to 240 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Valley Trail — Southern Section</span><span class="conc-type">Rolling-to-hilly dirt trail linking the Ledges, Kendall Lake &amp; Octagon Shelter areas</span><span class="conc-hrs">2.75&ndash;9.25 mi segments · up to 400 ft</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">4 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Towpath Trail</span><span class="conc-type">Flat, crushed-limestone canal towpath shared with walkers &amp; horses; 20 of its 101 total miles run through the park</span><span class="conc-hrs">20 mi in-park · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">East Rim Trails</span><span class="conc-type">Purpose-built singletrack with berms and features for intermediate mountain bikers; Class 1 e-bikes permitted</span><span class="conc-hrs">Intermediate</span></div>
+          <div class="conc-row"><span class="conc-name">Bike &amp; Hike Trail</span><span class="conc-type">Paved Summit Metro Parks trail bordering the park's east side, connecting to Towpath access points</span><span class="conc-hrs">33.5 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Bike Rentals</span><span class="conc-type">Available from private outfitters at trailheads along the Towpath; not operated by the NPS</span><span class="conc-hrs">Seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Valley Trail (Equestrian)</span><span class="conc-type">The park's longest horse trail, linking multiple trailheads across the southern half</span><span class="conc-hrs">14.5 mi total</span></div>
+          <div class="conc-row"><span class="conc-name">Wetmore &amp; Riding Run Trails</span><span class="conc-type">Two of six designated horse trails; trailer access recommended at Wetmore and Boston trailheads</span><span class="conc-hrs">4.6 mi &amp; 5.6 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Bring Your Own Horse</span><span class="conc-type">No horse rentals or outfitters operate in the park — riders must trailer in their own animals</span><span class="conc-hrs">No rentals</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Paddling the Cuyahoga River<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">River Access Points</span><span class="conc-type">Seven boat launches from Northampton Point to Lock 39 span the roughly 26 miles of river inside the park</span><span class="conc-hrs">26 mi · 7 launches</span></div>
+          <div class="conc-row"><span class="conc-name">Life Jacket Requirement</span><span class="conc-type">USCG-approved life jackets required for all paddlers; children under 10 must wear them at all times</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">Known Hazards</span><span class="conc-type">Bedrock ledge near Lock 29 and metal pylons near Lock 39 require portaging; NPS does not maintain the river for recreation — paddle at your own risk</span><span class="conc-hrs">Portage req.</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ohio Fishing License</span><span class="conc-type">Required for anglers 16 and older; permitted throughout park waters except near docks, bridges &amp; swim beaches</span><span class="conc-hrs">OH license</span></div>
+          <div class="conc-row"><span class="conc-name">Gear Rules</span><span class="conc-type">Hook-and-line only, closely attended; live minnows and amphibians prohibited except in designated waters</span><span class="conc-hrs">Hook &amp; line</span></div>
+          <div class="conc-row"><span class="conc-name">Consumption Advisory</span><span class="conc-type">Ohio EPA advises limiting consumption of larger predatory fish due to mercury; catch-and-release required for unwanted or undersized fish</span><span class="conc-hrs">Advisory</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cross-Country Ski &amp; Snowshoe Trails</span><span class="conc-type">Nine marked routes from beginner-friendly Ledges Field to the advanced Boston Run Trail; open when snow cover allows</span><span class="conc-hrs">1.4&ndash;19.7 mi routes</span></div>
+          <div class="conc-row"><span class="conc-name">Sledding at Kendall Hills</span><span class="conc-type">Open hillside off Quick Road in Peninsula with dedicated parking; pets prohibited during sledding</span><span class="conc-hrs">Quick Rd, Peninsula</span></div>
+          <div class="conc-row"><span class="conc-name">Boston Mills &amp; Brandywine Ski Resort</span><span class="conc-type">Privately operated downhill skiing, snowboarding &amp; snow tubing on land within the park boundary; not an NPS facility</span><span class="conc-hrs">Private resort</span></div>
+        </div>
+      </details>
+
     </div>
     </div>
   </details>
@@ -760,6 +851,15 @@
     }
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
