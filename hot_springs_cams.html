@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--amber-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -165,6 +166,17 @@
     .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
     .conc-hrs { font-size: 0.84rem; color: var(--amber-light); white-space: nowrap; }
     @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--amber); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -416,6 +428,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌡️</div><div class="glance-val">143°F</div><div class="glance-lbl">Spring water temp</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -454,8 +467,20 @@
     <div class="busy-note">Peak season is <strong>June–July</strong>, when around <strong>24%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">🌡️ Thermal Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Entry &amp; Fees</a>
+    <a href="#sec-water" class="quicknav-link" data-target="sec-water">💧 Hot Springs Creek</a>
+    <a href="#sec-bathhouses" class="quicknav-link" data-target="sec-bathhouses">🏛️ Bathhouse Row</a>
+    <a href="#sec-hiking" class="quicknav-link" data-target="sec-hiking">🥾 Hiking &amp; Overlooks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Thermal Spring Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">🌡️</span>Thermal Spring Safety</span><span class="sa-badge danger">143°F water</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +491,7 @@
   </details>
 
   <!-- Park Entry & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entry &amp; Fees</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -477,7 +502,7 @@
   </details>
 
   <!-- Hot Springs Creek Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-water">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>Hot Springs Creek</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -502,7 +527,7 @@
   </details>
 
   <!-- Bathhouse Row -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-bathhouses">
     <summary><span class="sa-title"><span class="sa-icon">🏛️</span>Bathhouse Row</span><span class="sa-badge">8 historic buildings</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -530,7 +555,7 @@
   </details>
 
   <!-- Hiking & Overlooks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-hiking">
     <summary><span class="sa-title"><span class="sa-icon">🥾</span>Hiking &amp; Overlooks</span><span class="sa-badge">26 miles of trail</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -540,8 +565,55 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Grand Promenade</span><span class="conc-type">Paved historic walkway running behind Bathhouse Row, with four entry points into the mountain trail network</span><span class="conc-hrs">0.5 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Hot Springs Mountain Trail</span><span class="conc-type">Easy stroll around the top of Hot Springs Mountain with scenic overlooks</span><span class="conc-hrs">1.7 mi · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Peak Trail</span><span class="conc-type">Paved then gravel climb leading up to the Hot Springs Mountain Tower</span><span class="conc-hrs">0.6 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Gulpha Gorge Trail</span><span class="conc-type">Steep western section climbing directly from Gulpha Gorge Campground</span><span class="conc-hrs">0.6 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Sunset Trail</span><span class="conc-type">The park's longest trail, crossing the most remote terrain near the park's outer boundary; can be hiked as segments or a full loop</span><span class="conc-hrs">~10 mi one-way · 15&ndash;17 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">West Mountain Trail</span><span class="conc-type">Gradual grade on both sections; connects with Mountain Top Trail to form a loop</span><span class="conc-hrs">1.2 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Scenic Drives &amp; Overlooks<span class="conc-count">3 spots</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Hot Springs Mountain Tower</span><span class="conc-type">Concession-operated observation tower with an open-air upper deck and enclosed lower deck overlooking 140 sq mi of the Ouachita Mountains</span><span class="conc-hrs">216 ft tower · 1,256 ft elev.</span></div>
+          <div class="conc-row"><span class="conc-name">Hot Springs Mountain Drive</span><span class="conc-type">Switchbacking 1880s carriage road climbing to the Pagoda overlook and the Mountain Tower</span><span class="conc-hrs">Scenic drive</span></div>
+          <div class="conc-row"><span class="conc-name">West Mountain Drive</span><span class="conc-type">Two-way road to the Summit Loop, with three overlooks over Bathhouse Row and downtown Hot Springs</span><span class="conc-hrs">Scenic drive</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Free Spring Water<span class="conc-count">2 kinds</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Thermal Water Jug Fountains</span><span class="conc-type">Free hot spring water at Hill Wheatley Plaza, the NPS Administration Building &amp; fountains along Bathhouse Row; water emerges from the ground at 143°F but cools before reaching the taps</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Cold Spring Fountains</span><span class="conc-type">Filtered cold spring water at Happy Hollow and Whittington Spring</span><span class="conc-hrs">Free</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Park Roads</span><span class="conc-type">Bicycles &amp; e-bikes welcome on paved North &amp; West Mountain roads; not permitted on the Grand Promenade or the Bathhouse Row sidewalk</span><span class="conc-hrs">Open roads</span></div>
+          <div class="conc-row"><span class="conc-name">Pullman Trail</span><span class="conc-type">Authorized specifically for bicycle and e-bike use</span><span class="conc-hrs">Bike trail</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Gulpha Gorge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -763,6 +835,15 @@
     }
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

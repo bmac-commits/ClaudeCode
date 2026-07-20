@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--lava-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
     .cam-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s, transform 0.15s; cursor: pointer; }
@@ -293,6 +294,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--lava); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -448,6 +460,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌋</div><div class="glance-val danger">Advisory · Yellow</div><div class="glance-lbl">USGS alert level</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$30</div><div class="glance-lbl">7-day vehicle fee</div></div>
@@ -486,8 +499,21 @@
     <div class="busy-note">Peak season is <strong>December–January</strong>, when around <strong>20%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>April–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-eruption" class="quicknav-link" data-target="sec-eruption">🌋 Eruption Status</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-hazards" class="quicknav-link" data-target="sec-hazards">⚠️ Hazards &amp; Safety</a>
+    <a href="#sec-craters" class="quicknav-link" data-target="sec-craters">🛣️ Chain of Craters Rd</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Current Eruption Status -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-eruption">
     <summary><span class="sa-title"><span class="sa-icon">🌋</span>Current Eruption Status</span><span class="sa-badge danger">Advisory · Aviation Yellow</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -510,7 +536,7 @@
   </details>
 
   <!-- Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">$30 · ATB honored</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="fee-bar">
@@ -530,7 +556,7 @@
   </details>
 
   <!-- Hazards & Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-hazards">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Hazards &amp; Safety</span><span class="sa-badge danger">Unstable crater edges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -541,12 +567,42 @@
   </details>
 
   <!-- Chain of Craters Road -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-craters">
     <summary><span class="sa-title"><span class="sa-icon">🛣️</span>Chain of Craters Road</span><span class="sa-badge">18.8 mi one-way</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
       <span class="notice-icon">🌊</span>
       <span>The road runs 18.8 miles one-way from the summit down to the coast. At the end, <strong>Hōlei Sea Arch</strong> — a ~90-ft lava sea arch — is viewed from an overlook about 1,000 feet past the road's end gate. Given ongoing eruptive activity, road and trail status can change quickly — always check current NPS conditions before driving down. <a href="https://www.nps.gov/havo/planyourvisit/ccr_tour.htm" target="_blank">NPS Chain of Craters info ↗</a></span>
+    </div>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">2 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Kīlauea Iki Trail</span><span class="conc-type">Descends through lush rainforest to cross the solidified lava lake on the floor of Kīlauea Iki crater</span><span class="conc-hrs">3.3&ndash;6.0 mi RT &middot; 400 ft &middot; Mod.&ndash;Challenging</span></div>
+          <div class="conc-row"><span class="conc-name">Nāhuku (Thurston Lava Tube)</span><span class="conc-type">Rainforest walk into a roughly 500-year-old lava tube where molten lava once flowed</span><span class="conc-hrs">1.5&ndash;6.0 mi RT &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Devastation Trail</span><span class="conc-type">Paved, wheelchair- and stroller-accessible walk across a landscape reshaped by cinder from the 1959 Kīlauea Iki eruption</span><span class="conc-hrs">1 mi RT &middot; Easy &middot; Accessible</span></div>
+          <div class="conc-row"><span class="conc-name">Crater Rim Trail</span><span class="conc-type">Traces the edge of Kīlauea's summit caldera from Uēkahuna past steam vents, 2018-eruption aftermath, and rainforest</span><span class="conc-hrs">Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Puʻuloa Petroglyphs</span><span class="conc-type">Coastal trail across a 500&ndash;550-year-old lava field to one of Hawaiʻi's most extensive petroglyph fields (~23,000 images)</span><span class="conc-hrs">1.4 mi RT &middot; Moderate</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Crater Rim Drive &amp; Chain of Craters Road</span><span class="conc-type">All paved roads open to vehicles in the Kīlauea District are open to bikes and e-bikes</span><span class="conc-hrs">Paved</span></div>
+          <div class="conc-row"><span class="conc-name">Old Crater Rim Drive &amp; Chain of Craters&ndash;Kalapana Road</span><span class="conc-type">Gravel routes for experienced riders; ride single file on the right and yield to vehicles</span><span class="conc-hrs">Gravel &middot; Experienced</span></div>
+          <div class="conc-row"><span class="conc-name">Kahuku Unit</span><span class="conc-type">Kahuku Road, Palm Trail &amp; the Old Māmalahoa Highway spur are open to bikes; unit open Thursday&ndash;Sunday</span><span class="conc-hrs">Thu&ndash;Sun, 8 AM&ndash;4 PM</span></div>
+        </div>
+      </details>
+
     </div>
     </div>
   </details>
@@ -562,7 +618,7 @@
   <div class="cam-grid" id="camGrid"></div>
 
   <!-- Campground Availability -->
-  <details class="section-accordion" style="margin-top: 16px;">
+  <details class="section-accordion" id="sec-camping" style="margin-top: 16px;">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">First-come, first-served</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -587,7 +643,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks</span><span class="sa-badge">3 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -604,7 +660,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">Not certified</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1002,6 +1058,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──
