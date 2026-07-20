@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-20T04:00:48.553154+00:00",
-  "ok_count": 106,
-  "error_count": 3,
+  "generated_at": "2026-07-20T14:05:59.606296+00:00",
+  "ok_count": 107,
+  "error_count": 2,
   "parks": [
     {
       "name": "Yosemite",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 0 min ago"
+          "detail": "Updated 45 min ago"
         }
       ]
     },
@@ -851,8 +851,8 @@
       "gauges": [
         {
           "name": "USGS site 04206425",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
