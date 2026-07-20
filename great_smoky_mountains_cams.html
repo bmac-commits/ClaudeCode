@@ -371,11 +371,11 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--haze-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -385,6 +385,11 @@
     }
 
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
+    }
 
     /* ── Camera Grid ── */
     .cam-grid {
@@ -716,6 +721,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--haze); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -879,6 +895,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌊</div><div class="glance-val danger">Water</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">3 free</div><div class="glance-lbl">Entrances</div></div>
@@ -917,8 +934,19 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>35%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>December–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Water Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Parking</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+  </nav>
+
   <!-- Water & Waterfall Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Water &amp; Waterfall Safety</span><span class="sa-badge danger">Leading cause of death</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -941,7 +969,7 @@
   </details>
 
   <!-- Park Entrances & Parking Tag -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrances &amp; Parking Tag</span><span class="sa-badge ok">3 free entrances</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1003,7 +1031,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">10 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1133,7 +1161,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">13 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1177,8 +1205,64 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Alum Cave Bluffs</span><span class="conc-type">Park's most popular route toward Mt. LeConte; passes a natural stone arch and cliffside bluffs</span><span class="conc-hrs">4.6 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Charlies Bunion</span><span class="conc-type">Appalachian Trail hike from Newfound Gap through spruce-fir forest to a rocky outcrop with panoramic views; many steep sections</span><span class="conc-hrs">8 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Andrews Bald</span><span class="conc-type">Descends through spruce-fir forest from the Kuwohi/Forney Ridge Trailhead to a grassy bald known for summer azaleas</span><span class="conc-hrs">3.6 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Abrams Falls</span><span class="conc-type">Popular Cades Cove-area trail with occasional root and rock obstacles to a wide, powerful waterfall</span><span class="conc-hrs">5 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Ramsey Cascades</span><span class="conc-type">Challenging hike to the tallest waterfall in the Smokies</span><span class="conc-hrs">8 mi RT &middot; 2,100+ ft gain</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Open-Water Fishing</span><span class="conc-type">Valid TN or NC fishing license required for anglers 16+, no trout stamp needed; single hand-held rod, artificial flies/lures with a single hook only, no bait</span><span class="conc-hrs">Year-round, sunrise&ndash;sunset</span></div>
+          <div class="conc-row"><span class="conc-name">Catch Limits</span><span class="conc-type">7-inch minimum size for trout &amp; smallmouth bass; must stop fishing immediately after reaching the daily limit</span><span class="conc-hrs">5/day combined limit</span></div>
+          <div class="conc-row"><span class="conc-name">Fishable Waters</span><span class="conc-type">Protects one of the last wild trout habitats in the East; roughly 20% of streams support trout</span><span class="conc-hrs">~2,900 mi of streams</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Guided Rides</span><span class="conc-type">Concession stables at Cades Cove, Smokemont &amp; Sugarlands; Cades Cove &amp; Smokemont also run hayrides/wagon rides</span><span class="conc-hrs">Mid-Mar&ndash;late Nov</span></div>
+          <div class="conc-row"><span class="conc-name">Horse Trails</span><span class="conc-type">Designated horse trails only; off-trail riding is prohibited</span><span class="conc-hrs">~550 mi open to horses</span></div>
+          <div class="conc-row"><span class="conc-name">Horse Camps</span><span class="conc-type">Drive-in camps for private stock provide backcountry access; $1 trail map required for self-guided rides</span><span class="conc-hrs">5 camps &middot; Apr&ndash;Oct</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cades Cove Loop Road</span><span class="conc-type">The park's primary biking destination; 20 mph posted speed limit, Class 1 &amp; 2 e-bikes allowed</span><span class="conc-hrs">11 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Vehicle-Free Wednesdays</span><span class="conc-type">Cades Cove Loop Road closes to motor vehicles all day for cyclists &amp; walkers, part of the year</span><span class="conc-hrs">Wednesdays, seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Bike Rentals &amp; Other Trails</span><span class="conc-type">Rentals at the Cades Cove Campground store; biking also allowed on Gatlinburg, Oconaluftee River &amp; lower Deep Creek trails</span><span class="conc-hrs">Summer&ndash;fall</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Synchronous Fireflies<span class="conc-count">2 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Elkmont Viewing Event</span><span class="conc-type"><em>Photinus carolinus</em> fireflies synchronize their flashes for about two to three weeks each late spring at Elkmont; 2026 dates were May 20&ndash;27</span><span class="conc-hrs">~2&ndash;3 wk window, spring</span></div>
+          <div class="conc-row"><span class="conc-name">Vehicle Reservation Lottery</span><span class="conc-type">Access requires a Recreation.gov lottery entry; winners pay a reservation fee for one of 120 nightly spots, non-refundable &amp; non-transferable</span><span class="conc-hrs">$1 to enter lottery</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- River Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions</span><span class="sa-badge ok">4 live gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1633,6 +1717,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

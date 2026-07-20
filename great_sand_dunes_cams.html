@@ -131,11 +131,12 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--dune-light);
       margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     /* ── Entrances Section ── */
     .traffic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
@@ -338,6 +339,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--dune-light); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -501,6 +513,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌡️</div><div class="glance-val danger">150°F</div><div class="glance-lbl">Sand surface temp</div></div>
     <div class="glance-item"><div class="glance-icon">🏂</div><div class="glance-val">BYO gear</div><div class="glance-lbl">Sandboard rental</div></div>
@@ -539,8 +552,20 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>54%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-dunefield" class="quicknav-link" data-target="sec-dunefield">🏜️ Dune Field</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Trails</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Hot Sand & Lightning Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Hot Sand &amp; Lightning Safety</span><span class="sa-badge danger">150°F surface</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -563,7 +588,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">1 entrance · $25</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -610,7 +635,7 @@
   </details>
 
   <!-- The Dune Field -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dunefield">
     <summary><span class="sa-title"><span class="sa-icon">🏜️</span>The Dune Field</span><span class="sa-badge">742 ft tallest</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -663,8 +688,62 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Sandboarding &amp; Sand Sledding<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Great Dunes Oasis Store</span><span class="conc-type">Closest sandboard &amp; sled rental, just outside the park entrance; regular sleds and cardboard don't slide on dry sand, so specialized gear is required</span><span class="conc-hrs">~4 mi · Spring–early fall</span></div>
+          <div class="conc-row"><span class="conc-name">Farther Outfitters</span><span class="conc-type">Sand Dunes Recreation (Hooper) and Kristi Mountain Sports (Alamosa) rent gear year-round, though boards won't slide on wet or frozen sand</span><span class="conc-hrs">32–36 mi · Year-round</span></div>
+          <div class="conc-row"><span class="conc-name">Where to Ride</span><span class="conc-type">Allowed anywhere on the dunefield away from vegetated areas; the first ridge is the most popular spot, with gentler slopes near the base for kids</span><span class="conc-hrs">~1.25 mi to first ridge</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking the Dunefield<span class="conc-count">3 dunes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">High Dune</span><span class="conc-type">No maintained trails anywhere in the dunefield — this is open-sand hiking; High Dune is the most common destination, with views over the whole field</span><span class="conc-hrs">2.5 mi RT · 688 ft gain · ~2 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Star Dune</span><span class="conc-type">Second-tallest dune in North America; a longer, more remote push across soft sand</span><span class="conc-hrs">6 mi RT · ~6 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Hidden Dune</span><span class="conc-type">Tallest dune in North America, with a deceptive false summit; the most remote of the three and least crowded</span><span class="conc-hrs">7 mi RT · ~6 hrs</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Trails<span class="conc-count">3 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Sand Ramp Trail</span><span class="conc-type">Sandy foothill route along the base of the dunes, mainly used to reach backcountry campsites rather than as a day hike</span><span class="conc-hrs">11 mi one-way</span></div>
+          <div class="conc-row"><span class="conc-name">Medano Lake Trail</span><span class="conc-type">Climbs through meadows and forest to an alpine lake; strong hikers can continue on to Mount Herard</span><span class="conc-hrs">From 10,000 ft · +2,000 ft gain</span></div>
+          <div class="conc-row"><span class="conc-name">Music Pass &amp; Sand Creek Lakes</span><span class="conc-type">High alpine lakes in the Sangre de Cristo Wilderness; trailhead reached via a 2.5-hr 4WD drive, often snow-blocked into early summer</span><span class="conc-hrs">8 mi RT · Snow into Jun</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Medano Creek Wading &amp; Splashing<span class="conc-count">2 windows</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Peak Surge Flow</span><span class="conc-type">Snowmelt-driven "surge flow" sends waves rippling across the creek bed; in wetter years they're big enough to float on</span><span class="conc-hrs">Late May–early Jun · ~40 cfs avg peak</span></div>
+          <div class="conc-row"><span class="conc-name">Late-Season Wading</span><span class="conc-type">Flow drops off fast after peak — typically just 1–2 in. deep by late June — and the creek usually dries at the main crossing by July absent rain</span><span class="conc-hrs">Dry by ~Jul (typical)</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Medano Pass Primitive Road (4WD)<span class="conc-count">3 things to know</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">The Route</span><span class="conc-type">Rough 4WD-only track over Medano Pass to Wet Mountain Valley &amp; CO-69; true 4WD with a 4-Low setting is required past the "Point of No Return" at mile 1.1</span><span class="conc-hrs">22 mi · 2.5–3 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Conditions</span><span class="conc-type">Nine Medano Creek crossings plus deep sand between Castle Creek and First Creek Crossing; rangers recommend airing tires down to 15–20 psi for the soft sections</span><span class="conc-hrs">9 creek crossings</span></div>
+          <div class="conc-row"><span class="conc-name">Season</span><span class="conc-type">Opens when conditions allow, typically mid-to-late May, and stays open through the end of the fourth rifle hunting season in late November</span><span class="conc-hrs">Mid-May–late Nov</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">88 sites</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -691,7 +770,7 @@
   </details>
 
   <!-- Landmarks & Trails -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">3 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -716,7 +795,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Certified 2019</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -955,6 +1034,14 @@
     loadMoonPhase();
     loadTwilight();
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

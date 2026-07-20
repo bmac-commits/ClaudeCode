@@ -414,11 +414,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--accent-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -432,6 +432,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1063,6 +1068,17 @@
       .moon-blurb { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 10px; width: 100%; }
     }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--accent); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -1347,6 +1363,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🐻</div><div class="glance-val danger">Bear country</div><div class="glance-lbl">Wildlife risk</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">3/3</div><div class="glance-lbl">Entrances open</div></div>
@@ -1385,8 +1402,20 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>60%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-wildlife" class="quicknav-link" data-target="sec-wildlife">🐻 Wildlife Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrances &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+  </nav>
+
   <!-- Wildlife & Altitude Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-wildlife">
     <summary><span class="sa-title"><span class="sa-icon">🐻</span>Wildlife &amp; Backcountry Safety</span><span class="sa-badge danger">Bear &amp; moose country</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1409,7 +1438,7 @@
   </details>
 
   <!-- Park Entrances & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrances &amp; Fees</span><span class="sa-badge ok">3 open · $35</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1471,7 +1500,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">6 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1552,7 +1581,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Viewpoints</span><span class="sa-badge">11 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1590,8 +1619,71 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Hidden Falls</span><span class="conc-type">Short walk from the Jenny Lake shuttle boat dock to a 100-ft waterfall; longer option skips the boat and follows the South Jenny Lake Loop Trail instead</span><span class="conc-hrs">1&ndash;4.9 mi RT &middot; 300&ndash;620 ft &middot; Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Inspiration Point</span><span class="conc-type">Switchbacks above Hidden Falls to a classic overlook of Jenny Lake and the valley; via shuttle boat or the full lakeshore loop trail</span><span class="conc-hrs">1.8&ndash;5.7 mi RT &middot; 550&ndash;870 ft &middot; Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Taggart Lake</span><span class="conc-type">Gentle valley-floor hike to a glacial lake beneath the Tetons; accessible year-round, including by snowshoe or cross-country ski in winter</span><span class="conc-hrs">3 mi RT &middot; 360 ft &middot; Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Taggart Lake &ndash; Bradley Lake Loop</span><span class="conc-type">Extends the Taggart Lake hike into a loop past a second glacial lake</span><span class="conc-hrs">5.6 mi RT loop &middot; 860 ft &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Forks of Cascade Canyon</span><span class="conc-type">Beyond Inspiration Point into the canyon between the Grand Teton and Mt. Owen; often holds snow until early&ndash;mid summer</span><span class="conc-hrs">9.4&ndash;13.3 mi RT &middot; 1,480&ndash;1,720 ft &middot; Mod. Strenuous&ndash;Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Climbing &amp; Mountaineering<span class="conc-count">1 objective</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">The Grand Teton (Garnet Canyon)</span><span class="conc-type">Technical alpine ascent of the park's namesake 13,775-ft summit; day climbs need no permit, but overnight stays require a backcountry camping permit issued at Jenny Lake Ranger Station or Craig Thomas Discovery &amp; Visitor Center (June&ndash;Sept). Snow typically lingers in the high peaks until mid-July</span><span class="conc-hrs">Permit for overnight</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">On the Water<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Motorized Boating</span><span class="conc-type">Jenny Lake (10 hp max) and Jackson Lake only; every boat needs a Grand Teton boat permit before launching</span><span class="conc-hrs">Permit required</span></div>
+          <div class="conc-row"><span class="conc-name">Kayaking, Canoeing &amp; SUP</span><span class="conc-type">Human-powered vessels permitted on Jackson, Jenny, Phelps, Emma Matilda, Two Ocean, Taggart, Bradley, Bearpaw, Leigh &amp; String lakes</span><span class="conc-hrs">Permit required</span></div>
+          <div class="conc-row"><span class="conc-name">Jenny Lake Shuttle Boat</span><span class="conc-type">Continuous crossing to the West Shore boat dock for Hidden Falls &amp; Inspiration Point, every 10&ndash;15 min, no reservations needed</span><span class="conc-hrs">7 AM&ndash;7 PM peak season</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">2 things to know</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lakes &amp; Rivers</span><span class="conc-type">Cutthroat, brown, lake &amp; brook trout plus whitefish; a Wyoming state fishing license is required (sold at Flagg Ranch, Colter Bay Marina &amp; Signal Mountain Lodge)</span><span class="conc-hrs">WY license required</span></div>
+          <div class="conc-row"><span class="conc-name">Season &amp; Closures</span><span class="conc-type">Park lakes open year-round except Jackson Lake (closed Oct 1&ndash;31); river cutthroat trout must be released Nov 1&ndash;Mar 31</span><span class="conc-hrs">Year-round, lakes</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">3 outfitters</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Grand Teton Lodge Company</span><span class="conc-type">Guided trail rides based out of Colter Bay Village</span><span class="conc-hrs">Concessioner-guided</span></div>
+          <div class="conc-row"><span class="conc-name">Triangle X Ranch</span><span class="conc-type">Historic dude ranch with guided horseback trips</span><span class="conc-hrs">Concessioner-guided</span></div>
+          <div class="conc-row"><span class="conc-name">Headwaters Lodge at Flagg Ranch</span><span class="conc-type">Guided rides in the John D. Rockefeller Jr. Memorial Parkway area</span><span class="conc-hrs">Concessioner-guided</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Teton Park Road</span><span class="conc-type">14-mi groomed over-snow route between Taggart Lake Trailhead &amp; Signal Mountain Lodge, groomed roughly 3x/week</span><span class="conc-hrs">Dec&ndash;spring</span></div>
+          <div class="conc-row"><span class="conc-name">Moose-Wilson Road &amp; Phelps Lake</span><span class="conc-type">Ungroomed backcountry ski &amp; snowshoe route; trails are neither marked nor flagged</span><span class="conc-hrs">Dec 16&ndash;spring</span></div>
+          <div class="conc-row"><span class="conc-name">Ranger-Led Snowshoe Hikes</span><span class="conc-type">Free guided hikes, snowshoes provided; meet at the schedule posted at Craig Thomas Discovery &amp; Visitor Center</span><span class="conc-hrs">Dec 26&ndash;mid-Mar, Tue/Thu/Sat</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Dark Sky Community</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1609,7 +1701,7 @@
   </details>
 
   <!-- Snake River Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Snake River Conditions</span><span class="sa-badge">USGS live gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" style="display:grid;grid-template-columns:1fr;gap:8px;max-width:420px;">
@@ -2137,6 +2229,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

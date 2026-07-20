@@ -412,11 +412,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--indigo-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -430,6 +430,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -1093,6 +1098,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--indigo); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1267,6 +1283,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🥾</div><div class="glance-val danger">High</div><div class="glance-lbl">Altitude risk</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -1305,8 +1322,21 @@
     <div class="busy-note">Peak season is <strong>June–September</strong>, when around <strong>65%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–March</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-altitude" class="quicknav-link" data-target="sec-altitude">🥾 Altitude Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Cave Tours</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-water" class="quicknav-link" data-target="sec-water">🌊 Stream Flow</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Concessions</a>
+  </nav>
+
   <!-- Wheeler Peak Altitude Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-altitude">
     <summary><span class="sa-title"><span class="sa-icon">🥾</span>High-Altitude Hiking Safety</span><span class="sa-badge danger">13,063 ft summit</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1329,7 +1359,7 @@
   </details>
 
   <!-- Park Entrance & Lehman Caves Tours -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Cave Tours</span><span class="sa-badge ok">No fee · ticketed caves</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1391,7 +1421,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge">5 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1462,7 +1492,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1494,8 +1524,47 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">3 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Alpine Lakes Loop</span><span class="conc-type">Passes Stella &amp; Teresa Lakes through alpine meadows and conifer forest; starts at 9,890 ft</span><span class="conc-hrs">2.7 mi loop · 440 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Bristlecone Trail</span><span class="conc-type">Climbs to a grove of ancient bristlecone pines, among the oldest living trees on Earth</span><span class="conc-hrs">2.8 mi RT · 600 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Glacier Trail</span><span class="conc-type">Continues past the Bristlecone grove to Nevada's only glacier at the base of Wheeler Peak; overlaps Bristlecone Trail for the first 1.4 mi</span><span class="conc-hrs">4.8 mi RT · 1,040 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Wheeler Peak Summit Trail</span><span class="conc-type">Steep, exposed climb to the 13,063 ft summit; start at dawn to be off the ridge before afternoon storms</span><span class="conc-hrs">8.6 mi RT · 3,100 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">4 waters</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lehman Creek</span><span class="conc-type">Brook, brown &amp; rainbow trout; NV fishing license required</span><span class="conc-hrs">Consumption advisory</span></div>
+          <div class="conc-row"><span class="conc-name">Baker Creek</span><span class="conc-type">Brown trout downstream, brook trout upstream; NV fishing license required</span><span class="conc-hrs">Open water</span></div>
+          <div class="conc-row"><span class="conc-name">Snake Creek</span><span class="conc-type">Native Bonneville cutthroat trout, reintroduced 2019; catch-and-release encouraged</span><span class="conc-hrs">Catch &amp; release</span></div>
+          <div class="conc-row"><span class="conc-name">Johnson &amp; Baker Lakes</span><span class="conc-type">Alpine high lakes; artificial lures with single barbless hooks only, no bait or treble hooks</span><span class="conc-hrs">Catch &amp; release only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Night Sky Programs<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ranger Star Talks</span><span class="conc-type">30-min talk plus 90 min of telescope viewing at the Astronomy Amphitheater near the visitor center; no reservation, first-come</span><span class="conc-hrs">Thu–Sun · Mem. Day–Labor Day</span></div>
+          <div class="conc-row"><span class="conc-name">Constellation Talks</span><span class="conc-type">Ranger-guided tour of constellations and their mythology at the Baker Access Trail</span><span class="conc-hrs">Wed evenings · Summer</span></div>
+          <div class="conc-row"><span class="conc-name">Solar Scope Viewing</span><span class="conc-type">Daytime telescope viewing of sunspots and solar features at the visitor center</span><span class="conc-hrs">Summer afternoons</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-water">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Stream Flow</span><span class="sa-badge">1 gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" id="anglerGrid">
@@ -1510,7 +1579,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Gold tier</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1528,7 +1597,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">2 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1824,6 +1893,14 @@
     if (miniName) miniName.textContent = m.name;
     if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

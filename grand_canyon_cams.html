@@ -281,11 +281,11 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--canyon-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -295,6 +295,8 @@
     }
 
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -610,6 +612,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--canyon); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -784,6 +797,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🥵</div><div class="glance-val danger">Extreme</div><div class="glance-lbl">Heat risk</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">2/2</div><div class="glance-lbl">Rims open</div></div>
@@ -822,8 +836,21 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>35%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>December–February</strong>.</div>
   </div>
 
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-heat" class="quicknav-link" data-target="sec-heat">🥵 Heat Danger</a>
+    <a href="#sec-northrim" class="quicknav-link" data-target="sec-northrim">🔥 North Rim Status</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Access &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-trails" class="quicknav-link" data-target="sec-trails">📍 Landmarks &amp; Trails</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+  </nav>
+
   <!-- Extreme Heat Danger -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-heat">
     <summary><span class="sa-title"><span class="sa-icon">🥵</span>Extreme Heat Danger — Inner Canyon</span><span class="sa-badge danger">Fatalities in 2026</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -834,7 +861,7 @@
   </details>
 
   <!-- North Rim Recovery Status -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-northrim">
     <summary><span class="sa-title"><span class="sa-icon">🔥</span>North Rim Recovery Status</span><span class="sa-badge">Reopened May 15</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -845,7 +872,7 @@
   </details>
 
   <!-- Park Access & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">2 open · $35</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -890,7 +917,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge">4 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -945,7 +972,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-trails">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">7 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -979,8 +1006,64 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">South Kaibab Trail</span><span class="conc-type">Steep, dramatic ridgeline descent from the South Rim with no water on the trail; NPS caps day hikes at Skeleton Point</span><span class="conc-hrs">Up to 6 mi RT · 2,040 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Bright Angel Trail</span><span class="conc-type">Switchbacking South Rim descent with seasonal shade and water (May&ndash;Sept) &mdash; the only corridor trail with water for day hikers</span><span class="conc-hrs">Up to 12 mi RT · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Rim Trail</span><span class="conc-type">Mostly paved, largely flat path linking South Rim overlooks from South Kaibab Trailhead to Hermits Rest</span><span class="conc-hrs">~13 mi one-way · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">North Kaibab Trail</span><span class="conc-type">The only maintained trail into the canyon from the North Rim; open on foot only for 2026, stock use suspended</span><span class="conc-hrs">Up to 9.4 mi RT · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mule Trips<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">South Rim Mule Trips</span><span class="conc-type">Xanterra-operated day rides and overnight trips to Phantom Ranch; overnight trips require an online lottery</span><span class="conc-hrs">Book ~15 mo ahead · Min age 9</span></div>
+          <div class="conc-row"><span class="conc-name">North Rim Mule Trips</span><span class="conc-type">Grand Canyon Trail Rides offers guided rides through Kaibab National Forest near the North Rim</span><span class="conc-hrs">May 15&ndash;Oct 15</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Colorado River Rafting<span class="conc-count">3 trip types</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">One-Day Smooth Water Float</span><span class="conc-type">Half- and full-day motorized trips between Glen Canyon Dam and Lees Ferry; no permit lottery required</span><span class="conc-hrs">Book via outfitter</span></div>
+          <div class="conc-row"><span class="conc-name">Commercial Multi-Day Trips</span><span class="conc-type">3&ndash;18 day guided whitewater trips from Lees Ferry to Diamond Creek; often reserved a year or two in advance</span><span class="conc-hrs">3&ndash;18 days</span></div>
+          <div class="conc-row"><span class="conc-name">Noncommercial River Permits</span><span class="conc-type">Self-guided 12&ndash;25 day expeditions from Lees Ferry; permits allocated by an annual weighted lottery each February</span><span class="conc-hrs">Weighted lottery · 18+</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">South Rim Greenway &amp; Roads</span><span class="conc-type">~13 mi of paved Greenway trails and roads, including the 2.8-mi Hermit Road path along the rim</span><span class="conc-hrs">13 mi · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">North Rim Trails</span><span class="conc-type">Bridle Path links Grand Canyon Lodge to the North Kaibab Trailhead; Arizona Trail adds forest riding</span><span class="conc-hrs">1.9 + 12.1 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Bike Rentals</span><span class="conc-type">Canyon Adventures Bike Tours &amp; Caf&eacute;, adjacent to the South Rim Visitor Center</span><span class="conc-hrs">Mid-Mar&ndash;Oct 31</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger Programs &amp; Visitor Center<span class="conc-count">4 offerings</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Guided Rim Walk</span><span class="conc-type">Ranger-led walk from Bright Angel Trailhead exploring the canyon's natural &amp; cultural stories</span><span class="conc-hrs">Free · 9&ndash;10 AM daily</span></div>
+          <div class="conc-row"><span class="conc-name">Geology Talk</span><span class="conc-type">Ranger talk at Yavapai Geology Museum on how the canyon formed</span><span class="conc-hrs">Free · 3&ndash;3:30 PM daily</span></div>
+          <div class="conc-row"><span class="conc-name">North Rim Ranger Programs</span><span class="conc-type">Daily ranger-led programs at the North Rim Visitor Center</span><span class="conc-hrs">Free · Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Park Film</span><span class="conc-type">"Grand Canyon: A Journey of Wonder" — a 22-minute introductory film at the Visitor Center</span><span class="conc-hrs">Free · Hourly</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Colorado River Conditions</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" id="anglerGrid">
@@ -1001,7 +1084,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Dark Sky Park</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1019,7 +1102,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">2 operators</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1380,6 +1463,15 @@
     startCountdown();
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
