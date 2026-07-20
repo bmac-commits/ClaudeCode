@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--ice-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -250,6 +251,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--ice); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -405,6 +417,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌡️</div><div class="glance-val danger">Cold water</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -443,8 +456,20 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>64%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">⛴️ Boat &amp; Plane Access</a>
+    <a href="#sec-glaciers" class="quicknav-link" data-target="sec-glaciers">🧊 Glaciers</a>
+    <a href="#sec-cruises" class="quicknav-link" data-target="sec-cruises">🚢 Cruises &amp; Tours</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+  </nav>
+
   <!-- Wilderness & Weather Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Wilderness &amp; Weather Safety</span><span class="sa-badge danger">Cold, wet, remote</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -467,7 +492,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">⛴️</span>Boat &amp; Plane Access</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -492,7 +517,7 @@
   </details>
 
   <!-- Tidewater Glaciers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-glaciers">
     <summary><span class="sa-title"><span class="sa-icon">🧊</span>Tidewater Glaciers</span><span class="sa-badge">65-mile retreat</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -522,7 +547,7 @@
   </details>
 
   <!-- Cruise Ships & Tour Boats -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-cruises">
     <summary><span class="sa-title"><span class="sa-icon">🚢</span>Cruise Ships &amp; Tour Boats</span><span class="sa-badge">100+ year tradition</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -532,8 +557,73 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Bartlett Cove Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Forest Trail</span><span class="conc-type">Loop through temperate rainforest and beach habitat near the dock</span><span class="conc-hrs">1 mi loop · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Bartlett River Trail</span><span class="conc-type">Meanders along an intertidal lagoon with wildlife-viewing opportunities</span><span class="conc-hrs">4 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Bartlett Lake Trail</span><span class="conc-type">Less-maintained route climbing over a moss-covered moraine to a backcountry lake</span><span class="conc-hrs">8 mi RT · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Tlingit Trail</span><span class="conc-type">Forested shoreline walk past a traditional canoe display to the Huna Tribal House</span><span class="conc-hrs">0.5 mi one-way · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Explore the Shore</span><span class="conc-type">Self-guided intertidal walk toward Point Gustavus, best at low tide</span><span class="conc-hrs">Up to 6 mi one-way</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Sea Kayaking<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Bartlett Cove Launch</span><span class="conc-type">Guided day trips and kayak rentals through Glacier Bay Sea Kayaks · 907-697-2257</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Camper Drop-off Service</span><span class="conc-type">Glacier Bay Lodge's daily tour boat carries kayakers upbay, closer to the tidewater glaciers</span><span class="conc-hrs">Reservations recommended</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Permit</span><span class="conc-type">Free permit plus mandatory orientation at the Visitor Information Station for overnight trips</span><span class="conc-hrs">May 1 – Sep 30</span></div>
+          <div class="conc-row"><span class="conc-name">Bear-Resistant Canisters</span><span class="conc-type">Park provides approved food canisters at no charge for backcountry food storage</span><span class="conc-hrs">Free, required</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Whale Watching<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Humpback Whales</span><span class="conc-type">Glacier Bay and Icy Strait support a monitored humpback whale population tracked by NPS researchers</span><span class="conc-hrs">Summer season</span></div>
+          <div class="conc-row"><span class="conc-name">Whale Waters Speed Limit</span><span class="conc-type">NPS designates seasonal "whale waters" hot spots where vessels must slow down to reduce collision risk with feeding whales</span><span class="conc-hrs">13 knots max</span></div>
+          <div class="conc-row"><span class="conc-name">Close-Encounter Rule</span><span class="conc-type">Vessels within a quarter nautical mile of a humpback whale must reduce speed further</span><span class="conc-hrs">10 knots, ¼ nm buffer</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Xunaa Shuká Hít — Huna Tribal House<span class="conc-count">Bartlett Cove</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">The Tribal House</span><span class="conc-type">The first permanent Tlingit clan house in Glacier Bay since villages were destroyed by an advancing glacier over 250 years ago</span><span class="conc-hrs">Dedicated Aug 25, 2016</span></div>
+          <div class="conc-row"><span class="conc-name">Construction</span><span class="conc-type">2,500-sq-ft cedar house built over seven years by Hoonah Indian Association craftsmen with the NPS</span><span class="conc-hrs">Open to all visitors</span></div>
+          <div class="conc-row"><span class="conc-name">Healing Totem Pole</span><span class="conc-type">Carved pole added outside the house as part of the site's artwork</span><span class="conc-hrs">Installed 2018</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Sport Fishing<span class="conc-count">2 types</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Saltwater</span><span class="conc-type">Halibut and salmon, especially Chinook and coho, in coastal waters</span><span class="conc-hrs">State &amp; park regs apply</span></div>
+          <div class="conc-row"><span class="conc-name">Freshwater</span><span class="conc-type">Sea-run and resident trout, steelhead, cutthroat, and Dolly Varden char in park streams and lakes</span><span class="conc-hrs">State &amp; park regs apply</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Flightseeing &amp; Birdwatching<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Flightseeing</span><span class="conc-type">Weather-dependent aerial glacier tours depart from nearby communities such as Gustavus and Juneau</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Birdwatching</span><span class="conc-type">274 bird species have been recorded in the park, from shorebirds to bald eagles</span><span class="conc-hrs">Year-round</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Free · Walk-in</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -556,7 +646,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -743,6 +833,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

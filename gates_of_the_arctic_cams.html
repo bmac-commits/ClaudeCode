@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--arctic-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,16 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--arctic); }
+    .section-accordion { scroll-margin-top: 16px; }
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -404,6 +415,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🧭</div><div class="glance-val danger">You're on your own</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -442,8 +454,19 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>63%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-access" class="quicknav-link" data-target="sec-access">🛩️ Access &amp; Entry</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-rivers" class="quicknav-link" data-target="sec-rivers">🌊 Wild &amp; Scenic Rivers</a>
+    <a href="#sec-caribou" class="quicknav-link" data-target="sec-caribou">🦌 Caribou Migration</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping &amp; Permits</a>
+  </nav>
+
   <!-- Extreme Remoteness & Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Extreme Remoteness &amp; Safety</span><span class="sa-badge danger">"You're on your own"</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +489,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-access">
     <summary><span class="sa-title"><span class="sa-icon">🛩️</span>Access &amp; Entry</span><span class="sa-badge ok">No fee · No roads</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -499,8 +522,60 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Hiking &amp; Backpacking<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">No Established Trails</span><span class="conc-type">Congress designated the park trail-less by design — only sparse game trails cross tussocks, boggy ground and frequent river crossings</span><span class="conc-hrs">Off-trail only</span></div>
+          <div class="conc-row"><span class="conc-name">Route-Finding</span><span class="conc-type">Topographic maps, compass and GPS are essential; confirm your route against your air-taxi operator's pickup/drop-off points beforehand</span><span class="conc-hrs">Self-guided</span></div>
+          <div class="conc-row"><span class="conc-name">Pace &amp; Group Size</span><span class="conc-type">Experienced hikers consider six miles a good day's travel over this terrain; group sizes are capped to limit impact</span><span class="conc-hrs">10 max/group</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Packrafting &amp; River Floating<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Watercraft</span><span class="conc-type">Most parties fly in with rafts, inflatable canoes or packrafts; air taxis rarely carry rigid canoes</span><span class="conc-hrs">Packraft/raft</span></div>
+          <div class="conc-row"><span class="conc-name">Water Difficulty</span><span class="conc-type">Runs are mostly Class I&ndash;II, with stretches of Class II&ndash;IV rapids on some rivers; conditions shift fast</span><span class="conc-hrs">Class I&ndash;IV</span></div>
+          <div class="conc-row"><span class="conc-name">Best Water Levels</span><span class="conc-type">Flows peak in May&ndash;June; northern rivers can carry lingering aufeis (river ice) into summer</span><span class="conc-hrs">May&ndash;Jun peak</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mountaineering &amp; Climbing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Arrigetch Peaks</span><span class="conc-type">Granite spires in the western Brooks Range are the park's premier technical-climbing destination, reached by float-equipped bush plane</span><span class="conc-hrs">Technical</span></div>
+          <div class="conc-row"><span class="conc-name">Mount Doonerak &amp; Mount Igikpak</span><span class="conc-type">Two other major Brooks Range climbing objectives, also accessed by float plane</span><span class="conc-hrs">Technical</span></div>
+          <div class="conc-row"><span class="conc-name">Fixed Anchors</span><span class="conc-type">Wilderness rules bar new bolts or fixed anchors without a special-use permit reviewed by the superintendent</span><span class="conc-hrs">Permit required</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Target Species</span><span class="conc-type">Arctic grayling is most widespread; lake trout, arctic char, northern pike, sheefish and whitefish are also present</span><span class="conc-hrs">Hook &amp; line only</span></div>
+          <div class="conc-row"><span class="conc-name">Open-Water Season</span><span class="conc-type">Ice locks up park waters from roughly mid-October to late June, leaving a short open-water window</span><span class="conc-hrs">Late Jun&ndash;Oct</span></div>
+          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">A State of Alaska fishing license is required, sold in Fairbanks, Bettles, Coldfoot or online through ADF&amp;G</span><span class="conc-hrs">AK license req.</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hunting<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Sport Hunting</span><span class="conc-type">Permitted only in the National Preserve, not the National Park; hunters must be 16+ with a valid Alaska license</span><span class="conc-hrs">Preserve only</span></div>
+          <div class="conc-row"><span class="conc-name">Subsistence Hunting</span><span class="conc-type">Allowed in both the park and preserve for qualifying local rural residents with customary-use eligibility</span><span class="conc-hrs">Local residents</span></div>
+        </div>
+      </details>
+    </div>
+    </div>
+  </details>
+
   <!-- Wild & Scenic Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-rivers">
     <summary><span class="sa-title"><span class="sa-icon">🌊</span>Wild &amp; Scenic Rivers</span><span class="sa-badge">6 designated rivers</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -525,7 +600,7 @@
   </details>
 
   <!-- Caribou Migration -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-caribou">
     <summary><span class="sa-title"><span class="sa-icon">🦌</span>Caribou Migration</span><span class="sa-badge">Western Arctic Herd</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -536,7 +611,7 @@
   </details>
 
   <!-- Camping & Permits -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping &amp; Permits</span><span class="sa-badge ok">No permit required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -716,6 +791,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

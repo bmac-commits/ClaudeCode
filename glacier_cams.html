@@ -412,11 +412,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--ice-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -430,6 +430,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -1099,6 +1104,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--ice); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1273,6 +1289,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🐻</div><div class="glance-val danger">Active</div><div class="glance-lbl">Bear country</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val ok">Open 24/7</div><div class="glance-lbl">Main access</div></div>
@@ -1311,8 +1328,21 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>52%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">🐻 Bear Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Road</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-streams" class="quicknav-link" data-target="sec-streams">🌊 Stream Flow</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Night Sky</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+  </nav>
+
   <!-- Grizzly Country & Road Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">🐻</span>Grizzly Country &amp; Road Safety</span><span class="sa-badge danger">Bear spray required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1323,7 +1353,7 @@
   </details>
 
   <!-- Park Entrance & Going-to-the-Sun Road -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Going-to-the-Sun Road</span><span class="sa-badge">Open · check dates</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1383,7 +1413,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge">13 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1547,7 +1577,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">6 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1580,8 +1610,71 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Highline Trail</span><span class="conc-type">Exposed traverse along the Garden Wall from Logan Pass to The Loop, with an optional spur to Grinnell Glacier Overlook</span><span class="conc-hrs">11.8 mi one-way · 2,388 ft gain · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Hidden Lake Overlook</span><span class="conc-type">Boardwalk climb behind the Logan Pass Visitor Center through alpine meadows frequented by mountain goats</span><span class="conc-hrs">2.6 mi RT · 608 ft gain · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Avalanche Lake</span><span class="conc-type">Forested climb from Trail of the Cedars to a turquoise lake ringed by waterfalls</span><span class="conc-hrs">4.6 mi RT · 741 ft gain · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Grinnell Glacier</span><span class="conc-type">Many Glacier's signature hike to views of Grinnell Glacier, Grinnell Lake &amp; the Garden Wall; trailhead parking fills by 7 AM in July–Aug</span><span class="conc-hrs">~10 mi RT · 2,596 ft gain · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Boat Tours<span class="conc-count">4 lakes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Many Glacier</span><span class="conc-type">Narrated cruise across Swiftcurrent Lake &amp; Lake Josephine; optional guided hike to Grinnell Glacier</span><span class="conc-hrs">Glacier Park Boat Co. · Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Two Medicine</span><span class="conc-type">Cruise across Two Medicine Lake with an optional guided hike; running during 2026 construction</span><span class="conc-hrs">Glacier Park Boat Co. · Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Rising Sun</span><span class="conc-type">Narrated cruise on St. Mary Lake with an optional guided hike</span><span class="conc-hrs">Glacier Park Boat Co. · Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Lake McDonald</span><span class="conc-type">Cruise on the park's largest lake, departing near Lake McDonald Lodge</span><span class="conc-hrs">Glacier Park Boat Co. · Seasonal</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">3 locations</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Many Glacier</span><span class="conc-type">Guided trail rides through the Many Glacier valley</span><span class="conc-hrs">Swan Mountain Outfitters · Summer</span></div>
+          <div class="conc-row"><span class="conc-name">Lake McDonald</span><span class="conc-type">Guided rides near the park's largest lake</span><span class="conc-hrs">Swan Mountain Outfitters · Summer</span></div>
+          <div class="conc-row"><span class="conc-name">Apgar</span><span class="conc-type">Guided rides from the west-side hub; drop-camp gear transport available with a backcountry permit</span><span class="conc-hrs">Swan Mountain Outfitters · Summer</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Going-to-the-Sun Road</span><span class="conc-type">Heavily restricted in peak season: eastbound Apgar–Logan Pass banned noon–6 PM, westbound Logan Pass–Apgar banned 3–6 PM</span><span class="conc-hrs">Peak-season hours restricted</span></div>
+          <div class="conc-row"><span class="conc-name">Multi-Use Paths</span><span class="conc-type">Fish Creek Bike Path, the Apgar–Headquarters paved path &amp; other short routes; bikes permitted on all paved &amp; unpaved park roads</span><span class="conc-hrs">Year-round</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">No state license required inside the park, except when fishing the Middle Fork Flathead from park lands, which requires a Montana license</span><span class="conc-hrs">Free · in-park waters</span></div>
+          <div class="conc-row"><span class="conc-name">Season</span><span class="conc-type">Standard stream season runs the third Saturday in May through November 30; lake fishing is open year-round</span><span class="conc-hrs">May 16&ndash;Nov 30 (streams)</span></div>
+          <div class="conc-row"><span class="conc-name">Native Fish Rules</span><span class="conc-type">Native species, especially bull trout, must be released unharmed; only artificial flies &amp; lures permitted in most waters</span><span class="conc-hrs">Catch &amp; release</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Red Bus Tours<span class="conc-count">1 option</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Historic Red Buses</span><span class="conc-type">Xanterra-operated fleet of open-top vintage buses offering narrated tours and scheduled transportation between park lodges</span><span class="conc-hrs">Seasonal · Reservation recommended</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-streams">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>Stream Flow</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" id="anglerGrid">
@@ -1601,7 +1694,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Observatory onsite</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1619,7 +1712,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">6 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1924,6 +2017,14 @@
     if (miniName) miniName.textContent = m.name;
     if (miniIllum) miniIllum.textContent = `${m.illum}% illuminated`;
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();

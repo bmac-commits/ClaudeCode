@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--steel-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,17 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--steel); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -416,6 +428,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">📏</div><div class="glance-val">630 ft</div><div class="glance-lbl">Tallest monument in US</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$15+</div><div class="glance-lbl">Tram to the top</div></div>
@@ -454,8 +467,19 @@
     <div class="busy-note">Peak season is <strong>July</strong>, when around <strong>24%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>September–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-fees" class="quicknav-link" data-target="sec-fees">🎟️ Tickets &amp; Fees</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 River</a>
+    <a href="#sec-arch" class="quicknav-link" data-target="sec-arch">🏛️ Arch &amp; Museum</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-riverboats" class="quicknav-link" data-target="sec-riverboats">🚢 Riverboats</a>
+  </nav>
+
   <!-- Urban Park & River Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Urban Park &amp; River Safety</span><span class="sa-badge danger">Mississippi River currents</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +490,7 @@
   </details>
 
   <!-- Tickets & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fees">
     <summary><span class="sa-title"><span class="sa-icon">🎟️</span>Tickets &amp; Fees</span><span class="sa-badge ok">Grounds free</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -490,7 +514,7 @@
   </details>
 
   <!-- Mississippi River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>Mississippi River</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -515,7 +539,7 @@
   </details>
 
   <!-- The Arch & Museum -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-arch">
     <summary><span class="sa-title"><span class="sa-icon">🏛️</span>The Arch &amp; Museum</span><span class="sa-badge">2 attractions</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -541,8 +565,43 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">3 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Walking the Grounds<span class="conc-count">on foot</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Grand Staircase</span><span class="conc-type">About 65 steps connecting the Arch grounds down to Leonor K. Sullivan Boulevard along the riverfront</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Accessible Ramps</span><span class="conc-type">Two ramps provide a step-free route between the riverfront boulevard and the Arch grounds</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Grounds Paths</span><span class="conc-type">Paved, fully accessible paths cross the landscaped grounds past ponds and trees; leashed pets are welcome</span><span class="conc-hrs">Free</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking &amp; Riverfront Trail<span class="conc-count">self-guided</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Riverfront Trail</span><span class="conc-type">Separated biking and accessible walking path along Leonor K. Sullivan Boulevard, built by Great Rivers Greenway as part of the CityArchRiver project</span><span class="conc-hrs">1.5 mi segment</span></div>
+          <div class="conc-row"><span class="conc-name">Regional Bike Network</span><span class="conc-type">NPS points cyclists to route-planning resources from Great Rivers Greenway, Trailnet &amp; Bike St. Louis for rides connecting beyond the grounds</span><span class="conc-hrs">Self-guided</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Junior Ranger Program<span class="conc-count">ages 5+</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Arch &amp; Old Courthouse Badges</span><span class="conc-type">Free activity booklets available at the Arch visitor center and in the Old Courthouse rotunda; each site has its own badge</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Online Junior Ranger</span><span class="conc-type">An at-home version of the program for visitors who can't complete it in person</span><span class="conc-hrs">Free, online</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Riverfront & Riverboats -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-riverboats">
     <summary><span class="sa-title"><span class="sa-icon">🚢</span>Riverfront &amp; Riverboats</span><span class="sa-badge">Concessioner cruises</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -759,6 +818,15 @@
     }
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--sawgrass-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -251,6 +252,17 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--green); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -425,6 +437,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🐊</div><div class="glance-val">Gators + crocs</div><div class="glance-lbl">Only coexist here</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$35</div><div class="glance-lbl">Vehicle · 7 days</div></div>
@@ -463,8 +476,19 @@
     <div class="busy-note">Peak season is <strong>January–March</strong>, when around <strong>37%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>September–October</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">🐊 Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Entrance &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-conditions" class="quicknav-link" data-target="sec-conditions">💧 Conditions</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🚲 Things to Do</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Live Cams</a>
+  </nav>
+
   <!-- Wildlife & Hazard Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">🐊</span>Wildlife &amp; Hazard Safety</span><span class="sa-badge danger">Alligators, heat, mosquitoes</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -475,7 +499,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">3 entrances</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="traffic-grid">
@@ -510,67 +534,8 @@
     </div>
   </details>
 
-  <!-- EDEN Water Level -->
-  <details class="section-accordion">
-    <summary><span class="sa-title"><span class="sa-icon">💧</span>Water Level — EDEN Station 3</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
-    <div class="sa-body">
-    <div class="gauge-widget">
-      <div class="gauge-title"><span class="gauge-live-dot" id="gaugeLiveDot"></span>Everglades Depth Estimation Network — Site 253044080555900</div>
-      <div class="gauge-stats">
-        <div class="gauge-stat">
-          <span class="gauge-stat-label">Gauge Height</span>
-          <span class="gauge-stat-val" id="gaugeHeight">--<span class="gauge-stat-unit"> ft</span></span>
-        </div>
-        <div class="gauge-stat">
-          <span class="gauge-stat-label">Last Reading</span>
-          <span class="gauge-stat-val" id="gaugeTime" style="font-size: 0.82rem;">--</span>
-        </div>
-      </div>
-      <div class="gauge-footer">Water levels across the Everglades shift daily with rainfall and water management releases — this reading reflects real-time depth at one of NPS/USGS's EDEN network sites. <a href="https://waterdata.usgs.gov/monitoring-location/253044080555900/" target="_blank">Full USGS station data ↗</a></div>
-    </div>
-    </div>
-  </details>
-
-  <!-- Anhinga Trail Webcam -->
-  <details class="section-accordion">
-    <summary><span class="sa-title"><span class="sa-icon">📷</span>Anhinga Trail Webcam</span><span class="sa-badge">External link</span><span class="sa-chevron">▾</span></summary>
-    <div class="sa-body">
-    <a class="cam-link-card" href="https://www.nps.gov/ever/learn/photosmultimedia/anhinga-trail-webcam.htm" target="_blank">
-      <span class="cam-link-icon">🎥</span>
-      <div>
-        <div class="cam-link-title">Watch the Anhinga Trail Webcam on NPS.gov</div>
-        <div class="cam-link-desc">This camera's live image updates via a dynamic URL controlled by NPS, not a stable direct link — so it's linked out here rather than embedded, to make sure it always shows a current image instead of a stale or broken one.</div>
-      </div>
-      <span class="cam-link-arrow">↗</span>
-    </a>
-    </div>
-  </details>
-
-  <!-- Shark Valley -->
-  <details class="section-accordion">
-    <summary><span class="sa-title"><span class="sa-icon">🚲</span>Shark Valley</span><span class="sa-badge">15-mile loop</span><span class="sa-chevron">▾</span></summary>
-    <div class="sa-body">
-    <div class="conc-accordion">
-      <details class="conc-group">
-        <summary class="conc-summary">Loop Road Access<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
-        <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Tram Tour</span><span class="conc-type">Guided, 2-hour narrated tours — concessioner-operated, reservations recommended</span></div>
-          <div class="conc-row"><span class="conc-name">Bicycle</span><span class="conc-type">Rentals available at the visitor center; most popular way to do the loop</span></div>
-          <div class="conc-row"><span class="conc-name">On Foot</span><span class="conc-type">Full 15-mile loop is a long walk but permitted</span></div>
-        </div>
-      </details>
-      <details class="conc-group">
-        <summary class="conc-summary">Observation Tower<span class="conc-count">landmark</span><span class="conc-chevron">▾</span></summary>
-        <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Halfway Point</span><span class="conc-type">Spiral concrete tower with sweeping views over the sawgrass prairie — the loop's signature landmark</span></div>
-        </div>
-      </details>
-    </div>
-    </div>
-  </details>
-
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">3 frontcountry areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -591,6 +556,106 @@
       </details>
     </div>
     <a class="transport-link" href="https://www.nps.gov/ever/planyourvisit/campgrounds.htm" target="_blank">Full campground details on NPS.gov ↗</a>
+    </div>
+  </details>
+
+  <!-- Current Conditions: Water Level -->
+  <details class="section-accordion" id="sec-conditions">
+    <summary><span class="sa-title"><span class="sa-icon">💧</span>Current Conditions &middot; Water Level (EDEN)</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="gauge-widget">
+      <div class="gauge-title"><span class="gauge-live-dot" id="gaugeLiveDot"></span>Everglades Depth Estimation Network — Site 253044080555900</div>
+      <div class="gauge-stats">
+        <div class="gauge-stat">
+          <span class="gauge-stat-label">Gauge Height</span>
+          <span class="gauge-stat-val" id="gaugeHeight">--<span class="gauge-stat-unit"> ft</span></span>
+        </div>
+        <div class="gauge-stat">
+          <span class="gauge-stat-label">Last Reading</span>
+          <span class="gauge-stat-val" id="gaugeTime" style="font-size: 0.82rem;">--</span>
+        </div>
+      </div>
+      <div class="gauge-footer">Water levels across the Everglades shift daily with rainfall and water management releases — this reading reflects real-time depth at one of NPS/USGS's EDEN network sites. <a href="https://waterdata.usgs.gov/monitoring-location/253044080555900/" target="_blank">Full USGS station data ↗</a></div>
+    </div>
+    </div>
+  </details>
+
+  <!-- Things to Do: Shark Valley -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+      <details class="conc-group">
+        <summary class="conc-summary">Loop Road Access<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Tram Tour</span><span class="conc-type">Guided, 2-hour narrated tours — concessioner-operated, reservations recommended</span></div>
+          <div class="conc-row"><span class="conc-name">Bicycle</span><span class="conc-type">Rentals available at the visitor center; most popular way to do the loop</span></div>
+          <div class="conc-row"><span class="conc-name">On Foot</span><span class="conc-type">Full 15-mile loop is a long walk but permitted</span></div>
+        </div>
+      </details>
+      <details class="conc-group">
+        <summary class="conc-summary">Observation Tower<span class="conc-count">landmark</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Halfway Point</span><span class="conc-type">Spiral concrete tower with sweeping views over the sawgrass prairie — the loop's signature landmark</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Anhinga Trail</span><span class="conc-type">Paved/boardwalk loop through sawgrass marsh and sloughs — alligators, anhingas &amp; wading birds right off the boardwalk; near Royal Palm</span><span class="conc-hrs">0.8 mi RT · Easy · Wheelchair accessible</span></div>
+          <div class="conc-row"><span class="conc-name">Gumbo Limbo Trail</span><span class="conc-type">Paved path through a shaded tropical hardwood hammock, steps from the Anhinga trailhead</span><span class="conc-hrs">0.4 mi RT · Easy · Wheelchair accessible</span></div>
+          <div class="conc-row"><span class="conc-name">Pa-hay-okee Overlook</span><span class="conc-type">Boardwalk loop to a raised platform with sweeping views over the sawgrass &quot;river of grass&quot;</span><span class="conc-hrs">0.16 mi RT · Easy · Wheelchair accessible</span></div>
+          <div class="conc-row"><span class="conc-name">Mahogany Hammock Trail</span><span class="conc-type">Boardwalk loop into a tree-island hardwood hammock — a jungle-like pocket surrounded by open prairie</span><span class="conc-hrs">0.5 mi RT · Easy · Wheelchair accessible</span></div>
+          <div class="conc-row"><span class="conc-name">West Lake Trail</span><span class="conc-type">Boardwalk loop through mangrove &amp; buttonwood forest to the edge of West Lake, 7 mi north of Flamingo</span><span class="conc-hrs">0.5 mi RT · Easy · Wheelchair accessible</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Paddling — Canoe &amp; Kayak Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Nine Mile Pond</span><span class="conc-type">Marked loop through sawgrass ponds &amp; dwarf cypress, route follows numbered poles; motors prohibited</span><span class="conc-hrs">5-mi loop (3.5-mi shortcut)</span></div>
+          <div class="conc-row"><span class="conc-name">Noble Hammock</span><span class="conc-type">Tight, twisting loop through a maze of small hammocks — good maneuvering skills required; motors prohibited</span><span class="conc-hrs">1.9-mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Hell's Bay</span><span class="conc-type">Mangrove tunnels &amp; open bays toward Lard Can; motors prohibited from the trailhead to Lard Can; overnight camping requires a wilderness permit</span><span class="conc-hrs">Variable distance</span></div>
+          <div class="conc-row"><span class="conc-name">Wilderness Waterway</span><span class="conc-type">Marked backcountry route linking Flamingo to Everglades City through Florida Bay &amp; the Ten Thousand Islands; overnight camping requires a wilderness permit</span><span class="conc-hrs">99 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Long Pine Key Trail</span><span class="conc-type">Dirt path through pine rockland ending at Pine Glades Lake; trailhead off the road to Long Pine Key Campground</span><span class="conc-hrs">14 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">L-67 Extension Trail</span><span class="conc-type">Gravel-and-grass road paralleling a canal, about 5 miles east of Shark Valley</span><span class="conc-hrs">6.4 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Rowdy Bend Trail</span><span class="conc-type">Former overgrown roadbed through woodland near Flamingo — good birdwatching</span><span class="conc-hrs">5.2 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Snake Bight Trail</span><span class="conc-type">Multiple ecosystems en route to a birding boardwalk near Flamingo; bikes not permitted on the boardwalk itself</span><span class="conc-hrs">3.2 mi RT</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Boat &amp; Airboat Tours<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Airboat Tours</span><span class="conc-type">Coopertown, Everglades Safari Park &amp; Gator Park are the only concessioners authorized to launch into the park, from the south side of Tamiami Trail near Shark Valley — the NPS does not operate airboats itself</span><span class="conc-hrs">Concessioner</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Boat Tour</span><span class="conc-type">Narrated cruise up the Buttonwood Canal through Coot Bay &amp; Tarpon Creek into Whitewater Bay — departs Flamingo Marina</span><span class="conc-hrs">90 min</span></div>
+          <div class="conc-row"><span class="conc-name">Florida Bay Boat Tour</span><span class="conc-type">Narrated cruise from Flamingo Marina out into Florida Bay</span><span class="conc-hrs">90 min</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
+  <!-- Live Cameras: Anhinga Trail -->
+  <details class="section-accordion" id="sec-cameras">
+    <summary><span class="sa-title"><span class="sa-icon">📷</span>Live Cameras &middot; Anhinga Trail</span><span class="sa-badge">External link</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <a class="cam-link-card" href="https://www.nps.gov/ever/learn/photosmultimedia/anhinga-trail-webcam.htm" target="_blank">
+      <span class="cam-link-icon">🎥</span>
+      <div>
+        <div class="cam-link-title">Watch the Anhinga Trail Webcam on NPS.gov</div>
+        <div class="cam-link-desc">This camera's live image updates via a dynamic URL controlled by NPS, not a stable direct link — so it's linked out here rather than embedded, to make sure it always shows a current image instead of a stale or broken one.</div>
+      </div>
+      <span class="cam-link-arrow">↗</span>
+    </a>
     </div>
   </details>
 
@@ -786,6 +851,14 @@
       if (dot) dot.style.background = '#c05a4a';
     }
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   loadWeather();
   loadAQI();
