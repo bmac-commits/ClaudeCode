@@ -181,11 +181,12 @@
     /* ── Main content ── */
     main { padding: 20px 24px 40px; }
     .section-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text);
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--columbine-light);
       margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     /* ── Camera Grid ── */
     .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; }
@@ -453,6 +454,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--columbine); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -627,6 +639,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">⚡</div><div class="glance-val danger">High</div><div class="glance-lbl">Lightning risk</div></div>
     <div class="glance-item"><div class="glance-icon">🎫</div><div class="glance-val">Required</div><div class="glance-lbl">Timed entry May–Oct</div></div>
@@ -665,8 +678,20 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>37%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Lightning & Altitude Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Lightning &amp; Altitude Safety</span><span class="sa-badge danger">Above treeline risk</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -689,7 +714,7 @@
   </details>
 
   <!-- Timed Entry & Park Entrances -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Timed Entry &amp; Park Entrances</span><span class="sa-badge ok">3 entrances · $35</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -755,7 +780,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">5 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -825,7 +850,7 @@
   </details>
 
   <!-- Landmarks & Trailheads -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">10 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -862,8 +887,68 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Sky Pond</span><span class="conc-type">High alpine tarn beneath jagged spires, reached via Glacier Gorge past The Loch and Timberline Falls</span><span class="conc-hrs">9.8 mi RT · 1,710 ft</span></div>
+          <div class="conc-row"><span class="conc-name">The Loch</span><span class="conc-type">Subalpine lake and popular turnaround point along the Glacier Gorge trail system</span><span class="conc-hrs">6 mi RT · 990 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Chasm Lake</span><span class="conc-type">Cirque lake at the base of Longs Peak's East Face, from the Longs Peak Trailhead</span><span class="conc-hrs">8.4 mi RT · 2,360 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Mills Lake</span><span class="conc-type">Glacier Gorge destination lake with views toward Longs Peak</span><span class="conc-hrs">5.6 mi RT · 750 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Gem Lake</span><span class="conc-type">Short, steep climb past granite outcrops from the Lumpy Ridge Trailhead</span><span class="conc-hrs">3.2 mi RT · 1,000 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Twin Sisters Peak</span><span class="conc-type">Switchback climb to a summit with sweeping views of Longs Peak</span><span class="conc-hrs">7.4 mi RT · 2,338 ft</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing — Elk Rut<span class="conc-count">4 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Fall Rut Season</span><span class="conc-type">Elk descend from the high country to montane meadows for the autumn breeding season; the park manages winter herds of 600–800 in low-elevation valleys</span><span class="conc-hrs">Sept–Oct</span></div>
+          <div class="conc-row"><span class="conc-name">Best Viewing Meadows</span><span class="conc-type">Horseshoe Park, Moraine Park, Upper Beaver Meadows, Harbison Meadow &amp; Holzwarth Meadow</span><span class="conc-hrs">Dawn &amp; dusk</span></div>
+          <div class="conc-row"><span class="conc-name">Viewing Distance</span><span class="conc-type">NPS recommends staying at least two bus-lengths away — if you can't hide the animal behind your thumb at arm's length, back away</span><span class="conc-hrs">75 ft min.</span></div>
+          <div class="conc-row"><span class="conc-name">Meadow Closures</span><span class="conc-type">Rut-season meadows close to off-trail foot &amp; horse travel from 5 PM–10 AM daily, Sept 1–Oct 31</span><span class="conc-hrs">5 PM–10 AM</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">4 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">Valid Colorado fishing license required for anglers 16 &amp; older; kids 12 &amp; under may use bait where fishing is open</span><span class="conc-hrs">CO license req.</span></div>
+          <div class="conc-row"><span class="conc-name">Species</span><span class="conc-type">Brown, brook, rainbow &amp; cutthroat trout (Colorado River &amp; Yellowstone subspecies); most high-alpine lakes lack reproducing populations</span><span class="conc-hrs">4 trout species</span></div>
+          <div class="conc-row"><span class="conc-name">Catch-and-Release Waters</span><span class="conc-type">Adams Lake, Big Thompson River, Dream Lake, Fern Lake &amp; Ouzel Lake</span><span class="conc-hrs">C&amp;R only</span></div>
+          <div class="conc-row"><span class="conc-name">Closed Waters</span><span class="conc-type">Bear Lake &amp; Lake Nanita closed to fishing to protect spawning habitat</span><span class="conc-hrs">Closed</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">3 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Private Stock</span><span class="conc-type">Horses, mules, ponies, llamas &amp; burros permitted on roughly 260 of the park's 350+ trail miles</span><span class="conc-hrs">~260 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Guided Rides</span><span class="conc-type">Glacier Creek Stables is the park's sole in-park concessioner; outside outfitters run seasonally from Estes Park &amp; Grand Lake</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Above-Treeline Closures</span><span class="conc-type">Flattop Mountain, Tonahutu Creek &amp; North Inlet trails closed to stock above treeline</span><span class="conc-hrs">Mid-Oct–Aug 1</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Snowshoeing</span><span class="conc-type">Open on most park trails above 9,000 ft when snow conditions allow; no training needed beyond hiking</span><span class="conc-hrs">Above 9,000 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing</span><span class="conc-type">Best in Kawuneeche Valley on the west side; no groomed trails, so skis suited to ungroomed terrain are needed</span><span class="conc-hrs">Kawuneeche Valley</span></div>
+          <div class="conc-row"><span class="conc-name">Sledding — Hidden Valley</span><span class="conc-type">The park's only sanctioned sledding area, 7 mi from the Beaver Meadows &amp; Fall River entrances; no metal-runner sleds, no in-park rentals</span><span class="conc-hrs">Mid-Jan–mid-Mar</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- River Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions</span><span class="sa-badge ok">2 live gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -893,7 +978,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">Not yet certified</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1399,6 +1484,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

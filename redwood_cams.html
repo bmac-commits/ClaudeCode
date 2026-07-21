@@ -412,11 +412,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--forest-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -430,6 +430,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1240,6 +1245,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--forest); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1414,6 +1430,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🛣️</div><div class="glance-val">Narrow roads</div><div class="glance-lbl">Access notice</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">Free entry</div><div class="glance-lbl">NP fee status</div></div>
@@ -1452,8 +1469,21 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>40%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–March</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-notices" class="quicknav-link" data-target="sec-notices">🛣️ Access Notices</a>
+    <a href="#sec-fees" class="quicknav-link" data-target="sec-fees">🪧 Access &amp; Fees</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Groves</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stores" class="quicknav-link" data-target="sec-stores">🍽️ Park Stores</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Access Notices -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-notices">
     <summary><span class="sa-title"><span class="sa-icon">🛣️</span>Access Notices</span><span class="sa-badge">Roads &amp; permits</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 10px;">
@@ -1468,7 +1498,7 @@
   </details>
 
   <!-- Access & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fees">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Access &amp; Fees</span><span class="sa-badge ok">NP free · SP $8–12</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1530,7 +1560,7 @@
   </details>
 
   <!-- Rivers / Live Gauge Data -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions · Redwood Creek</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid">
@@ -1563,7 +1593,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">4 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1629,7 +1659,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Groves</span><span class="sa-badge">16 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1684,8 +1714,55 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Tall Trees Grove Trail</span><span class="conc-type">Descends to a floodplain grove of some of the tallest redwoods on Earth along Redwood Creek</span><span class="conc-hrs">4.5 mi RT · 1,600 ft · Permit req.</span></div>
+          <div class="conc-row"><span class="conc-name">Fern Canyon Loop Trail</span><span class="conc-type">Short loop past 30&ndash;50 ft fern-draped canyon walls along Home Creek at Gold Bluffs Beach</span><span class="conc-hrs">1 mi loop · 150 ft · Seasonal permit</span></div>
+          <div class="conc-row"><span class="conc-name">James Irvine Trail to Fern Canyon</span><span class="conc-type">Longer old-growth approach to Fern Canyon from Prairie Creek Visitor Center &mdash; no reservation needed</span><span class="conc-hrs">12 mi loop · 200+ ft · No permit</span></div>
+          <div class="conc-row"><span class="conc-name">Trillium Falls Trail</span><span class="conc-type">Old-growth loop past a small waterfall, starting at Elk Meadow Day Use Area</span><span class="conc-hrs">2.5 mi loop</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Scenic Drives<span class="conc-count">3 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Howland Hill Road</span><span class="conc-type">Unpaved backcountry route through old-growth redwoods in Jedediah Smith Redwoods SP; not suited for RVs or trailers</span><span class="conc-hrs">10 mi one-way</span></div>
+          <div class="conc-row"><span class="conc-name">Coastal Drive Loop</span><span class="conc-type">Ocean-bluff loop above the coast near Klamath; not suitable for RVs or trailers north of High Bluff</span><span class="conc-hrs">9 mi RT</span></div>
+          <div class="conc-row"><span class="conc-name">Bald Hills Road</span><span class="conc-type">Mostly-unpaved climb past the Tall Trees trailhead turnoff; RVs/trailers not advised</span><span class="conc-hrs">17 mi one-way</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">4 routes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Newton B. Drury Scenic Parkway</span><span class="conc-type">Paved, mostly-flat route through old-growth redwoods; closed to cars first Saturday of the month, Oct&ndash;May</span><span class="conc-hrs">10 mi one-way</span></div>
+          <div class="conc-row"><span class="conc-name">Ossagon Trail Loop</span><span class="conc-type">Combines the Ossagon Trail, Coastal Trail &amp; Davison Road for a full-day backcountry ride; e-bikes prohibited</span><span class="conc-hrs">19 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Lost Man Creek Trail</span><span class="conc-type">Moderate old-growth climb north of Orick; can extend onto Bald Hills Road for a longer loop</span><span class="conc-hrs">11 mi · up to 20.5 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Coastal Trail &mdash; Last Chance Section</span><span class="conc-type">Steep, switchbacked stretch of the Coastal Trail open to bikes; e-bikes prohibited</span><span class="conc-hrs">6 mi</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Coastal &amp; Water Activities<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ranger-Led Smith River Kayak Tour</span><span class="conc-type">Tandem inflatable kayak trip through Class I&ndash;II water with a park ranger, departing Jedediah Smith Day Use Area</span><span class="conc-hrs">3 mi · Summer · Reservation req.</span></div>
+          <div class="conc-row"><span class="conc-name">Tidepooling at Enderts Beach</span><span class="conc-type">Colorful tidepools reachable via a short walk near Crescent City &mdash; check tide tables before heading down</span><span class="conc-hrs">1 mi walk</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stores">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Park Stores</span><span class="sa-badge">5 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1711,7 +1788,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">No IDA tier</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -2220,6 +2297,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

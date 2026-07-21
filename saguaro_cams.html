@@ -231,11 +231,11 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--saguaro-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -244,6 +244,8 @@
       gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -530,6 +532,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--saguaro); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -705,6 +718,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🚗</div><div class="glance-val danger">2 districts</div><div class="glance-lbl">Not connected</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">$25</div><div class="glance-lbl">7-day fee</div></div>
@@ -742,8 +756,20 @@
     <div class="busy-note">Peak season is <strong>February–March</strong>, when around <strong>30%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>May–October</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-districts" class="quicknav-link" data-target="sec-districts">🚗 Two Districts</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Access &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Concessions</a>
+  </nav>
+
   <!-- Two Districts Logistics -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-districts">
     <summary><span class="sa-title"><span class="sa-icon">🚗</span>Two Separate Districts — Not Connected</span><span class="sa-badge danger">30 mi apart</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -758,7 +784,7 @@
   </details>
 
   <!-- Park Access & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">$25 · both districts</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -803,7 +829,7 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Backcountry Camping</span><span class="sa-badge">6 sites · hike-in only</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -878,7 +904,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">4 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -903,8 +929,65 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking — Rincon Mountain District (East)<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Freeman Homestead Trail</span><span class="conc-type">Short interpretive loop past a historic homestead site, with signs geared toward kids</span><span class="conc-hrs">1 mi loop · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Loma Verde Loop</span><span class="conc-type">Rolling desert loop winding through dense saguaro forest on the valley floor</span><span class="conc-hrs">3.8 mi · 60 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Hope Camp &amp; Ridgeview Trail</span><span class="conc-type">Climbs to overlooks above Wildhorse Tank with valley and mountain views</span><span class="conc-hrs">2 mi · 400 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Garwood Dam &amp; Wildhorse Tank</span><span class="conc-type">Longer desert loop past a historic earthen dam, with one steep climbing section</span><span class="conc-hrs">6.4 mi · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Douglas Spring Trail</span><span class="conc-type">Rugged approach into the Rincon high country; can be shortened by turning around at Three Tank Trail Junction</span><span class="conc-hrs">4.9&ndash;17.2 mi RT · up to 2,200 ft · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Tanque Verde Ridge Trail</span><span class="conc-type">Exposed ridge climb from Javelina Picnic Area, with shorter overlook options at 0.25 and 0.75 mi</span><span class="conc-hrs">0.75&ndash;8.7 mi · up to 4,000 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking — Tucson Mountain District (West)<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Signal Hill Petroglyphs</span><span class="conc-type">Short walk up to over 200 Hohokam petroglyphs, the park's largest rock-art site</span><span class="conc-hrs">~0.3 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Valley View Overlook Trail</span><span class="conc-type">Easy stroll off Bajada Loop Drive to a classic saguaro-forest view of Avra Valley</span><span class="conc-hrs">~0.8 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Wild Dog Trail</span><span class="conc-type">Rolling desert trail with an optional half-mile add-on to Signal Hill Road</span><span class="conc-hrs">1.8 mi (+0.5 mi option) · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">King Canyon / Gould Mine Loop</span><span class="conc-type">Passes historic mine ruins on rocky, stair-stepped terrain</span><span class="conc-hrs">2.4 mi · 380 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Sendero Esperanza Trail to Wasson Peak</span><span class="conc-type">Climbs to the highest point in the Tucson Mountains, with a shorter ridge option</span><span class="conc-hrs">3.4&ndash;8 mi · up to 1,600 ft · Mod.&ndash;Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Scenic Loop Drives<span class="conc-count">2 drives</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cactus Forest Drive</span><span class="conc-type">Paved loop through the East district's densest saguaro stands, with pullouts and trailheads; narrow with tight turns and steep hills</span><span class="conc-hrs">8 mi loop · Paved · East</span></div>
+          <div class="conc-row"><span class="conc-name">Bajada Loop Drive</span><span class="conc-type">Graded dirt loop through the West district's lower desert, passing Valley View Overlook and Signal Hill; no high-clearance or 4WD needed</span><span class="conc-hrs">6 mi loop · Unpaved · West</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">2 districts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cactus Forest Drive &amp; Trail (East)</span><span class="conc-type">Bikes share the paved loop drive plus a dedicated multi-use trail; Hope Camp Trail is also open to bikes</span><span class="conc-hrs">8 mi drive + 2.5&ndash;2.9 mi trails</span></div>
+          <div class="conc-row"><span class="conc-name">Bajada Loop Drive &amp; Trails (West)</span><span class="conc-type">Bikes allowed on the loop drive and paved roads; singletrack limited to the Belmont and Golden Gate multi-use trails</span><span class="conc-hrs">6 mi drive + up to 2.5 mi trails</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding &amp; Stock Use<span class="conc-count">2 districts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Rincon Mountain District (East)</span><span class="conc-type">Off-trail riding is prohibited and several trails (including Tanque Verde Ridge &amp; Desert Ecology Trail) are closed to stock; trailer parking at Wild Horse Trailhead</span><span class="conc-hrs">Rules vary by trail</span></div>
+          <div class="conc-row"><span class="conc-name">Tucson Mountain District (West)</span><span class="conc-type">Stock groups capped at 15 animals with off-trail travel prohibited; designated trailer parking at Cam Boh, El Camino del Cerro &amp; Sendero Esperanza trailheads</span><span class="conc-hrs">Groups &le;15</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Urban Night Sky Place</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -922,7 +1005,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">2 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1193,6 +1276,15 @@
     startCountdown();
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

@@ -412,11 +412,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--gold-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -430,6 +430,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     @media (max-width: 900px) {
@@ -992,6 +997,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--gold); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1166,6 +1182,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🚧</div><div class="glance-val danger">Don't connect</div><div class="glance-lbl">Two entrances</div></div>
     <div class="glance-item"><div class="glance-icon">🕳️</div><div class="glance-val danger">1 closed</div><div class="glance-lbl">Cave status</div></div>
@@ -1203,8 +1220,20 @@
     <div class="busy-note">Peak season is <strong>March–May</strong>, when around <strong>33%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>August–October</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🚧 Entrances &amp; Fees</a>
+    <a href="#sec-caves" class="quicknav-link" data-target="sec-caves">🕳️ Cave Status</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campground</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks &amp; Trails</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+  </nav>
+
   <!-- Two Entrances Warning — CRITICAL -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🚧</span>Two Entrances — They Do NOT Connect</span><span class="sa-badge danger">No connecting road</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1256,7 +1285,7 @@
   </details>
 
   <!-- Cave Status -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-caves">
     <summary><span class="sa-title"><span class="sa-icon">🕳️</span>Cave Status</span><span class="sa-badge danger">1 of 2 closed</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1283,7 +1312,7 @@
   </details>
 
   <!-- Campground -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground</span><span class="sa-badge ok">134 sites</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1309,7 +1338,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">2 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1333,7 +1362,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1363,8 +1392,41 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">2 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">7 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Moses Spring to Rim Trail Loop</span><span class="conc-type">Short loop past Bear Gulch Reservoir and the talus-cave rock formations, east side</span><span class="conc-hrs">2.2 mi RT · 500 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Condor Gulch to High Peaks Loop</span><span class="conc-type">Panoramic High Peaks views with condor-viewing opportunities along a steep, narrow corridor</span><span class="conc-hrs">5.3 mi RT · 1,300 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">High Peaks to Bear Gulch Loop</span><span class="conc-type">Classic loop connecting the High Peaks spires with Bear Gulch Reservoir; wildflowers in spring</span><span class="conc-hrs">6.7 mi RT · 1,425 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Old Pinnacles Trail to Balconies Cave</span><span class="conc-type">Popular east-side approach past the Machete Ridge rock formations; flashlight needed in the cave</span><span class="conc-hrs">5.3 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Balconies Cliffs–Cave Loop</span><span class="conc-type">West-side loop featuring Balconies Cave exploration</span><span class="conc-hrs">2.4 mi RT · 100 ft · Easy–Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Juniper Canyon Loop</span><span class="conc-type">Switchback climb from Chaparral to the High Peaks; the primary west-side approach</span><span class="conc-hrs">4.3 mi RT · 1,215 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Chalone Peak Trail</span><span class="conc-type">Longest maintained trail in the park, climbing to the park's high point</span><span class="conc-hrs">9 mi RT · 2,040 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">4 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Named Climbing Areas</span><span class="conc-type">The Balconies, Elephant Rock, Chockstone Dome &amp; Machete Ridge — accessed from the Chaparral parking area on the west side</span><span class="conc-hrs">Volcanic breccia</span></div>
+          <div class="conc-row"><span class="conc-name">Route Types</span><span class="conc-type">Toprope routes suit beginners; multi-pitch routes on formations like Machete Ridge challenge experienced climbers. Rock is notably weak — helmets required</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row"><span class="conc-name">Raptor Nesting Closures</span><span class="conc-type">Sensitive climbing areas close seasonally to protect nesting peregrine &amp; prairie falcons; check current advisories before climbing</span><span class="conc-hrs">Jan–Jul (some areas)</span></div>
+          <div class="conc-row"><span class="conc-name">Guides &amp; Fees</span><span class="conc-type">No separate climbing permit needed; hired guides must hold an NPS-issued guiding permit. Standard park entrance fee applies</span><span class="conc-hrs">No climbing fee</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Gold tier</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1654,6 +1716,14 @@
     loadTwilight();
     startCountdown();
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   loadWeather();
