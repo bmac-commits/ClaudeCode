@@ -280,11 +280,11 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--moss-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -294,6 +294,8 @@
     }
 
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -694,6 +696,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--moss); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -868,6 +881,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🔥</div><div class="glance-val danger">Fire restrictions</div><div class="glance-lbl">Current conditions</div></div>
     <div class="glance-item"><div class="glance-icon">🏔️</div><div class="glance-val">3</div><div class="glance-lbl">Ecosystems</div></div>
@@ -906,8 +920,22 @@
     <div class="busy-note">Peak season is <strong>August</strong>, when around <strong>23%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-conditions" class="quicknav-link" data-target="sec-conditions">🔥 Current Conditions</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Regions &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-rivers" class="quicknav-link" data-target="sec-rivers">🌊 River Conditions</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Live Cams</a>
+  </nav>
+
   <!-- Hurricane Ridge Current Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-conditions">
     <summary><span class="sa-title"><span class="sa-icon">🔥</span>Hurricane Ridge — Current Conditions</span><span class="sa-badge danger">Fire restrictions active</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -922,7 +950,7 @@
   </details>
 
   <!-- Park Regions & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Regions &amp; Fees</span><span class="sa-badge ok">3 regions · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -982,7 +1010,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge ok">5 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1048,7 +1076,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">9 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1090,8 +1118,57 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Hoh River Trail</span><span class="conc-type">Old-growth rainforest route along the Hoh River, flat for the first 13 miles before climbing toward Glacier Meadows below Mount Olympus</span><span class="conc-hrs">17.4 mi one-way · 600&ndash;4,300 ft · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Hurricane Hill Trail</span><span class="conc-type">Paved path from the end of Hurricane Ridge Road to a 360&deg; summit view of the Olympic Range &amp; Vancouver Island</span><span class="conc-hrs">~3 mi RT · 645 ft gain</span></div>
+          <div class="conc-row"><span class="conc-name">Sol Duc Falls Trail</span><span class="conc-type">Level walk through old-growth forest to an overlook of Sol Duc Falls, near the hot springs resort</span><span class="conc-hrs">1 mi RT · Minimal gain</span></div>
+          <div class="conc-row"><span class="conc-name">Ozette Loop (Triangle)</span><span class="conc-type">Boardwalk-and-beach loop from Lake Ozette to the coast via Cape Alava &amp; Sand Point; some headlands need overland routes at high tide</span><span class="conc-hrs">9.2 mi loop · Sea level&ndash;100 ft · Easy · Apr&ndash;Oct</span></div>
+          <div class="conc-row"><span class="conc-name">Marymere Falls Trail</span><span class="conc-type">Old-growth forest walk from Storm King Ranger Station to a 90-ft waterfall near Lake Crescent</span><span class="conc-hrs">0.9 mi one-way</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Beaches &amp; Tidepooling<span class="conc-count">3 spots</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Kalaloch Beach 4</span><span class="conc-type">One of the park's most popular tidepools &mdash; anemones, sea stars &amp; urchins in the rocky pools</span><span class="conc-hrs">Tide under 1 ft best</span></div>
+          <div class="conc-row"><span class="conc-name">Hole in the Wall</span><span class="conc-type">Sea-arch formation reached from Rialto Beach parking; arrive 30+ min before the lowest tide</span><span class="conc-hrs">1.5 mi hike each way</span></div>
+          <div class="conc-row"><span class="conc-name">Ruby Beach</span><span class="conc-type">Sea stacks &amp; driftwood-strewn shoreline, also good for tidepooling at low tide</span><span class="conc-hrs">Coast</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing &amp; Hot Springs<span class="conc-count">4 details</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Sol Duc Hot Springs</span><span class="conc-type">Concession-run mineral soaking pools, plus lodging &amp; camping in the Sol Duc Valley</span><span class="conc-hrs">Late Mar&ndash;late Oct</span></div>
+          <div class="conc-row"><span class="conc-name">License Requirement</span><span class="conc-type">No WA state license needed inside the park, except when fishing the Pacific Ocean from shore; free catch record card required for salmon/steelhead</span><span class="conc-hrs">Ocean shore is the exception</span></div>
+          <div class="conc-row"><span class="conc-name">General Season</span><span class="conc-type">Most rivers &amp; lakes; Lake Ozette &amp; high-elevation lakes open earlier</span><span class="conc-hrs">Jun 1&ndash;Oct 31 · Ozette last Sat in Apr</span></div>
+          <div class="conc-row"><span class="conc-name">Popular Waters</span><span class="conc-type">Hoh, Sol Duc, Bogachiel &amp; Quinault rivers; Lake Crescent (2-oz weight limit) &amp; Lake Ozette</span><span class="conc-hrs">Mostly catch-and-release</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Hurricane Ridge Ski &amp; Snowboard Area</span><span class="conc-type">Two rope tows, a poma lift &amp; a tubing park, run by the volunteer Hurricane Ridge Winter Sports Club</span><span class="conc-hrs">Sat&ndash;Sun &amp; Mon holidays · 10am&ndash;4pm</span></div>
+          <div class="conc-row"><span class="conc-name">Ranger-Led Snowshoe Walks</span><span class="conc-type">Guided walks introducing winter ecology; snowshoes provided</span><span class="conc-hrs">Sat&ndash;Sun 1:30pm · Under 1 mi · 130 ft gain</span></div>
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Routes from open meadows near the ridge to steep backcountry terrain</span><span class="conc-hrs">Check NWAC beyond the ridge</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-rivers">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions</span><span class="sa-badge">4 live gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -1128,7 +1205,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">No IDA tier</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1146,7 +1223,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">4 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1175,7 +1252,7 @@
     </div>
   </details>
 
-  <div class="refresh-bar">
+  <div class="refresh-bar" id="sec-cameras">
     <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feed</div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
       <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
@@ -1611,6 +1688,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   buildGrid();

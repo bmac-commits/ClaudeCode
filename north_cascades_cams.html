@@ -280,11 +280,11 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--turquoise-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -294,6 +294,8 @@
     }
 
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -622,6 +624,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--turquoise); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -795,6 +808,7 @@
 </header>
 
 <main>
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item">
       <div class="glance-icon">❄️</div>
@@ -857,8 +871,20 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>59%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-sr20" class="quicknav-link" data-target="sec-sr20">❄️ SR-20 Closure</a>
+    <a href="#sec-fees" class="quicknav-link" data-target="sec-fees">🪧 Access &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-rivers" class="quicknav-link" data-target="sec-rivers">🌊 Rivers</a>
+    <a href="#sec-stars" class="quicknav-link" data-target="sec-stars">🌙 Night Sky</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+  </nav>
+
   <!-- SR-20 Highway Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-sr20">
     <summary><span class="sa-title"><span class="sa-icon">❄️</span>SR-20 Seasonal Closure</span><span class="sa-badge danger">Winter road closure</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -873,7 +899,7 @@
   </details>
 
   <!-- Park Access & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-fees">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">Free · 3 entry points</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -925,7 +951,7 @@
   </details>
 
   <!-- Campgrounds -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campgrounds</span><span class="sa-badge">6 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1001,7 +1027,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trailheads</span><span class="sa-badge">3 groups</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1032,8 +1058,67 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Thunder Knob Trail</span><span class="conc-type">Popular short climb to a view of Diablo Lake's turquoise water, Mile Post 130</span><span class="conc-hrs">3.7 mi RT · 680 ft · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Diablo Lake Trail</span><span class="conc-type">Forested lakeside route linking Colonial Creek Campground toward Diablo, Mile Post 128</span><span class="conc-hrs">7.6 mi RT · 1,312 ft · Half-day</span></div>
+          <div class="conc-row"><span class="conc-name">Cascade Pass Trail</span><span class="conc-type">Switchbacks to a historic Native American and mining-era pass; trailhead only reachable once Cascade River Road opens, typically late June</span><span class="conc-hrs">7.4 mi RT · 1,700 ft · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Sahale Arm</span><span class="conc-type">Continuation above Cascade Pass to alpine meadows below Sahale Glacier; steep snow can require an ice axe into July</span><span class="conc-hrs">11.8 mi RT · 3,940 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Sourdough Mountain Trail</span><span class="conc-type">Relentless climb to a historic fire lookout high above Diablo Lake, Mile Post 126</span><span class="conc-hrs">10.4 mi RT · 4,870 ft · Difficult</span></div>
+          <div class="conc-row"><span class="conc-name">Easy Pass Trail</span><span class="conc-type">Steep trail to a mountain pass with panoramic vistas, Mile Post 151</span><span class="conc-hrs">7.4 mi RT · 3,000 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mountaineering &amp; Climbing<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Forbidden Peak — West Ridge</span><span class="conc-type">Classic technical alpine rock route and one of the park's best-known objectives</span><span class="conc-hrs">Technical · Permit</span></div>
+          <div class="conc-row"><span class="conc-name">Mt. Challenger, Picket Range</span><span class="conc-type">Remote mixed glacier route deep in one of the range's most rugged sub-ranges</span><span class="conc-hrs">Multi-day approach</span></div>
+          <div class="conc-row"><span class="conc-name">Skagit Gorge</span><span class="conc-type">Roadside sport climbing and bouldering along SR-20 between Newhalem and Diablo; new fixed anchor bolts are prohibited park-wide</span><span class="conc-hrs">Roadside access</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Boating — Ross &amp; Diablo Lakes<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Ross Lake Resort</span><span class="conc-type">Power boat, canoe &amp; kayak rentals plus water-taxi service to trailheads and camps; no road reaches the resort</span><span class="conc-hrs">Seasonal · Jun&ndash;Oct</span></div>
+          <div class="conc-row"><span class="conc-name">Hozomeen Boat Ramps</span><span class="conc-type">Two graded-cement ramps at the lake's north end, reached from the Canadian side</span><span class="conc-hrs">Mid-Jun&ndash;Sep</span></div>
+          <div class="conc-row"><span class="conc-name">Colonial Creek Portage Route</span><span class="conc-type">Paddle 5 miles from Diablo Lake, then portage a gravel road around Ross Dam to reach Ross Lake</span><span class="conc-hrs">5 mi paddle + 1 mi portage</span></div>
+          <div class="conc-row"><span class="conc-name">Boat-In Camping</span><span class="conc-type">Nineteen shoreline camps along Ross Lake with fire rings, vault toilets &amp; bear-proof boxes; permit required</span><span class="conc-hrs">19 camps · Permit</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 waters</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Washington Fishing License</span><span class="conc-type">Required for all anglers; not sold at any park facility — buy through WDFW before arrival</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">Gorge, Diablo &amp; Ross Lakes</span><span class="conc-type">Rainbow, eastern brook &amp; cutthroat trout; hook-and-line only</span><span class="conc-hrs">Hook-and-line only</span></div>
+          <div class="conc-row"><span class="conc-name">Skagit &amp; Stehekin Rivers</span><span class="conc-type">Steelhead, cutthroat &amp; rainbow trout; Ruby Creek and parts of Big Beaver Creek are closed to fishing</span><span class="conc-hrs">Seasonal closures</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Permits<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Overnight Wilderness Permit</span><span class="conc-type">Required year-round for every overnight trip into the backcountry</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">Reservations</span><span class="conc-type">Reserve ahead on Recreation.gov, or pick up a walk-up permit in person</span><span class="conc-hrs">Advance or walk-up</span></div>
+          <div class="conc-row"><span class="conc-name">Wilderness Information Center</span><span class="conc-type">Marblemount trip-planning office &amp; permit pickup location &middot; 360-854-7200</span><span class="conc-hrs">Marblemount</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Rivers -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-rivers">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid" id="anglerGrid">
@@ -1054,7 +1139,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stars">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">No certification</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1072,7 +1157,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">2 groups</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1396,6 +1481,15 @@
     startCountdown();
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

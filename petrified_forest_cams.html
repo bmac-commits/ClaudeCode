@@ -245,11 +245,11 @@
     main { padding: 20px 24px 40px; }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--painted-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -258,6 +258,7 @@
       gap: 8px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -573,6 +574,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--painted); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -746,6 +758,7 @@
 </header>
 
 <main>
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🪵</div><div class="glance-val danger">$325 fine</div><div class="glance-lbl">Wood theft</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">2 open</div><div class="glance-lbl">Entrances</div></div>
@@ -784,8 +797,20 @@
     <div class="busy-note">Peak season is <strong>June–July</strong>, when around <strong>27%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-wood" class="quicknav-link" data-target="sec-wood">🪵 Fossil Wood</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Access &amp; Fees</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Live Cams</a>
+  </nav>
+
   <!-- Fossil Wood Protection -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-wood">
     <summary><span class="sa-title"><span class="sa-icon">🪵</span>Fossil Wood Protection &amp; the "Curse"</span><span class="sa-badge danger">$325 min. fine</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar">
@@ -796,7 +821,7 @@
   </details>
 
   <!-- Park Access & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Access &amp; Fees</span><span class="sa-badge ok">2 open · $25</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -839,7 +864,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Trails</span><span class="sa-badge">6 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -872,8 +897,49 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">3 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">8 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Tawa Trail</span><span class="conc-type">Paved path linking the Painted Desert Visitor Center to the Painted Desert Inn</span><span class="conc-hrs">1.2 mi one way · Paved</span></div>
+          <div class="conc-row"><span class="conc-name">Painted Desert Rim Trail</span><span class="conc-type">Unpaved badlands-overlook walk near Tawa &amp; Kachina Points; waterbars and dirt-gravel surface</span><span class="conc-hrs">1 mi RT · Grade to 25.6%</span></div>
+          <div class="conc-row"><span class="conc-name">Puerco Pueblo</span><span class="conc-type">Paved loop past a 100-room ancestral Puebloan village site and petroglyphs</span><span class="conc-hrs">0.3 mi loop · Paved</span></div>
+          <div class="conc-row"><span class="conc-name">Blue Mesa Trail</span><span class="conc-type">Alternately paved and gravel path descending into blue-hued bentonite badlands; steep grade at the start</span><span class="conc-hrs">1 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Crystal Forest Trail</span><span class="conc-type">Paved loop through the park's densest, most colorful petrified log concentration</span><span class="conc-hrs">0.75 mi loop · Grade to 22.5%</span></div>
+          <div class="conc-row"><span class="conc-name">Giant Logs Trail</span><span class="conc-type">Paved trail with stairs behind Rainbow Forest Museum, past some of the park's largest logs</span><span class="conc-hrs">0.4 mi loop</span></div>
+          <div class="conc-row"><span class="conc-name">Long Logs Trail</span><span class="conc-type">First half-mile paved; loops through one of the world's largest concentrations of petrified wood</span><span class="conc-hrs">1.6 mi loop · Grade to 20.5%</span></div>
+          <div class="conc-row"><span class="conc-name">Agate House Trail</span><span class="conc-type">First half-mile paved; leads to a reconstructed pueblo built from petrified wood blocks</span><span class="conc-hrs">2 mi RT · Grade to 14.7%</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry &amp; Wilderness Hiking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Day Hiking Off-Trail</span><span class="conc-type">Free, no permit needed park-wide; hikers must be back at their vehicle by posted closing time. Devil's Playground is the exception — only 3 permits issued weekly, first-come first-served at Painted Desert VC before noon</span><span class="conc-hrs">Free · No water/shade</span></div>
+          <div class="conc-row"><span class="conc-name">Overnight Backpacking</span><span class="conc-type">Allowed only inside the Petrified Forest National Wilderness Area, at least half a mile from any vehicle; free permit issued same-day at either visitor center until 4:30 pm</span><span class="conc-hrs">Free permit · Same-day only</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Other Ways to Explore<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Scenic Park Road</span><span class="conc-type">Paved road connecting the Painted Desert and Rainbow Forest entrances, with pull-outs at overlooks and trailheads</span><span class="conc-hrs">28 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Bicycling</span><span class="conc-type">Road cycling is permitted on the paved park road and a few other routes; no rentals or dedicated bike lanes in the park</span><span class="conc-hrs">Park road · No rentals</span></div>
+          <div class="conc-row"><span class="conc-name">Horseback Riding (BYOH)</span><span class="conc-type">No stables or outfitters — bring your own horse. Entry via the Painted Desert Wilderness access trail near Kachina Point, 2 mi north of the visitor center; no maintained trails once inside</span><span class="conc-hrs">Day free · Overnight permit</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge ok">Bortle 2</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -891,7 +957,7 @@
   </details>
 
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">4 operators</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -921,7 +987,7 @@
   </details>
 
   <!-- Live Cams honest omission -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-cameras">
     <summary><span class="sa-title"><span class="sa-icon">📷</span>Live Cameras</span><span class="sa-badge">External link only</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="watch-live-card">
@@ -1177,6 +1243,15 @@
     startCountdown();
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

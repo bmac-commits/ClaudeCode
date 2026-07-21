@@ -413,11 +413,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--glacier-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -431,6 +431,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1247,6 +1252,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--glacier); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1421,6 +1437,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌋</div><div class="glance-val danger">Active</div><div class="glance-lbl">Lahar hazard</div></div>
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">3/4</div><div class="glance-lbl">Entrances open</div></div>
@@ -1459,8 +1476,22 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>48%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-hazard" class="quicknav-link" data-target="sec-hazard">🌋 Lahar Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrances &amp; Fees</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🌊 River Conditions</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Campgrounds</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Stargazing</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Live Cams</a>
+  </nav>
+
   <!-- Volcanic Lahar Hazard Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-hazard">
     <summary><span class="sa-title"><span class="sa-icon">🌋</span>Volcanic Lahar Hazard Safety</span><span class="sa-badge danger">Active hazard zone</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1487,7 +1518,7 @@
   </details>
 
   <!-- Park Entrances & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrances &amp; Fees</span><span class="sa-badge">3/4 open · $30</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1568,7 +1599,7 @@
   </details>
 
   <!-- River Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon"><svg width="19" height="15" viewBox="0 0 20 16" fill="none"><path d="M1 5c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M1 11c1.5-3 3.5-3 5 0s3.5 3 5 0 3.5-3 5 0 2.5 3 3 3" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/></svg></span>River Conditions</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid">
@@ -1601,7 +1632,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge">4 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1660,7 +1691,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Areas</span><span class="sa-badge">6 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1716,8 +1747,75 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Nisqually Vista Trail</span><span class="conc-type">Paved, family-friendly loop from the Paradise area with views of Nisqually Glacier</span><span class="conc-hrs">1.2 mi loop · 45 min · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Naches Peak Loop</span><span class="conc-type">Clockwise loop from Tipsoo Lake along the Pacific Crest Trail near Chinook Pass; subalpine meadows and late-summer huckleberries</span><span class="conc-hrs">3.5 mi loop · 500 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Rampart Ridge</span><span class="conc-type">Loop above Longmire through old-growth forest to ridge-top views</span><span class="conc-hrs">4.6 mi · 2.5 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Comet Falls &amp; Van Trump Park</span><span class="conc-type">Steady climb to the base of a 320-ft waterfall, one of the park's tallest; trailhead parking often full</span><span class="conc-hrs">3.8 mi RT · 900 ft · Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Skyline Trail</span><span class="conc-type">Clockwise loop from Paradise past Panorama Point, the Stevens-Van Trump Memorial &amp; Myrtle Falls; close-up views of Nisqually Glacier</span><span class="conc-hrs">5.5 mi loop · 1,700 ft · Mod.–Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Tolmie Peak</span><span class="conc-type">Fire-lookout hike from the Mowich Lake area, reachable only via the Wonderland Trail on foot since the Fairfax Bridge closure</span><span class="conc-hrs">6.5 mi · 4 hrs</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mountaineering &amp; Summit Climbing<span class="conc-count">Permit required</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Disappointment Cleaver–Ingraham Direct</span><span class="conc-type">Most-climbed route to the 14,410-ft summit; over 9,000 ft of elevation gain and 10+ miles round trip, requiring technical glacier-travel rope skills</span><span class="conc-hrs">14,410 ft · Permit</span></div>
+          <div class="conc-row"><span class="conc-name">Other Routes</span><span class="conc-type">Emmons-Winthrop, Kautz Glacier &amp; Liberty Ridge among 20+ established climbing routes</span><span class="conc-hrs">Technical</span></div>
+          <div class="conc-row"><span class="conc-name">Climbing Registration (Summer, May 22–Sep 30)</span><span class="conc-type">Online cost-recovery registration plus nightly wilderness camping fee; walk-up registration available 24 hrs ahead</span><span class="conc-hrs">$82 + $12/night</span></div>
+          <div class="conc-row"><span class="conc-name">Climbing Registration (Winter, Sep 15–May 21)</span><span class="conc-type">Self-registration online via Pay.gov, or at the Paradise Old Station kiosk on arrival</span><span class="conc-hrs">$82/person</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildflower Viewing<span class="conc-count">Seasonal</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Paradise Meadows</span><span class="conc-type">Among the most famous subalpine wildflower displays in the Cascades, ringing the historic Paradise Inn</span><span class="conc-hrs">Peak late Jul–early Aug</span></div>
+          <div class="conc-row"><span class="conc-name">Fall Color</span><span class="conc-type">Huckleberry meadows and subalpine foliage turn red and gold as the bloom fades</span><span class="conc-hrs">Peaks in September</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Paradise Snowplay Area</span><span class="conc-type">The only park location for sledding; plastic/soft-sided sleds &amp; discs only — no wood or metal, and snowshoeing/skiing aren't permitted inside the snowplay zone</span><span class="conc-hrs">Winter season</span></div>
+          <div class="conc-row"><span class="conc-name">Ranger-Guided Snowshoe Walks</span><span class="conc-type">Free 2-hour guided walks from Paradise on weekends &amp; holiday periods</span><span class="conc-hrs">11 AM &amp; 1:30 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Winter Road Access</span><span class="conc-type">Nisqually entrance to Paradise is the only road plowed for winter access; crews aim to open the Longmire–Paradise gate by 9 AM daily</span><span class="conc-hrs">Daily plowing</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing &amp; Boating<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Catch &amp; Release Native Trout</span><span class="conc-type">All native fish must be released; non-native kokanee salmon &amp; brook trout may be kept</span><span class="conc-hrs">No state license req.</span></div>
+          <div class="conc-row"><span class="conc-name">Mowich Lake</span><span class="conc-type">One of the few park waters open to non-motorized boating and fishing</span><span class="conc-hrs">Kayaks · canoes · rafts</span></div>
+          <div class="conc-row"><span class="conc-name">Motorized Boating</span><span class="conc-type">Prohibited park-wide on all lakes and rivers</span><span class="conc-hrs">Not permitted</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backpacking &amp; Wilderness Permits<span class="conc-count">3 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Wonderland Trail Permit</span><span class="conc-type">Wilderness permit with reserved campsites required for the full ~93-mile circuit; demand exceeds capacity most of the season</span><span class="conc-hrs">Lottery in Feb</span></div>
+          <div class="conc-row"><span class="conc-name">Wilderness Permit Fees</span><span class="conc-type">Reservation fee plus a per-person, per-night camping fee, for up to 13 consecutive nights</span><span class="conc-hrs">$6 + $12/night</span></div>
+          <div class="conc-row"><span class="conc-name">Walk-Up Permits</span><span class="conc-type">About one-third of campsites are held back for walk-up requests, available up to a day ahead at ranger stations</span><span class="conc-hrs">Subject to availability</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Concession Information</span><span class="sa-badge">4 locations</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1738,7 +1836,7 @@
   </details>
 
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">No DarkSky cert.</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -1755,7 +1853,7 @@
     </div>
   </details>
 
-  <div class="refresh-bar" style="border-top: 1px solid var(--border); padding-top: 16px;">
+  <div class="refresh-bar" id="sec-cameras" style="border-top: 1px solid var(--border); padding-top: 16px;">
     <div class="section-label" style="flex:1; margin-bottom:0; border-top:none; padding-top:0; display:flex; align-items:center; gap:9px;"><span class="sa-icon" style="font-size:1rem;">📷</span>Live Camera Feed</div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
       <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
@@ -2281,6 +2379,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

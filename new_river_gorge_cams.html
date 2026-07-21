@@ -91,8 +91,20 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--steel-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--steel); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -390,6 +402,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🚣</div><div class="glance-val">Class I–V</div><div class="glance-lbl">Whitewater rapids</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -428,8 +441,19 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>44%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–March</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Park Entry</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 River Gauge</a>
+    <a href="#sec-bridge" class="quicknav-link" data-target="sec-bridge">🌉 The Bridge</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Water, Climbing & Gorge Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Water, Climbing &amp; Gorge Safety</span><span class="sa-badge danger">Whitewater, cliffs</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -440,7 +464,7 @@
   </details>
 
   <!-- Park Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entry</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -451,7 +475,7 @@
   </details>
 
   <!-- New River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>New River</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -476,7 +500,7 @@
   </details>
 
   <!-- The Bridge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-bridge">
     <summary><span class="sa-title"><span class="sa-icon">🌉</span>New River Gorge Bridge</span><span class="sa-badge">Bridge Day, Oct</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -496,8 +520,63 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">3 highlights</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Long Point Trail</span><span class="conc-type">Gentle walk through field and forest to a rock outcrop with the classic panoramic view of the New River Gorge Bridge; one exposed cliff-edge section near the end</span><span class="conc-hrs">1.6 mi one-way &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Endless Wall Trail</span><span class="conc-type">Cliffside path through rich forest, crossing Fern Creek and zig-zagging along the rim with sweeping views nearly 1,000 ft above the river</span><span class="conc-hrs">2.4 mi one-way &middot; Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Park Trail System</span><span class="conc-type">Nearly 100 miles of trails wind through the gorge, from short overlook walks to longer backcountry routes</span><span class="conc-hrs">~100 mi total</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Established Routes</span><span class="conc-type">Over 1,400 established climbs on sandstone cliffs lining the gorge, most rated 5.9 and harder</span><span class="conc-hrs">1,400+ routes</span></div>
+          <div class="conc-row"><span class="conc-name">Best Season</span><span class="conc-type">Climbing happens year-round, but cooler, drier conditions make late spring and fall the most popular windows</span><span class="conc-hrs">Late Apr&ndash;mid-Jun &amp; mid-Sep&ndash;late Oct</span></div>
+          <div class="conc-row"><span class="conc-name">Motorized Drills</span><span class="conc-type">Use of motorized drills for bolting is by permit only</span><span class="conc-hrs">Permit required</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Whitewater Rafting<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Upper (Southern) New</span><span class="conc-type">Big, powerful river with long pools and relatively easy rapids; runnable year-round</span><span class="conc-hrs">Class I&ndash;III</span></div>
+          <div class="conc-row"><span class="conc-name">Lower Gorge (Northern New)</span><span class="conc-type">Large boulders and powerful currents through the Lower Gorge — among the biggest whitewater in the East</span><span class="conc-hrs">Class III&ndash;V</span></div>
+          <div class="conc-row"><span class="conc-name">Guided &amp; Private Trips</span><span class="conc-type">NPS doesn't run its own tours; a number of licensed commercial outfitters offer guided trips, and experienced boaters may paddle independently</span><span class="conc-hrs">Season: Apr&ndash;Oct</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mountain Biking<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Trail Network</span><span class="conc-type">About 65 miles of park trails are open to bikes, ranging from rail-trail cruising to technical singletrack</span><span class="conc-hrs">~65 mi open</span></div>
+          <div class="conc-row"><span class="conc-name">Arrowhead Trail</span><span class="conc-type">The longest bike-legal trail in the park</span><span class="conc-hrs">13.0 mi</span></div>
+          <div class="conc-row"><span class="conc-name">Long Point Trail (bike)</span><span class="conc-type">Same corridor as the hiking route; bikes must be walked the final 0.2 mi to the overlook</span><span class="conc-hrs">1.4 mi rideable</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">West Virginia fishing license required (annual or 3-day tourist option); a trout tag is required for trout</span><span class="conc-hrs">License + trout tag</span></div>
+          <div class="conc-row"><span class="conc-name">Species</span><span class="conc-type">Smallmouth, largemouth &amp; striped bass, walleye, muskellunge and catfish in the New River; tributaries stocked with trout</span><span class="conc-hrs">Warm-water &amp; trout</span></div>
+          <div class="conc-row"><span class="conc-name">Catch-and-Release Water</span><span class="conc-type">Glade Creek (trout) and the New River from the I-64 bridge at Sandstone to Grandview Sandbar (black bass) are catch-and-release only</span><span class="conc-hrs">C&amp;R zones</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Free, primitive</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -714,6 +793,15 @@
     }
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
