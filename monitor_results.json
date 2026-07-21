@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T04:00:52.633583+00:00",
+  "generated_at": "2026-07-21T14:02:08.139844+00:00",
   "ok_count": 107,
   "error_count": 2,
   "parks": [
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 1 min ago"
+          "detail": "Updated 40 min ago"
         }
       ]
     },
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.28 ft"
+          "detail": "Current reading: 2.27 ft"
         }
       ]
     },
