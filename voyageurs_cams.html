@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--teal-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,17 @@
     .busy-dot.tier-verybusy { background: var(--red); }
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--teal); }
+    .section-accordion { scroll-margin-top: 16px; }
 
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
@@ -416,6 +428,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🚤</div><div class="glance-val">40% water</div><div class="glance-lbl">Boat-based park</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -454,8 +467,19 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>65%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Water &amp; Ice Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Park Entry</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">💧 Rainy River</a>
+    <a href="#sec-boating" class="quicknav-link" data-target="sec-boating">🚤 Houseboating &amp; Boat Access</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Water & Ice Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Water &amp; Ice Safety</span><span class="sa-badge danger">Weather changes fast</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -466,7 +490,7 @@
   </details>
 
   <!-- Park Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entry</span><span class="sa-badge ok">No entrance fee</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -477,7 +501,7 @@
   </details>
 
   <!-- Rainy River Gauge -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-river">
     <summary><span class="sa-title"><span class="sa-icon">💧</span>Rainy River</span><span class="sa-badge ok">Live USGS gauge</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="gauge-widget">
@@ -502,7 +526,7 @@
   </details>
 
   <!-- Houseboating & Boat Access -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-boating">
     <summary><span class="sa-title"><span class="sa-icon">🚤</span>Houseboating &amp; Boat Access</span><span class="sa-badge">Permit required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -523,8 +547,55 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Blind Ash Bay Trail</span><span class="conc-type">Lollipop loop from Ash River Visitor Center through boreal forest to a Kabetogama Lake overlook</span><span class="conc-hrs">2.9 mi loop · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Oberholtzer Trail</span><span class="conc-type">Rainy Lake Visitor Center walk past marsh and lake overlooks; first quarter-mile is paved and accessible</span><span class="conc-hrs">1.6 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Cruiser Lake Trail</span><span class="conc-type">Backcountry route linking Anderson Bay on Rainy Lake to Lost Bay on Kabetogama Lake over steep, rocky terrain</span><span class="conc-hrs">8.0 mi one-way · Boat access</span></div>
+          <div class="conc-row"><span class="conc-name">Kab-Ash Trail</span><span class="conc-type">The park's only vehicle-accessible long-distance trail, with four trailheads near Ash River and two reservable backcountry campsites</span><span class="conc-hrs">1&ndash;5 days · Vehicle access</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">Renowned walleye fishery</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Minnesota Fishing License</span><span class="conc-type">Required for all anglers; fishing follows Minnesota DNR regulations throughout the park</span><span class="conc-hrs">Required</span></div>
+          <div class="conc-row"><span class="conc-name">54 Fish Species</span><span class="conc-type">Walleye, sauger, northern pike, smallmouth bass, yellow perch &amp; black crappie across 30 named lakes</span><span class="conc-hrs">30 named lakes</span></div>
+          <div class="conc-row"><span class="conc-name">Bait Rules</span><span class="conc-type">Live bait allowed only on the four large lakes — Rainy, Kabetogama, Namakan &amp; Sand Point; artificial lures only on interior lakes</span><span class="conc-hrs">4 large lakes</span></div>
+          <div class="conc-row"><span class="conc-name">Ice Fishing</span><span class="conc-type">Ice houses may sit unattended past 24 hours under state rule, but must stay at least 50 ft from snowmobile trails and the ice road</span><span class="conc-hrs">Winter season</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger-Led Boat Tours<span class="conc-count">4 tours</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Grand Tour</span><span class="conc-type">Narrated Voyageur-style cruise on Rainy Lake covering park wildlife and cultural history</span><span class="conc-hrs">2.5 hrs · Mid-Jun&ndash;Sep</span></div>
+          <div class="conc-row"><span class="conc-name">Kettle Falls Cruise</span><span class="conc-type">Full-day trip to the historic Kettle Falls Hotel, with about two hours ashore before the return cruise</span><span class="conc-hrs">6.5 hrs · Mid-Jun&ndash;Sep</span></div>
+          <div class="conc-row"><span class="conc-name">Ellsworth Rock Gardens Tour</span><span class="conc-type">Ranger-guided quarter-mile walk through dry-stacked terraced flower beds on Kabetogama Lake, the park's most popular day-use stop</span><span class="conc-hrs">2.5 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">North Canoe Voyage</span><span class="conc-type">Paddle a replica voyageur canoe with a ranger crew from Rainy Lake or Ash River Visitor Center; minimum age 8</span><span class="conc-hrs">1.5 hrs</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Activities<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Snowmobiling</span><span class="conc-type">110 miles of staked, groomed trails run across frozen lake surfaces and designated safety portages; hill climbing and off-trail land travel are prohibited</span><span class="conc-hrs">110 mi trails</span></div>
+          <div class="conc-row"><span class="conc-name">Ice Road Driving</span><span class="conc-type">Plowed routes cross Rainy Lake from the visitor center boat launch and Kabetogama Lake between Ash River and Kabetogama, for vehicles under 7,000 lbs</span><span class="conc-hrs">30 mph limit</span></div>
+          <div class="conc-row"><span class="conc-name">Ski &amp; Snowshoe Rentals</span><span class="conc-type">Free equipment rentals — skis, boots, poles &amp; snowshoes — for exploring frozen lakes and snow-covered forest routes</span><span class="conc-hrs">Fri&ndash;Mon, Jan&ndash;Mar</span></div>
+        </div>
+      </details>
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">Boat-access only inside park</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">

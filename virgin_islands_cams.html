@@ -90,8 +90,40 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--aqua-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--aqua); }
+    .section-accordion { scroll-margin-top: 16px; }
+
+    /* ── Concessions/Activities Accordion ── */
+    .conc-accordion { display: flex; flex-direction: column; gap: 6px; }
+    .conc-group { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .conc-summary { display: flex; align-items: center; gap: 8px; padding: 10px 14px; cursor: pointer; list-style: none; font-size: 0.82rem; font-weight: 600; color: var(--text); user-select: none; }
+    .conc-summary::-webkit-details-marker { display: none; }
+    .conc-count { font-size: 0.62rem; font-weight: 400; color: var(--rock); margin-left: 2px; }
+    .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
+    .conc-group[open] .conc-chevron { transform: rotate(180deg); }
+    .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
+    .conc-body { padding: 4px 0; }
+    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .conc-row:last-child { border-bottom: none; }
+    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 160px; }
+    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
+    .conc-hrs { font-size: 0.84rem; color: var(--aqua-light); white-space: nowrap; }
+    @media (max-width: 500px) {
+      .conc-name { min-width: 120px; }
+      .conc-type { display: none; }
+    }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -372,6 +404,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🐚</div><div class="glance-val">Sea urchins</div><div class="glance-lbl">Top reef hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -410,8 +443,16 @@
     <div class="busy-note">Peak season is <strong>January–April</strong>, when around <strong>43%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>September–October</strong>.</div>
   </div>
 
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Reef &amp; Ocean Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Entry &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+  </nav>
+
   <!-- Reef & Ocean Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Reef &amp; Ocean Safety</span><span class="sa-badge danger">Flag system</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -422,7 +463,7 @@
   </details>
 
   <!-- Park Entry & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entry &amp; Fees</span><span class="sa-badge ok">Free entry</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="fee-bar">
@@ -444,7 +485,7 @@
   </details>
 
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Cinnamon Bay</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -455,6 +496,55 @@
       </details>
     </div>
     <a class="transport-link" href="https://www.nps.gov/viis/planyourvisit/camping.htm" target="_blank">Full camping details on NPS.gov ↗</a>
+    </div>
+  </details>
+
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Reef Bay Trail</span><span class="conc-type">Descends past Taino petroglyphs to the ruins of the Reef Bay Sugar Mill, the last sugar mill to operate on St. John (until 1908)</span><span class="conc-hrs">~3 mi one-way (6 mi RT) · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Ram Head Trail</span><span class="conc-type">Rocky, largely shadeless coastal walk from Salt Pond Bay out to the sea cliffs at Ram Head</span><span class="conc-hrs">~2.5 mi RT · Moderate&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Cinnamon Bay Trail</span><span class="conc-type">Climbs through shaded forest to Centerline Road, with a spur to the America Hill great house ruins</span><span class="conc-hrs">1 mi (+0.38 mi spur) · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Cinnamon Bay Nature Loop</span><span class="conc-type">Wheelchair- and stroller-accessible boardwalk winding through 18th-century plantation ruins</span><span class="conc-hrs">0.5 mi · Easy</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Snorkeling &amp; Beaches<span class="conc-count">5 spots</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Trunk Bay Underwater Trail</span><span class="conc-type">Self-guided 225-yard snorkel trail with underwater plaques identifying reef life</span><span class="conc-hrs">$5 day-use fee</span></div>
+          <div class="conc-row"><span class="conc-name">Hawksnest Beach</span><span class="conc-type">Three near-shore reef fingers home to protected elkhorn coral</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Cinnamon Bay</span><span class="conc-type">The park's longest beach, with an on-site watersports center</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Maho Bay</span><span class="conc-type">Shallow seagrass flats where green sea turtles regularly feed</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row"><span class="conc-name">Francis Bay</span><span class="conc-type">Quarter-mile beach with a loop trail around Francis Bay Pond for turtle &amp; bird watching</span><span class="conc-hrs">Free</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Historic Sites<span class="conc-count">3 sites</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Annaberg Plantation</span><span class="conc-type">Ruins of St. John's largest sugar estate, which held over 600 enslaved people at peak production; windmill, factory &amp; quarters remain</span><span class="conc-hrs">Docent talks Mon&ndash;Fri, Nov&ndash;Apr</span></div>
+          <div class="conc-row"><span class="conc-name">Reef Bay Sugar Mill</span><span class="conc-type">The last operating sugar mill on St. John, with its steam engine largely intact; reached by trail or boat</span><span class="conc-hrs">Trail or boat access</span></div>
+          <div class="conc-row"><span class="conc-name">Catherineberg</span><span class="conc-type">Sugar plantation ruins on Centerline Road overlooking Cinnamon Bay, with a partially standing windmill &amp; boiling house</span><span class="conc-hrs">Centerline Rd</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger-Guided Hikes<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Reef Bay Guided Hike</span><span class="conc-type">Rangers lead a strenuous ~3-mile descent past petroglyphs and plantation ruins, with a 40-minute boat return to Cruz Bay</span><span class="conc-hrs">Fee · Reservation required</span></div>
+          <div class="conc-row"><span class="conc-name">Ram Head Guided Hike</span><span class="conc-type">Intermediate ~2.5-mile round trip past Salt Pond &amp; Blue Pebble beaches, covering the 1733 African Revolution</span><span class="conc-hrs">Reservation required</span></div>
+          <div class="conc-row"><span class="conc-name">Night Sky in the Park</span><span class="conc-type">Ranger-led stargazing program at Cinnamon Bay</span><span class="conc-hrs">Every other Wed · Nov&ndash;May</span></div>
+        </div>
+      </details>
+
+    </div>
     </div>
   </details>
 
@@ -628,6 +718,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

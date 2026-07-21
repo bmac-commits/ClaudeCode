@@ -91,8 +91,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--gypsum-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -250,6 +251,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--accent); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -405,6 +417,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🌡️</div><div class="glance-val">Extreme heat</div><div class="glance-lbl">Top hazard, summer</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$25</div><div class="glance-lbl">Vehicle · 7 days</div></div>
@@ -443,8 +456,19 @@
     <div class="busy-note">Peak season is <strong>March</strong>, when around <strong>14%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–February</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Heat &amp; Dune Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🎫 Entrance &amp; Fees</a>
+    <a href="#sec-missile" class="quicknav-link" data-target="sec-missile">🚀 Missile Range</a>
+    <a href="#sec-activities" class="quicknav-link" data-target="sec-activities">🛷 Dune Activities</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Heat & Dune Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Heat &amp; Dune Safety</span><span class="sa-badge danger">Deaths have occurred</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -455,7 +479,7 @@
   </details>
 
   <!-- Park Entrance & Fees -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🎫</span>Park Entrance &amp; Fees</span><span class="sa-badge ok">Single entrance</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="fee-bar">
@@ -475,7 +499,7 @@
   </details>
 
   <!-- White Sands Missile Range -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-missile">
     <summary><span class="sa-title"><span class="sa-icon">🚀</span>White Sands Missile Range</span><span class="sa-badge">Adjacent, active</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -486,7 +510,7 @@
   </details>
 
   <!-- Dune Activities -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-activities">
     <summary><span class="sa-title"><span class="sa-icon">🛷</span>Dune Activities</span><span class="sa-badge">Bring your own sled</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -506,8 +530,54 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Interdune Boardwalk</span><span class="conc-type">Elevated, fully accessible boardwalk where the desert scrub meets the dunefield — the park's only wheelchair- and stroller-friendly trail</span><span class="conc-hrs">0.4 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Playa Trail</span><span class="conc-type">Level walk to a small playa, explaining how these dry lakebeds form habitat amid the dunes</span><span class="conc-hrs">0.5 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Dune Life Nature Trail</span><span class="conc-type">Family-friendly loop with two dune climbs and 14 trailside signs on the plants and animals living in the dunefield</span><span class="conc-hrs">1 mi loop · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Camping Loop Trail</span><span class="conc-type">Steep dunes and loose sand into the heart of the dunefield; day-hikers welcome even without a camping permit</span><span class="conc-hrs">2 mi RT · Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Alkali Flat Trail</span><span class="conc-type">Red diamond markers lead across the park's biggest, barest dunes to the edge of the ancient lakebed; despite the name, it is not flat</span><span class="conc-hrs">5 mi RT · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger &amp; Full Moon Programs<span class="conc-count">4 programs</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Sunset Stroll</span><span class="conc-type">Leisurely, one-hour ranger-guided walk across the dunes</span><span class="conc-hrs">Fri&ndash;Sun</span></div>
+          <div class="conc-row"><span class="conc-name">Moonlight Hike</span><span class="conc-type">1.5&ndash;2 hr ranger-led hike from the Dune Life Nature Trail on nights around the full moon; ticketed via Recreation.gov, $8 (ages 16+) / $4 (15 &amp; under)</span><span class="conc-hrs">Mar&ndash;Nov</span></div>
+          <div class="conc-row"><span class="conc-name">Full Moon Night</span><span class="conc-type">Free amphitheater program with live music and ranger talks; park closing time extends two hours on these evenings</span><span class="conc-hrs">May&ndash;Oct</span></div>
+          <div class="conc-row"><span class="conc-name">Lake Lucero Tour</span><span class="conc-type">Three-hour ranger-guided tour to the playa where the gypsum dunes originate, over unmaintained terrain; ticketed via Recreation.gov, $8 (ages 16+) / $4 (15 &amp; under)</span><span class="conc-hrs">Monthly</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">Dunes Drive only</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Dunes Drive Cycling</span><span class="conc-type">Bikes are permitted on Dunes Drive but not on hiking trails or off-trail in the backcountry; first five miles are paved</span><span class="conc-hrs">8 mi one-way</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Picnicking<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Picnic Areas</span><span class="conc-type">Three established areas along Dunes Drive with 62 tables total, first-come, first-served, plus two tables at the visitor center entrance</span><span class="conc-hrs">62 tables</span></div>
+          <div class="conc-row"><span class="conc-name">Group Picnic Area</span><span class="conc-type">Available by advance reservation for larger gatherings</span><span class="conc-hrs">Reservation</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">Backcountry permit</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -687,6 +757,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
