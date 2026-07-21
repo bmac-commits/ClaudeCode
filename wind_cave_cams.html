@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--sage-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -245,7 +246,18 @@
     .section-accordion[open] > summary .sa-chevron { transform: rotate(180deg); }
     .section-accordion[open] > summary { border-bottom: none; }
     .section-accordion .sa-body { padding: 0 0 32px; }
-  
+
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--sage); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     /* ── Hamburger Menu ── */
     .hamburger-btn {
       position: fixed;
@@ -388,6 +400,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🕳️</div><div class="glance-val">Among longest</div><div class="glance-lbl">Caves on Earth</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Surface entrance fee</div></div>
@@ -426,8 +439,17 @@
     <div class="busy-note">Peak season is <strong>June–August</strong>, when around <strong>55%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-wildlife" class="quicknav-link" data-target="sec-wildlife">⚠️ Wildlife Safety</a>
+    <a href="#sec-tours" class="quicknav-link" data-target="sec-tours">🎟️ Cave Tours</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+  </nav>
+
   <!-- Surface Wildlife Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-wildlife">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Surface Wildlife Safety</span><span class="sa-badge danger">Bison, 35 mph</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -438,7 +460,7 @@
   </details>
 
   <!-- Cave Entry & Tours -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-tours">
     <summary><span class="sa-title"><span class="sa-icon">🎟️</span>Cave Entry &amp; Tours</span><span class="sa-badge ok">Free surface, paid tours</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -460,8 +482,63 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">4 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Ranger-Guided Cave Tours<span class="conc-count">6 tours</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Garden of Eden Tour</span><span class="conc-type">Shortest, easiest tour; 150 stairs that can be steep, slippery and dimly lit</span><span class="conc-hrs">1 hr &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Natural Entrance Tour</span><span class="conc-type">Most popular route, descending through the historic natural entrance passage; 300 stairs</span><span class="conc-hrs">1 hr 15 min &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Fairgrounds Tour</span><span class="conc-type">Extensive boxwork viewing; 450 stairs including one 89-step flight</span><span class="conc-hrs">1 hr 30 min &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Candlelight Tour</span><span class="conc-type">Lantern-lit walk through undeveloped passages with no handrails; min. age 8, groups capped at 10, phone reservation only</span><span class="conc-hrs">2 hrs &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Wild Cave Tour</span><span class="conc-type">Full caving experience, mostly crawling in provided gear; min. age 16, groups capped at 6, phone reservation only</span><span class="conc-hrs">Up to 4 hrs &middot; Very Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Accessibility Tour</span><span class="conc-type">Level route near the elevator with no stairs; call ahead to arrange</span><span class="conc-hrs">30 min &middot; Easy</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">11 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Prairie Vista Trail</span><span class="conc-type">Loop with interpretive waysides through prairie grassland near the visitor center</span><span class="conc-hrs">1 mi RT &middot; Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Elk Mountain Trail</span><span class="conc-type">Loop where grassland meets forest; elk bugling often audible Sep&ndash;Oct</span><span class="conc-hrs">1 mi RT &middot; Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Rankin Ridge Trail</span><span class="conc-type">Loop to the park's highest point with possible Badlands views (fire tower closed to public)</span><span class="conc-hrs">1 mi RT &middot; Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Wind Cave Canyon Trail</span><span class="conc-type">Former road following the canyon to the park boundary, past nesting-bird cliffs</span><span class="conc-hrs">1.8 mi &middot; Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Cold Brook Canyon Trail</span><span class="conc-type">Crosses a prairie dog town as ponderosa forest gives way to open prairie</span><span class="conc-hrs">1.4 mi &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Lookout Point Trail</span><span class="conc-type">Can be combined with the Highland Creek &amp; Centennial trails for a 4.5-mi loop</span><span class="conc-hrs">2.2 mi &middot; Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">East Bison Flats Trail</span><span class="conc-type">Steep climb via Wind Cave Canyon Trail to panoramic prairie views</span><span class="conc-hrs">3.7 mi &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Sanctuary Trail</span><span class="conc-type">Crosses a large prairie dog town; connects to Highland Creek Trail</span><span class="conc-hrs">3.6 mi &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Boland Ridge Trail</span><span class="conc-type">Series of climbs with Black Hills and plains views; frequent elk sightings</span><span class="conc-hrs">2.6 mi &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Centennial Trail</span><span class="conc-type">Southernmost stretch of a 111-mile Black Hills trail; no overnight parking without a camping permit</span><span class="conc-hrs">6 mi &middot; Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Highland Creek Trail</span><span class="conc-type">Longest, most diverse trail — crosses prairie, forest, and Highland/Beaver Creek riparian habitat</span><span class="conc-hrs">8.6 mi &middot; Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Wildlife Viewing<span class="conc-count">3 hotspots</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Bison Flats &amp; Hwy 385</span><span class="conc-type">Herds often cross the highway here, creating "bison jams"; stay 25+ yards back at all times</span><span class="conc-hrs">Dawn &amp; dusk best</span></div>
+          <div class="conc-row"><span class="conc-name">NPS 5 &amp; 6 Backcountry Roads</span><span class="conc-type">Gravel roads through the northeastern prairie with frequent bison, pronghorn &amp; prairie dog town sightings</span><span class="conc-hrs">Passenger-car friendly</span></div>
+          <div class="conc-row"><span class="conc-name">Boland Ridge</span><span class="conc-type">Home to one of the park's elk herds, with bugling audible Sep&ndash;Oct; reached via NPS 6</span><span class="conc-hrs">Access via NPS 6</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Scenic Driving<span class="conc-count">1 route</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Geology Driving Tour</span><span class="conc-type">Self-guided 20-mile route along the park's western &amp; northern sides, ending at an overlook on gravel road NPS 5; two stops require short, flat walks</span><span class="conc-hrs">60&ndash;90 min</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge ok">Elk Mountain</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -645,6 +722,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();

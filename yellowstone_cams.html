@@ -414,11 +414,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--amber-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -432,6 +432,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1155,6 +1160,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--amber-light); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1328,6 +1344,7 @@
 </header>
 
 <main>
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">♨️</div><div class="glance-val danger">Thin crust</div><div class="glance-lbl">Geothermal hazard</div></div>
     <div class="glance-item"><div class="glance-icon">🦬</div><div class="glance-val danger">25–100 yd</div><div class="glance-lbl">Wildlife distance</div></div>
@@ -1366,8 +1383,19 @@
     <div class="busy-note">Peak season is <strong>June–September</strong>, when around <strong>79%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>November–April</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-stargazing" class="quicknav-link" data-target="sec-stargazing">🌙 Night Sky</a>
+  </nav>
+
   <!-- Geothermal & Wildlife Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Geothermal &amp; Wildlife Safety</span><span class="sa-badge danger">Thermal + wildlife risk</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -1394,7 +1422,7 @@
   </details>
 
   <!-- Entrance Status -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Entrance Status &amp; Fees</span><span class="sa-badge ok">5 open · $35</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1480,7 +1508,7 @@
   </details>
 
   <!-- Campground Availability -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Campground Availability</span><span class="sa-badge ok">11 of 12 open</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1632,7 +1660,7 @@
   </details>
 
   <!-- Landmarks & Wildlife Viewing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks &amp; Wildlife Viewing</span><span class="sa-badge">9 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1674,8 +1702,62 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">5 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Fairy Falls Trail</span><span class="conc-type">Flat walk through young lodgepole pine forest to a 200-ft waterfall; extend to Spray &amp; Imperial Geysers</span><span class="conc-hrs">5.4–6.7 mi RT · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Dunraven Pass – Mount Washburn Trail</span><span class="conc-type">Climbs to the 10,219-ft summit of Mount Washburn, staffed by a fire lookout with sweeping Absaroka Range views</span><span class="conc-hrs">6 mi RT · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Elephant Back Mountain Trail</span><span class="conc-type">Lollipop loop above Yellowstone Lake near Fishing Bridge, climbing through lodgepole forest to an overlook</span><span class="conc-hrs">3.5 mi loop · 800 ft · Mod.-Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Avalanche Peak Trail</span><span class="conc-type">Steep climb near Sylvan Pass; not recommended for those with heart or respiratory conditions</span><span class="conc-hrs">~4.2 mi RT · 2,100 ft · Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Fishing<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Fishing Permit</span><span class="conc-type">Required for anglers 16+, purchased via Recreation.gov; free for ages 15 &amp; under with adult supervision</span><span class="conc-hrs">$40/3-day · $55/7-day · $75/season</span></div>
+          <div class="conc-row"><span class="conc-name">Season</span><span class="conc-type">Standard season runs Memorial Day weekend–Oct 31; Madison, Firehole, Gibbon &amp; Gardner rivers have extended dates</span><span class="conc-hrs">Late May–Oct 31</span></div>
+          <div class="conc-row"><span class="conc-name">Native Species Release</span><span class="conc-type">Cutthroat trout, mountain whitefish &amp; Arctic grayling must be released immediately to protect native populations</span><span class="conc-hrs">Mandatory release</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Boating<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">AIS Inspection &amp; Permit</span><span class="conc-type">All watercraft — motorized, non-motorized, even float tubes &amp; paddleboards — must pass an invasive species inspection before launching</span><span class="conc-hrs">Card payment only</span></div>
+          <div class="conc-row"><span class="conc-name">Motorized Boating</span><span class="conc-type">Limited to Lewis &amp; Yellowstone Lakes; max 40 ft, no jet skis, airboats, or water-skiing</span><span class="conc-hrs">$40/7-day · $60/season</span></div>
+          <div class="conc-row"><span class="conc-name">Non-Motorized Boating</span><span class="conc-type">Canoes, kayaks &amp; paddleboards allowed on all lakes except Sylvan, Eleanor, Twin Lakes &amp; Beach Springs Lagoon; Coast Guard-approved PFD required</span><span class="conc-hrs">$20/7-day · $30/season</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Mostly ungroomed backcountry routes across Mammoth, Northeast, Tower, West Yellowstone, Old Faithful &amp; Canyon areas</span><span class="conc-hrs">Dec 15–Mar 15</span></div>
+          <div class="conc-row"><span class="conc-name">Guided Snowcoach &amp; Snowmobile Tours</span><span class="conc-type">Only way to reach the Old Faithful &amp; Canyon interior in winter; commercially guided, or by permit via the Non-Commercially Guided Snowmobile Access Program</span><span class="conc-hrs">Dec 15–Mar 15</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback Riding<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Day Ride Permits (Private Stock)</span><span class="conc-type">Free permit required for private stock users on day rides; max 20 people &amp; 20 animals per group</span><span class="conc-hrs">Permit (free)</span></div>
+          <div class="conc-row"><span class="conc-name">Overnight Stock Trips</span><span class="conc-type">Requires a backcountry permit in addition to the day-ride permit; not allowed before July 1 due to trail conditions &amp; range readiness</span><span class="conc-hrs">Permit · From Jul 1</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Stargazing -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-stargazing">
     <summary><span class="sa-title"><span class="sa-icon">🌙</span>Stargazing &amp; Night Sky</span><span class="sa-badge">Not certified</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="moon-card">
@@ -2166,6 +2248,14 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
   });
 
   // ── Init ──

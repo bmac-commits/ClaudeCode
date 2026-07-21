@@ -90,8 +90,9 @@
     .alerts-loading { font-size: 0.78rem; color: var(--text-dim); padding: 8px 0; }
 
     main { padding: 20px 24px 40px; }
-    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .section-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--steel-light); margin-bottom: 12px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-label.no-border { border-top: none; padding-top: 0; }
 
     @media (max-width: 900px) {
       .weather-card { min-width: unset; width: 100%; flex-wrap: wrap; gap: 12px; }
@@ -249,6 +250,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--steel); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 16px 0; border-top: 1px solid var(--border); user-select: none; }
     .section-accordion summary::-webkit-details-marker { display: none; }
@@ -403,6 +415,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🧭</div><div class="glance-val danger">Slow rescue</div><div class="glance-lbl">Top hazard</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$0</div><div class="glance-lbl">Entrance fee</div></div>
@@ -441,8 +454,19 @@
     <div class="busy-note">Peak season is <strong>July–August</strong>, when around <strong>60%</strong> of annual visitors arrive. For lighter crowds, aim for <strong>October–May</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-safety" class="quicknav-link" data-target="sec-safety">⚠️ Safety</a>
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🚗 McCarthy Road</a>
+    <a href="#sec-glacier" class="quicknav-link" data-target="sec-glacier">🧊 Root Glacier</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-camping" class="quicknav-link" data-target="sec-camping">🏕 Camping</a>
+    <a href="#sec-landmarks" class="quicknav-link" data-target="sec-landmarks">📍 Landmarks</a>
+  </nav>
+
   <!-- Remoteness & Safety -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-safety">
     <summary><span class="sa-title"><span class="sa-icon">⚠️</span>Remoteness &amp; Safety</span><span class="sa-badge danger">Self-rescue required</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar danger">
@@ -465,7 +489,7 @@
   </details>
 
   <!-- Access & Entry -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🚗</span>McCarthy Road &amp; Kennecott</span><span class="sa-badge ok">Fee-free park</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -484,7 +508,7 @@
   </details>
 
   <!-- Root Glacier & Kennecott -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-glacier">
     <summary><span class="sa-title"><span class="sa-icon">🧊</span>Root Glacier &amp; Kennecott</span><span class="sa-badge">Historic mine + glacier</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -506,8 +530,75 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Day Hiking<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Root Glacier / Erie Mine Trail</span><span class="conc-type">Easy/Moderate trail along Root Glacier with a spur onto the ice — the park's best glacier-viewing hike</span><span class="conc-hrs">Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Wagon Road to the Toe of the Kennecott Glacier</span><span class="conc-type">Easy walk from Kennecott to the glacier's toe and Kennecott Mill Town</span><span class="conc-hrs">Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Bonanza Mine Trail</span><span class="conc-type">Strenuous climb to panoramic views and the remains of the Bonanza Mine bunkhouse</span><span class="conc-hrs">Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Crystalline Hills Trail</span><span class="conc-type">Loop trailhead on the north side of McCarthy Road at Mile 34.8</span><span class="conc-hrs">2.5 mi loop · 2&ndash;3 hrs</span></div>
+          <div class="conc-row"><span class="conc-name">Caribou Creek Trail</span><span class="conc-type">Moderate day hike with sweeping views, accessible from Nabesna Road</span><span class="conc-hrs">Moderate</span></div>
+          <div class="conc-row"><span class="conc-name">Skookum Volcano Trail</span><span class="conc-type">Moderately strenuous hike through volcanic geology, accessible from Nabesna Road</span><span class="conc-hrs">Mod.&ndash;Strenuous</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Glacier Hiking &amp; Ice Climbing<span class="conc-count">Root Glacier</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Root Glacier On-Ice Walk</span><span class="conc-type">Moderate walk from Kennecott onto the glacier surface; crampons strongly recommended once on the ice</span><span class="conc-hrs">1.5 mi one-way</span></div>
+          <div class="conc-row"><span class="conc-name">Guided Ice Climbing</span><span class="conc-type">Full-day introductory trips on Root Glacier via private operators; no experience necessary, all gear provided</span><span class="conc-hrs">Full day</span></div>
+          <div class="conc-row"><span class="conc-name">Guided Glacier Hikes</span><span class="conc-type">Half- and full-day glacier walks with private guide services (St. Elias Alpine Guides, Kennicott Wilderness Guides); not NPS-operated</span><span class="conc-hrs">Private tours</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Kennecott Mines Historic Landmark<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Self-Guided Exhibits</span><span class="conc-type">Interpretive displays at the General Store &amp; Post Office, North Sacking Shed, and General Manager's Office</span><span class="conc-hrs">Mem. Day&ndash;Labor Day · 9 AM&ndash;5 PM</span></div>
+          <div class="conc-row"><span class="conc-name">Ranger Programs</span><span class="conc-type">History talks and nature walks based out of the Kennecott Visitor Center</span><span class="conc-hrs">Late May&ndash;mid-Sept</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Backcountry Hiking<span class="conc-count">3 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Off-Trail Wilderness Travel</span><span class="conc-type">No maintained trail system anywhere in the park; NPS calls for map, compass, and route-finding skill</span><span class="conc-hrs">No permit required</span></div>
+          <div class="conc-row"><span class="conc-name">Backcountry Itinerary Form</span><span class="conc-type">Voluntary route/return-date form at contact stations; a search begins only once a contact reports someone overdue</span><span class="conc-hrs">Recommended</span></div>
+          <div class="conc-row"><span class="conc-name">Terrain Hazards</span><span class="conc-type">NPS cites river crossings, glacier travel, dense brush, rockfall, and bears as key hazards; self-rescue is expected</span><span class="conc-hrs">Self-sufficiency</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Mountaineering<span class="conc-count">3 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Mount St. Elias</span><span class="conc-type">2nd-highest peak in both the US and Canada; heavily glaciated, technical expedition terrain</span><span class="conc-hrs">18,008 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Mount Blackburn</span><span class="conc-type">Highest peak in the Wrangell Range; first ascended in 1912 via the Kennicott Glacier</span><span class="conc-hrs">16,390 ft</span></div>
+          <div class="conc-row"><span class="conc-name">Guides &amp; Permits</span><span class="conc-type">NPS recommends a guide "unless you have extensive mountaineering experience"; no NPS permit needed unless crossing into Kluane National Park, Canada</span><span class="conc-hrs">No permit (US side)</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">River Floating &amp; Packrafting<span class="conc-count">4 facts</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lakina River</span><span class="conc-type">Popular packrafting run; a 0.4-mi section requires portaging since a September 2024 landslide</span><span class="conc-hrs">Portage required</span></div>
+          <div class="conc-row"><span class="conc-name">Nizina River</span><span class="conc-type">Run past the scenic Mile High Cliffs</span><span class="conc-hrs">Guide recommended</span></div>
+          <div class="conc-row"><span class="conc-name">Copper River</span><span class="conc-type">Canyon stretches popular with rafters</span><span class="conc-hrs">Guide recommended</span></div>
+          <div class="conc-row"><span class="conc-name">River Hazards</span><span class="conc-type">NPS cites cold water, wood (strainers/sweepers), silt, and fast/continuous flow; peak flows hit on warm mid-summer days from glacial melt</span><span class="conc-hrs">No permit required</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Camping -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-camping">
     <summary><span class="sa-title"><span class="sa-icon">🏕</span>Camping</span><span class="sa-badge">No NPS campground at HQ</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="notice-bar" style="margin-bottom: 12px;">
@@ -518,7 +609,7 @@
   </details>
 
   <!-- Landmarks -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-landmarks">
     <summary><span class="sa-title"><span class="sa-icon">📍</span>Landmarks</span><span class="sa-badge">5 stops</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -706,6 +797,15 @@
     body.classList.toggle('open', !isOpen);
   }
 
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
+
+  // ── Init ──
   loadWeather();
   loadAQI();
   loadAlerts();
