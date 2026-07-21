@@ -422,11 +422,11 @@
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text);
+      letter-spacing: 1.4px;
+      color: var(--green-light);
       margin-bottom: 12px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -440,6 +440,11 @@
       flex: 1;
       height: 1px;
       background: var(--border);
+    }
+
+    .section-label.no-border {
+      border-top: none;
+      padding-top: 0;
     }
 
     /* ── Camera Grid ── */
@@ -1405,6 +1410,17 @@
     .busy-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.45; border-top: 1px solid var(--border); padding-top: 8px; }
     .busy-note strong { color: var(--text); }
 
+    /* -- Quick Jump Nav -- */
+    .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .quicknav-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 600;
+      color: var(--text); text-decoration: none; padding: 8px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--surface); transition: background 0.15s, border-color 0.15s;
+      scroll-margin-top: 16px;
+    }
+    .quicknav-link:hover, .quicknav-link:focus-visible { background: var(--surface2); border-color: var(--green); }
+    .section-accordion { scroll-margin-top: 16px; }
+
     .section-accordion { border: none; margin: 0; }
     .section-accordion summary {
       display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
@@ -1577,6 +1593,7 @@
 
 <main>
   <!-- At a Glance -->
+  <div class="section-label no-border">Summary</div>
   <div class="glance-strip">
     <div class="glance-item"><div class="glance-icon">🪧</div><div class="glance-val">3/3</div><div class="glance-lbl">Entrances open</div></div>
     <div class="glance-item"><div class="glance-icon">💵</div><div class="glance-val">$35</div><div class="glance-lbl">7-day fee</div></div>
@@ -1615,8 +1632,19 @@
     <div class="busy-note">Peak season is <strong>June&ndash;September</strong>, when nearly half of Yosemite's annual visitors arrive. For noticeably lighter crowds, aim for <strong>November&ndash;March</strong>.</div>
   </div>
 
+  <!-- Quick Jump Nav -->
+  <div class="section-label">Plan Your Visit</div>
+  <nav class="quicknav" aria-label="Jump to section">
+    <a href="#sec-entrance" class="quicknav-link" data-target="sec-entrance">🪧 Entrance &amp; Fees</a>
+    <a href="#sec-transport" class="quicknav-link" data-target="sec-transport">🚲 Getting Around</a>
+    <a href="#sec-river" class="quicknav-link" data-target="sec-river">🎣 River Conditions</a>
+    <a href="#sec-things" class="quicknav-link" data-target="sec-things">🥾 Things to Do</a>
+    <a href="#sec-dining" class="quicknav-link" data-target="sec-dining">🍽️ Dining</a>
+    <a href="#sec-cameras" class="quicknav-link" data-target="sec-cameras">📷 Live Cams</a>
+  </nav>
+
   <!-- Park Entrance & Traffic Conditions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-entrance">
     <summary><span class="sa-title"><span class="sa-icon">🪧</span>Park Entrance &amp; Traffic Conditions</span><span class="sa-badge ok">3 open · $35</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
 
@@ -1698,7 +1726,7 @@
   </details>
 
   <!-- Valley Transportation -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-transport">
     <summary><span class="sa-title"><span class="sa-icon">🚲</span>Valley Transportation</span><span class="sa-badge">Shuttle · Bikes</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="transport-grid">
@@ -1736,9 +1764,9 @@
     </div>
   </details>
 
-  <!-- Angler Section -->
-  <details class="section-accordion">
-    <summary><span class="sa-title"><span class="sa-icon">🎣</span>Angler Information &middot; Merced River</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
+  <!-- River Conditions -->
+  <details class="section-accordion" id="sec-river">
+    <summary><span class="sa-title"><span class="sa-icon">🎣</span>River Conditions &middot; Merced River</span><span class="sa-badge">2 gauges</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="angler-grid">
 
@@ -1770,8 +1798,75 @@
     </div>
   </details>
 
+  <!-- Things to Do -->
+  <details class="section-accordion" id="sec-things">
+    <summary><span class="sa-title"><span class="sa-icon">🥾</span>Things to Do</span><span class="sa-badge">6 categories</span><span class="sa-chevron">▾</span></summary>
+    <div class="sa-body">
+    <div class="conc-accordion">
+
+      <details class="conc-group">
+        <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Lower Yosemite Fall Trail</span><span class="conc-type">Paved loop to the base of North America's tallest waterfall</span><span class="conc-hrs">1 mi loop · 50 ft · Easy</span></div>
+          <div class="conc-row"><span class="conc-name">Mirror Lake Loop</span><span class="conc-type">Valley-floor walk to a reflective pool below Half Dome; longer option continues as a full loop</span><span class="conc-hrs">2&ndash;5 mi · 100&ndash;200 ft · Easy&ndash;Mod.</span></div>
+          <div class="conc-row"><span class="conc-name">Mist Trail — Vernal &amp; Nevada Falls</span><span class="conc-type">Granite steps through waterfall spray; distance depends on turnaround point (footbridge, Vernal, or Nevada Fall)</span><span class="conc-hrs">1.6&ndash;8 mi RT · up to 2,000 ft · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Yosemite Falls Trail</span><span class="conc-type">Switchbacks to Columbia Rock or all the way to the top of Upper Yosemite Fall</span><span class="conc-hrs">2&ndash;7.2 mi RT · up to 2,700 ft · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Four Mile Trail — Glacier Point</span><span class="conc-type">Steady climb up the valley wall to panoramic views of Half Dome; closes above Union Point in heavy snow</span><span class="conc-hrs">9.6 mi RT · 3,200 ft · Strenuous</span></div>
+          <div class="conc-row"><span class="conc-name">Half Dome</span><span class="conc-type">Cable ascent on the final pitch; day-hike permit required via March lottery or 2-day-ahead draw. Cables up late May&ndash;early Oct, weather permitting</span><span class="conc-hrs">14&ndash;16.4 mi RT · 4,800 ft · Permit</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Rock Climbing<span class="conc-count">4 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">El Capitan &amp; Half Dome</span><span class="conc-type">World-renowned multi-day big-wall routes; overnight climbs need a free, self-registered wilderness climbing permit (no quotas)</span><span class="conc-hrs">Permit (free)</span></div>
+          <div class="conc-row"><span class="conc-name">Tuolumne Meadows Domes</span><span class="conc-type">Sun-drenched granite domes and crack climbs in the high country</span><span class="conc-hrs">Seasonal · Tioga Rd open</span></div>
+          <div class="conc-row"><span class="conc-name">Yosemite Mountaineering School</span><span class="conc-type">Guided instruction and gear rental for all skill levels &middot; 209/372-8344</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row"><span class="conc-name">Camp 4</span><span class="conc-type">Historic climbers' walk-in campground; base-of-wall camping is prohibited park-wide</span><span class="conc-hrs">Walk-in</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Water Activities<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Self-Guided Raft Rentals</span><span class="conc-type">Stoneman Bridge to Sentinel Beach on the Merced; closes when the Pohono Bridge gauge tops 7 ft</span><span class="conc-hrs">Seasonal · Jun&ndash;Jul</span></div>
+          <div class="conc-row"><span class="conc-name">Tenaya Lake Kayaking</span><span class="conc-type">Nonmotorized boats and kayaks; PFD required for all occupants</span><span class="conc-hrs">Summer</span></div>
+          <div class="conc-row"><span class="conc-name">Swimming</span><span class="conc-type">Permitted park-wide except a few posted closures; seasonal pools at Curry Village &amp; Valley Lodge</span><span class="conc-hrs">Summer</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Valley Bike Paths</span><span class="conc-type">Paved, mostly-flat network winding through Yosemite Valley &middot; 15 mph limit</span><span class="conc-hrs">12+ mi</span></div>
+          <div class="conc-row"><span class="conc-name">Bike Rentals</span><span class="conc-type">Curry Village, Yosemite Village &amp; Valley Lodge; first-come, first-served. E-bikes allowed</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row"><span class="conc-name">Free Bike Share</span><span class="conc-type">App-based, 2-hour trips from Yosemite Village stations</span><span class="conc-hrs">Late spring&ndash;fall</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Horseback &amp; Mule Rides<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Guided Rides</span><span class="conc-type">Day rides and pack/saddle trips via Yosemite Hospitality stables &middot; 209/372-4386</span><span class="conc-hrs">Spring&ndash;fall</span></div>
+          <div class="conc-row"><span class="conc-name">Private Stock Camps</span><span class="conc-type">Designated overnight sites at Wawona, Bridalveil Creek &amp; Tuolumne Meadows; max 25 head per party</span><span class="conc-hrs">Permit rules apply</span></div>
+        </div>
+      </details>
+
+      <details class="conc-group">
+        <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
+        <div class="conc-body">
+          <div class="conc-row"><span class="conc-name">Badger Pass Ski Area</span><span class="conc-type">Downhill skiing &amp; snowboarding at California's oldest ski resort (opened 1933), 7,200 ft</span><span class="conc-hrs">Mid-Dec&ndash;Mar</span></div>
+          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Marked routes at Badger Pass/Glacier Point Rd, Crane Flat &amp; Mariposa Grove; rentals &amp; lessons at Badger Pass Nordic Center</span><span class="conc-hrs">Mid-Dec&ndash;mid-Mar</span></div>
+          <div class="conc-row"><span class="conc-name">Curry Village Ice Rink</span><span class="conc-type">Outdoor skating in the shadow of Glacier Point, a tradition since 1929</span><span class="conc-hrs">Mid-Nov&ndash;mid-Mar</span></div>
+        </div>
+      </details>
+
+    </div>
+    </div>
+  </details>
+
   <!-- Concessions -->
-  <details class="section-accordion">
+  <details class="section-accordion" id="sec-dining">
     <summary><span class="sa-title"><span class="sa-icon">🍽️</span>Yosemite Valley Concession Information</span><span class="sa-badge">4 areas</span><span class="sa-chevron">▾</span></summary>
     <div class="sa-body">
     <div class="conc-accordion">
@@ -1820,7 +1915,7 @@
     </div>
   </details>
 
-  <div class="refresh-bar">
+  <div class="refresh-bar" id="sec-cameras">
     <div class="section-label" style="flex:1; margin-bottom:0;">Live Camera Feeds</div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:16px;">
       <span class="refresh-info" id="lastRefresh">Refreshing in 60s</span>
@@ -2397,6 +2492,14 @@
       }
     }
   }
+
+  // ── Quick Jump Nav: open the target accordion (native anchor jump doesn't expand <details>) ──
+  document.querySelectorAll('.quicknav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.target);
+      if (target && target.tagName === 'DETAILS') target.open = true;
+    });
+  });
 
   // ── Init ──
   buildGrid();
