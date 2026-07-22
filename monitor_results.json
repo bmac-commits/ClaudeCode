@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-22T04:03:01.504194+00:00",
-  "ok_count": 107,
-  "error_count": 2,
+  "generated_at": "2026-07-22T15:10:09.887217+00:00",
+  "ok_count": 104,
+  "error_count": 5,
   "parks": [
     {
       "name": "Yosemite",
@@ -56,8 +56,8 @@
       "gauges": [
         {
           "name": "USGS site 11264500",
-          "status": "ok",
-          "detail": "3 parameter(s) reporting"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 1073678 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "USGS site 11266500",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 74 min ago"
+          "detail": "Updated 96 min ago"
         }
       ]
     },
@@ -221,8 +221,8 @@
         },
         {
           "name": "Jackson Visitor Center \u2014 West",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 206949 milliseconds with 16898 out of 1931171 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Visitor Center Cam",
@@ -574,8 +574,8 @@
         },
         {
           "name": "Grand Lake Entrance",
-          "status": "ok",
-          "detail": "HTTP 200, image/jpeg"
+          "status": "error",
+          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 232816 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
         },
         {
           "name": "Alpine Visitor Center",
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.22 ft"
+          "detail": "Current reading: 2.26 ft"
         }
       ]
     },
