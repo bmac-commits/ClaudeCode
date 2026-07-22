@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-22T15:10:09.887217+00:00",
-  "ok_count": 104,
-  "error_count": 5,
+  "generated_at": "2026-07-22T17:49:04.503562+00:00",
+  "ok_count": 109,
+  "error_count": 0,
   "parks": [
     {
       "name": "Yosemite",
@@ -56,8 +56,8 @@
       "gauges": [
         {
           "name": "USGS site 11264500",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 1073678 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         },
         {
           "name": "USGS site 11266500",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 96 min ago"
+          "detail": "Updated 5 min ago"
         }
       ]
     },
@@ -116,9 +116,9 @@
           "detail": "2 parameter(s) reporting"
         },
         {
-          "name": "USGS site 11482120",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "name": "USGS site 11481500",
+          "status": "ok",
+          "detail": "2 parameter(s) reporting"
         }
       ]
     },
@@ -221,8 +221,8 @@
         },
         {
           "name": "Jackson Visitor Center \u2014 West",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 206949 milliseconds with 16898 out of 1931171 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Visitor Center Cam",
@@ -295,9 +295,9 @@
           "detail": "2 parameter(s) reporting"
         },
         {
-          "name": "USGS site 12042400",
-          "status": "error",
-          "detail": "No current readings in response (site may be inactive/offline)"
+          "name": "USGS site 12043000",
+          "status": "ok",
+          "detail": "3 parameter(s) reporting"
         }
       ]
     },
@@ -574,8 +574,8 @@
         },
         {
           "name": "Grand Lake Entrance",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Operation timed out after 232816 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "Alpine Visitor Center",
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.26 ft"
+          "detail": "Current reading: 2.23 ft"
         }
       ]
     },
