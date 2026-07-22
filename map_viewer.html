@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Park Map</title>
+<style>
+  :root {
+    --bg: #14140f;
+    --surface: #1e1e17;
+    --border: #3a3a2c;
+    --text: #f2f2ea;
+    --text-dim: #b8b8a8;
+    --accent: #a4d16e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .back-link:hover, .back-link:active {
+    background: var(--surface);
+    border-color: var(--accent);
+  }
+  .park-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .park-name .suffix {
+    font-weight: 400;
+    color: var(--text-dim);
+    opacity: 0.7;
+  }
+  main {
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 0;
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #fff;
+  }
+  .fallback {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    height: 100%;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .fallback.show { display: flex; }
+  .fallback p { color: var(--text-dim); font-size: 0.9rem; max-width: 360px; line-height: 1.5; }
+  .open-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #14200a;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <a class="back-link" href="index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      All Parks
+    </a>
+    <div class="park-name" id="parkName"><span class="suffix">Park Map</span></div>
+  </header>
+  <main>
+    <iframe id="pdfFrame" title="Park map PDF"></iframe>
+    <div class="fallback" id="fallback">
+      <p>If the map doesn't display below, your browser may not support viewing PDFs inline.</p>
+      <a class="open-btn" id="openDirect" href="#" target="_blank" rel="noopener">Open Map PDF ↗</a>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const pdf = params.get('pdf');
+    const park = params.get('park');
+
+    const nameEl = document.getElementById('parkName');
+    if (park) {
+      nameEl.textContent = park + ' — Park Map';
+    }
+
+    const frame = document.getElementById('pdfFrame');
+    const fallback = document.getElementById('fallback');
+    const openDirect = document.getElementById('openDirect');
+
+    if (pdf) {
+      frame.src = pdf;
+      openDirect.href = pdf;
+    } else {
+      frame.style.display = 'none';
+      fallback.classList.add('show');
+      fallback.querySelector('p').textContent = 'No map file was specified.';
+      openDirect.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
