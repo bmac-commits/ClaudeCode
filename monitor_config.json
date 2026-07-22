@@ -116,8 +116,8 @@
       },
       {
         "type": "usgs",
-        "id": "11482120",
-        "name": "USGS site 11482120",
+        "id": "11481500",
+        "name": "USGS site 11481500",
         "parameterCd": "00060,00065,00010"
       }
     ]
@@ -305,8 +305,8 @@
       },
       {
         "type": "usgs",
-        "id": "12042400",
-        "name": "USGS site 12042400",
+        "id": "12043000",
+        "name": "USGS site 12043000",
         "parameterCd": "00060,00065,00010"
       }
     ]
