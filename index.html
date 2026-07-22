@@ -850,6 +850,15 @@
     </svg>`,
   };
 
+  // One entry per dashboard: name/desc/features are display copy, states
+  // drives the state-filter tabs above, accent/grad/icon theme the card,
+  // href points at that park's {park}_cams.html file. See README.md for
+  // how a new park dashboard gets added end-to-end.
+  //
+  // monitor_extract_config.py regex-parses this array (single-quoted
+  // `name: '...'` and `href: '...'` specifically) to build the health-check
+  // config monitor.py runs against. Keep that quoting style here or a park
+  // will silently drop out of monitoring instead of erroring loudly.
   const PARKS = [
     {
       name: 'Yosemite',

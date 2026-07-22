@@ -1,3 +1,12 @@
+<!--
+  Shared PDF-viewing wrapper for all 65 park dashboards' "Park Map PDF"
+  button, used instead of 65 near-identical wrapper files. Each dashboard
+  links here with ?pdf=<path to the PDF>&park=<display name>; this page
+  embeds that PDF in an iframe and adds a persistent "All Parks" back link,
+  since a bare PDF opened directly has no way back to the hub (the original
+  problem this file exists to fix — mobile users had no browser chrome to
+  navigate back with).
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

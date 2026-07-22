@@ -5,6 +5,11 @@
   "observability": {
     "enabled": true
   },
+  // Serves the whole repo root as static assets — .assetsignore is this
+  // project's .gitignore-equivalent, controlling what wrangler's raw
+  // filesystem scan is allowed to publish (internal scripts/logs must be
+  // listed there or they go live). Note that `git push` alone does NOT
+  // deploy the site — `npx wrangler deploy` is a separate manual step.
   "assets": {
     "directory": "."
   },

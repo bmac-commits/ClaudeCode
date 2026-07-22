@@ -1,3 +1,12 @@
+<!--
+  Canonical template for all 65 ParkGauge dashboards (*_cams.html).
+  Every other park file copies this file's CSS class system and JS
+  structure verbatim — only park-specific content (copy, CAMS array,
+  fetch URLs, accordion sections) differs between files. Read this one
+  file to understand the shape of all 65; see README.md for how the
+  dashboards, hub (index.html), map_viewer.html, and background scrapers
+  fit together as a system.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +42,10 @@
   }
   </script>
   <style>
+    /* Every park picks its own --accent/--accent-light pair here and reuses
+       them throughout (section-label headings, quicknav hover, card borders)
+       instead of hardcoding a color — copy this file's palette approach when
+       building a new park rather than reusing Yosemite's literal green. */
     :root {
       --bg: #16220e;
       --surface: #1e2e15;
@@ -1956,6 +1969,15 @@
 </footer>
 
 <script>
+  // Script shape (same in every *_cams.html): data-fetcher functions
+  // (loadWeather, loadAirQuality, loadAlerts, river/gauge loaders, etc.)
+  // each hit a public API directly from the browser — there's no backend —
+  // and render straight into the DOM on success or fall back to an
+  // "unavailable" state on failure/timeout (see fetchWithTimeout below).
+  // Everything is wired up and kicked off by init() at the bottom of this
+  // block, which runs on page load and re-fires the live-data loaders on
+  // the auto-refresh countdown.
+
   // ── Camera definitions ──
   const CAMS = [
     {
