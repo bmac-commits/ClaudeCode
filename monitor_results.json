@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-21T21:33:59.819511+00:00",
-  "ok_count": 106,
-  "error_count": 3,
+  "generated_at": "2026-07-22T04:03:01.504194+00:00",
+  "ok_count": 107,
+  "error_count": 2,
   "parks": [
     {
       "name": "Yosemite",
@@ -67,7 +67,7 @@
         {
           "name": "Yosemite entrance wait times",
           "status": "ok",
-          "detail": "Updated 80 min ago"
+          "detail": "Updated 74 min ago"
         }
       ]
     },
@@ -730,7 +730,7 @@
         {
           "name": "NOAA/NWS gauge ICDA2",
           "status": "ok",
-          "detail": "Current reading: 2.23 ft"
+          "detail": "Current reading: 2.22 ft"
         }
       ]
     },
@@ -799,8 +799,8 @@
         },
         {
           "name": "West Vent / Lava Lake (V1cam)",
-          "status": "error",
-          "detail": "Timeout: Failed to perform, curl: (28) Connection timed out after 1033713 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+          "status": "ok",
+          "detail": "HTTP 200, image/jpeg"
         },
         {
           "name": "U\u0113kahuna Bluff (K2cam)",
