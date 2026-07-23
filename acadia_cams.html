@@ -271,13 +271,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--tide-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* ── Stargazing Card ── */
     .moon-card {
@@ -766,25 +827,46 @@
       <details class="conc-group">
         <summary class="conc-summary">Park Loop Road<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cadillac Mountain</span><span class="conc-type">First US sunrise Oct 7–Mar 6 only (not summer) · 1,530 ft summit · Summit Road permit required</span><span class="conc-hrs">1,530 ft</span></div>
-          <div class="conc-row"><span class="conc-name">Thunder Hole</span><span class="conc-type">Wave-driven inlet, spray up to 40 ft · rogue wave risk even when calm</span><span class="conc-hrs">~15 min</span></div>
-          <div class="conc-row"><span class="conc-name">Sand Beach</span><span class="conc-type">Rare sand beach on this granite coastline; cold water year-round</span><span class="conc-hrs">~30 min</span></div>
-          <div class="conc-row"><span class="conc-name">Jordan Pond House</span><span class="conc-type">Famous popovers on the lawn, a tradition dating to 1893</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cadillac Mountain</span><span class="conc-chip conc-chip--note">1,530 ft</span></div>
+            <div class="conc-type">First US sunrise Oct 7–Mar 6 only (not summer) · 1,530 ft summit · Summit Road permit required</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Thunder Hole</span><span class="conc-chip conc-chip--note">~15 min</span></div>
+            <div class="conc-type">Wave-driven inlet, spray up to 40 ft · rogue wave risk even when calm</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sand Beach</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Rare sand beach on this granite coastline; cold water year-round</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jordan Pond House</span><span class="conc-chip conc-chip--note">~1 hr</span></div>
+            <div class="conc-type">Famous popovers on the lawn, a tradition dating to 1893</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Trails<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Precipice Trail</span><span class="conc-type">Exposed iron-rung climbing route · seasonally closed for peregrine falcon nesting (typically ~March–summer)</span><span class="conc-hrs">Check status</span></div>
-          <div class="conc-row"><span class="conc-name">Beehive Trail</span><span class="conc-type">Short but exposed iron-rung scramble with big views</span><span class="conc-hrs">~1.5 hrs</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Precipice Trail</span><span class="conc-chip conc-chip--note">Check status</span></div>
+            <div class="conc-type">Exposed iron-rung climbing route · seasonally closed for peregrine falcon nesting (typically ~March–summer)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Beehive Trail</span><span class="conc-chip conc-chip--note">~1.5 hrs</span></div>
+            <div class="conc-type">Short but exposed iron-rung scramble with big views</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Schoodic Peninsula<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Schoodic Point &amp; Loop Road</span><span class="conc-type">Quieter mainland section, granite shoreline, far fewer crowds</span><span class="conc-hrs">Half day</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Schoodic Point &amp; Loop Road</span><span class="conc-chip conc-chip--note">Half day</span></div>
+            <div class="conc-type">Quieter mainland section, granite shoreline, far fewer crowds</div>
+          </div>
         </div>
       </details>
 
@@ -801,59 +883,140 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ocean Path Trail</span><span class="conc-type">Flat coastal walk along pink granite slabs from Sand Beach past Thunder Hole to Otter Point</span><span class="conc-hrs">4.4 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Jordan Pond Path</span><span class="conc-type">Boardwalk-and-boulder loop around Jordan Pond below the Bubbles; western half is notably harder than the eastern</span><span class="conc-hrs">3.3 mi loop · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Gorham Mountain Loop</span><span class="conc-type">Rocky coastal-summit loop with views of Cadillac and Otter Point; optional Cadillac Cliffs rock-scramble spur</span><span class="conc-hrs">3.5 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Beehive Loop</span><span class="conc-type">Iron rungs and ladders up a 450-ft cliff above Sand Beach; very slippery when wet, pets prohibited</span><span class="conc-hrs">1.4 mi RT · 450 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Precipice Loop</span><span class="conc-type">Non-technical rung-and-ladder climb gaining over 1,000 ft in under a mile; closed seasonally to protect nesting peregrine falcons</span><span class="conc-hrs">3.2 mi RT · 1,000+ ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Cadillac South Ridge Trail</span><span class="conc-type">Exposed granite ridgeline to Cadillac Mountain's 1,530-ft summit; the longer, more scenic route up</span><span class="conc-hrs">7.1 mi RT · Moderate</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ocean Path Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Flat coastal walk along pink granite slabs from Sand Beach past Thunder Hole to Otter Point</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:62%;background:#b3e08a"></div></div>
+            <div class="conc-figure">4.4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jordan Pond Path</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Boardwalk-and-boulder loop around Jordan Pond below the Bubbles; western half is notably harder than the eastern</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:46%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.3 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gorham Mountain Loop</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Rocky coastal-summit loop with views of Cadillac and Otter Point; optional Cadillac Cliffs rock-scramble spur</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:49%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.5 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Beehive Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Iron rungs and ladders up a 450-ft cliff above Sand Beach; very slippery when wet, pets prohibited</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:20%;background:var(--red)"></div></div>
+            <div class="conc-figure">1.4 mi RT · 450 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Precipice Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Non-technical rung-and-ladder climb gaining over 1,000 ft in under a mile; closed seasonally to protect nesting peregrine falcons</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:45%;background:var(--red)"></div></div>
+            <div class="conc-figure">3.2 mi RT · 1,000+ ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cadillac South Ridge Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Exposed granite ridgeline to Cadillac Mountain's 1,530-ft summit; the longer, more scenic route up</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">7.1 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">4 areas</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Otter Cliff</span><span class="conc-type">60-ft sea cliffs with crack &amp; face routes up to 5.12 and rappel access; group permit required for parties of 6&ndash;12, Memorial Day weekend&ndash;Labor Day</span><span class="conc-hrs">Permit (groups)</span></div>
-          <div class="conc-row"><span class="conc-name">The Precipice</span><span class="conc-type">Multi-pitch routes up to 5.12 with good corners and thin cracks; some beginner-friendly lines</span><span class="conc-hrs">Up to 5.12</span></div>
-          <div class="conc-row"><span class="conc-name">South Bubble</span><span class="conc-type">1&ndash;3 pitch friction routes; one of the park's more popular beginner spots</span><span class="conc-hrs">Beginner-friendly</span></div>
-          <div class="conc-row"><span class="conc-name">Seasonal Closures</span><span class="conc-type">Precipice, Jordan Cliffs &amp; Beech Cliffs close to protect nesting peregrine falcons, typically early April&ndash;mid-August</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Otter Cliff</span><span class="conc-chip conc-chip--note">Permit (groups)</span></div>
+            <div class="conc-type">60-ft sea cliffs with crack &amp; face routes up to 5.12 and rappel access; group permit required for parties of 6&ndash;12, Memorial Day weekend&ndash;Labor Day</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Precipice</span><span class="conc-chip conc-chip--note">Up to 5.12</span></div>
+            <div class="conc-type">Multi-pitch routes up to 5.12 with good corners and thin cracks; some beginner-friendly lines</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Bubble</span><span class="conc-chip conc-chip--note">Beginner-friendly</span></div>
+            <div class="conc-type">1&ndash;3 pitch friction routes; one of the park's more popular beginner spots</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Seasonal Closures</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Precipice, Jordan Cliffs &amp; Beech Cliffs close to protect nesting peregrine falcons, typically early April&ndash;mid-August</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking &amp; Carriage Roads<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Historic Carriage Roads</span><span class="conc-type">45 miles of crushed-stone roads; bicyclists yield to everyone, horses have right-of-way, 20 mph limit</span><span class="conc-hrs">45 mi</span></div>
-          <div class="conc-row"><span class="conc-name">E-Bikes</span><span class="conc-type">Class 1 e-bikes permitted on carriage roads; Class 2/3, tandems, fat-tire bikes &amp; dogs are not allowed</span><span class="conc-hrs">Class 1 only</span></div>
-          <div class="conc-row"><span class="conc-name">Western Mountain Gravel Roads</span><span class="conc-type">Seal Cove, Western Mountain &amp; Lurvey Spring roads open to biking, away from the crowds; watch for ruts and downed wood</span><span class="conc-hrs">Gravel</span></div>
-          <div class="conc-row"><span class="conc-name">Park Loop Road</span><span class="conc-type">Legal for biking but has no shoulder; NPS advises avoiding it roughly 10 AM&ndash;4 PM in peak season</span><span class="conc-hrs">No shoulder</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Historic Carriage Roads</span><span class="conc-chip conc-chip--note">45 mi</span></div>
+            <div class="conc-type">45 miles of crushed-stone roads; bicyclists yield to everyone, horses have right-of-way, 20 mph limit</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">E-Bikes</span><span class="conc-chip conc-chip--note">Class 1 only</span></div>
+            <div class="conc-type">Class 1 e-bikes permitted on carriage roads; Class 2/3, tandems, fat-tire bikes &amp; dogs are not allowed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Western Mountain Gravel Roads</span><span class="conc-chip conc-chip--note">Gravel</span></div>
+            <div class="conc-type">Seal Cove, Western Mountain &amp; Lurvey Spring roads open to biking, away from the crowds; watch for ruts and downed wood</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Park Loop Road</span><span class="conc-chip conc-chip--note">No shoulder</span></div>
+            <div class="conc-type">Legal for biking but has no shoulder; NPS advises avoiding it roughly 10 AM&ndash;4 PM in peak season</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Water Activities<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ocean Kayaking Access</span><span class="conc-type">Public launch points at Bar Harbor, Northeast &amp; Southwest Harbors, Seal Cove, Bass Harbor, Seal Harbor Beach, Hadley Point &amp; the Bar Island gravel bar</span><span class="conc-hrs">Multiple sites</span></div>
-          <div class="conc-row"><span class="conc-name">Lake &amp; Pond Boating</span><span class="conc-type">Motors capped at 10 hp on Eagle Lake, Jordan Pond, Echo Lake &amp; the Hadlock Ponds; several smaller ponds ban motors entirely</span><span class="conc-hrs">10 hp max</span></div>
-          <div class="conc-row"><span class="conc-name">Swimming</span><span class="conc-type">A handful of freshwater and ocean spots on Mount Desert Island permit swimming; ocean water stays a cold 55&ndash;60°F even in summer</span><span class="conc-hrs">Select spots</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ocean Kayaking Access</span><span class="conc-chip conc-chip--note">Multiple sites</span></div>
+            <div class="conc-type">Public launch points at Bar Harbor, Northeast &amp; Southwest Harbors, Seal Cove, Bass Harbor, Seal Harbor Beach, Hadley Point &amp; the Bar Island gravel bar</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lake &amp; Pond Boating</span><span class="conc-chip conc-chip--note">10 hp max</span></div>
+            <div class="conc-type">Motors capped at 10 hp on Eagle Lake, Jordan Pond, Echo Lake &amp; the Hadlock Ponds; several smaller ponds ban motors entirely</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Swimming</span><span class="conc-chip conc-chip--note">Select spots</span></div>
+            <div class="conc-type">A handful of freshwater and ocean spots on Mount Desert Island permit swimming; ocean water stays a cold 55&ndash;60°F even in summer</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Tidepooling<span class="conc-count">3 spots</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wonderland &amp; Ship Harbor</span><span class="conc-type">Two of the park's best tidepooling trails, on the quieter southwest side of Mount Desert Island</span><span class="conc-hrs">Tide-dependent</span></div>
-          <div class="conc-row"><span class="conc-name">Bar Island &amp; Schoodic Peninsula</span><span class="conc-type">Additional tidepooling areas; explore only within 1.5 hours before to 1.5 hours after low tide</span><span class="conc-hrs">&plusmn;1.5 hr of low tide</span></div>
-          <div class="conc-row"><span class="conc-name">Tidepool Etiquette</span><span class="conc-type">Stay on rocks, never remove or handle organisms, and rinse off sunscreen or bug spray before exploring</span><span class="conc-hrs">Leave No Trace</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wonderland &amp; Ship Harbor</span><span class="conc-chip conc-chip--note">Tide-dependent</span></div>
+            <div class="conc-type">Two of the park's best tidepooling trails, on the quieter southwest side of Mount Desert Island</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bar Island &amp; Schoodic Peninsula</span><span class="conc-chip conc-chip--note">&plusmn;1.5 hr of low tide</span></div>
+            <div class="conc-type">Additional tidepooling areas; explore only within 1.5 hours before to 1.5 hours after low tide</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tidepool Etiquette</span><span class="conc-chip conc-chip--note">Leave No Trace</span></div>
+            <div class="conc-type">Stay on rocks, never remove or handle organisms, and rinse off sunscreen or bug spray before exploring</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">45 miles of carriage roads, groomed by volunteers once 6+ inches of snow falls on a frozen roadbed</span><span class="conc-hrs">Dec&ndash;Mar</span></div>
-          <div class="conc-row"><span class="conc-name">Ice Skating</span><span class="conc-type">Possible on park lakes and ponds, though they rarely freeze smoothly or stay free of snow; check ice thickness first</span><span class="conc-hrs">Conditions vary</span></div>
-          <div class="conc-row"><span class="conc-name">Winter Park Loop Road</span><span class="conc-type">Most of Park Loop Road closes to vehicles; only Ocean Drive (Schooner Head&ndash;Otter Cliff) and Jordan Pond Road stay open</span><span class="conc-hrs">Dec 1&ndash;Apr 14</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-chip conc-chip--note">Dec&ndash;Mar</span></div>
+            <div class="conc-type">45 miles of carriage roads, groomed by volunteers once 6+ inches of snow falls on a frozen roadbed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ice Skating</span><span class="conc-chip conc-chip--note">Conditions vary</span></div>
+            <div class="conc-type">Possible on park lakes and ponds, though they rarely freeze smoothly or stay free of snow; check ice thickness first</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Winter Park Loop Road</span><span class="conc-chip conc-chip--note">Dec 1&ndash;Apr 14</span></div>
+            <div class="conc-type">Most of Park Loop Road closes to vehicles; only Ocean Drive (Schooner Head&ndash;Otter Cliff) and Jordan Pond Road stay open</div>
+          </div>
         </div>
       </details>
 

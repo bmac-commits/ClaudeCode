@@ -272,13 +272,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--dusk-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* ── Stargazing Card ── */
     .moon-card {
@@ -792,26 +853,50 @@
       <details class="conc-group">
         <summary class="conc-summary">Chisos Basin Area<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">The Window Trail</span><span class="conc-type">Moderate 5.6 mi round trip to a pour-off framing the desert below</span><span class="conc-hrs">~3 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Lost Mine Trail</span><span class="conc-type">Moderate 4.8 mi round trip, one of the park's best views</span><span class="conc-hrs">~3 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Chisos Mountains / Emory Peak</span><span class="conc-type">The only US mountain range entirely inside one national park</span><span class="conc-hrs">7,825 ft</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Window Trail</span><span class="conc-chip conc-chip--note">~3 hrs</span></div>
+            <div class="conc-type">Moderate 5.6 mi round trip to a pour-off framing the desert below</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lost Mine Trail</span><span class="conc-chip conc-chip--note">~3 hrs</span></div>
+            <div class="conc-type">Moderate 4.8 mi round trip, one of the park's best views</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chisos Mountains / Emory Peak</span><span class="conc-chip conc-chip--note">7,825 ft</span></div>
+            <div class="conc-type">The only US mountain range entirely inside one national park</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">River Canyons<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Santa Elena Canyon</span><span class="conc-type">Easy trail into the mouth of 1,500-ft limestone canyon walls</span><span class="conc-hrs">~1.5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Boquillas Canyon</span><span class="conc-type">Easy trail along the Rio Grande to a towering canyon entrance</span><span class="conc-hrs">~1 hr</span></div>
-          <div class="conc-row"><span class="conc-name">Rio Grande Village Nature Trail</span><span class="conc-type">Easy boardwalk loop with river &amp; wetland views</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Santa Elena Canyon</span><span class="conc-chip conc-chip--note">~1.5 hrs</span></div>
+            <div class="conc-type">Easy trail into the mouth of 1,500-ft limestone canyon walls</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boquillas Canyon</span><span class="conc-chip conc-chip--note">~1 hr</span></div>
+            <div class="conc-type">Easy trail along the Rio Grande to a towering canyon entrance</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rio Grande Village Nature Trail</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Easy boardwalk loop with river &amp; wetland views</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Desert Formations<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">The Chimneys</span><span class="conc-type">Moderate desert hike to volcanic rock formations &amp; petroglyphs</span><span class="conc-hrs">~2 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Balanced Rock (Grapevine Hills)</span><span class="conc-type">Easy 2.2 mi round trip to a boulder balanced between two rock towers</span><span class="conc-hrs">~1.5 hrs</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Chimneys</span><span class="conc-chip conc-chip--note">~2 hrs</span></div>
+            <div class="conc-type">Moderate desert hike to volcanic rock formations &amp; petroglyphs</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Balanced Rock (Grapevine Hills)</span><span class="conc-chip conc-chip--note">~1.5 hrs</span></div>
+            <div class="conc-type">Easy 2.2 mi round trip to a boulder balanced between two rock towers</div>
+          </div>
         </div>
       </details>
 
@@ -828,63 +913,170 @@
       <details class="conc-group">
         <summary class="conc-summary">Chisos Mountain Hiking<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">South Rim</span><span class="conc-type">Big Bend's signature hike, climbing through pine-oak forest to sheer cliffs above the desert floor</span><span class="conc-hrs">12&ndash;14.5 mi RT · 2,000 ft gain · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Emory Peak</span><span class="conc-type">Trail to the park's highest point, ending in a short hand-over-hand rock scramble to the 7,825-ft summit</span><span class="conc-hrs">10 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Boot Canyon Trail</span><span class="conc-type">High-elevation wooded canyon en route to South Rim; summer nesting habitat for the rare Colima Warbler</span><span class="conc-hrs">3.5 mi one-way · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Chisos Basin Loop Trail</span><span class="conc-type">Easy loop around the Chisos Basin Trailhead with mountain views</span><span class="conc-hrs">2 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Window View Trail</span><span class="conc-type">Short, paved, wheelchair-accessible overlook of the Window pour-off</span><span class="conc-hrs">0.3 mi RT · Easy</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Rim</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Big Bend's signature hike, climbing through pine-oak forest to sheer cliffs above the desert floor</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">12&ndash;14.5 mi RT · 2,000 ft gain</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Emory Peak</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Trail to the park's highest point, ending in a short hand-over-hand rock scramble to the 7,825-ft summit</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:69%;background:var(--red)"></div></div>
+            <div class="conc-figure">10 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boot Canyon Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">High-elevation wooded canyon en route to South Rim; summer nesting habitat for the rare Colima Warbler</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:24%;background:var(--red)"></div></div>
+            <div class="conc-figure">3.5 mi one-way</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chisos Basin Loop Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Easy loop around the Chisos Basin Trailhead with mountain views</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:14%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Window View Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Short, paved, wheelchair-accessible overlook of the Window pour-off</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:2%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.3 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Desert Hiking<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Marufo Vega Trail</span><span class="conc-type">Remote desert loop with views into Boquillas Canyon and Mexico</span><span class="conc-hrs">12 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Mariscal Canyon Rim Trail</span><span class="conc-type">Overlooks the park's most remote and least-visited river canyon</span><span class="conc-hrs">6.5 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Mule Ears Spring Trail</span><span class="conc-type">Desert walk to a spring beneath the twin Mule Ears rock peaks</span><span class="conc-hrs">3.8 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Upper Burro Mesa Pour-off Trail</span><span class="conc-type">Descends into a dry desert wash below a pour-off cliff</span><span class="conc-hrs">3.8 mi RT · 500 ft gain · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Dog Canyon</span><span class="conc-type">Cuts through a narrow break in the Dead Horse Mountains</span><span class="conc-hrs">4 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Chihuahuan Desert Nature Trail</span><span class="conc-type">Short self-guided loop identifying common desert plants</span><span class="conc-hrs">0.5 mi RT · Easy</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Marufo Vega Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Remote desert loop with views into Boquillas Canyon and Mexico</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">12 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mariscal Canyon Rim Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Overlooks the park's most remote and least-visited river canyon</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:54%;background:var(--red)"></div></div>
+            <div class="conc-figure">6.5 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mule Ears Spring Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Desert walk to a spring beneath the twin Mule Ears rock peaks</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:32%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Upper Burro Mesa Pour-off Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Descends into a dry desert wash below a pour-off cliff</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:32%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.8 mi RT · 500 ft gain</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dog Canyon</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Cuts through a narrow break in the Dead Horse Mountains</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:33%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chihuahuan Desert Nature Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Short self-guided loop identifying common desert plants</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:4%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.5 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">River Trips &amp; Hot Spring<span class="conc-count">5 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Santa Elena Canyon Float</span><span class="conc-type">Day or overnight trip beneath 1,500-ft limestone walls; easy access and striking scenery</span><span class="conc-hrs">Permit required</span></div>
-          <div class="conc-row"><span class="conc-name">Boquillas Canyon Float</span><span class="conc-type">A great introductory float trip for visitors with less river experience</span><span class="conc-hrs">33 mi · 3-day trip</span></div>
-          <div class="conc-row"><span class="conc-name">Mariscal Canyon Float</span><span class="conc-type">Shortest canyon run, with lots of scenery and a little excitement</span><span class="conc-hrs">10 mi · Multi-day</span></div>
-          <div class="conc-row"><span class="conc-name">The Lower Canyons</span><span class="conc-type">Remote, varied float through open desert and deep canyon country</span><span class="conc-hrs">5&ndash;10 day trip</span></div>
-          <div class="conc-row"><span class="conc-name">Langford Hot Spring</span><span class="conc-type">105°F spring at the ruins of a historic bathhouse on the Rio Grande; soaking only &mdash; no soap, glass, or alcohol</span><span class="conc-hrs">0.5 mi RT · Easy</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Santa Elena Canyon Float</span><span class="conc-chip conc-chip--note">Permit required</span></div>
+            <div class="conc-type">Day or overnight trip beneath 1,500-ft limestone walls; easy access and striking scenery</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boquillas Canyon Float</span><span class="conc-chip conc-chip--note">33 mi · 3-day trip</span></div>
+            <div class="conc-type">A great introductory float trip for visitors with less river experience</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mariscal Canyon Float</span><span class="conc-chip conc-chip--note">10 mi · Multi-day</span></div>
+            <div class="conc-type">Shortest canyon run, with lots of scenery and a little excitement</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Lower Canyons</span><span class="conc-chip conc-chip--note">5&ndash;10 day trip</span></div>
+            <div class="conc-type">Remote, varied float through open desert and deep canyon country</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Langford Hot Spring</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">105°F spring at the ruins of a historic bathhouse on the Rio Grande; soaking only &mdash; no soap, glass, or alcohol</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.5 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback &amp; Stock Use<span class="conc-count">4 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Backcountry Stock Permit</span><span class="conc-type">Required for all stock use; obtained in person up to 24 hrs ahead, with current livestock vaccination records</span><span class="conc-hrs">Free permit</span></div>
-          <div class="conc-row"><span class="conc-name">Chisos Mountain Trails</span><span class="conc-type">Horses limited to Laguna Meadow, South Rim &amp; Blue Creek; prohibited on Santa Elena Canyon, Boquillas Canyon &amp; Pine Canyon trails</span><span class="conc-hrs">Restricted routes</span></div>
-          <div class="conc-row"><span class="conc-name">Hannold Draw Corral</span><span class="conc-type">The park's only stock corral, holding up to 8 head, 4.8 mi north of Panther Junction</span><span class="conc-hrs">Reserve on Recreation.gov</span></div>
-          <div class="conc-row"><span class="conc-name">Bring Your Own Stock</span><span class="conc-type">No horses or pack animals for hire in or near the park</span><span class="conc-hrs">No outfitters</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Backcountry Stock Permit</span><span class="conc-chip conc-chip--note">Free permit</span></div>
+            <div class="conc-type">Required for all stock use; obtained in person up to 24 hrs ahead, with current livestock vaccination records</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chisos Mountain Trails</span><span class="conc-chip conc-chip--note">Restricted routes</span></div>
+            <div class="conc-type">Horses limited to Laguna Meadow, South Rim &amp; Blue Creek; prohibited on Santa Elena Canyon, Boquillas Canyon &amp; Pine Canyon trails</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hannold Draw Corral</span><span class="conc-chip conc-chip--note">Reserve on Recreation.gov</span></div>
+            <div class="conc-type">The park's only stock corral, holding up to 8 head, 4.8 mi north of Panther Junction</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bring Your Own Stock</span><span class="conc-chip conc-chip--note">No outfitters</span></div>
+            <div class="conc-type">No horses or pack animals for hire in or near the park</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Scenic Drives &amp; Biking<span class="conc-count">4 routes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ross Maxwell Scenic Drive</span><span class="conc-type">Paved road past Sotol Vista, Mule Ears &amp; Tuff Canyon to Castolon and Santa Elena Canyon</span><span class="conc-hrs">30 mi paved</span></div>
-          <div class="conc-row"><span class="conc-name">Old Maverick Road</span><span class="conc-type">Improved dirt road through the Terlingua Creek badlands to Santa Elena Canyon</span><span class="conc-hrs">14 mi dirt</span></div>
-          <div class="conc-row"><span class="conc-name">Panther Junction &ndash; Rio Grande Village (bike)</span><span class="conc-type">The easiest paved shuttle ride in the park; e-bikes allowed on all roads, no trails</span><span class="conc-hrs">20 mi · 1.5&ndash;2.5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Old Ore Road (bike)</span><span class="conc-type">Unpaved backcountry route through remote desert</span><span class="conc-hrs">26 mi · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ross Maxwell Scenic Drive</span><span class="conc-chip conc-chip--note">30 mi paved</span></div>
+            <div class="conc-type">Paved road past Sotol Vista, Mule Ears &amp; Tuff Canyon to Castolon and Santa Elena Canyon</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Old Maverick Road</span><span class="conc-chip conc-chip--note">14 mi dirt</span></div>
+            <div class="conc-type">Improved dirt road through the Terlingua Creek badlands to Santa Elena Canyon</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Panther Junction &ndash; Rio Grande Village (bike)</span><span class="conc-chip conc-chip--note">20 mi · 1.5&ndash;2.5 hrs</span></div>
+            <div class="conc-type">The easiest paved shuttle ride in the park; e-bikes allowed on all roads, no trails</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Old Ore Road (bike)</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Unpaved backcountry route through remote desert</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">26 mi</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Bird Watching<span class="conc-count">3 highlights</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">450+ Species Documented</span><span class="conc-type">One of the most bird-diverse national parks in the US; only 56 species reside year-round</span><span class="conc-hrs">450+ species</span></div>
-          <div class="conc-row"><span class="conc-name">Colima Warbler</span><span class="conc-type">Rarely seen elsewhere in the US; nests in the high Chisos country each summer</span><span class="conc-hrs">Boot Canyon area</span></div>
-          <div class="conc-row"><span class="conc-name">Prime Birding Spots</span><span class="conc-type">Cottonwood Campground, Rio Grande Village Nature Trail &amp; Santa Elena Canyon</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">450+ Species Documented</span><span class="conc-chip conc-chip--note">450+ species</span></div>
+            <div class="conc-type">One of the most bird-diverse national parks in the US; only 56 species reside year-round</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Colima Warbler</span><span class="conc-chip conc-chip--note">Boot Canyon area</span></div>
+            <div class="conc-type">Rarely seen elsewhere in the US; nests in the high Chisos country each summer</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Prime Birding Spots</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Cottonwood Campground, Rio Grande Village Nature Trail &amp; Santa Elena Canyon</div>
+          </div>
         </div>
       </details>
 

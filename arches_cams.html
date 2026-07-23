@@ -769,38 +769,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--rust-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1460,17 +1491,42 @@
       <details class="conc-group">
         <summary class="conc-summary">Signature Arches<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Delicate Arch</span><span class="conc-type">Strenuous · Utah's iconic freestanding arch</span><span class="conc-hrs">~3 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Landscape Arch</span><span class="conc-type">Easy · one of the longest natural arches on Earth</span><span class="conc-hrs">~1.6 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Double Arch</span><span class="conc-type">Easy · two arches sharing one base</span><span class="conc-hrs">~0.6 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Delicate Arch</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Strenuous · Utah's iconic freestanding arch</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~3 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Landscape Arch</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy · one of the longest natural arches on Earth</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:53%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~1.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Double Arch</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy · two arches sharing one base</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:20%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~0.6 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Roadside &amp; Short Walks<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Balanced Rock</span><span class="conc-type">Easy · massive boulder on a narrow pedestal</span><span class="conc-hrs">~0.3 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Devils Garden</span><span class="conc-type">Moderate-strenuous · most arches in one area</span><span class="conc-hrs">Up to 7.9 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Balanced Rock</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy · massive boulder on a narrow pedestal</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:4%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~0.3 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devils Garden</span><span class="conc-chip conc-chip--hard">Moderate-strenuous</span></div>
+            <div class="conc-type">Moderate-strenuous · most arches in one area</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">Up to 7.9 mi RT</div>
+          </div>
         </div>
       </details>
 
@@ -1487,57 +1543,128 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Park Avenue Trail</span><span class="conc-type">Canyon walk beneath towering sandstone fins; one-way hikers can arrange a shuttle pickup at Courthouse Towers</span><span class="conc-hrs">1.8 mi RT · 320 ft · Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">The Windows Loop</span><span class="conc-type">Loop past North &amp; South Window and Turret Arch, the park's densest cluster of arches near one trailhead</span><span class="conc-hrs">1 mi RT · 99 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Double O Arch</span><span class="conc-type">Devils Garden extension past Landscape Arch across narrow slickrock ledges with steep drop-offs</span><span class="conc-hrs">4.1 mi RT · Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Devils Garden Primitive Loop</span><span class="conc-type">Full loop via Dark Angel with steep scrambling; the most difficult maintained trail in the park</span><span class="conc-hrs">7.9 mi RT · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Park Avenue Trail</span><span class="conc-chip conc-chip--mod">Mod.</span></div>
+            <div class="conc-type">Canyon walk beneath towering sandstone fins; one-way hikers can arrange a shuttle pickup at Courthouse Towers</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:23%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.8 mi RT · 320 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Windows Loop</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Loop past North &amp; South Window and Turret Arch, the park's densest cluster of arches near one trailhead</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:13%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1 mi RT · 99 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Double O Arch</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">Devils Garden extension past Landscape Arch across narrow slickrock ledges with steep drop-offs</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:52%;background:var(--red)"></div></div>
+            <div class="conc-figure">4.1 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devils Garden Primitive Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Full loop via Dark Angel with steep scrambling; the most difficult maintained trail in the park</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">7.9 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">4 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Registration</span><span class="conc-type">Free permit via the online reservation system or self-registration kiosk at the visitor center; no daily route limits</span><span class="conc-hrs">Free</span></div>
-          <div class="conc-row"><span class="conc-name">Group Size</span><span class="conc-type">Climbing parties are capped park-wide</span><span class="conc-hrs">Max 5</span></div>
-          <div class="conc-row"><span class="conc-name">Prohibited Climbs</span><span class="conc-type">Named arches with openings over 3 ft and Balanced Rock are off-limits; guided climbing services are banned park-wide</span><span class="conc-hrs">Prohibited</span></div>
-          <div class="conc-row"><span class="conc-name">Raptor Closures</span><span class="conc-type">Many routes close seasonally to protect nesting birds of prey; check the current closure list before climbing</span><span class="conc-hrs">Jan&ndash;Aug</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Registration</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">Free permit via the online reservation system or self-registration kiosk at the visitor center; no daily route limits</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Group Size</span><span class="conc-chip conc-chip--note">Max 5</span></div>
+            <div class="conc-type">Climbing parties are capped park-wide</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Prohibited Climbs</span><span class="conc-chip conc-chip--note">Prohibited</span></div>
+            <div class="conc-type">Named arches with openings over 3 ft and Balanced Rock are off-limits; guided climbing services are banned park-wide</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Raptor Closures</span><span class="conc-chip conc-chip--note">Jan&ndash;Aug</span></div>
+            <div class="conc-type">Many routes close seasonally to protect nesting birds of prey; check the current closure list before climbing</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Canyoneering<span class="conc-count">4 routes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Permit Options</span><span class="conc-type">Self-register free at the visitor center kiosk, book online via Recreation.gov, or visit the Backcountry Permit Office in Moab</span><span class="conc-hrs">$0&ndash;$6</span></div>
-          <div class="conc-row"><span class="conc-name">Group Size</span><span class="conc-type">Fiery Furnace &amp; Lost Spring Canyon routes are capped lower than the rest of the park</span><span class="conc-hrs">Max 6&ndash;10</span></div>
-          <div class="conc-row"><span class="conc-name">Established Routes</span><span class="conc-type">Dragonfly, Krill &amp; Lomatium, Lost and Found/Undercover, and Bighorn are the park's marked canyoneering routes</span><span class="conc-hrs">4 routes</span></div>
-          <div class="conc-row"><span class="conc-name">Fiery Furnace Add-On</span><span class="conc-type">Canyoneering inside the Fiery Furnace also requires the separate Self-Guided Exploration permit</span><span class="conc-hrs">$10/person</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Permit Options</span><span class="conc-chip conc-chip--note">$0&ndash;$6</span></div>
+            <div class="conc-type">Self-register free at the visitor center kiosk, book online via Recreation.gov, or visit the Backcountry Permit Office in Moab</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Group Size</span><span class="conc-chip conc-chip--note">Max 6&ndash;10</span></div>
+            <div class="conc-type">Fiery Furnace &amp; Lost Spring Canyon routes are capped lower than the rest of the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Established Routes</span><span class="conc-chip conc-chip--note">4 routes</span></div>
+            <div class="conc-type">Dragonfly, Krill &amp; Lomatium, Lost and Found/Undercover, and Bighorn are the park's marked canyoneering routes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fiery Furnace Add-On</span><span class="conc-chip conc-chip--note">$10/person</span></div>
+            <div class="conc-type">Canyoneering inside the Fiery Furnace also requires the separate Self-Guided Exploration permit</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backpacking<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Permit</span><span class="conc-type">Issued only in person at the Backcountry Permit Office in Moab, up to 7 days ahead; no online booking</span><span class="conc-hrs">$7/person</span></div>
-          <div class="conc-row"><span class="conc-name">Designated Sites</span><span class="conc-type">Only 4 backcountry campsites exist park-wide: 3 at Courthouse Wash, 1 at Devils Garden</span><span class="conc-hrs">4 sites</span></div>
-          <div class="conc-row"><span class="conc-name">Group &amp; Stay Limits</span><span class="conc-type">Each permit covers up to 7 people, up to 3 nights per campsite, 7 nights total</span><span class="conc-hrs">7 people</span></div>
-          <div class="conc-row"><span class="conc-name">Waste Rule</span><span class="conc-type">No campfires or dispersed camping; all solid human waste must be packed out</span><span class="conc-hrs">Pack it out</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Permit</span><span class="conc-chip conc-chip--note">$7/person</span></div>
+            <div class="conc-type">Issued only in person at the Backcountry Permit Office in Moab, up to 7 days ahead; no online booking</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Designated Sites</span><span class="conc-chip conc-chip--note">4 sites</span></div>
+            <div class="conc-type">Only 4 backcountry campsites exist park-wide: 3 at Courthouse Wash, 1 at Devils Garden</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Group &amp; Stay Limits</span><span class="conc-chip conc-chip--note">7 people</span></div>
+            <div class="conc-type">Each permit covers up to 7 people, up to 3 nights per campsite, 7 nights total</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Waste Rule</span><span class="conc-chip conc-chip--note">Pack it out</span></div>
+            <div class="conc-type">No campfires or dispersed camping; all solid human waste must be packed out</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger-Led Programs<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Patio Talk</span><span class="conc-type">10-minute geology talks at the Visitor Center; no reservation needed</span><span class="conc-hrs">Free · Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Evening Program</span><span class="conc-type">30&ndash;45 minute talks at the Devils Garden Campground Amphitheater</span><span class="conc-hrs">Nightly from May 31</span></div>
-          <div class="conc-row"><span class="conc-name">Fiery Furnace Ranger Hike</span><span class="conc-type">Physically demanding, ranger-led route-finding hike through the Fiery Furnace, ages 5+; advance Recreation.gov tickets required, no walk-ups</span><span class="conc-hrs">Apr&ndash;early fall</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Patio Talk</span><span class="conc-chip conc-chip--note">Free · Daily</span></div>
+            <div class="conc-type">10-minute geology talks at the Visitor Center; no reservation needed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Evening Program</span><span class="conc-chip conc-chip--note">Nightly from May 31</span></div>
+            <div class="conc-type">30&ndash;45 minute talks at the Devils Garden Campground Amphitheater</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fiery Furnace Ranger Hike</span><span class="conc-chip conc-chip--note">Apr&ndash;early fall</span></div>
+            <div class="conc-type">Physically demanding, ranger-led route-finding hike through the Fiery Furnace, ages 5+; advance Recreation.gov tickets required, no walk-ups</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Scenic Drive</span><span class="conc-type">Cycling is permitted only on the paved park road and pullouts; no off-road or trail biking inside the park</span><span class="conc-hrs">18 mi paved</span></div>
-          <div class="conc-row"><span class="conc-name">Nearby Off-Road Options</span><span class="conc-type">Mountain bike trails exist on public lands just outside the park boundary near Moab</span><span class="conc-hrs">Outside park</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Scenic Drive</span><span class="conc-chip conc-chip--note">18 mi paved</span></div>
+            <div class="conc-type">Cycling is permitted only on the paved park road and pullouts; no off-road or trail biking inside the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Nearby Off-Road Options</span><span class="conc-chip conc-chip--note">Outside park</span></div>
+            <div class="conc-type">Mountain bike trails exist on public lands just outside the park boundary near Moab</div>
+          </div>
         </div>
       </details>
 
@@ -1587,7 +1714,10 @@
       <details class="conc-group">
         <summary class="conc-summary">Visitor Center<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Bookstore &amp; Exhibits</span><span class="conc-type">Books · Maps · Gifts</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bookstore &amp; Exhibits</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Books · Maps · Gifts</div>
+          </div>
         </div>
       </details>
 

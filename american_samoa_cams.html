@@ -130,13 +130,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--teal-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -474,38 +535,92 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Pola Island Trail</span><span class="conc-type">Short, fairly flat trail from Vatia Village to a rough, rocky beach facing Pola Island's seabird nesting cliffs</span><span class="conc-hrs">0.1 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Lower Sauma Ridge Trail</span><span class="conc-type">Interpretive walk to an archeological star mound site with views of the Vai'ava Strait National Natural Landmark</span><span class="conc-hrs">0.4 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Tuafanua Trail</span><span class="conc-type">Switchbacks from Vatia Village through rainforest, descending ladders and ropes to a secluded rocky beach</span><span class="conc-hrs">2.2 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Mount 'Alava Trail</span><span class="conc-type">Full rainforest climb from Fagasa Pass to panoramic summit views across Tutuila; fruit bats and native birds along the way</span><span class="conc-hrs">7 mi RT · Challenging</span></div>
-          <div class="conc-row"><span class="conc-name">Mount 'Alava Adventure Trail</span><span class="conc-type">Ridgeline loop with 56 ladders and 783 steps, descending to Vatia Village before looping back to the trailhead</span><span class="conc-hrs">5.6 mi RT · Challenging</span></div>
-          <div class="conc-row"><span class="conc-name">Si'u Point Trail</span><span class="conc-type">Old-road trek on Ta'ū past the culturally significant Saua site to the island's southeast tip</span><span class="conc-hrs">5.7 mi RT · Moderate</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Pola Island Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Short, fairly flat trail from Vatia Village to a rough, rocky beach facing Pola Island's seabird nesting cliffs</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:1%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.1 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lower Sauma Ridge Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Interpretive walk to an archeological star mound site with views of the Vai'ava Strait National Natural Landmark</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:6%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tuafanua Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Switchbacks from Vatia Village through rainforest, descending ladders and ropes to a secluded rocky beach</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:31%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mount 'Alava Trail</span><span class="conc-chip conc-chip--hard">Challenging</span></div>
+            <div class="conc-type">Full rainforest climb from Fagasa Pass to panoramic summit views across Tutuila; fruit bats and native birds along the way</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">7 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mount 'Alava Adventure Trail</span><span class="conc-chip conc-chip--hard">Challenging</span></div>
+            <div class="conc-type">Ridgeline loop with 56 ladders and 783 steps, descending to Vatia Village before looping back to the trailhead</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:80%;background:var(--red)"></div></div>
+            <div class="conc-figure">5.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Si'u Point Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Old-road trek on Ta'ū past the culturally significant Saua site to the island's southeast tip</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:81%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">5.7 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Snorkeling &amp; Diving<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ofu Island</span><span class="conc-type">Crystal-clear water and a shallow fringing reef close to shore, suited to beginners and experienced snorkelers alike</span><span class="conc-hrs">Fly/boat via Ta'ū</span></div>
-          <div class="conc-row"><span class="conc-name">Fagatele Bay</span><span class="conc-type">Protected National Marine Sanctuary bay on Tutuila with sea turtles, sharks, and vibrant coral</span><span class="conc-hrs">Snorkel &amp; dive</span></div>
-          <div class="conc-row"><span class="conc-name">Aunu'u Island</span><span class="conc-type">Remote spot off Tutuila with less-visited coral formations and abundant marine life</span><span class="conc-hrs">Off Tutuila</span></div>
-          <div class="conc-row"><span class="conc-name">Alega Beach &amp; Taema Bank</span><span class="conc-type">Recommended dive sites on Tutuila's south coast — easy shore access at Alega, deeper reef walls at Taema Bank</span><span class="conc-hrs">Charter/own gear</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ofu Island</span><span class="conc-chip conc-chip--note">Fly/boat via Ta'ū</span></div>
+            <div class="conc-type">Crystal-clear water and a shallow fringing reef close to shore, suited to beginners and experienced snorkelers alike</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fagatele Bay</span><span class="conc-chip conc-chip--note">Snorkel &amp; dive</span></div>
+            <div class="conc-type">Protected National Marine Sanctuary bay on Tutuila with sea turtles, sharks, and vibrant coral</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Aunu'u Island</span><span class="conc-chip conc-chip--note">Off Tutuila</span></div>
+            <div class="conc-type">Remote spot off Tutuila with less-visited coral formations and abundant marine life</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Alega Beach &amp; Taema Bank</span><span class="conc-chip conc-chip--note">Charter/own gear</span></div>
+            <div class="conc-type">Recommended dive sites on Tutuila's south coast — easy shore access at Alega, deeper reef walls at Taema Bank</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wildlife Viewing<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Flying Foxes</span><span class="conc-type">Two fruit bat species (Pteropus samoensis &amp; P. tonganus) with wingspans up to 3 ft, active by day and night over the rainforest canopy</span><span class="conc-hrs">Islandwide</span></div>
-          <div class="conc-row"><span class="conc-name">Marine Wildlife</span><span class="conc-type">Sea turtles, reef sharks, manta rays, and (seasonally) migrating humpback whales visible while snorkeling or diving</span><span class="conc-hrs">Whales seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Flying Foxes</span><span class="conc-chip conc-chip--note">Islandwide</span></div>
+            <div class="conc-type">Two fruit bat species (Pteropus samoensis &amp; P. tonganus) with wingspans up to 3 ft, active by day and night over the rainforest canopy</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Marine Wildlife</span><span class="conc-chip conc-chip--note">Whales seasonal</span></div>
+            <div class="conc-type">Sea turtles, reef sharks, manta rays, and (seasonally) migrating humpback whales visible while snorkeling or diving</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Village Life &amp; Fa'a Samoa<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Village Etiquette</span><span class="conc-type">Ask permission before photos, beach use, or hiking in villages; pause quietly during evening prayer (sā); Sundays are reserved for church and rest</span><span class="conc-hrs">Local custom</span></div>
-          <div class="conc-row"><span class="conc-name">Homestay Program</span><span class="conc-type">Stay with a Samoan family in a traditional fale on Ofu or Ta'ū, coordinated in advance with the visitor center</span><span class="conc-hrs">Fee varies by host</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Village Etiquette</span><span class="conc-chip conc-chip--note">Local custom</span></div>
+            <div class="conc-type">Ask permission before photos, beach use, or hiking in villages; pause quietly during evening prayer (sā); Sundays are reserved for church and rest</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Homestay Program</span><span class="conc-chip conc-chip--note">Fee varies by host</span></div>
+            <div class="conc-type">Stay with a Samoan family in a traditional fale on Ofu or Ta'ū, coordinated in advance with the visitor center</div>
+          </div>
         </div>
       </details>
 
@@ -521,19 +636,28 @@
       <details class="conc-group">
         <summary class="conc-summary">Tutuila<span class="conc-count">lowland ridge forest</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mount Alava Trail</span><span class="conc-type">Ridge-line hike above Pago Pago Harbor with sweeping views</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mount Alava Trail</span></div>
+            <div class="conc-type">Ridge-line hike above Pago Pago Harbor with sweeping views</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Ofu<span class="conc-count">coral reef beach</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ofu Beach</span><span class="conc-type">Widely considered one of the most pristine snorkeling reefs in the entire park system</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ofu Beach</span></div>
+            <div class="conc-type">Widely considered one of the most pristine snorkeling reefs in the entire park system</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Ta'ū<span class="conc-count">cloud forest</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lata Mountain</span><span class="conc-type">American Samoa's highest point, cloaked in cloud forest — the most remote and least-visited park unit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lata Mountain</span></div>
+            <div class="conc-type">American Samoa's highest point, cloaked in cloud forest — the most remote and least-visited park unit</div>
+          </div>
         </div>
       </details>
     </div>
