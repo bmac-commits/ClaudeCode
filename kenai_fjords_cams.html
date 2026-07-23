@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--fjord-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -521,17 +582,35 @@
       <details class="conc-group">
         <summary class="conc-summary">Trails<span class="conc-count">3</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Glacier View Loop Trail</span><span class="conc-type">Easy, ~1 mile, loops through cottonwood forest back to the parking area</span></div>
-          <div class="conc-row"><span class="conc-name">Glacier Overlook Trail</span><span class="conc-type">Moderately strenuous 0.6 mi extension</span></div>
-          <div class="conc-row"><span class="conc-name">Harding Icefield Trail</span><span class="conc-type">8.2 mi round trip, strenuous, ~1,000 ft gain/mile, 6–8 hrs recommended</span><span class="conc-hrs">8.2 mi</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Glacier View Loop Trail</span></div>
+            <div class="conc-type">Easy, ~1 mile, loops through cottonwood forest back to the parking area</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Glacier Overlook Trail</span></div>
+            <div class="conc-type">Moderately strenuous 0.6 mi extension</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Harding Icefield Trail</span><span class="conc-chip conc-chip--note">8.2 mi</span></div>
+            <div class="conc-type">8.2 mi round trip, strenuous, ~1,000 ft gain/mile, 6–8 hrs recommended</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Harding Icefield<span class="conc-count">context</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Size</span><span class="conc-type">700 sq mi — nearly 51% of the entire park</span></div>
-          <div class="conc-row"><span class="conc-name">Glaciers</span><span class="conc-type">More than 30 glaciers flow from the icefield (current NPS figure — supersedes the older "38 glacier" count)</span></div>
-          <div class="conc-row"><span class="conc-name">Retreat markers</span><span class="conc-type">NPS research indicates ~2.5 km of terminus retreat at Exit Glacier since 1815</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Size</span></div>
+            <div class="conc-type">700 sq mi — nearly 51% of the entire park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Glaciers</span></div>
+            <div class="conc-type">More than 30 glaciers flow from the icefield (current NPS figure — supersedes the older "38 glacier" count)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Retreat markers</span></div>
+            <div class="conc-type">NPS research indicates ~2.5 km of terminus retreat at Exit Glacier since 1815</div>
+          </div>
         </div>
       </details>
     </div>
@@ -546,35 +625,77 @@
       <details class="conc-group">
         <summary class="conc-summary">Ranger Programs<span class="conc-count">4 programs</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Exit Glacier Ranger-Led Walk</span><span class="conc-type">Guided walk from the Nature Center on glacier geology and history; first portion is wheelchair accessible; no reservations required</span><span class="conc-hrs">1.5 hrs · 10am &amp; 2pm · May 23&ndash;Sep 7</span></div>
-          <div class="conc-row"><span class="conc-name">Exit Glacier Pavilion Talk</span><span class="conc-type">Short interactive ranger talk at the pavilion near the Nature Center</span><span class="conc-hrs">20 min · 1:30pm · Jun 6&ndash;Aug 15</span></div>
-          <div class="conc-row"><span class="conc-name">Exit Glacier Junior Ranger Walk</span><span class="conc-type">Family walk on the lower trails geared to school-aged visitors, all ages welcome with an adult</span><span class="conc-hrs">1.5 hrs · Tue/Thu/Sat 11am · Jun 6&ndash;Aug 15</span></div>
-          <div class="conc-row"><span class="conc-name">Fjord Junior Ranger Walk</span><span class="conc-type">Waterfront walk from the Seward small boat harbor, best suited for ages 8&ndash;12</span><span class="conc-hrs">1.5 hrs · Wed/Sun 3pm · Jun 7&ndash;Aug 12</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Exit Glacier Ranger-Led Walk</span><span class="conc-chip conc-chip--note">1.5 hrs · 10am &amp; 2pm · May 23&ndash;Sep 7</span></div>
+            <div class="conc-type">Guided walk from the Nature Center on glacier geology and history; first portion is wheelchair accessible; no reservations required</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Exit Glacier Pavilion Talk</span><span class="conc-chip conc-chip--note">20 min · 1:30pm · Jun 6&ndash;Aug 15</span></div>
+            <div class="conc-type">Short interactive ranger talk at the pavilion near the Nature Center</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Exit Glacier Junior Ranger Walk</span><span class="conc-chip conc-chip--note">1.5 hrs · Tue/Thu/Sat 11am · Jun 6&ndash;Aug 15</span></div>
+            <div class="conc-type">Family walk on the lower trails geared to school-aged visitors, all ages welcome with an adult</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fjord Junior Ranger Walk</span><span class="conc-chip conc-chip--note">1.5 hrs · Wed/Sun 3pm · Jun 7&ndash;Aug 12</span></div>
+            <div class="conc-type">Waterfront walk from the Seward small boat harbor, best suited for ages 8&ndash;12</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Boat Tours &amp; Cruises<span class="conc-count">Private operators</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Full-Day Tours</span><span class="conc-type">Travel the outer coast to the park's tidewater glaciers, with chances to see whales, other marine mammals &amp; seabirds</span><span class="conc-hrs">Full day · Seward harbor</span></div>
-          <div class="conc-row"><span class="conc-name">Half-Day Tours</span><span class="conc-type">Stay within the more protected waters of Resurrection Bay</span><span class="conc-hrs">Half day · Seward harbor</span></div>
-          <div class="conc-row"><span class="conc-name">Not NPS-Operated</span><span class="conc-type">NPS states it "does not have any authorized concessioners... nor can it recommend specific companies"; tours depart Seward's small boat harbor daily in summer via independent local operators</span><span class="conc-hrs">Summer</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Full-Day Tours</span><span class="conc-chip conc-chip--note">Full day · Seward harbor</span></div>
+            <div class="conc-type">Travel the outer coast to the park's tidewater glaciers, with chances to see whales, other marine mammals &amp; seabirds</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Half-Day Tours</span><span class="conc-chip conc-chip--note">Half day · Seward harbor</span></div>
+            <div class="conc-type">Stay within the more protected waters of Resurrection Bay</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Not NPS-Operated</span><span class="conc-chip conc-chip--note">Summer</span></div>
+            <div class="conc-type">NPS states it "does not have any authorized concessioners... nor can it recommend specific companies"; tours depart Seward's small boat harbor daily in summer via independent local operators</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Sea Kayaking<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Aialik Bay, Northwestern Lagoon &amp; Bear Glacier Lagoon</span><span class="conc-type">Primary drop-off points reached by water taxi or air taxi; exposed Gulf of Alaska conditions make this "not for beginners"</span><span class="conc-hrs">Water-taxi access</span></div>
-          <div class="conc-row"><span class="conc-name">Resurrection Bay — Caines Head &amp; Thumb Cove</span><span class="conc-type">More sheltered paddling routes reachable directly from Seward</span><span class="conc-hrs">Seward access</span></div>
-          <div class="conc-row"><span class="conc-name">Guided Trips</span><span class="conc-type">A guide is strongly recommended for inexperienced paddlers; summer swells can push 3+ ft and landings often involve surf</span><span class="conc-hrs">Guide recommended</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Aialik Bay, Northwestern Lagoon &amp; Bear Glacier Lagoon</span><span class="conc-chip conc-chip--note">Water-taxi access</span></div>
+            <div class="conc-type">Primary drop-off points reached by water taxi or air taxi; exposed Gulf of Alaska conditions make this "not for beginners"</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Resurrection Bay — Caines Head &amp; Thumb Cove</span><span class="conc-chip conc-chip--note">Seward access</span></div>
+            <div class="conc-type">More sheltered paddling routes reachable directly from Seward</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Guided Trips</span><span class="conc-chip conc-chip--note">Guide recommended</span></div>
+            <div class="conc-type">A guide is strongly recommended for inexperienced paddlers; summer swells can push 3+ ft and landings often involve surf</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Winter Activities<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Once cars are barred, the closed Exit Glacier Road becomes a route for skiers &amp; snowshoers</span><span class="conc-hrs">~Nov&ndash;May</span></div>
-          <div class="conc-row"><span class="conc-name">Ice Climbing</span><span class="conc-type">Guided ice climbing on the glacier terminus</span><span class="conc-hrs">Nov&ndash;Mar</span></div>
-          <div class="conc-row"><span class="conc-name">Snowmobiling</span><span class="conc-type">Harding Icefield has year-round snow cover; rest of the park generally opens to snowmobile use when the superintendent determines adequate cover</span><span class="conc-hrs">Nov&ndash;Apr</span></div>
-          <div class="conc-row"><span class="conc-name">Winter Shuttle &amp; Guided Snowshoe Walks</span><span class="conc-type">Adventure Sixty North runs shuttle service to the Exit Glacier area with guided snowshoe walks &amp; independent drop-offs</span><span class="conc-hrs">Winter season</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-chip conc-chip--note">~Nov&ndash;May</span></div>
+            <div class="conc-type">Once cars are barred, the closed Exit Glacier Road becomes a route for skiers &amp; snowshoers</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ice Climbing</span><span class="conc-chip conc-chip--note">Nov&ndash;Mar</span></div>
+            <div class="conc-type">Guided ice climbing on the glacier terminus</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Snowmobiling</span><span class="conc-chip conc-chip--note">Nov&ndash;Apr</span></div>
+            <div class="conc-type">Harding Icefield has year-round snow cover; rest of the park generally opens to snowmobile use when the superintendent determines adequate cover</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Winter Shuttle &amp; Guided Snowshoe Walks</span><span class="conc-chip conc-chip--note">Winter season</span></div>
+            <div class="conc-type">Adventure Sixty North runs shuttle service to the Exit Glacier area with guided snowshoe walks &amp; independent drop-offs</div>
+          </div>
         </div>
       </details>
     </div>
@@ -612,10 +733,22 @@
       <details class="conc-group">
         <summary class="conc-summary">Key Locations<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Exit Glacier</span><span class="conc-type">The only road-accessible glacier in the park</span></div>
-          <div class="conc-row"><span class="conc-name">Aialik Bay</span><span class="conc-type">Boat-access fjord with tidewater glaciers</span></div>
-          <div class="conc-row"><span class="conc-name">Holgate Glacier</span><span class="conc-type">Popular tidewater glacier on tour boat routes</span></div>
-          <div class="conc-row"><span class="conc-name">Northwestern Fjord</span><span class="conc-type">Remote fjord, boat-access only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Exit Glacier</span></div>
+            <div class="conc-type">The only road-accessible glacier in the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Aialik Bay</span></div>
+            <div class="conc-type">Boat-access fjord with tidewater glaciers</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Holgate Glacier</span></div>
+            <div class="conc-type">Popular tidewater glacier on tour boat routes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Northwestern Fjord</span></div>
+            <div class="conc-type">Remote fjord, boat-access only</div>
+          </div>
         </div>
       </details>
     </div>

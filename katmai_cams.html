@@ -158,13 +158,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--bear-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -522,54 +583,116 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Brooks Falls Trail</span><span class="conc-type">Wheelchair-accessible boardwalk to two raised platforms overlooking bears fishing in Brooks River</span><span class="conc-hrs">1.2 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Cultural Site Trail</span><span class="conc-type">Self-guided walk past prehistoric camps, including a reconstructed semi-subterranean native dwelling</span><span class="conc-hrs">0.1 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Lake Brooks Road</span><span class="conc-type">Walk to a glacially carved lake with a salmon-viewing area (Aug&ndash;Sep) and picnic site</span><span class="conc-hrs">1 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Dumpling Mountain Trail</span><span class="conc-type">Climbs through alpine tundra to views of Naknek Lake, Brooks River &amp; Lake Brooks; continues on to the summit</span><span class="conc-hrs">1.5 mi to overlook (800 ft), +4 mi to summit · Mod.&ndash;Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Brooks Falls Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Wheelchair-accessible boardwalk to two raised platforms overlooking bears fishing in Brooks River</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:22%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cultural Site Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Self-guided walk past prehistoric camps, including a reconstructed semi-subterranean native dwelling</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:2%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.1 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lake Brooks Road</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Walk to a glacially carved lake with a salmon-viewing area (Aug&ndash;Sep) and picnic site</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:18%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dumpling Mountain Trail</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Strenuous</span></div>
+            <div class="conc-type">Climbs through alpine tundra to views of Naknek Lake, Brooks River &amp; Lake Brooks; continues on to the summit</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">1.5 mi to overlook (800 ft), +4 mi to summit</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing (Brooks River)<span class="conc-count">4 key rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Alaska Fishing License</span><span class="conc-type">Required for all anglers park-wide; a state license, separate from any NPS permit</span><span class="conc-hrs">Required</span></div>
-          <div class="conc-row"><span class="conc-name">Brooks River Access Permit</span><span class="conc-type">Booked via Recreation.gov; free permit plus $6 booking fee, valid 7 days, max group of 6</span><span class="conc-hrs">Jun 15&ndash;Oct 31</span></div>
-          <div class="conc-row"><span class="conc-name">Fly-Fishing-Only Water</span><span class="conc-type">Only unbaited, single-hook artificial flies allowed in Brooks River; fishing from the bridge is prohibited</span><span class="conc-hrs">Catch &amp; release (most of river)</span></div>
-          <div class="conc-row"><span class="conc-name">Bear-Related Closures</span><span class="conc-type">Area within 50 yd of the river and 100 yd of Brooks Falls closes to entry; marked detours required</span><span class="conc-hrs">Jun 15&ndash;Aug 15</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Alaska Fishing License</span><span class="conc-chip conc-chip--note">Required</span></div>
+            <div class="conc-type">Required for all anglers park-wide; a state license, separate from any NPS permit</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Brooks River Access Permit</span><span class="conc-chip conc-chip--note">Jun 15&ndash;Oct 31</span></div>
+            <div class="conc-type">Booked via Recreation.gov; free permit plus $6 booking fee, valid 7 days, max group of 6</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fly-Fishing-Only Water</span><span class="conc-chip conc-chip--note">Catch &amp; release (most of river)</span></div>
+            <div class="conc-type">Only unbaited, single-hook artificial flies allowed in Brooks River; fishing from the bridge is prohibited</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bear-Related Closures</span><span class="conc-chip conc-chip--note">Jun 15&ndash;Aug 15</span></div>
+            <div class="conc-type">Area within 50 yd of the river and 100 yd of Brooks Falls closes to entry; marked detours required</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Flightseeing &amp; Air Taxi<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Flightseeing Tours</span><span class="conc-type">Small-plane views of tundra, lakes, the Pacific coast &amp; Aleutian Range volcanoes; pilots often spot bears, salmon runs &amp; seabird rookeries</span><span class="conc-hrs">Authorized operators only</span></div>
-          <div class="conc-row"><span class="conc-name">Air Taxi to Brooks Camp</span><span class="conc-type">Most park destinations, including Brooks Camp, are reached only by floatplane or air taxi from King Salmon, Anchorage, Homer, Kodiak or Soldotna</span><span class="conc-hrs">No roads to park</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Flightseeing Tours</span><span class="conc-chip conc-chip--note">Authorized operators only</span></div>
+            <div class="conc-type">Small-plane views of tundra, lakes, the Pacific coast &amp; Aleutian Range volcanoes; pilots often spot bears, salmon runs &amp; seabird rookeries</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Air Taxi to Brooks Camp</span><span class="conc-chip conc-chip--note">No roads to park</span></div>
+            <div class="conc-type">Most park destinations, including Brooks Camp, are reached only by floatplane or air taxi from King Salmon, Anchorage, Homer, Kodiak or Soldotna</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger-Led Programs<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cultural Walk</span><span class="conc-type">Ranger-led walk from the Brooks Camp Visitor Center covering the area's human history</span><span class="conc-hrs">Daily 2 PM, Jun 7&ndash;Sep 17</span></div>
-          <div class="conc-row"><span class="conc-name">Evening Program</span><span class="conc-type">Ranger talk at the Brooks Camp Auditorium; no reservation needed</span><span class="conc-hrs">Daily 8 PM, Jun 7&ndash;Sep 17</span></div>
-          <div class="conc-row"><span class="conc-name">Bear Cam Live Chats</span><span class="conc-type">Rangers answer questions live on the bear cams; schedule on the park's events calendar, replays on explore.org's YouTube channel</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cultural Walk</span><span class="conc-chip conc-chip--note">Daily 2 PM, Jun 7&ndash;Sep 17</span></div>
+            <div class="conc-type">Ranger-led walk from the Brooks Camp Visitor Center covering the area's human history</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Evening Program</span><span class="conc-chip conc-chip--note">Daily 8 PM, Jun 7&ndash;Sep 17</span></div>
+            <div class="conc-type">Ranger talk at the Brooks Camp Auditorium; no reservation needed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bear Cam Live Chats</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Rangers answer questions live on the bear cams; schedule on the park's events calendar, replays on explore.org's YouTube channel</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Boating &amp; Backcountry Travel<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Boating</span><span class="conc-type">Katmai's lakes, rivers &amp; streams are open to boat, canoe, kayak &amp; raft travel</span><span class="conc-hrs">Numerous waterways</span></div>
-          <div class="conc-row"><span class="conc-name">Backcountry Camping</span><span class="conc-type">No permit required anywhere in the park's backcountry; fewer than 5 miles of maintained trails exist outside Brooks Camp</span><span class="conc-hrs">Permit-free</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boating</span><span class="conc-chip conc-chip--note">Numerous waterways</span></div>
+            <div class="conc-type">Katmai's lakes, rivers &amp; streams are open to boat, canoe, kayak &amp; raft travel</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Backcountry Camping</span><span class="conc-chip conc-chip--note">Permit-free</span></div>
+            <div class="conc-type">No permit required anywhere in the park's backcountry; fewer than 5 miles of maintained trails exist outside Brooks Camp</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Hunting &amp; Trapping (Preserve)<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Sport Hunting &amp; Trapping</span><span class="conc-type">Guided &amp; unguided sport hunting/trapping permitted under State of Alaska regulations, preserve lands only (not park lands)</span><span class="conc-hrs">Preserve only</span></div>
-          <div class="conc-row"><span class="conc-name">Subsistence Hunting</span><span class="conc-type">Limited to local rural residents with a customary-and-traditional-use determination for the species and area</span><span class="conc-hrs">Local residents only</span></div>
-          <div class="conc-row"><span class="conc-name">Bear Baiting</span><span class="conc-type">Prohibited in Alaska national preserves under an NPS rule effective August 2, 2024</span><span class="conc-hrs">Prohibited (2024)</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sport Hunting &amp; Trapping</span><span class="conc-chip conc-chip--note">Preserve only</span></div>
+            <div class="conc-type">Guided &amp; unguided sport hunting/trapping permitted under State of Alaska regulations, preserve lands only (not park lands)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Subsistence Hunting</span><span class="conc-chip conc-chip--note">Local residents only</span></div>
+            <div class="conc-type">Limited to local rural residents with a customary-and-traditional-use determination for the species and area</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bear Baiting</span><span class="conc-chip conc-chip--note">Prohibited (2024)</span></div>
+            <div class="conc-type">Prohibited in Alaska national preserves under an NPS rule effective August 2, 2024</div>
+          </div>
         </div>
       </details>
 
@@ -627,10 +750,22 @@
       <details class="conc-group">
         <summary class="conc-summary">Key Locations<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Brooks Falls</span><span class="conc-type">~1.2 mi from Brooks Camp visitor center, famous bear-fishing viewing platform</span></div>
-          <div class="conc-row"><span class="conc-name">Brooks Camp</span><span class="conc-type">Main visitor hub on Naknek Lake</span></div>
-          <div class="conc-row"><span class="conc-name">Valley of Ten Thousand Smokes</span><span class="conc-type">1912 Novarupta eruption site, 22.3-mile historic access road</span></div>
-          <div class="conc-row"><span class="conc-name">Naknek Lake</span><span class="conc-type">Floatplane access point for Brooks Camp</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Brooks Falls</span></div>
+            <div class="conc-type">~1.2 mi from Brooks Camp visitor center, famous bear-fishing viewing platform</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Brooks Camp</span></div>
+            <div class="conc-type">Main visitor hub on Naknek Lake</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Valley of Ten Thousand Smokes</span></div>
+            <div class="conc-type">1912 Novarupta eruption site, 22.3-mile historic access road</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Naknek Lake</span></div>
+            <div class="conc-type">Floatplane access point for Brooks Camp</div>
+          </div>
         </div>
       </details>
     </div>
