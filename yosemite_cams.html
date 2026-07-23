@@ -1149,38 +1149,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
+      padding: 8px 14px 9px;
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 160px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--granite);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--green-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Footer ── */
@@ -1820,57 +1851,132 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lower Yosemite Fall Trail</span><span class="conc-type">Paved loop to the base of North America's tallest waterfall</span><span class="conc-hrs">1 mi loop · 50 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Mirror Lake Loop</span><span class="conc-type">Valley-floor walk to a reflective pool below Half Dome; longer option continues as a full loop</span><span class="conc-hrs">2&ndash;5 mi · 100&ndash;200 ft · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Mist Trail — Vernal &amp; Nevada Falls</span><span class="conc-type">Granite steps through waterfall spray; distance depends on turnaround point (footbridge, Vernal, or Nevada Fall)</span><span class="conc-hrs">1.6&ndash;8 mi RT · up to 2,000 ft · Mod.&ndash;Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Yosemite Falls Trail</span><span class="conc-type">Switchbacks to Columbia Rock or all the way to the top of Upper Yosemite Fall</span><span class="conc-hrs">2&ndash;7.2 mi RT · up to 2,700 ft · Mod.&ndash;Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Four Mile Trail — Glacier Point</span><span class="conc-type">Steady climb up the valley wall to panoramic views of Half Dome; closes above Union Point in heavy snow</span><span class="conc-hrs">9.6 mi RT · 3,200 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Half Dome</span><span class="conc-type">Cable ascent on the final pitch; day-hike permit required via March lottery or 2-day-ahead draw. Cables up late May&ndash;early Oct, weather permitting</span><span class="conc-hrs">14&ndash;16.4 mi RT · 4,800 ft · Permit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lower Yosemite Fall Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Paved loop to the base of North America's tallest waterfall</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:6%;background:var(--green-light)"></div></div>
+            <div class="conc-figure">1 mi loop · 50 ft gain</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mirror Lake Loop</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Valley-floor walk to a reflective pool below Half Dome; longer option continues as a full loop</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:30%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2&ndash;5 mi · 100&ndash;200 ft gain</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mist Trail — Vernal &amp; Nevada Falls</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Strenuous</span></div>
+            <div class="conc-type">Granite steps through waterfall spray; distance depends on turnaround point (footbridge, Vernal, or Nevada Fall)</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:49%;background:var(--red)"></div></div>
+            <div class="conc-figure">1.6&ndash;8 mi RT · up to 2,000 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Yosemite Falls Trail</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Strenuous</span></div>
+            <div class="conc-type">Switchbacks to Columbia Rock or all the way to the top of Upper Yosemite Fall</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:44%;background:var(--red)"></div></div>
+            <div class="conc-figure">2&ndash;7.2 mi RT · up to 2,700 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Four Mile Trail — Glacier Point</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Steady climb up the valley wall to panoramic views of Half Dome; closes above Union Point in heavy snow</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:59%;background:var(--red)"></div></div>
+            <div class="conc-figure">9.6 mi RT · 3,200 ft gain</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Half Dome</span><span class="conc-chip conc-chip--mod">Permit</span></div>
+            <div class="conc-type">Cable ascent on the final pitch; day-hike permit required via March lottery or 2-day-ahead draw. Cables up late May&ndash;early Oct, weather permitting</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">14&ndash;16.4 mi RT · 4,800 ft gain</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">4 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">El Capitan &amp; Half Dome</span><span class="conc-type">World-renowned multi-day big-wall routes; overnight climbs need a free, self-registered wilderness climbing permit (no quotas)</span><span class="conc-hrs">Permit (free)</span></div>
-          <div class="conc-row"><span class="conc-name">Tuolumne Meadows Domes</span><span class="conc-type">Sun-drenched granite domes and crack climbs in the high country</span><span class="conc-hrs">Seasonal · Tioga Rd open</span></div>
-          <div class="conc-row"><span class="conc-name">Yosemite Mountaineering School</span><span class="conc-type">Guided instruction and gear rental for all skill levels &middot; 209/372-8344</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Camp 4</span><span class="conc-type">Historic climbers' walk-in campground; base-of-wall camping is prohibited park-wide</span><span class="conc-hrs">Walk-in</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">El Capitan &amp; Half Dome</span><span class="conc-chip conc-chip--note">Permit (free)</span></div>
+            <div class="conc-type">World-renowned multi-day big-wall routes; overnight climbs need a free, self-registered wilderness climbing permit (no quotas)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tuolumne Meadows Domes</span><span class="conc-chip conc-chip--note">Seasonal · Tioga Rd open</span></div>
+            <div class="conc-type">Sun-drenched granite domes and crack climbs in the high country</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Yosemite Mountaineering School</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Guided instruction and gear rental for all skill levels &middot; 209/372-8344</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Camp 4</span><span class="conc-chip conc-chip--note">Walk-in</span></div>
+            <div class="conc-type">Historic climbers' walk-in campground; base-of-wall camping is prohibited park-wide</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Water Activities<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Self-Guided Raft Rentals</span><span class="conc-type">Stoneman Bridge to Sentinel Beach on the Merced; closes when the Pohono Bridge gauge tops 7 ft</span><span class="conc-hrs">Seasonal · Jun&ndash;Jul</span></div>
-          <div class="conc-row"><span class="conc-name">Tenaya Lake Kayaking</span><span class="conc-type">Nonmotorized boats and kayaks; PFD required for all occupants</span><span class="conc-hrs">Summer</span></div>
-          <div class="conc-row"><span class="conc-name">Swimming</span><span class="conc-type">Permitted park-wide except a few posted closures; seasonal pools at Curry Village &amp; Valley Lodge</span><span class="conc-hrs">Summer</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Self-Guided Raft Rentals</span><span class="conc-chip conc-chip--note">Jun&ndash;Jul</span></div>
+            <div class="conc-type">Stoneman Bridge to Sentinel Beach on the Merced; closes when the Pohono Bridge gauge tops 7 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tenaya Lake Kayaking</span><span class="conc-chip conc-chip--note">Summer</span></div>
+            <div class="conc-type">Nonmotorized boats and kayaks; PFD required for all occupants</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Swimming</span><span class="conc-chip conc-chip--note">Summer</span></div>
+            <div class="conc-type">Permitted park-wide except a few posted closures; seasonal pools at Curry Village &amp; Valley Lodge</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Valley Bike Paths</span><span class="conc-type">Paved, mostly-flat network winding through Yosemite Valley &middot; 15 mph limit</span><span class="conc-hrs">12+ mi</span></div>
-          <div class="conc-row"><span class="conc-name">Bike Rentals</span><span class="conc-type">Curry Village, Yosemite Village &amp; Valley Lodge; first-come, first-served. E-bikes allowed</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Free Bike Share</span><span class="conc-type">App-based, 2-hour trips from Yosemite Village stations</span><span class="conc-hrs">Late spring&ndash;fall</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Valley Bike Paths</span><span class="conc-chip conc-chip--note">12+ mi</span></div>
+            <div class="conc-type">Paved, mostly-flat network winding through Yosemite Valley &middot; 15 mph limit</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bike Rentals</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Curry Village, Yosemite Village &amp; Valley Lodge; first-come, first-served. E-bikes allowed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Free Bike Share</span><span class="conc-chip conc-chip--note">Late spring&ndash;fall</span></div>
+            <div class="conc-type">App-based, 2-hour trips from Yosemite Village stations</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback &amp; Mule Rides<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Guided Rides</span><span class="conc-type">Day rides and pack/saddle trips via Yosemite Hospitality stables &middot; 209/372-4386</span><span class="conc-hrs">Spring&ndash;fall</span></div>
-          <div class="conc-row"><span class="conc-name">Private Stock Camps</span><span class="conc-type">Designated overnight sites at Wawona, Bridalveil Creek &amp; Tuolumne Meadows; max 25 head per party</span><span class="conc-hrs">Permit rules apply</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Guided Rides</span><span class="conc-chip conc-chip--note">Spring&ndash;fall</span></div>
+            <div class="conc-type">Day rides and pack/saddle trips via Yosemite Hospitality stables &middot; 209/372-4386</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Private Stock Camps</span><span class="conc-chip conc-chip--note">Permit rules apply</span></div>
+            <div class="conc-type">Designated overnight sites at Wawona, Bridalveil Creek &amp; Tuolumne Meadows; max 25 head per party</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Badger Pass Ski Area</span><span class="conc-type">Downhill skiing &amp; snowboarding at California's oldest ski resort (opened 1933), 7,200 ft</span><span class="conc-hrs">Mid-Dec&ndash;Mar</span></div>
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Marked routes at Badger Pass/Glacier Point Rd, Crane Flat &amp; Mariposa Grove; rentals &amp; lessons at Badger Pass Nordic Center</span><span class="conc-hrs">Mid-Dec&ndash;mid-Mar</span></div>
-          <div class="conc-row"><span class="conc-name">Curry Village Ice Rink</span><span class="conc-type">Outdoor skating in the shadow of Glacier Point, a tradition since 1929</span><span class="conc-hrs">Mid-Nov&ndash;mid-Mar</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Badger Pass Ski Area</span><span class="conc-chip conc-chip--note">Mid-Dec&ndash;Mar</span></div>
+            <div class="conc-type">Downhill skiing &amp; snowboarding at California's oldest ski resort (opened 1933), 7,200 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-chip conc-chip--note">Mid-Dec&ndash;mid-Mar</span></div>
+            <div class="conc-type">Marked routes at Badger Pass/Glacier Point Rd, Crane Flat &amp; Mariposa Grove; rentals &amp; lessons at Badger Pass Nordic Center</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Curry Village Ice Rink</span><span class="conc-chip conc-chip--note">Mid-Nov&ndash;mid-Mar</span></div>
+            <div class="conc-type">Outdoor skating in the shadow of Glacier Point, a tradition since 1929</div>
+          </div>
         </div>
       </details>
 
@@ -1887,40 +1993,40 @@
       <details class="conc-group">
         <summary class="conc-summary">Yosemite Village<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Village Store</span><span class="conc-type">Groceries &amp; Supplies</span><span class="conc-hrs">8 AM – 10 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Degnan's Kitchen</span><span class="conc-type">Deli · Café</span><span class="conc-hrs">7–11 AM &amp; 11:30 AM–6 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Village Grill</span><span class="conc-type">Burgers · Seasonal</span><span class="conc-hrs">11 AM – 6 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Ansel Adams Gallery</span><span class="conc-type">Art · Photography</span><span class="conc-hrs">9 AM – 5 PM</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Village Store</span><span class="conc-chip conc-chip--note">8 AM – 10 PM</span></div><div class="conc-type">Groceries &amp; Supplies</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Degnan's Kitchen</span><span class="conc-chip conc-chip--note">7–11 AM &amp; 11:30–6 PM</span></div><div class="conc-type">Deli · Café</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Village Grill</span><span class="conc-chip conc-chip--note">11 AM – 6 PM</span></div><div class="conc-type">Burgers · Seasonal</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Ansel Adams Gallery</span><span class="conc-chip conc-chip--note">9 AM – 5 PM</span></div><div class="conc-type">Art · Photography</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">The Ahwahnee<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dining Room</span><span class="conc-type">Fine Dining</span><span class="conc-hrs">7 AM – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Ahwahnee Bar</span><span class="conc-type">Bar · Snacks</span><span class="conc-hrs">11 AM – 11 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Sweet Shop</span><span class="conc-type">Pastries</span><span class="conc-hrs">7 AM – 10 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Gift Shop</span><span class="conc-type">Gifts · Souvenirs</span><span class="conc-hrs">9 AM – 7 PM</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Dining Room</span><span class="conc-chip conc-chip--note">7 AM – 9 PM</span></div><div class="conc-type">Fine Dining</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Ahwahnee Bar</span><span class="conc-chip conc-chip--note">11 AM – 11 PM</span></div><div class="conc-type">Bar · Snacks</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Sweet Shop</span><span class="conc-chip conc-chip--note">7 AM – 10 PM</span></div><div class="conc-type">Pastries</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Gift Shop</span><span class="conc-chip conc-chip--note">9 AM – 7 PM</span></div><div class="conc-type">Gifts · Souvenirs</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Yosemite Valley Lodge<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Base Camp Eatery</span><span class="conc-type">Food Court · Starbucks</span><span class="conc-hrs">7 AM – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Mountain Room</span><span class="conc-type">Dinner Restaurant</span><span class="conc-hrs">5:30 – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Mountain Room Lounge</span><span class="conc-type">Bar · Appetizers</span><span class="conc-hrs">4:30 – 11 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Lodge Gift Shop</span><span class="conc-type">Gifts · Supplies</span><span class="conc-hrs">8 AM – 8 PM</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Base Camp Eatery</span><span class="conc-chip conc-chip--note">7 AM – 9 PM</span></div><div class="conc-type">Food Court · Starbucks</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mountain Room</span><span class="conc-chip conc-chip--note">5:30 – 9 PM</span></div><div class="conc-type">Dinner Restaurant</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mountain Room Lounge</span><span class="conc-chip conc-chip--note">4:30 – 11 PM</span></div><div class="conc-type">Bar · Appetizers</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lodge Gift Shop</span><span class="conc-chip conc-chip--note">8 AM – 8 PM</span></div><div class="conc-type">Gifts · Supplies</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Half Dome Village (Curry Village)<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gift &amp; Grocery</span><span class="conc-type">Groceries · Gifts</span><span class="conc-hrs">8 AM – 8 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Mountain Shop</span><span class="conc-type">Outdoor Gear</span><span class="conc-hrs">8:30 AM – 6 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Pizza Patio &amp; Bar</span><span class="conc-type">Pizza · Seasonal</span><span class="conc-hrs">12 – 9 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Curry Pavilion</span><span class="conc-type">Casual Dining</span><span class="conc-hrs">7 AM – 9 PM</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Gift &amp; Grocery</span><span class="conc-chip conc-chip--note">8 AM – 8 PM</span></div><div class="conc-type">Groceries · Gifts</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mountain Shop</span><span class="conc-chip conc-chip--note">8:30 AM – 6 PM</span></div><div class="conc-type">Outdoor Gear</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Pizza Patio &amp; Bar</span><span class="conc-chip conc-chip--note">12 – 9 PM</span></div><div class="conc-type">Pizza · Seasonal</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Curry Pavilion</span><span class="conc-chip conc-chip--note">7 AM – 9 PM</span></div><div class="conc-type">Casual Dining</div></div>
         </div>
       </details>
 
