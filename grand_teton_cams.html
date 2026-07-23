@@ -989,38 +989,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
+      padding: 8px 14px 9px;
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--accent-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1589,29 +1620,62 @@
       <details class="conc-group">
         <summary class="conc-summary">Jenny Lake Area<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Jenny Lake</span><span class="conc-type">Easy shoreline trail · shuttle boat across the lake</span><span class="conc-hrs">~2 hrs loop</span></div>
-          <div class="conc-row"><span class="conc-name">Hidden Falls &amp; Inspiration Point</span><span class="conc-type">Moderate · via boat shuttle + short climb</span><span class="conc-hrs">~2–3 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">String Lake</span><span class="conc-type">Easy · calm water, paddling &amp; swimming</span><span class="conc-hrs">~1.5 hrs loop</span></div>
-          <div class="conc-row"><span class="conc-name">Cathedral Group Turnout</span><span class="conc-type">Roadside overlook · classic peak view</span><span class="conc-hrs">~10 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jenny Lake</span><span class="conc-chip conc-chip--note">~2 hrs loop</span></div>
+            <div class="conc-type">Easy shoreline trail · shuttle boat across the lake</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hidden Falls &amp; Inspiration Point</span><span class="conc-chip conc-chip--note">~2–3 hrs</span></div>
+            <div class="conc-type">Moderate · via boat shuttle + short climb</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">String Lake</span><span class="conc-chip conc-chip--note">~1.5 hrs loop</span></div>
+            <div class="conc-type">Easy · calm water, paddling &amp; swimming</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cathedral Group Turnout</span><span class="conc-chip conc-chip--note">~10 min</span></div>
+            <div class="conc-type">Roadside overlook · classic peak view</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Photography &amp; Wildlife Stops<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Schwabacher's Landing</span><span class="conc-type">Easy · classic Teton reflection shot at sunrise</span><span class="conc-hrs">~30–45 min</span></div>
-          <div class="conc-row"><span class="conc-name">Oxbow Bend</span><span class="conc-type">Roadside pullout · moose, elk, waterfowl, Mt. Moran reflection</span><span class="conc-hrs">~20 min</span></div>
-          <div class="conc-row"><span class="conc-name">Mormon Row Historic District</span><span class="conc-type">Easy · iconic barns against the Teton skyline</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Schwabacher's Landing</span><span class="conc-chip conc-chip--note">~30–45 min</span></div>
+            <div class="conc-type">Easy · classic Teton reflection shot at sunrise</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Oxbow Bend</span><span class="conc-chip conc-chip--note">~20 min</span></div>
+            <div class="conc-type">Roadside pullout · moose, elk, waterfowl, Mt. Moran reflection</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mormon Row Historic District</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Easy · iconic barns against the Teton skyline</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rivers &amp; Lakes<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Snake River</span><span class="conc-type">Scenic float trips, fishing &amp; wildlife viewing</span><span class="conc-hrs">Half/full-day floats</span></div>
-          <div class="conc-row"><span class="conc-name">Jackson Lake</span><span class="conc-type">Largest lake in the park · boating &amp; marina at Colter Bay</span><span class="conc-hrs">Varies</span></div>
-          <div class="conc-row"><span class="conc-name">Leigh Lake</span><span class="conc-type">Moderate hike/paddle · quieter than Jenny/String Lake</span><span class="conc-hrs">~2–3 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Cathedral Group / Teton Range</span><span class="conc-type">Grand Teton, Mt. Owen, Teewinot — technical alpine climbing</span><span class="conc-hrs">Permit for overnight backcountry</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Snake River</span><span class="conc-chip conc-chip--note">Half/full-day floats</span></div>
+            <div class="conc-type">Scenic float trips, fishing &amp; wildlife viewing</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jackson Lake</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Largest lake in the park · boating &amp; marina at Colter Bay</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Leigh Lake</span><span class="conc-chip conc-chip--note">~2–3 hrs</span></div>
+            <div class="conc-type">Moderate hike/paddle · quieter than Jenny/String Lake</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cathedral Group / Teton Range</span><span class="conc-chip conc-chip--note">Permit for overnight backcountry</span></div>
+            <div class="conc-type">Grand Teton, Mt. Owen, Teewinot — technical alpine climbing</div>
+          </div>
         </div>
       </details>
 
@@ -1628,53 +1692,114 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hidden Falls</span><span class="conc-type">Short walk from the Jenny Lake shuttle boat dock to a 100-ft waterfall; longer option skips the boat and follows the South Jenny Lake Loop Trail instead</span><span class="conc-hrs">1&ndash;4.9 mi RT &middot; 300&ndash;620 ft &middot; Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Inspiration Point</span><span class="conc-type">Switchbacks above Hidden Falls to a classic overlook of Jenny Lake and the valley; via shuttle boat or the full lakeshore loop trail</span><span class="conc-hrs">1.8&ndash;5.7 mi RT &middot; 550&ndash;870 ft &middot; Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Taggart Lake</span><span class="conc-type">Gentle valley-floor hike to a glacial lake beneath the Tetons; accessible year-round, including by snowshoe or cross-country ski in winter</span><span class="conc-hrs">3 mi RT &middot; 360 ft &middot; Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Taggart Lake &ndash; Bradley Lake Loop</span><span class="conc-type">Extends the Taggart Lake hike into a loop past a second glacial lake</span><span class="conc-hrs">5.6 mi RT loop &middot; 860 ft &middot; Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Forks of Cascade Canyon</span><span class="conc-type">Beyond Inspiration Point into the canyon between the Grand Teton and Mt. Owen; often holds snow until early&ndash;mid summer</span><span class="conc-hrs">9.4&ndash;13.3 mi RT &middot; 1,480&ndash;1,720 ft &middot; Mod. Strenuous&ndash;Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hidden Falls</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Short walk from the Jenny Lake shuttle boat dock to a 100-ft waterfall; longer option skips the boat and follows the South Jenny Lake Loop Trail instead</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:37%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1&ndash;4.9 mi RT &middot; 300&ndash;620 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Inspiration Point</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Switchbacks above Hidden Falls to a classic overlook of Jenny Lake and the valley; via shuttle boat or the full lakeshore loop trail</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:43%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.8&ndash;5.7 mi RT &middot; 550&ndash;870 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Taggart Lake</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Gentle valley-floor hike to a glacial lake beneath the Tetons; accessible year-round, including by snowshoe or cross-country ski in winter</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:23%;background:#b3e08a"></div></div>
+            <div class="conc-figure">3 mi RT &middot; 360 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Taggart Lake &ndash; Bradley Lake Loop</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Extends the Taggart Lake hike into a loop past a second glacial lake</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:42%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">5.6 mi RT loop &middot; 860 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Forks of Cascade Canyon</span><span class="conc-chip conc-chip--hard">Mod. Strenuous&ndash;Strenuous</span></div>
+            <div class="conc-type">Beyond Inspiration Point into the canyon between the Grand Teton and Mt. Owen; often holds snow until early&ndash;mid summer</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">9.4&ndash;13.3 mi RT &middot; 1,480&ndash;1,720 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Climbing &amp; Mountaineering<span class="conc-count">1 objective</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">The Grand Teton (Garnet Canyon)</span><span class="conc-type">Technical alpine ascent of the park's namesake 13,775-ft summit; day climbs need no permit, but overnight stays require a backcountry camping permit issued at Jenny Lake Ranger Station or Craig Thomas Discovery &amp; Visitor Center (June&ndash;Sept). Snow typically lingers in the high peaks until mid-July</span><span class="conc-hrs">Permit for overnight</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Grand Teton (Garnet Canyon)</span><span class="conc-chip conc-chip--note">Permit for overnight</span></div>
+            <div class="conc-type">Technical alpine ascent of the park's namesake 13,775-ft summit; day climbs need no permit, but overnight stays require a backcountry camping permit issued at Jenny Lake Ranger Station or Craig Thomas Discovery &amp; Visitor Center (June&ndash;Sept). Snow typically lingers in the high peaks until mid-July</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">On the Water<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Motorized Boating</span><span class="conc-type">Jenny Lake (10 hp max) and Jackson Lake only; every boat needs a Grand Teton boat permit before launching</span><span class="conc-hrs">Permit required</span></div>
-          <div class="conc-row"><span class="conc-name">Kayaking, Canoeing &amp; SUP</span><span class="conc-type">Human-powered vessels permitted on Jackson, Jenny, Phelps, Emma Matilda, Two Ocean, Taggart, Bradley, Bearpaw, Leigh &amp; String lakes</span><span class="conc-hrs">Permit required</span></div>
-          <div class="conc-row"><span class="conc-name">Jenny Lake Shuttle Boat</span><span class="conc-type">Continuous crossing to the West Shore boat dock for Hidden Falls &amp; Inspiration Point, every 10&ndash;15 min, no reservations needed</span><span class="conc-hrs">7 AM&ndash;7 PM peak season</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Motorized Boating</span><span class="conc-chip conc-chip--note">Permit required</span></div>
+            <div class="conc-type">Jenny Lake (10 hp max) and Jackson Lake only; every boat needs a Grand Teton boat permit before launching</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kayaking, Canoeing &amp; SUP</span><span class="conc-chip conc-chip--note">Permit required</span></div>
+            <div class="conc-type">Human-powered vessels permitted on Jackson, Jenny, Phelps, Emma Matilda, Two Ocean, Taggart, Bradley, Bearpaw, Leigh &amp; String lakes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jenny Lake Shuttle Boat</span><span class="conc-chip conc-chip--note">7 AM&ndash;7 PM peak season</span></div>
+            <div class="conc-type">Continuous crossing to the West Shore boat dock for Hidden Falls &amp; Inspiration Point, every 10&ndash;15 min, no reservations needed</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">2 things to know</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lakes &amp; Rivers</span><span class="conc-type">Cutthroat, brown, lake &amp; brook trout plus whitefish; a Wyoming state fishing license is required (sold at Flagg Ranch, Colter Bay Marina &amp; Signal Mountain Lodge)</span><span class="conc-hrs">WY license required</span></div>
-          <div class="conc-row"><span class="conc-name">Season &amp; Closures</span><span class="conc-type">Park lakes open year-round except Jackson Lake (closed Oct 1&ndash;31); river cutthroat trout must be released Nov 1&ndash;Mar 31</span><span class="conc-hrs">Year-round, lakes</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lakes &amp; Rivers</span><span class="conc-chip conc-chip--note">WY license required</span></div>
+            <div class="conc-type">Cutthroat, brown, lake &amp; brook trout plus whitefish; a Wyoming state fishing license is required (sold at Flagg Ranch, Colter Bay Marina &amp; Signal Mountain Lodge)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Season &amp; Closures</span><span class="conc-chip conc-chip--note">Year-round, lakes</span></div>
+            <div class="conc-type">Park lakes open year-round except Jackson Lake (closed Oct 1&ndash;31); river cutthroat trout must be released Nov 1&ndash;Mar 31</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">3 outfitters</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Grand Teton Lodge Company</span><span class="conc-type">Guided trail rides based out of Colter Bay Village</span><span class="conc-hrs">Concessioner-guided</span></div>
-          <div class="conc-row"><span class="conc-name">Triangle X Ranch</span><span class="conc-type">Historic dude ranch with guided horseback trips</span><span class="conc-hrs">Concessioner-guided</span></div>
-          <div class="conc-row"><span class="conc-name">Headwaters Lodge at Flagg Ranch</span><span class="conc-type">Guided rides in the John D. Rockefeller Jr. Memorial Parkway area</span><span class="conc-hrs">Concessioner-guided</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grand Teton Lodge Company</span><span class="conc-chip conc-chip--note">Concessioner-guided</span></div>
+            <div class="conc-type">Guided trail rides based out of Colter Bay Village</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Triangle X Ranch</span><span class="conc-chip conc-chip--note">Concessioner-guided</span></div>
+            <div class="conc-type">Historic dude ranch with guided horseback trips</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Headwaters Lodge at Flagg Ranch</span><span class="conc-chip conc-chip--note">Concessioner-guided</span></div>
+            <div class="conc-type">Guided rides in the John D. Rockefeller Jr. Memorial Parkway area</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Teton Park Road</span><span class="conc-type">14-mi groomed over-snow route between Taggart Lake Trailhead &amp; Signal Mountain Lodge, groomed roughly 3x/week</span><span class="conc-hrs">Dec&ndash;spring</span></div>
-          <div class="conc-row"><span class="conc-name">Moose-Wilson Road &amp; Phelps Lake</span><span class="conc-type">Ungroomed backcountry ski &amp; snowshoe route; trails are neither marked nor flagged</span><span class="conc-hrs">Dec 16&ndash;spring</span></div>
-          <div class="conc-row"><span class="conc-name">Ranger-Led Snowshoe Hikes</span><span class="conc-type">Free guided hikes, snowshoes provided; meet at the schedule posted at Craig Thomas Discovery &amp; Visitor Center</span><span class="conc-hrs">Dec 26&ndash;mid-Mar, Tue/Thu/Sat</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Teton Park Road</span><span class="conc-chip conc-chip--note">Dec&ndash;spring</span></div>
+            <div class="conc-type">14-mi groomed over-snow route between Taggart Lake Trailhead &amp; Signal Mountain Lodge, groomed roughly 3x/week</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Moose-Wilson Road &amp; Phelps Lake</span><span class="conc-chip conc-chip--note">Dec 16&ndash;spring</span></div>
+            <div class="conc-type">Ungroomed backcountry ski &amp; snowshoe route; trails are neither marked nor flagged</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger-Led Snowshoe Hikes</span><span class="conc-chip conc-chip--note">Dec 26&ndash;mid-Mar, Tue/Thu/Sat</span></div>
+            <div class="conc-type">Free guided hikes, snowshoes provided; meet at the schedule posted at Craig Thomas Discovery &amp; Visitor Center</div>
+          </div>
         </div>
       </details>
 

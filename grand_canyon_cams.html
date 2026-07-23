@@ -434,17 +434,73 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
+    .conc-body {
+      padding: 4px 0;
+    }
 
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--canyon); white-space: nowrap; }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     .angler-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
@@ -980,25 +1036,46 @@
       <details class="conc-group">
         <summary class="conc-summary">South Rim<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mather Point</span><span class="conc-type">Iconic first-view overlook, near visitor center</span><span class="conc-hrs">Roadside</span></div>
-          <div class="conc-row"><span class="conc-name">Desert View Watchtower</span><span class="conc-type">1932 Mary Colter tower, panoramic canyon &amp; river views</span><span class="conc-hrs">Roadside</span></div>
-          <div class="conc-row"><span class="conc-name">Bright Angel Trailhead</span><span class="conc-type">Classic corridor trail to the river — see heat warning above</span><span class="conc-hrs">Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mather Point</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">Iconic first-view overlook, near visitor center</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Desert View Watchtower</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">1932 Mary Colter tower, panoramic canyon &amp; river views</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bright Angel Trailhead</span><span class="conc-chip conc-chip--note">Strenuous</span></div>
+            <div class="conc-type">Classic corridor trail to the river — see heat warning above</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Inner Canyon<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Phantom Ranch</span><span class="conc-type">Only lodging below the rim — cabins open, dorms closed indefinitely</span><span class="conc-hrs">Reservation/lottery</span></div>
-          <div class="conc-row"><span class="conc-name">South Kaibab Trailhead</span><span class="conc-type">Steep, exposed, no water — shuttle-only access (Orange Route)</span><span class="conc-hrs">Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Phantom Ranch</span><span class="conc-chip conc-chip--note">Reservation/lottery</span></div>
+            <div class="conc-type">Only lodging below the rim — cabins open, dorms closed indefinitely</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Kaibab Trailhead</span><span class="conc-chip conc-chip--note">Strenuous</span></div>
+            <div class="conc-type">Steep, exposed, no water — shuttle-only access (Orange Route)</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">North Rim<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cape Royal Scenic Drive</span><span class="conc-type">Open for 2026 — Point Imperial &amp; Cape Royal overlooks</span><span class="conc-hrs">Roadside</span></div>
-          <div class="conc-row"><span class="conc-name">North Kaibab Trailhead</span><span class="conc-type">Open on foot only — stock use suspended for 2026</span><span class="conc-hrs">Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cape Royal Scenic Drive</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">Open for 2026 — Point Imperial &amp; Cape Royal overlooks</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Kaibab Trailhead</span><span class="conc-chip conc-chip--note">Strenuous</span></div>
+            <div class="conc-type">Open on foot only — stock use suspended for 2026</div>
+          </div>
         </div>
       </details>
 
@@ -1015,46 +1092,104 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">South Kaibab Trail</span><span class="conc-type">Steep, dramatic ridgeline descent from the South Rim with no water on the trail; NPS caps day hikes at Skeleton Point</span><span class="conc-hrs">Up to 6 mi RT · 2,040 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Bright Angel Trail</span><span class="conc-type">Switchbacking South Rim descent with seasonal shade and water (May&ndash;Sept) &mdash; the only corridor trail with water for day hikers</span><span class="conc-hrs">Up to 12 mi RT · Mod.&ndash;Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Rim Trail</span><span class="conc-type">Mostly paved, largely flat path linking South Rim overlooks from South Kaibab Trailhead to Hermits Rest</span><span class="conc-hrs">~13 mi one-way · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">North Kaibab Trail</span><span class="conc-type">The only maintained trail into the canyon from the North Rim; open on foot only for 2026, stock use suspended</span><span class="conc-hrs">Up to 9.4 mi RT · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Kaibab Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Steep, dramatic ridgeline descent from the South Rim with no water on the trail; NPS caps day hikes at Skeleton Point</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:46%;background:var(--red)"></div></div>
+            <div class="conc-figure">Up to 6 mi RT · 2,040 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bright Angel Trail</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Strenuous</span></div>
+            <div class="conc-type">Switchbacking South Rim descent with seasonal shade and water (May&ndash;Sept) &mdash; the only corridor trail with water for day hikers</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:92%;background:var(--red)"></div></div>
+            <div class="conc-figure">Up to 12 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rim Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Mostly paved, largely flat path linking South Rim overlooks from South Kaibab Trailhead to Hermits Rest</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~13 mi one-way</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Kaibab Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">The only maintained trail into the canyon from the North Rim; open on foot only for 2026, stock use suspended</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:72%;background:var(--red)"></div></div>
+            <div class="conc-figure">Up to 9.4 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Mule Trips<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">South Rim Mule Trips</span><span class="conc-type">Xanterra-operated day rides and overnight trips to Phantom Ranch; overnight trips require an online lottery</span><span class="conc-hrs">Book ~15 mo ahead · Min age 9</span></div>
-          <div class="conc-row"><span class="conc-name">North Rim Mule Trips</span><span class="conc-type">Grand Canyon Trail Rides offers guided rides through Kaibab National Forest near the North Rim</span><span class="conc-hrs">May 15&ndash;Oct 15</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Rim Mule Trips</span><span class="conc-chip conc-chip--note">Book ~15 mo ahead · Min age 9</span></div>
+            <div class="conc-type">Xanterra-operated day rides and overnight trips to Phantom Ranch; overnight trips require an online lottery</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Rim Mule Trips</span><span class="conc-chip conc-chip--note">May 15&ndash;Oct 15</span></div>
+            <div class="conc-type">Grand Canyon Trail Rides offers guided rides through Kaibab National Forest near the North Rim</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Colorado River Rafting<span class="conc-count">3 trip types</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">One-Day Smooth Water Float</span><span class="conc-type">Half- and full-day motorized trips between Glen Canyon Dam and Lees Ferry; no permit lottery required</span><span class="conc-hrs">Book via outfitter</span></div>
-          <div class="conc-row"><span class="conc-name">Commercial Multi-Day Trips</span><span class="conc-type">3&ndash;18 day guided whitewater trips from Lees Ferry to Diamond Creek; often reserved a year or two in advance</span><span class="conc-hrs">3&ndash;18 days</span></div>
-          <div class="conc-row"><span class="conc-name">Noncommercial River Permits</span><span class="conc-type">Self-guided 12&ndash;25 day expeditions from Lees Ferry; permits allocated by an annual weighted lottery each February</span><span class="conc-hrs">Weighted lottery · 18+</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">One-Day Smooth Water Float</span><span class="conc-chip conc-chip--note">Book via outfitter</span></div>
+            <div class="conc-type">Half- and full-day motorized trips between Glen Canyon Dam and Lees Ferry; no permit lottery required</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Commercial Multi-Day Trips</span><span class="conc-chip conc-chip--note">3&ndash;18 days</span></div>
+            <div class="conc-type">3&ndash;18 day guided whitewater trips from Lees Ferry to Diamond Creek; often reserved a year or two in advance</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Noncommercial River Permits</span><span class="conc-chip conc-chip--note">Weighted lottery · 18+</span></div>
+            <div class="conc-type">Self-guided 12&ndash;25 day expeditions from Lees Ferry; permits allocated by an annual weighted lottery each February</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">South Rim Greenway &amp; Roads</span><span class="conc-type">~13 mi of paved Greenway trails and roads, including the 2.8-mi Hermit Road path along the rim</span><span class="conc-hrs">13 mi · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">North Rim Trails</span><span class="conc-type">Bridle Path links Grand Canyon Lodge to the North Kaibab Trailhead; Arizona Trail adds forest riding</span><span class="conc-hrs">1.9 + 12.1 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Bike Rentals</span><span class="conc-type">Canyon Adventures Bike Tours &amp; Caf&eacute;, adjacent to the South Rim Visitor Center</span><span class="conc-hrs">Mid-Mar&ndash;Oct 31</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Rim Greenway &amp; Roads</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">~13 mi of paved Greenway trails and roads, including the 2.8-mi Hermit Road path along the rim</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">13 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Rim Trails</span><span class="conc-chip conc-chip--note">1.9 + 12.1 mi</span></div>
+            <div class="conc-type">Bridle Path links Grand Canyon Lodge to the North Kaibab Trailhead; Arizona Trail adds forest riding</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bike Rentals</span><span class="conc-chip conc-chip--note">Mid-Mar&ndash;Oct 31</span></div>
+            <div class="conc-type">Canyon Adventures Bike Tours &amp; Caf&eacute;, adjacent to the South Rim Visitor Center</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger Programs &amp; Visitor Center<span class="conc-count">4 offerings</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Guided Rim Walk</span><span class="conc-type">Ranger-led walk from Bright Angel Trailhead exploring the canyon's natural &amp; cultural stories</span><span class="conc-hrs">Free · 9&ndash;10 AM daily</span></div>
-          <div class="conc-row"><span class="conc-name">Geology Talk</span><span class="conc-type">Ranger talk at Yavapai Geology Museum on how the canyon formed</span><span class="conc-hrs">Free · 3&ndash;3:30 PM daily</span></div>
-          <div class="conc-row"><span class="conc-name">North Rim Ranger Programs</span><span class="conc-type">Daily ranger-led programs at the North Rim Visitor Center</span><span class="conc-hrs">Free · Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Park Film</span><span class="conc-type">"Grand Canyon: A Journey of Wonder" — a 22-minute introductory film at the Visitor Center</span><span class="conc-hrs">Free · Hourly</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Guided Rim Walk</span><span class="conc-chip conc-chip--note">Free · 9&ndash;10 AM daily</span></div>
+            <div class="conc-type">Ranger-led walk from Bright Angel Trailhead exploring the canyon's natural &amp; cultural stories</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Geology Talk</span><span class="conc-chip conc-chip--note">Free · 3&ndash;3:30 PM daily</span></div>
+            <div class="conc-type">Ranger talk at Yavapai Geology Museum on how the canyon formed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Rim Ranger Programs</span><span class="conc-chip conc-chip--note">Free · Seasonal</span></div>
+            <div class="conc-type">Daily ranger-led programs at the North Rim Visitor Center</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Park Film</span><span class="conc-chip conc-chip--note">Free · Hourly</span></div>
+            <div class="conc-type">"Grand Canyon: A Journey of Wonder" — a 22-minute introductory film at the Visitor Center</div>
+          </div>
         </div>
       </details>
 
@@ -1110,14 +1245,20 @@
       <details class="conc-group">
         <summary class="conc-summary">South Rim Lodging &amp; Dining<span class="conc-count">Xanterra</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Xanterra Travel Collection</span><span class="conc-type">Operates South Rim lodges, dining, Phantom Ranch, and mule rides</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Xanterra Travel Collection</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Operates South Rim lodges, dining, Phantom Ranch, and mule rides</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">North Rim Services<span class="conc-count">Aramark</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Aramark / Grand Canyon Lodge North</span><span class="conc-type">General store &amp; camp services — Lodge itself destroyed by 2025 fire, not yet rebuilt</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Aramark / Grand Canyon Lodge North</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">General store &amp; camp services — Lodge itself destroyed by 2025 fire, not yet rebuilt</div>
+          </div>
         </div>
       </details>
 
