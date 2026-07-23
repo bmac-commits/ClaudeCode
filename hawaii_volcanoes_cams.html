@@ -194,13 +194,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--lava-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     .moon-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
     .moon-icon { font-size: 2.6rem; line-height: 1; }
@@ -586,20 +647,52 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Kīlauea Iki Trail</span><span class="conc-type">Descends through lush rainforest to cross the solidified lava lake on the floor of Kīlauea Iki crater</span><span class="conc-hrs">3.3&ndash;6.0 mi RT &middot; 400 ft &middot; Mod.&ndash;Challenging</span></div>
-          <div class="conc-row"><span class="conc-name">Nāhuku (Thurston Lava Tube)</span><span class="conc-type">Rainforest walk into a roughly 500-year-old lava tube where molten lava once flowed</span><span class="conc-hrs">1.5&ndash;6.0 mi RT &middot; Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Devastation Trail</span><span class="conc-type">Paved, wheelchair- and stroller-accessible walk across a landscape reshaped by cinder from the 1959 Kīlauea Iki eruption</span><span class="conc-hrs">1 mi RT &middot; Easy &middot; Accessible</span></div>
-          <div class="conc-row"><span class="conc-name">Crater Rim Trail</span><span class="conc-type">Traces the edge of Kīlauea's summit caldera from Uēkahuna past steam vents, 2018-eruption aftermath, and rainforest</span><span class="conc-hrs">Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Puʻuloa Petroglyphs</span><span class="conc-type">Coastal trail across a 500&ndash;550-year-old lava field to one of Hawaiʻi's most extensive petroglyph fields (~23,000 images)</span><span class="conc-hrs">1.4 mi RT &middot; Moderate</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kīlauea Iki Trail</span><span class="conc-chip conc-chip--mod">Mod.&ndash;Challenging</span></div>
+            <div class="conc-type">Descends through lush rainforest to cross the solidified lava lake on the floor of Kīlauea Iki crater</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.3&ndash;6.0 mi RT &middot; 400 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Nāhuku (Thurston Lava Tube)</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Rainforest walk into a roughly 500-year-old lava tube where molten lava once flowed</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.5&ndash;6.0 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devastation Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Paved, wheelchair- and stroller-accessible walk across a landscape reshaped by cinder from the 1959 Kīlauea Iki eruption</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:17%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1 mi RT &middot; Accessible</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Crater Rim Trail</span><span class="conc-chip conc-chip--note">Easy</span></div>
+            <div class="conc-type">Traces the edge of Kīlauea's summit caldera from Uēkahuna past steam vents, 2018-eruption aftermath, and rainforest</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Puʻuloa Petroglyphs</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Coastal trail across a 500&ndash;550-year-old lava field to one of Hawaiʻi's most extensive petroglyph fields (~23,000 images)</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:23%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.4 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Crater Rim Drive &amp; Chain of Craters Road</span><span class="conc-type">All paved roads open to vehicles in the Kīlauea District are open to bikes and e-bikes</span><span class="conc-hrs">Paved</span></div>
-          <div class="conc-row"><span class="conc-name">Old Crater Rim Drive &amp; Chain of Craters&ndash;Kalapana Road</span><span class="conc-type">Gravel routes for experienced riders; ride single file on the right and yield to vehicles</span><span class="conc-hrs">Gravel &middot; Experienced</span></div>
-          <div class="conc-row"><span class="conc-name">Kahuku Unit</span><span class="conc-type">Kahuku Road, Palm Trail &amp; the Old Māmalahoa Highway spur are open to bikes; unit open Thursday&ndash;Sunday</span><span class="conc-hrs">Thu&ndash;Sun, 8 AM&ndash;4 PM</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Crater Rim Drive &amp; Chain of Craters Road</span><span class="conc-chip conc-chip--note">Paved</span></div>
+            <div class="conc-type">All paved roads open to vehicles in the Kīlauea District are open to bikes and e-bikes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Old Crater Rim Drive &amp; Chain of Craters&ndash;Kalapana Road</span><span class="conc-chip conc-chip--note">Gravel &middot; Experienced</span></div>
+            <div class="conc-type">Gravel routes for experienced riders; ride single file on the right and yield to vehicles</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kahuku Unit</span><span class="conc-chip conc-chip--note">Thu&ndash;Sun, 8 AM&ndash;4 PM</span></div>
+            <div class="conc-type">Kahuku Road, Palm Trail &amp; the Old Māmalahoa Highway spur are open to bikes; unit open Thursday&ndash;Sunday</div>
+          </div>
         </div>
       </details>
 
@@ -650,9 +743,18 @@
       <details class="conc-group">
         <summary class="conc-summary">Key Locations<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Halemaʻumaʻu</span><span class="conc-type">Active vent within Kīlauea's summit caldera, site of ongoing episodic eruptions</span></div>
-          <div class="conc-row"><span class="conc-name">Volcano House</span><span class="conc-type">Historic crater-rim hotel, still operating today</span></div>
-          <div class="conc-row"><span class="conc-name">Hōlei Sea Arch</span><span class="conc-type">~90-ft lava sea arch at the end of Chain of Craters Road</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Halemaʻumaʻu</span></div>
+            <div class="conc-type">Active vent within Kīlauea's summit caldera, site of ongoing episodic eruptions</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Volcano House</span></div>
+            <div class="conc-type">Historic crater-rim hotel, still operating today</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hōlei Sea Arch</span></div>
+            <div class="conc-type">~90-ft lava sea arch at the end of Chain of Craters Road</div>
+          </div>
         </div>
       </details>
     </div>

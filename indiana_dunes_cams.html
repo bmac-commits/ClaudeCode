@@ -158,13 +158,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--blue-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -520,20 +581,32 @@
       <details class="conc-group">
         <summary class="conc-summary">West Beach<span class="conc-count">most developed</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">West Beach</span><span class="conc-type">Bathhouse, lifeguards in season, and dune-trail loops — the park's main swimming beach</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">West Beach</span></div>
+            <div class="conc-type">Bathhouse, lifeguards in season, and dune-trail loops — the park's main swimming beach</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Cowles Bog Trail<span class="conc-count">National Natural Landmark</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cowles Bog Trail</span><span class="conc-type">4.7-mile loop through the wetland that founded the science of ecological succession</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cowles Bog Trail</span></div>
+            <div class="conc-type">4.7-mile loop through the wetland that founded the science of ecological succession</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Heron Rookery &amp; Chellberg Farm<span class="conc-count">inland units</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Heron Rookery</span><span class="conc-type">Spring wildflowers along the Little Calumet River, popular for birding</span></div>
-          <div class="conc-row"><span class="conc-name">Chellberg Farm</span><span class="conc-type">Restored 1900s Swedish homestead with seasonal demonstrations</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Heron Rookery</span></div>
+            <div class="conc-type">Spring wildflowers along the Little Calumet River, popular for birding</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chellberg Farm</span></div>
+            <div class="conc-type">Restored 1900s Swedish homestead with seasonal demonstrations</div>
+          </div>
         </div>
       </details>
     </div>
@@ -549,52 +622,110 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Glenwood Dunes Trails</span><span class="conc-type">Interconnected loops through wooded dune ridges — the park's largest trail network and its only trail system open to horses</span><span class="conc-hrs">6.8 mi · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Mount Baldy Beach Trail</span><span class="conc-type">Short climb out to the beach across an active, shifting dune; the summit and dune face beyond remain closed for stabilization work</span><span class="conc-hrs">0.75 mi RT · Mod.&ndash;Rugged</span></div>
-          <div class="conc-row"><span class="conc-name">Great Marsh Trail</span><span class="conc-type">Path through one of the park's largest wetland restoration areas, a favorite stop for birders</span><span class="conc-hrs">1.3 mi · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Tolleston Dunes Trail</span><span class="conc-type">Loop across ancient, wooded beach ridges and remnant black oak savanna</span><span class="conc-hrs">2.9 mi loop · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Paul H. Douglas Trail (Miller Woods)</span><span class="conc-type">Dune-and-savanna route starting at the Douglas Center for Environmental Education, also the park's winter ski/snowshoe rental hub</span><span class="conc-hrs">3.4 mi · Moderate</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Glenwood Dunes Trails</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Interconnected loops through wooded dune ridges — the park's largest trail network and its only trail system open to horses</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">6.8 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mount Baldy Beach Trail</span><span class="conc-chip conc-chip--mod">Mod.&ndash;Rugged</span></div>
+            <div class="conc-type">Short climb out to the beach across an active, shifting dune; the summit and dune face beyond remain closed for stabilization work</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:11%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">0.75 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Great Marsh Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Path through one of the park's largest wetland restoration areas, a favorite stop for birders</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:19%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.3 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tolleston Dunes Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Loop across ancient, wooded beach ridges and remnant black oak savanna</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:43%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.9 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Paul H. Douglas Trail (Miller Woods)</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Dune-and-savanna route starting at the Douglas Center for Environmental Education, also the park's winter ski/snowshoe rental hub</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:50%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.4 mi</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Swimming &amp; Beaches<span class="conc-count">4 beaches</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">West Beach</span><span class="conc-type">The park's most developed swimming beach, with bathhouse, showers &amp; grills</span><span class="conc-hrs">Lifeguards Mem. Day&ndash;Labor Day, 10am&ndash;6pm</span></div>
-          <div class="conc-row"><span class="conc-name">Portage Lakefront &amp; Riverwalk</span><span class="conc-type">Beach beside the fishing pier and Riverwalk; restrooms &amp; potable water</span><span class="conc-hrs">Unguarded</span></div>
-          <div class="conc-row"><span class="conc-name">Central Avenue Beach</span><span class="conc-type">Closest beach parking to the water; wheelchair accessible</span><span class="conc-hrs">Unguarded</span></div>
-          <div class="conc-row"><span class="conc-name">Kemil Beach</span><span class="conc-type">Restrooms, potable water &amp; grills near the Indiana Dunes Visitor Center</span><span class="conc-hrs">Unguarded</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">West Beach</span><span class="conc-chip conc-chip--note">Lifeguards Mem. Day&ndash;Labor Day, 10am&ndash;6pm</span></div>
+            <div class="conc-type">The park's most developed swimming beach, with bathhouse, showers &amp; grills</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Portage Lakefront &amp; Riverwalk</span><span class="conc-chip conc-chip--note">Unguarded</span></div>
+            <div class="conc-type">Beach beside the fishing pier and Riverwalk; restrooms &amp; potable water</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Central Avenue Beach</span><span class="conc-chip conc-chip--note">Unguarded</span></div>
+            <div class="conc-type">Closest beach parking to the water; wheelchair accessible</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kemil Beach</span><span class="conc-chip conc-chip--note">Unguarded</span></div>
+            <div class="conc-type">Restrooms, potable water &amp; grills near the Indiana Dunes Visitor Center</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Bird Watching<span class="conc-count">2 highlights</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Fall Migration Flyway</span><span class="conc-type">Lake Michigan's shoreline funnels southbound migrants along the dunes; watch for hawks from dune tops, waterfowl offshore &amp; wetland species at the Great Marsh</span><span class="conc-hrs">Peak: fall migration</span></div>
-          <div class="conc-row"><span class="conc-name">Indiana Dunes Birding Festival</span><span class="conc-type">Annual guided birding festival based at the park, timed to spring migration</span><span class="conc-hrs">3rd weekend in May</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fall Migration Flyway</span><span class="conc-chip conc-chip--note">Peak: fall migration</span></div>
+            <div class="conc-type">Lake Michigan's shoreline funnels southbound migrants along the dunes; watch for hawks from dune tops, waterfowl offshore &amp; wetland species at the Great Marsh</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Indiana Dunes Birding Festival</span><span class="conc-chip conc-chip--note">3rd weekend in May</span></div>
+            <div class="conc-type">Annual guided birding festival based at the park, timed to spring migration</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Calumet Bike Trail</span><span class="conc-type">Gravel rail-trail along the historic Calumet Beach Ridge; surface is uneven in places</span><span class="conc-hrs">19 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Regional Trail Network</span><span class="conc-type">Connects into the Porter Brickyard, Prairie Duneland, Oak Savannah &amp; Marquette trails across the park's length; some 2026 closures for Marquette Greenway construction</span><span class="conc-hrs">37 mi total</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Calumet Bike Trail</span><span class="conc-chip conc-chip--note">19 mi RT</span></div>
+            <div class="conc-type">Gravel rail-trail along the historic Calumet Beach Ridge; surface is uneven in places</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Regional Trail Network</span><span class="conc-chip conc-chip--note">37 mi total</span></div>
+            <div class="conc-type">Connects into the Porter Brickyard, Prairie Duneland, Oak Savannah &amp; Marquette trails across the park's length; some 2026 closures for Marquette Greenway construction</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Activities<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Free ski &amp; snowshoe rentals at the Paul H. Douglas Center for Environmental Education, weather permitting</span><span class="conc-hrs">Winter, snow-dependent</span></div>
-          <div class="conc-row"><span class="conc-name">Ranger-Led Winter Programs</span><span class="conc-type">Snowshoe hikes and winter ecology programs</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-chip conc-chip--note">Winter, snow-dependent</span></div>
+            <div class="conc-type">Free ski &amp; snowshoe rentals at the Paul H. Douglas Center for Environmental Education, weather permitting</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger-Led Winter Programs</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Snowshoe hikes and winter ecology programs</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">1 option</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Glenwood Dunes Equestrian Trail</span><span class="conc-type">The park's only trail open to horses, on a designated portion of the Glenwood Dunes system</span><span class="conc-hrs">Mar 16&ndash;Dec 14</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Glenwood Dunes Equestrian Trail</span><span class="conc-chip conc-chip--note">Mar 16&ndash;Dec 14</span></div>
+            <div class="conc-type">The park's only trail open to horses, on a designated portion of the Glenwood Dunes system</div>
+          </div>
         </div>
       </details>
 

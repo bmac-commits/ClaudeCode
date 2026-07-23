@@ -272,13 +272,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--limestone-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* ── Stargazing Card ── */
     .moon-card {
@@ -772,15 +833,24 @@
       <details class="conc-group">
         <summary class="conc-summary">Pine Springs Area<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Devil's Hall Trail</span><span class="conc-type">4.2 mi round trip, ~548 ft gain · rock-scrambling in a wash to a narrow limestone slot — dangerous when wet</span><span class="conc-hrs">3–5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Frijole Ranch History Museum</span><span class="conc-type">~1.5 mi from the Visitor Center · historic ranch buildings &amp; picnic area</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devil's Hall Trail</span><span class="conc-chip conc-chip--note">3–5 hrs</span></div>
+            <div class="conc-type">4.2 mi round trip, ~548 ft gain · rock-scrambling in a wash to a narrow limestone slot — dangerous when wet</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Frijole Ranch History Museum</span><span class="conc-chip conc-chip--note">~1 hr</span></div>
+            <div class="conc-type">~1.5 mi from the Visitor Center · historic ranch buildings &amp; picnic area</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Remote / Detached Unit<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Salt Basin Dunes</span><span class="conc-type">Detached gypsum-dune unit on the park's remote west side · day-use only, sunrise–30 min after sunset · access road turns dangerously slippery when wet · no camping</span><span class="conc-hrs">Day-use only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Salt Basin Dunes</span><span class="conc-chip conc-chip--note">Day-use only</span></div>
+            <div class="conc-type">Detached gypsum-dune unit on the park's remote west side · day-use only, sunrise–30 min after sunset · access road turns dangerously slippery when wet · no camping</div>
+          </div>
         </div>
       </details>
 
@@ -797,35 +867,70 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Smith Spring Trail</span><span class="conc-type">Short loop past a spring-fed oasis of maples and madrones; a popular short fall-color walk near Frijole Ranch</span><span class="conc-hrs">2.3 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">McKittrick Canyon Trail</span><span class="conc-type">Follows the canyon past Pratt Cabin toward the Grotto and on to McKittrick Ridge, the park's signature fall-foliage corridor</span><span class="conc-hrs">Up to 10.9 mi one-way</span></div>
-          <div class="conc-row"><span class="conc-name">The Bowl Trail</span><span class="conc-type">Steep climb onto the high plateau into a relict ponderosa &amp; Douglas-fir forest atop the range</span><span class="conc-hrs">3.6 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Tejas Trail</span><span class="conc-type">High-country connector between Pine Springs and Dog Canyon; a common backpacking thru-route</span><span class="conc-hrs">11.8 mi one-way</span></div>
-          <div class="conc-row"><span class="conc-name">Bush Mountain Trail</span><span class="conc-type">Traverses the range's second-highest peak, linking Pine Top to Dog Canyon</span><span class="conc-hrs">12.3 mi one-way</span></div>
-          <div class="conc-row"><span class="conc-name">El Capitan Trail</span><span class="conc-type">Skirts the base of the range's iconic cliff face en route to the historic Williams Ranch</span><span class="conc-hrs">9.4 mi one-way</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Smith Spring Trail</span><span class="conc-chip conc-chip--note">2.3 mi RT</span></div>
+            <div class="conc-type">Short loop past a spring-fed oasis of maples and madrones; a popular short fall-color walk near Frijole Ranch</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">McKittrick Canyon Trail</span><span class="conc-chip conc-chip--note">Up to 10.9 mi one-way</span></div>
+            <div class="conc-type">Follows the canyon past Pratt Cabin toward the Grotto and on to McKittrick Ridge, the park's signature fall-foliage corridor</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Bowl Trail</span><span class="conc-chip conc-chip--note">3.6 mi RT</span></div>
+            <div class="conc-type">Steep climb onto the high plateau into a relict ponderosa &amp; Douglas-fir forest atop the range</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tejas Trail</span><span class="conc-chip conc-chip--note">11.8 mi one-way</span></div>
+            <div class="conc-type">High-country connector between Pine Springs and Dog Canyon; a common backpacking thru-route</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bush Mountain Trail</span><span class="conc-chip conc-chip--note">12.3 mi one-way</span></div>
+            <div class="conc-type">Traverses the range's second-highest peak, linking Pine Top to Dog Canyon</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">El Capitan Trail</span><span class="conc-chip conc-chip--note">9.4 mi one-way</span></div>
+            <div class="conc-type">Skirts the base of the range's iconic cliff face en route to the historic Williams Ranch</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backcountry Camping &amp; Permits<span class="conc-count">2 items</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wilderness Use Permit</span><span class="conc-type">Required year-round for any overnight backcountry stay; walk-up issued at Pine Springs Visitor Center 8 AM&ndash;noon daily, or reserve on Recreation.gov up to 3 months ahead</span><span class="conc-hrs">$6 + $6/person/night</span></div>
-          <div class="conc-row"><span class="conc-name">Designated Wilderness Campgrounds</span><span class="conc-type">10 designated backcountry campgrounds spread across the range, including McKittrick Ridge; max stay 7 nights, up to 4 people per site</span><span class="conc-hrs">10 campgrounds</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wilderness Use Permit</span><span class="conc-chip conc-chip--note">$6 + $6/person/night</span></div>
+            <div class="conc-type">Required year-round for any overnight backcountry stay; walk-up issued at Pine Springs Visitor Center 8 AM&ndash;noon daily, or reserve on Recreation.gov up to 3 months ahead</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Designated Wilderness Campgrounds</span><span class="conc-chip conc-chip--note">10 campgrounds</span></div>
+            <div class="conc-type">10 designated backcountry campgrounds spread across the range, including McKittrick Ridge; max stay 7 nights, up to 4 people per site</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding &amp; Stock Use<span class="conc-count">2 items</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Trail Access for Stock</span><span class="conc-type">About 60% of park trails allow horses/pack animals for day use, including El Capitan, Tejas &amp; Bush Mountain trails; the Guadalupe Peak Trail is closed to stock</span><span class="conc-hrs">Day-use only</span></div>
-          <div class="conc-row"><span class="conc-name">Frijole Horse Corral</span><span class="conc-type">Staging area with 4 corrals, hitching posts, water troughs &amp; extra trailer parking; bring your own stock — none available for hire in or near the park</span><span class="conc-hrs">Permit required (free)</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Trail Access for Stock</span><span class="conc-chip conc-chip--note">Day-use only</span></div>
+            <div class="conc-type">About 60% of park trails allow horses/pack animals for day use, including El Capitan, Tejas &amp; Bush Mountain trails; the Guadalupe Peak Trail is closed to stock</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Frijole Horse Corral</span><span class="conc-chip conc-chip--note">Permit required (free)</span></div>
+            <div class="conc-type">Staging area with 4 corrals, hitching posts, water troughs &amp; extra trailer parking; bring your own stock — none available for hire in or near the park</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Historic Sites<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">The Pinery</span><span class="conc-type">Paved, wheelchair-accessible path from Pine Springs Visitor Center to the ruins of an 1858 Butterfield Overland Mail relay station &mdash; the highest stop on the 2,800-mile route</span><span class="conc-hrs">0.75 mi RT &middot; Easy</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Pinery</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Paved, wheelchair-accessible path from Pine Springs Visitor Center to the ruins of an 1858 Butterfield Overland Mail relay station &mdash; the highest stop on the 2,800-mile route</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.75 mi RT</div>
+          </div>
         </div>
       </details>
 

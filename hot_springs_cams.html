@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--amber-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* -- Quick Jump Nav -- */
     .quicknav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
@@ -534,20 +595,32 @@
       <details class="conc-group">
         <summary class="conc-summary">Open for Bathing<span class="conc-count">2 bathhouses</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Buckstaff Bathhouse</span><span class="conc-type">Continuously operating since 1912 — traditional thermal baths, private business</span></div>
-          <div class="conc-row"><span class="conc-name">Quapaw Bathhouse</span><span class="conc-type">Modern spa with communal thermal pools, private business</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Buckstaff Bathhouse</span></div>
+            <div class="conc-type">Continuously operating since 1912 — traditional thermal baths, private business</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Quapaw Bathhouse</span></div>
+            <div class="conc-type">Modern spa with communal thermal pools, private business</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Visitor Center & Museum<span class="conc-count">NPS-run</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Fordyce Bathhouse</span><span class="conc-type">Restored 1915 bathhouse, now the park visitor center and museum — free to tour</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fordyce Bathhouse</span></div>
+            <div class="conc-type">Restored 1915 bathhouse, now the park visitor center and museum — free to tour</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Repurposed Bathhouses<span class="conc-count">shops, gallery, brewery</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ozark, Maurice, Hale, Superior, Lamar</span><span class="conc-type">Historic buildings now house a brewery, art gallery, gift shops, and NPS offices — exteriors and grounds open to all</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ozark, Maurice, Hale, Superior, Lamar</span></div>
+            <div class="conc-type">Historic buildings now house a brewery, art gallery, gift shops, and NPS offices — exteriors and grounds open to all</div>
+          </div>
         </div>
       </details>
     </div>
@@ -574,37 +647,78 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Grand Promenade</span><span class="conc-type">Paved historic walkway running behind Bathhouse Row, with four entry points into the mountain trail network</span><span class="conc-hrs">0.5 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Hot Springs Mountain Trail</span><span class="conc-type">Easy stroll around the top of Hot Springs Mountain with scenic overlooks</span><span class="conc-hrs">1.7 mi · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Peak Trail</span><span class="conc-type">Paved then gravel climb leading up to the Hot Springs Mountain Tower</span><span class="conc-hrs">0.6 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Gulpha Gorge Trail</span><span class="conc-type">Steep western section climbing directly from Gulpha Gorge Campground</span><span class="conc-hrs">0.6 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Sunset Trail</span><span class="conc-type">The park's longest trail, crossing the most remote terrain near the park's outer boundary; can be hiked as segments or a full loop</span><span class="conc-hrs">~10 mi one-way · 15&ndash;17 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">West Mountain Trail</span><span class="conc-type">Gradual grade on both sections; connects with Mountain Top Trail to form a loop</span><span class="conc-hrs">1.2 mi</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grand Promenade</span><span class="conc-chip conc-chip--note">0.5 mi</span></div>
+            <div class="conc-type">Paved historic walkway running behind Bathhouse Row, with four entry points into the mountain trail network</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hot Springs Mountain Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy stroll around the top of Hot Springs Mountain with scenic overlooks</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.7 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Peak Trail</span><span class="conc-chip conc-chip--note">0.6 mi</span></div>
+            <div class="conc-type">Paved then gravel climb leading up to the Hot Springs Mountain Tower</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gulpha Gorge Trail</span><span class="conc-chip conc-chip--note">0.6 mi</span></div>
+            <div class="conc-type">Steep western section climbing directly from Gulpha Gorge Campground</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sunset Trail</span><span class="conc-chip conc-chip--note">~10 mi one-way · 15&ndash;17 mi loop</span></div>
+            <div class="conc-type">The park's longest trail, crossing the most remote terrain near the park's outer boundary; can be hiked as segments or a full loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">West Mountain Trail</span><span class="conc-chip conc-chip--note">1.2 mi</span></div>
+            <div class="conc-type">Gradual grade on both sections; connects with Mountain Top Trail to form a loop</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Scenic Drives &amp; Overlooks<span class="conc-count">3 spots</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hot Springs Mountain Tower</span><span class="conc-type">Concession-operated observation tower with an open-air upper deck and enclosed lower deck overlooking 140 sq mi of the Ouachita Mountains</span><span class="conc-hrs">216 ft tower · 1,256 ft elev.</span></div>
-          <div class="conc-row"><span class="conc-name">Hot Springs Mountain Drive</span><span class="conc-type">Switchbacking 1880s carriage road climbing to the Pagoda overlook and the Mountain Tower</span><span class="conc-hrs">Scenic drive</span></div>
-          <div class="conc-row"><span class="conc-name">West Mountain Drive</span><span class="conc-type">Two-way road to the Summit Loop, with three overlooks over Bathhouse Row and downtown Hot Springs</span><span class="conc-hrs">Scenic drive</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hot Springs Mountain Tower</span><span class="conc-chip conc-chip--note">216 ft tower · 1,256 ft elev.</span></div>
+            <div class="conc-type">Concession-operated observation tower with an open-air upper deck and enclosed lower deck overlooking 140 sq mi of the Ouachita Mountains</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hot Springs Mountain Drive</span><span class="conc-chip conc-chip--note">Scenic drive</span></div>
+            <div class="conc-type">Switchbacking 1880s carriage road climbing to the Pagoda overlook and the Mountain Tower</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">West Mountain Drive</span><span class="conc-chip conc-chip--note">Scenic drive</span></div>
+            <div class="conc-type">Two-way road to the Summit Loop, with three overlooks over Bathhouse Row and downtown Hot Springs</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Free Spring Water<span class="conc-count">2 kinds</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Thermal Water Jug Fountains</span><span class="conc-type">Free hot spring water at Hill Wheatley Plaza, the NPS Administration Building &amp; fountains along Bathhouse Row; water emerges from the ground at 143°F but cools before reaching the taps</span><span class="conc-hrs">Free</span></div>
-          <div class="conc-row"><span class="conc-name">Cold Spring Fountains</span><span class="conc-type">Filtered cold spring water at Happy Hollow and Whittington Spring</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Thermal Water Jug Fountains</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">Free hot spring water at Hill Wheatley Plaza, the NPS Administration Building &amp; fountains along Bathhouse Row; water emerges from the ground at 143°F but cools before reaching the taps</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cold Spring Fountains</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">Filtered cold spring water at Happy Hollow and Whittington Spring</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Park Roads</span><span class="conc-type">Bicycles &amp; e-bikes welcome on paved North &amp; West Mountain roads; not permitted on the Grand Promenade or the Bathhouse Row sidewalk</span><span class="conc-hrs">Open roads</span></div>
-          <div class="conc-row"><span class="conc-name">Pullman Trail</span><span class="conc-type">Authorized specifically for bicycle and e-bike use</span><span class="conc-hrs">Bike trail</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Park Roads</span><span class="conc-chip conc-chip--note">Open roads</span></div>
+            <div class="conc-type">Bicycles &amp; e-bikes welcome on paved North &amp; West Mountain roads; not permitted on the Grand Promenade or the Bathhouse Row sidewalk</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Pullman Trail</span><span class="conc-chip conc-chip--note">Bike trail</span></div>
+            <div class="conc-type">Authorized specifically for bicycle and e-bike use</div>
+          </div>
         </div>
       </details>
 
