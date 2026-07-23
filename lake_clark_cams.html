@@ -158,13 +158,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--turq-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -518,15 +579,15 @@
       <details class="conc-group">
         <summary class="conc-summary">Bear Viewing<span class="conc-count">2</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Chinitna Bay</span><span class="conc-type">Premier brown bear viewing — bears feed on sedges in salt marshes and clams in tidal flats; private flightseeing/boat access only</span></div>
-          <div class="conc-row"><span class="conc-name">Silver Salmon Creek</span><span class="conc-type">~25 mi southeast of Chinitna Bay, similar tidal-flat bear viewing; private operators only, not NPS-run</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Chinitna Bay</span></div><div class="conc-type">Premier brown bear viewing — bears feed on sedges in salt marshes and clams in tidal flats; private flightseeing/boat access only</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Silver Salmon Creek</span></div><div class="conc-type">~25 mi southeast of Chinitna Bay, similar tidal-flat bear viewing; private operators only, not NPS-run</div></div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Volcanoes<span class="conc-count">2</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mount Redoubt</span><span class="conc-type">10,197 ft active stratovolcano, erupted at least 30 times in the last 10,000 years, most recently 1989 and 2009</span></div>
-          <div class="conc-row"><span class="conc-name">Mount Iliamna</span><span class="conc-type">10,016 ft stratovolcano, no confirmed eruptions in recorded history but persistent fumaroles and seismic activity</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mount Redoubt</span></div><div class="conc-type">10,197 ft active stratovolcano, erupted at least 30 times in the last 10,000 years, most recently 1989 and 2009</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mount Iliamna</span></div><div class="conc-type">10,016 ft stratovolcano, no confirmed eruptions in recorded history but persistent fumaroles and seismic activity</div></div>
         </div>
       </details>
     </div>
@@ -563,11 +624,11 @@
       <details class="conc-group">
         <summary class="conc-summary">Key Locations<span class="conc-count">5 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Port Alsworth</span><span class="conc-type">Main hub village, ranger station, visitor center</span></div>
-          <div class="conc-row"><span class="conc-name">Lake Clark</span><span class="conc-type">Glacially-fed, turquoise, the park's namesake</span></div>
-          <div class="conc-row"><span class="conc-name">Twin Lakes</span><span class="conc-type">Home to Dick Proenneke's cabin</span></div>
-          <div class="conc-row"><span class="conc-name">Tanalian Falls</span><span class="conc-type">~4 mile round-trip trail from Port Alsworth, 30-ft waterfall over ancient lava rock</span><span class="conc-hrs">4 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Chinitna Bay</span><span class="conc-type">See Bear Viewing above</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Port Alsworth</span></div><div class="conc-type">Main hub village, ranger station, visitor center</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lake Clark</span></div><div class="conc-type">Glacially-fed, turquoise, the park's namesake</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Twin Lakes</span></div><div class="conc-type">Home to Dick Proenneke's cabin</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Tanalian Falls</span><span class="conc-chip conc-chip--note">4 mi RT</span></div><div class="conc-type">~4 mile round-trip trail from Port Alsworth, 30-ft waterfall over ancient lava rock</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Chinitna Bay</span></div><div class="conc-type">See Bear Viewing above</div></div>
         </div>
       </details>
     </div>
@@ -583,50 +644,50 @@
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Crescent Lake</span><span class="conc-type">The park's most popular fishing destination, tucked in the Chigmit Mountains near Redoubt Volcano</span><span class="conc-hrs">May&ndash;Oct &middot; peak Jul&ndash;Aug</span></div>
-          <div class="conc-row"><span class="conc-name">Silver Salmon Creek</span><span class="conc-type">Productive salmon water shared with actively fishing brown bears &mdash; anglers must yield fishing spots to bears</span><span class="conc-hrs">Peak salmon runs</span></div>
-          <div class="conc-row"><span class="conc-name">Kijik, Telaquana &amp; Tanalian Waters</span><span class="conc-type">Home to arctic char, arctic grayling, Dolly Varden, lake &amp; rainbow trout, northern pike, and all five Pacific salmon species</span><span class="conc-hrs">AK license required</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Crescent Lake</span><span class="conc-chip conc-chip--note">May&ndash;Oct &middot; peak Jul&ndash;Aug</span></div><div class="conc-type">The park's most popular fishing destination, tucked in the Chigmit Mountains near Redoubt Volcano</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Silver Salmon Creek</span><span class="conc-chip conc-chip--note">Peak salmon runs</span></div><div class="conc-type">Productive salmon water shared with actively fishing brown bears &mdash; anglers must yield fishing spots to bears</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Kijik, Telaquana &amp; Tanalian Waters</span><span class="conc-chip conc-chip--note">AK license required</span></div><div class="conc-type">Home to arctic char, arctic grayling, Dolly Varden, lake &amp; rainbow trout, northern pike, and all five Pacific salmon species</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Hiking Beyond Tanalian Falls<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Kontrashibuna Lake Trail</span><span class="conc-type">Maintained Tanalian Trails route continuing past Tanalian Falls into designated wilderness</span><span class="conc-hrs">5.5 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Beaver Pond Trail</span><span class="conc-type">Quiet birch-grove walk from Port Alsworth to a viewpoint over an old beaver pond</span><span class="conc-hrs">3.2 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Tanalian Mountain</span><span class="conc-type">Steep, full-day climb from Port Alsworth with panoramic summit views</span><span class="conc-hrs">8.6 mi RT &middot; 8+ hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Portage Creek Trail</span><span class="conc-type">Single-track climb through spruce &amp; birch forest to alpine tundra near Joe Thompson Cabin</span><span class="conc-hrs">3.25 mi &middot; 1,850 ft gain</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Kontrashibuna Lake Trail</span><span class="conc-chip conc-chip--note">5.5 mi RT</span></div><div class="conc-type">Maintained Tanalian Trails route continuing past Tanalian Falls into designated wilderness</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Beaver Pond Trail</span><span class="conc-chip conc-chip--note">3.2 mi RT</span></div><div class="conc-type">Quiet birch-grove walk from Port Alsworth to a viewpoint over an old beaver pond</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Tanalian Mountain</span><span class="conc-chip conc-chip--note">8.6 mi RT &middot; 8+ hrs</span></div><div class="conc-type">Steep, full-day climb from Port Alsworth with panoramic summit views</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Portage Creek Trail</span><span class="conc-chip conc-chip--note">3.25 mi &middot; 1,850 ft gain</span></div><div class="conc-type">Single-track climb through spruce &amp; birch forest to alpine tundra near Joe Thompson Cabin</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Paddling &amp; Boating<span class="conc-count">2 lakes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lake Clark</span><span class="conc-type">42-mile glacially fed lake ringed by hanging valleys; motorized boat access via lodges &amp; commercial operators</span><span class="conc-hrs">Guided &amp; self-guided</span></div>
-          <div class="conc-row"><span class="conc-name">Crescent Lake</span><span class="conc-type">Popular paddling &amp; motorboat destination in the Chigmit Mountains near Redoubt Volcano; PFDs required aboard</span><span class="conc-hrs">Fly-in access</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lake Clark</span><span class="conc-chip conc-chip--note">Guided &amp; self-guided</span></div><div class="conc-type">42-mile glacially fed lake ringed by hanging valleys; motorized boat access via lodges &amp; commercial operators</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Crescent Lake</span><span class="conc-chip conc-chip--note">Fly-in access</span></div><div class="conc-type">Popular paddling &amp; motorboat destination in the Chigmit Mountains near Redoubt Volcano; PFDs required aboard</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wild &amp; Scenic River Rafting<span class="conc-count">3 rivers</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Tlikakila River</span><span class="conc-type">Mostly Class I float from Summit Lake to Lake Clark with a brief Class II/III section; float plane plus 2-mi portage to put-in</span><span class="conc-hrs">~70 mi &middot; 2&ndash;4 days</span></div>
-          <div class="conc-row"><span class="conc-name">Mulchatna River</span><span class="conc-type">Fast Class I&ndash;II river with Class III canyon water at low flow, forming the park's western border</span><span class="conc-hrs">100&ndash;230 mi &middot; up to a week+</span></div>
-          <div class="conc-row"><span class="conc-name">Chilikadrotna River</span><span class="conc-type">Fast single-thread Class I&ndash;II channel flowing from Twin Lakes</span><span class="conc-hrs">70&ndash;200 mi &middot; Jun&ndash;Sep</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Tlikakila River</span><span class="conc-chip conc-chip--note">~70 mi &middot; 2&ndash;4 days</span></div><div class="conc-type">Mostly Class I float from Summit Lake to Lake Clark with a brief Class II/III section; float plane plus 2-mi portage to put-in</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mulchatna River</span><span class="conc-chip conc-chip--note">100&ndash;230 mi &middot; up to a week+</span></div><div class="conc-type">Fast Class I&ndash;II river with Class III canyon water at low flow, forming the park's western border</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Chilikadrotna River</span><span class="conc-chip conc-chip--note">70&ndash;200 mi &middot; Jun&ndash;Sep</span></div><div class="conc-type">Fast single-thread Class I&ndash;II channel flowing from Twin Lakes</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Birding<span class="conc-count">187 species</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Park-wide Birding</span><span class="conc-type">187 documented bird species across tundra, wetland, coastal &amp; forest habitats</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Park-wide Birding</span><span class="conc-chip conc-chip--note">Year-round</span></div><div class="conc-type">187 documented bird species across tundra, wetland, coastal &amp; forest habitats</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Hunting &amp; Trapping<span class="conc-count">Preserve only</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">National Preserve Lands</span><span class="conc-type">Sport hunting &amp; trapping permitted under Alaska state regulations; not allowed on national park lands</span><span class="conc-hrs">State license required</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">National Preserve Lands</span><span class="conc-chip conc-chip--note">State license required</span></div><div class="conc-type">Sport hunting &amp; trapping permitted under Alaska state regulations; not allowed on national park lands</div></div>
         </div>
       </details>
 

@@ -170,13 +170,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--amber-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -500,11 +561,11 @@
       <details class="conc-group">
         <summary class="conc-summary">Tour Options<span class="conc-count">$12 – $79</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Discovery Tour</span><span class="conc-type">Self-guided, shortest and easiest — $12</span></div>
-          <div class="conc-row"><span class="conc-name">Mammoth Passage Tour</span><span class="conc-type">Ranger-led, beginner-friendly — $15</span></div>
-          <div class="conc-row"><span class="conc-name">Historic Tour</span><span class="conc-type">2 miles through the original 1816 route — $24</span></div>
-          <div class="conc-row"><span class="conc-name">Grand Avenue Tour</span><span class="conc-type">4-mile, most extensive route offered — $42</span></div>
-          <div class="conc-row"><span class="conc-name">Wild Cave Tour</span><span class="conc-type">Strenuous crawling/caving, age 16+ — $79</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Discovery Tour</span></div><div class="conc-type">Self-guided, shortest and easiest — $12</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mammoth Passage Tour</span></div><div class="conc-type">Ranger-led, beginner-friendly — $15</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Historic Tour</span></div><div class="conc-type">2 miles through the original 1816 route — $24</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Grand Avenue Tour</span></div><div class="conc-type">4-mile, most extensive route offered — $42</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Wild Cave Tour</span></div><div class="conc-type">Strenuous crawling/caving, age 16+ — $79</div></div>
         </div>
       </details>
     </div>
@@ -545,42 +606,42 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Green River Bluffs Trail</span><span class="conc-type">Visitor Center area trail along the bluffs above the river</span><span class="conc-hrs">1.3 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Echo River Springs Loop Trail</span><span class="conc-type">Wheelchair-accessible loop near the visitor center</span><span class="conc-hrs">1.0 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Sinkhole Trail</span><span class="conc-type">Visitor Center area trail; partially closed &mdash; check current conditions</span><span class="conc-hrs">1.0 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Cedar Sink Trail</span><span class="conc-type">South side trail off Mammoth Cave Parkway</span><span class="conc-hrs">1.0 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Turnhole Bend Nature Trail</span><span class="conc-type">South side nature trail along the Green River</span><span class="conc-hrs">0.5 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Sloan's Crossing Pond Walk</span><span class="conc-type">Wheelchair-accessible pond walk, south side</span><span class="conc-hrs">0.4 mi</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Green River Bluffs Trail</span><span class="conc-chip conc-chip--note">1.3 mi</span></div><div class="conc-type">Visitor Center area trail along the bluffs above the river</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Echo River Springs Loop Trail</span><span class="conc-chip conc-chip--note">1.0 mi</span></div><div class="conc-type">Wheelchair-accessible loop near the visitor center</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Sinkhole Trail</span><span class="conc-chip conc-chip--note">1.0 mi</span></div><div class="conc-type">Visitor Center area trail; partially closed &mdash; check current conditions</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Cedar Sink Trail</span><span class="conc-chip conc-chip--note">1.0 mi</span></div><div class="conc-type">South side trail off Mammoth Cave Parkway</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Turnhole Bend Nature Trail</span><span class="conc-chip conc-chip--note">0.5 mi</span></div><div class="conc-type">South side nature trail along the Green River</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Sloan's Crossing Pond Walk</span><span class="conc-chip conc-chip--note">0.4 mi</span></div><div class="conc-type">Wheelchair-accessible pond walk, south side</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Canoeing, Kayaking &amp; Boating<span class="conc-count">Green &amp; Nolin Rivers</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dennison Ferry → Green River Ferry</span><span class="conc-type">Green River paddle route</span><span class="conc-hrs">7.6 mi · 2.5&ndash;4 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Green River Ferry → Houchin Ferry</span><span class="conc-type">Green River paddle route</span><span class="conc-hrs">12.4 mi · 4&ndash;6 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Nolin Dam → Houchin Ferry</span><span class="conc-type">Nolin River paddle route</span><span class="conc-hrs">11.1 mi · 4&ndash;6 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Houchin Ferry → Brownsville</span><span class="conc-type">Green River paddle route, exits the park</span><span class="conc-hrs">3.6 mi · 1.5&ndash;2 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">PFD Requirement</span><span class="conc-type">Required for all paddlers age 12 &amp; under at all times on park rivers</span><span class="conc-hrs">Mandatory ≤12</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Dennison Ferry → Green River Ferry</span><span class="conc-chip conc-chip--note">7.6 mi · 2.5&ndash;4 hrs</span></div><div class="conc-type">Green River paddle route</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Green River Ferry → Houchin Ferry</span><span class="conc-chip conc-chip--note">12.4 mi · 4&ndash;6 hrs</span></div><div class="conc-type">Green River paddle route</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Nolin Dam → Houchin Ferry</span><span class="conc-chip conc-chip--note">11.1 mi · 4&ndash;6 hrs</span></div><div class="conc-type">Nolin River paddle route</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Houchin Ferry → Brownsville</span><span class="conc-chip conc-chip--note">3.6 mi · 1.5&ndash;2 hrs</span></div><div class="conc-type">Green River paddle route, exits the park</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">PFD Requirement</span><span class="conc-chip conc-chip--note">Mandatory ≤12</span></div><div class="conc-type">Required for all paddlers age 12 &amp; under at all times on park rivers</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Bicycling<span class="conc-count">3 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mammoth Cave Railroad Hike &amp; Bike Trail</span><span class="conc-type">Former railroad grade linking Park City to the visitor center area</span><span class="conc-hrs">9 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Big Hollow Trail Loop</span><span class="conc-type">Single-track mountain bike trail through woodlands &amp; rocky terrain</span><span class="conc-hrs">9.1 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Connector Trail</span><span class="conc-type">Links Big Hollow Trailhead to Maple Springs Trailhead</span><span class="conc-hrs">1 mi</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Mammoth Cave Railroad Hike &amp; Bike Trail</span><span class="conc-chip conc-chip--note">9 mi</span></div><div class="conc-type">Former railroad grade linking Park City to the visitor center area</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Big Hollow Trail Loop</span><span class="conc-chip conc-chip--note">9.1 mi</span></div><div class="conc-type">Single-track mountain bike trail through woodlands &amp; rocky terrain</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Connector Trail</span><span class="conc-chip conc-chip--note">1 mi</span></div><div class="conc-type">Links Big Hollow Trailhead to Maple Springs Trailhead</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">60 mi network</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Backcountry Horse Trails</span><span class="conc-type">Wide dirt paths to single-file ridgeline routes, north of the Green River</span><span class="conc-hrs">60 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Trailer Parking</span><span class="conc-type">Five day-use trailheads: First Creek, Lincoln, Maple Springs, Temple Hill &amp; Maple Springs Campground</span><span class="conc-hrs">5 trailheads</span></div>
-          <div class="conc-row"><span class="conc-name">Maple Springs Campground</span><span class="conc-type">Four horse-specific campsites with picket areas</span><span class="conc-hrs">Horse camping</span></div>
-          <div class="conc-row"><span class="conc-name">Guided Rides</span><span class="conc-type">Available through authorized commercial outfitters such as Double J Riding Stables</span><span class="conc-hrs">Concessioner</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Backcountry Horse Trails</span><span class="conc-chip conc-chip--note">60 mi</span></div><div class="conc-type">Wide dirt paths to single-file ridgeline routes, north of the Green River</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Trailer Parking</span><span class="conc-chip conc-chip--note">5 trailheads</span></div><div class="conc-type">Five day-use trailheads: First Creek, Lincoln, Maple Springs, Temple Hill &amp; Maple Springs Campground</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Maple Springs Campground</span><span class="conc-chip conc-chip--note">Horse camping</span></div><div class="conc-type">Four horse-specific campsites with picket areas</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Guided Rides</span><span class="conc-chip conc-chip--note">Concessioner</span></div><div class="conc-type">Available through authorized commercial outfitters such as Double J Riding Stables</div></div>
         </div>
       </details>
 

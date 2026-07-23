@@ -981,38 +981,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--ash);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--ember-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1567,36 +1598,62 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Manzanita Lake Loop</span><span class="conc-type">Easy, mostly-flat loop around the lake with scenic Lassen Peak views and wildlife watching</span><span class="conc-hrs">1.7 mi loop · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Bumpass Hell Trail</span><span class="conc-type">Boardwalk trail to the park's largest hydrothermal basin; stay on the boardwalk past the overlook</span><span class="conc-hrs">3 mi RT · Easy&ndash;Mod. · ~2 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Kings Creek Falls</span><span class="conc-type">Loop past a 30-ft waterfall; gradual descent along Upper Cascades, steep stone-staircase return via Cascades Foot Trail</span><span class="conc-hrs">2.3 mi loop · 486 ft · ~2 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Cinder Cone Trail</span><span class="conc-type">Steep climb up loose volcanic cinders to the rim of a symmetrical cinder cone; remote Butte Lake trailhead, ~24 mi from Manzanita Lake</span><span class="conc-hrs">4 mi RT · 846 ft · Challenging</span></div>
-          <div class="conc-row"><span class="conc-name">Brokeoff Mountain</span><span class="conc-type">The park's longest maintained day hike, climbing the eroded remnant of ancient Mount Tehama to sweeping summit views</span><span class="conc-hrs">7.4 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Lassen Peak Trail</span><span class="conc-type">Switchbacks up cinders and rocky ridge to the summit of one of the world's largest plug dome volcanoes; closes for snow most of the year</span><span class="conc-hrs">5 mi RT · 1,957 ft · Jul&ndash;Oct</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Manzanita Lake Loop</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy, mostly-flat loop around the lake with scenic Lassen Peak views and wildlife watching</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:23%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.7 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bumpass Hell Trail</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Boardwalk trail to the park's largest hydrothermal basin; stay on the boardwalk past the overlook</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:41%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3 mi RT · ~2 hrs</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kings Creek Falls</span><span class="conc-chip conc-chip--note">2.3 mi loop · 486 ft · ~2 hrs</span></div>
+            <div class="conc-type">Loop past a 30-ft waterfall; gradual descent along Upper Cascades, steep stone-staircase return via Cascades Foot Trail</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cinder Cone Trail</span><span class="conc-chip conc-chip--hard">Challenging</span></div>
+            <div class="conc-type">Steep climb up loose volcanic cinders to the rim of a symmetrical cinder cone; remote Butte Lake trailhead, ~24 mi from Manzanita Lake</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:54%;background:var(--red)"></div></div>
+            <div class="conc-figure">4 mi RT · 846 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Brokeoff Mountain</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">The park's longest maintained day hike, climbing the eroded remnant of ancient Mount Tehama to sweeping summit views</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">7.4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lassen Peak Trail</span><span class="conc-chip conc-chip--note">5 mi RT · 1,957 ft · Jul&ndash;Oct</span></div>
+            <div class="conc-type">Switchbacks up cinders and rocky ridge to the summit of one of the world's largest plug dome volcanoes; closes for snow most of the year</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Manzanita Lake</span><span class="conc-type">Park's most popular fly-fishing water; catch-and-release only, single barbless hook, artificial lures/flies only &mdash; no live or dead bait</span><span class="conc-hrs">CA license req.</span></div>
-          <div class="conc-row"><span class="conc-name">Backcountry Lakes &amp; Streams</span><span class="conc-type">Butte, Snag, Horseshoe, Ridge, Terrace, Summit &amp; Crystal Lakes plus Kings &amp; Grassy Swale Creeks hold rainbow, brown &amp; brook trout</span><span class="conc-hrs">CA license req.</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Manzanita Lake</span><span class="conc-chip conc-chip--note">CA license req.</span></div><div class="conc-type">Park's most popular fly-fishing water; catch-and-release only, single barbless hook, artificial lures/flies only &mdash; no live or dead bait</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Backcountry Lakes &amp; Streams</span><span class="conc-chip conc-chip--note">CA license req.</span></div><div class="conc-type">Butte, Snag, Horseshoe, Ridge, Terrace, Summit &amp; Crystal Lakes plus Kings &amp; Grassy Swale Creeks hold rainbow, brown &amp; brook trout</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Boating<span class="conc-count">4 lakes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Manzanita Lake Kayak Rentals</span><span class="conc-type">Kayaks &amp; life vests rented at the Camper Store, 10am&ndash;4pm; designated launch required</span><span class="conc-hrs">Late May&ndash;Sep</span></div>
-          <div class="conc-row"><span class="conc-name">Butte, Juniper &amp; Summit Lakes</span><span class="conc-type">Self-supported non-motorized boating (engines of any type prohibited); Coast Guard-approved life jacket required per person</span><span class="conc-hrs">Non-motorized only</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Manzanita Lake Kayak Rentals</span><span class="conc-chip conc-chip--note">Late May&ndash;Sep</span></div><div class="conc-type">Kayaks &amp; life vests rented at the Camper Store, 10am&ndash;4pm; designated launch required</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Butte, Juniper &amp; Summit Lakes</span><span class="conc-chip conc-chip--note">Non-motorized only</span></div><div class="conc-type">Self-supported non-motorized boating (engines of any type prohibited); Coast Guard-approved life jacket required per person</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">2 areas</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Manzanita Lake Area</span><span class="conc-type">Gentler terrain (5,800&ndash;7,200 ft) with the park's easiest snowshoeing &amp; cross-country ski routes</span><span class="conc-hrs">Nov&ndash;May</span></div>
-          <div class="conc-row"><span class="conc-name">Southwest Area</span><span class="conc-type">Steeper terrain and broad mountain views (6,700&ndash;10,457 ft) beyond Kohm Yah-mah-nee Visitor Center &mdash; the only park services open in winter</span><span class="conc-hrs">Nov&ndash;May</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Manzanita Lake Area</span><span class="conc-chip conc-chip--note">Nov&ndash;May</span></div><div class="conc-type">Gentler terrain (5,800&ndash;7,200 ft) with the park's easiest snowshoeing &amp; cross-country ski routes</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Southwest Area</span><span class="conc-chip conc-chip--note">Nov&ndash;May</span></div><div class="conc-type">Steeper terrain and broad mountain views (6,700&ndash;10,457 ft) beyond Kohm Yah-mah-nee Visitor Center &mdash; the only park services open in winter</div></div>
         </div>
       </details>
 
@@ -1613,16 +1670,16 @@
       <details class="conc-group">
         <summary class="conc-summary">Kohm Yah-mah-nee Visitor Center (SW)<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lassen Cafe &amp; Gift</span><span class="conc-type">Light fare, coffee &amp; souvenirs · run by park partner</span><span class="conc-hrs">Year-round</span></div>
-          <div class="conc-row"><span class="conc-name">Lassen Association Bookstore</span><span class="conc-type">Trail guides, maps &amp; books · nonprofit park partner</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lassen Cafe &amp; Gift</span><span class="conc-chip conc-chip--note">Year-round</span></div><div class="conc-type">Light fare, coffee &amp; souvenirs · run by park partner</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lassen Association Bookstore</span><span class="conc-chip conc-chip--note">Year-round</span></div><div class="conc-type">Trail guides, maps &amp; books · nonprofit park partner</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Manzanita Lake (NW)<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Manzanita Lake Camper Store</span><span class="conc-type">Groceries, camping supplies, gifts &amp; the only gas sold in the park</span><span class="conc-hrs">Seasonal · mid-May–mid-Oct</span></div>
-          <div class="conc-row"><span class="conc-name">Lassen Association Store — Loomis Plaza</span><span class="conc-type">Educational books &amp; maps · at the Loomis Museum</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Manzanita Lake Camper Store</span><span class="conc-chip conc-chip--note">Seasonal · mid-May–mid-Oct</span></div><div class="conc-type">Groceries, camping supplies, gifts &amp; the only gas sold in the park</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lassen Association Store — Loomis Plaza</span><span class="conc-chip conc-chip--note">Seasonal</span></div><div class="conc-type">Educational books &amp; maps · at the Loomis Museum</div></div>
         </div>
       </details>
 
@@ -1639,23 +1696,23 @@
       <details class="conc-group">
         <summary class="conc-summary">Hydrothermal Areas<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Bumpass Hell</span><span class="conc-type">Largest hydrothermal basin in the park · ~3 mi RT boardwalk trail, 8,200–8,400 ft · opens roughly early July–October depending on snowmelt</span><span class="conc-hrs">Stay on boardwalk</span></div>
-          <div class="conc-row"><span class="conc-name">Sulphur Works</span><span class="conc-type">Paved, wheelchair-accessible · roadside steam vents &amp; mud pots near SW entrance</span><span class="conc-hrs">Stay on trail</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Bumpass Hell</span><span class="conc-chip conc-chip--note">Stay on boardwalk</span></div><div class="conc-type">Largest hydrothermal basin in the park · ~3 mi RT boardwalk trail, 8,200–8,400 ft · opens roughly early July–October depending on snowmelt</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Sulphur Works</span><span class="conc-chip conc-chip--note">Stay on trail</span></div><div class="conc-type">Paved, wheelchair-accessible · roadside steam vents &amp; mud pots near SW entrance</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Peaks &amp; Volcanic Features<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lassen Peak Trail</span><span class="conc-type">Strenuous summit trail · 10,457 ft, one of the world's largest plug dome volcanoes</span><span class="conc-hrs">~4–5 hrs RT</span></div>
-          <div class="conc-row"><span class="conc-name">Cinder Cone</span><span class="conc-type">Strenuous · NE corner near Butte Lake, volcanic cinder cone with summit views</span><span class="conc-hrs">~4–5 hrs RT</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Lassen Peak Trail</span><span class="conc-chip conc-chip--note">~4–5 hrs RT</span></div><div class="conc-type">Strenuous summit trail · 10,457 ft, one of the world's largest plug dome volcanoes</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Cinder Cone</span><span class="conc-chip conc-chip--note">~4–5 hrs RT</span></div><div class="conc-type">Strenuous · NE corner near Butte Lake, volcanic cinder cone with summit views</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Lakes &amp; Visitor Hub<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Manzanita Lake</span><span class="conc-type">Camping, kayaking &amp; canoeing · classic reflective views of Lassen Peak</span><span class="conc-hrs">Easy access</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Manzanita Lake</span><span class="conc-chip conc-chip--note">Easy access</span></div><div class="conc-type">Camping, kayaking &amp; canoeing · classic reflective views of Lassen Peak</div></div>
         </div>
       </details>
 
