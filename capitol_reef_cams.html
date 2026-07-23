@@ -769,38 +769,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--orchard-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── River / Angler Grid ── */
@@ -1472,17 +1503,38 @@
       <details class="conc-group">
         <summary class="conc-summary">Fruita &amp; Scenic Drive<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Capitol Dome</span><span class="conc-type">Roadside · white sandstone dome, the park's namesake</span><span class="conc-hrs">Overlook only</span></div>
-          <div class="conc-row"><span class="conc-name">Hickman Bridge</span><span class="conc-type">Moderate · natural bridge span</span><span class="conc-hrs">~1.8 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Cassidy Arch</span><span class="conc-type">Strenuous · named for outlaw Butch Cassidy</span><span class="conc-hrs">~3.4 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Capitol Dome</span><span class="conc-chip conc-chip--note">Overlook only</span></div>
+            <div class="conc-type">Roadside · white sandstone dome, the park's namesake</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hickman Bridge</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Moderate · natural bridge span</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:53%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~1.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cassidy Arch</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Strenuous · named for outlaw Butch Cassidy</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~3.4 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backcountry &amp; Remote<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Chimney Rock</span><span class="conc-type">Moderate · isolated red-rock spire</span><span class="conc-hrs">~3.6 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Cathedral Valley</span><span class="conc-type">4WD · massive sandstone monoliths</span><span class="conc-hrs">Full-day trip</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chimney Rock</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Moderate · isolated red-rock spire</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~3.6 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cathedral Valley</span><span class="conc-chip conc-chip--note">Full-day trip</span></div>
+            <div class="conc-type">4WD · massive sandstone monoliths</div>
+          </div>
         </div>
       </details>
 
@@ -1499,39 +1551,96 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Grand Wash</span><span class="conc-type">Flat walk through a narrow wash canyon connecting the Scenic Drive and Highway 24</span><span class="conc-hrs">~4.4 mi RT · 200 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Capitol Gorge</span><span class="conc-type">Historic wagon route through a narrow canyon, passing the 1871 "Pioneer Register" inscriptions</span><span class="conc-hrs">~2.0 mi RT · 80 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Hickman Bridge</span><span class="conc-type">One of the park's most popular trails, climbing to a large natural sandstone bridge</span><span class="conc-hrs">~1.8 mi RT · 400 ft · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Cohab Canyon</span><span class="conc-type">Switchbacks up from Fruita into a hidden side canyon, locally said to be named for polygamists once hiding from federal marshals</span><span class="conc-hrs">~3.4 mi RT · 440 ft · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Golden Throne</span><span class="conc-type">Climbs to a viewpoint below a massive golden-hued sandstone dome</span><span class="conc-hrs">~4.0 mi RT · 730 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Navajo Knobs</span><span class="conc-type">Ridge-line hike ending at sweeping views over the Fremont River Gorge and Waterpocket Fold</span><span class="conc-hrs">~9.4 mi RT · 1,620 ft · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grand Wash</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Flat walk through a narrow wash canyon connecting the Scenic Drive and Highway 24</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:47%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~4.4 mi RT · 200 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Capitol Gorge</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Historic wagon route through a narrow canyon, passing the 1871 "Pioneer Register" inscriptions</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:21%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~2.0 mi RT · 80 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hickman Bridge</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">One of the park's most popular trails, climbing to a large natural sandstone bridge</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:19%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~1.8 mi RT · 400 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cohab Canyon</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Switchbacks up from Fruita into a hidden side canyon, locally said to be named for polygamists once hiding from federal marshals</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:36%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~3.4 mi RT · 440 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Golden Throne</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Climbs to a viewpoint below a massive golden-hued sandstone dome</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:43%;background:var(--red)"></div></div>
+            <div class="conc-figure">~4.0 mi RT · 730 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Navajo Knobs</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Ridge-line hike ending at sweeping views over the Fremont River Gorge and Waterpocket Fold</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~9.4 mi RT · 1,620 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Canyoneering<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wife 1 &amp; Wife 2 Canyons</span><span class="conc-type">Technical slot canyons near Fruita with rappels through Navajo Sandstone</span><span class="conc-hrs">Permit (free)</span></div>
-          <div class="conc-row"><span class="conc-name">Self-Guided Canyoneering</span><span class="conc-type">Free day-use permit required per route, plus a backcountry permit for overnight trips; groups capped at 8</span><span class="conc-hrs">Permit (free)</span></div>
-          <div class="conc-row"><span class="conc-name">Seasonal Route Closures</span><span class="conc-type">Burro Wash, Fivemile Wash, Shinob Canyon &amp; connected routes, and Arch Nemesis close annually for resource protection</span><span class="conc-hrs">Apr 1 – Aug 31</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wife 1 &amp; Wife 2 Canyons</span><span class="conc-chip conc-chip--note">Permit (free)</span></div>
+            <div class="conc-type">Technical slot canyons near Fruita with rappels through Navajo Sandstone</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Self-Guided Canyoneering</span><span class="conc-chip conc-chip--note">Permit (free)</span></div>
+            <div class="conc-type">Free day-use permit required per route, plus a backcountry permit for overnight trips; groups capped at 8</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Seasonal Route Closures</span><span class="conc-chip conc-chip--note">Apr 1 – Aug 31</span></div>
+            <div class="conc-type">Burro Wash, Fivemile Wash, Shinob Canyon &amp; connected routes, and Arch Nemesis close annually for resource protection</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Scenic Drive</span><span class="conc-type">Paved road through the park's interior, popular with road cyclists</span><span class="conc-hrs">7.9 mi paved</span></div>
-          <div class="conc-row"><span class="conc-name">Cathedral Valley Loop</span><span class="conc-type">Unpaved high-clearance 4WD route through Cathedral Valley with a Fremont River ford; long and very strenuous</span><span class="conc-hrs">57.6 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Where Bikes Are Allowed</span><span class="conc-type">Roads only, plus the paved path between the visitor center and Fruita Campground; not permitted on hiking trails, washes, or backcountry routes</span><span class="conc-hrs">Roads only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Scenic Drive</span><span class="conc-chip conc-chip--note">7.9 mi paved</span></div>
+            <div class="conc-type">Paved road through the park's interior, popular with road cyclists</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cathedral Valley Loop</span><span class="conc-chip conc-chip--note">57.6 mi loop</span></div>
+            <div class="conc-type">Unpaved high-clearance 4WD route through Cathedral Valley with a Fremont River ford; long and very strenuous</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Where Bikes Are Allowed</span><span class="conc-chip conc-chip--note">Roads only</span></div>
+            <div class="conc-type">Roads only, plus the paved path between the visitor center and Fruita Campground; not permitted on hiking trails, washes, or backcountry routes</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Petroglyphs &amp; Historic Sites<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Capitol Reef Petroglyph Panel</span><span class="conc-type">Fremont Culture rock art with bighorn sheep &amp; human figures, viewed from roadside boardwalks along Hwy 24</span><span class="conc-hrs">1.1 mi E of visitor center</span></div>
-          <div class="conc-row"><span class="conc-name">Behunin Cabin</span><span class="conc-type">1883 sandstone pioneer cabin built by Elijah Behunin for his family of 15; the park's most intact settler cabin</span><span class="conc-hrs">On Hwy 24</span></div>
-          <div class="conc-row"><span class="conc-name">Fruita Schoolhouse</span><span class="conc-type">One-room schoolhouse used by the Fruita community 1896&ndash;1941, restored to its 1930s appearance</span><span class="conc-hrs">Scenic Drive</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Capitol Reef Petroglyph Panel</span><span class="conc-chip conc-chip--note">1.1 mi E of visitor center</span></div>
+            <div class="conc-type">Fremont Culture rock art with bighorn sheep &amp; human figures, viewed from roadside boardwalks along Hwy 24</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Behunin Cabin</span><span class="conc-chip conc-chip--note">On Hwy 24</span></div>
+            <div class="conc-type">1883 sandstone pioneer cabin built by Elijah Behunin for his family of 15; the park's most intact settler cabin</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fruita Schoolhouse</span><span class="conc-chip conc-chip--note">Scenic Drive</span></div>
+            <div class="conc-type">One-room schoolhouse used by the Fruita community 1896&ndash;1941, restored to its 1930s appearance</div>
+          </div>
         </div>
       </details>
 
@@ -1584,7 +1693,10 @@
       <details class="conc-group">
         <summary class="conc-summary">Gifford Homestead<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gifford House Store</span><span class="conc-type">Pies · Gifts · Pioneer-era goods</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gifford House Store</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Pies · Gifts · Pioneer-era goods</div>
+          </div>
         </div>
       </details>
 

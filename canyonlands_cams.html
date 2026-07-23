@@ -769,38 +769,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--canyon-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── River / Angler Grid ── */
@@ -1460,25 +1491,58 @@
       <details class="conc-group">
         <summary class="conc-summary">Island in the Sky<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mesa Arch</span><span class="conc-type">Easy · famous sunrise arch overlook</span><span class="conc-hrs">~0.5 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Grand View Point</span><span class="conc-type">Easy · sweeping canyon panorama</span><span class="conc-hrs">~2 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Upheaval Dome</span><span class="conc-type">Moderate · mysterious crater-like formation</span><span class="conc-hrs">Overlook or ~8 mi loop</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mesa Arch</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy · famous sunrise arch overlook</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:6%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~0.5 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grand View Point</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy · sweeping canyon panorama</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:25%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Upheaval Dome</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Moderate · mysterious crater-like formation</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">Overlook or ~8 mi loop</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">The Needles<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Chesler Park &amp; Joint Trail</span><span class="conc-type">Strenuous · slot canyon, spires</span><span class="conc-hrs">~11 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Needles Overlook</span><span class="conc-type">Easy · outside the park, on the approach road</span><span class="conc-hrs">Roadside</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chesler Park &amp; Joint Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Strenuous · slot canyon, spires</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~11 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Needles Overlook</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">Easy · outside the park, on the approach road</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rivers &amp; Backcountry<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Confluence Overlook</span><span class="conc-type">Strenuous · where the Green &amp; Colorado meet</span><span class="conc-hrs">~11 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">White Rim Road</span><span class="conc-type">Multi-day 4WD · permit required</span><span class="conc-hrs">~100 mi loop</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Confluence Overlook</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Strenuous · where the Green &amp; Colorado meet</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:11%;background:var(--red)"></div></div>
+            <div class="conc-figure">~11 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">White Rim Road</span><span class="conc-chip conc-chip--mod">Permit</span></div>
+            <div class="conc-type">Multi-day 4WD · permit required</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~100 mi loop</div>
+          </div>
         </div>
       </details>
 
@@ -1495,45 +1559,108 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Neck Spring Loop</span><span class="conc-type">Island in the Sky loop past a historic line camp and desert springs along the canyon rim</span><span class="conc-hrs">5.6 mi loop · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Syncline Loop</span><span class="conc-type">Steep, exposed loop around Upheaval Dome; NPS notes most park search-and-rescues happen on this trail</span><span class="conc-hrs">8.1 mi loop · 1,300 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Chesler Park Viewpoint</span><span class="conc-type">Grassy Needles basin ringed by candy-striped sandstone spires</span><span class="conc-hrs">5.8 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Druid Arch</span><span class="conc-type">Deep sand canyon leading to a massive freestanding arch capping the Needles skyline</span><span class="conc-hrs">10.8 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Peekaboo Trail</span><span class="conc-type">High slickrock benches with two ladder climbs and ancestral rock art panels</span><span class="conc-hrs">10.8 mi RT · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Horseshoe Canyon (Great Gallery)</span><span class="conc-type">Detached unit reached via BLM road; descends to a major panel of prehistoric pictographs</span><span class="conc-hrs">7 mi RT · 780 ft · Moderate</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Neck Spring Loop</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Island in the Sky loop past a historic line camp and desert springs along the canyon rim</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:52%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">5.6 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Syncline Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Steep, exposed loop around Upheaval Dome; NPS notes most park search-and-rescues happen on this trail</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:75%;background:var(--red)"></div></div>
+            <div class="conc-figure">8.1 mi loop · 1,300 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chesler Park Viewpoint</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Grassy Needles basin ringed by candy-striped sandstone spires</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:54%;background:var(--red)"></div></div>
+            <div class="conc-figure">5.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Druid Arch</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Deep sand canyon leading to a massive freestanding arch capping the Needles skyline</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">10.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Peekaboo Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">High slickrock benches with two ladder climbs and ancestral rock art panels</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">10.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Horseshoe Canyon (Great Gallery)</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Detached unit reached via BLM road; descends to a major panel of prehistoric pictographs</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:65%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">7 mi RT · 780 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backcountry 4WD Driving<span class="conc-count">3 routes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">White Rim Road</span><span class="conc-type">High-clearance 4WD loop below the Island in the Sky rim, typically driven in 2&ndash;3 days</span><span class="conc-hrs">100 mi loop · Permit</span></div>
-          <div class="conc-row"><span class="conc-name">Elephant Hill Road</span><span class="conc-type">Technical Needles route with steep grades, loose rock, and stair-step drops</span><span class="conc-hrs">Day-use permit · Technical</span></div>
-          <div class="conc-row"><span class="conc-name">Maze District Roads</span><span class="conc-type">Extremely remote high-clearance routes with no cell service or facilities; self-sufficiency mandatory</span><span class="conc-hrs">Permit · Extreme 4WD</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">White Rim Road</span><span class="conc-chip conc-chip--mod">Permit</span></div>
+            <div class="conc-type">High-clearance 4WD loop below the Island in the Sky rim, typically driven in 2&ndash;3 days</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">100 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Elephant Hill Road</span><span class="conc-chip conc-chip--note">Day-use permit · Technical</span></div>
+            <div class="conc-type">Technical Needles route with steep grades, loose rock, and stair-step drops</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Maze District Roads</span><span class="conc-chip conc-chip--note">Permit · Extreme 4WD</span></div>
+            <div class="conc-type">Extremely remote high-clearance routes with no cell service or facilities; self-sufficiency mandatory</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Boating &amp; Rafting<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Flatwater Canoeing &amp; Kayaking</span><span class="conc-type">Green &amp; Colorado Rivers above the confluence, floatable as far as Spanish Bottom</span><span class="conc-hrs">To Spanish Bottom · Permit</span></div>
-          <div class="conc-row"><span class="conc-name">Cataract Canyon Whitewater</span><span class="conc-type">Fourteen miles of Class III&ndash;V rapids below the confluence of the Green &amp; Colorado Rivers</span><span class="conc-hrs">14 mi · Class III&ndash;V · Permit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Flatwater Canoeing &amp; Kayaking</span><span class="conc-chip conc-chip--note">To Spanish Bottom · Permit</span></div>
+            <div class="conc-type">Green &amp; Colorado Rivers above the confluence, floatable as far as Spanish Bottom</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cataract Canyon Whitewater</span><span class="conc-chip conc-chip--mod">Permit</span></div>
+            <div class="conc-type">Fourteen miles of Class III&ndash;V rapids below the confluence of the Green &amp; Colorado Rivers</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">14 mi · Class III&ndash;V</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Mountain Biking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">White Rim Road</span><span class="conc-type">Same 100-mile loop as the driving route, typically ridden in 3&ndash;4 days with a support vehicle</span><span class="conc-hrs">100 mi loop · Permit</span></div>
-          <div class="conc-row"><span class="conc-name">Elephant Hill &amp; Needles Roads</span><span class="conc-type">Day-use permit roads open to bikes; riding restricted to designated roads, no single-track</span><span class="conc-hrs">Day-use permit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">White Rim Road</span><span class="conc-chip conc-chip--mod">Permit</span></div>
+            <div class="conc-type">Same 100-mile loop as the driving route, typically ridden in 3&ndash;4 days with a support vehicle</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">100 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Elephant Hill &amp; Needles Roads</span><span class="conc-chip conc-chip--note">Day-use permit</span></div>
+            <div class="conc-type">Day-use permit roads open to bikes; riding restricted to designated roads, no single-track</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Island in the Sky Towers</span><span class="conc-type">Park's primary climbing area on sandstone towers &amp; pinnacles; no permit needed for the climb itself</span><span class="conc-hrs">No climb permit</span></div>
-          <div class="conc-row"><span class="conc-name">Seasonal Raptor Closures</span><span class="conc-type">Select routes including Monument Basin &amp; Washer Woman close to protect nesting raptors</span><span class="conc-hrs">Mar&ndash;Aug · Select routes</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Island in the Sky Towers</span><span class="conc-chip conc-chip--note">No climb permit</span></div>
+            <div class="conc-type">Park's primary climbing area on sandstone towers &amp; pinnacles; no permit needed for the climb itself</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Seasonal Raptor Closures</span><span class="conc-chip conc-chip--note">Mar&ndash;Aug · Select routes</span></div>
+            <div class="conc-type">Select routes including Monument Basin &amp; Washer Woman close to protect nesting raptors</div>
+          </div>
         </div>
       </details>
 
@@ -1591,8 +1718,14 @@
       <details class="conc-group">
         <summary class="conc-summary">Visitor Centers<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Island in the Sky Visitor Center</span><span class="conc-type">Info · Bookstore</span><span class="conc-hrs">Year-round</span></div>
-          <div class="conc-row"><span class="conc-name">Needles Visitor Center</span><span class="conc-type">Info · Bookstore</span><span class="conc-hrs">Year-round, limited winter hours</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Island in the Sky Visitor Center</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Info · Bookstore</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Needles Visitor Center</span><span class="conc-chip conc-chip--note">Year-round, limited winter hours</span></div>
+            <div class="conc-type">Info · Bookstore</div>
+          </div>
         </div>
       </details>
 

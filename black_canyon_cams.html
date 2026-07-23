@@ -217,13 +217,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--painted-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* ── Stargazing Card ── */
     .moon-card {
@@ -686,25 +747,46 @@
       <details class="conc-group">
         <summary class="conc-summary">South Rim Road<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gunnison Point</span><span class="conc-type">Right at the South Rim Visitor Center</span><span class="conc-hrs">~10 min</span></div>
-          <div class="conc-row"><span class="conc-name">Chasm View</span><span class="conc-type">One of the narrowest, most dramatic overlooks</span><span class="conc-hrs">~15 min</span></div>
-          <div class="conc-row"><span class="conc-name">Painted Wall View</span><span class="conc-type">View of Colorado's tallest cliff, 2,250 ft river-to-rim</span><span class="conc-hrs">~15 min</span></div>
-          <div class="conc-row"><span class="conc-name">Warner Point Trail</span><span class="conc-type">1.5 mi round trip to the highest South Rim viewpoint · open, no fire impact</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gunnison Point</span><span class="conc-chip conc-chip--note">~10 min</span></div>
+            <div class="conc-type">Right at the South Rim Visitor Center</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chasm View</span><span class="conc-chip conc-chip--note">~15 min</span></div>
+            <div class="conc-type">One of the narrowest, most dramatic overlooks</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Painted Wall View</span><span class="conc-chip conc-chip--note">~15 min</span></div>
+            <div class="conc-type">View of Colorado's tallest cliff, 2,250 ft river-to-rim</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Warner Point Trail</span><span class="conc-chip conc-chip--note">~1 hr</span></div>
+            <div class="conc-type">1.5 mi round trip to the highest South Rim viewpoint · open, no fire impact</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">North Rim<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">North Rim Chasm View</span><span class="conc-type">A different angle on the same narrow gorge as the South Rim's Chasm View</span><span class="conc-hrs">~10 min</span></div>
-          <div class="conc-row"><span class="conc-name">Kneeling Camel View</span><span class="conc-type">Named for a distinctive rock formation across the canyon</span><span class="conc-hrs">~10 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Rim Chasm View</span><span class="conc-chip conc-chip--note">~10 min</span></div>
+            <div class="conc-type">A different angle on the same narrow gorge as the South Rim's Chasm View</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kneeling Camel View</span><span class="conc-chip conc-chip--note">~10 min</span></div>
+            <div class="conc-type">Named for a distinctive rock formation across the canyon</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Inner Canyon — Wilderness Routes<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gunnison Route &amp; other inner-canyon routes</span><span class="conc-type">Primitive, unmarked, very strenuous — $6 wilderness permit required via Recreation.gov, Gunnison Route capped at 15 people/day. Not for casual hikers.</span><span class="conc-hrs">Full day+</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gunnison Route &amp; other inner-canyon routes</span><span class="conc-chip conc-chip--note">Full day+</span></div>
+            <div class="conc-type">Primitive, unmarked, very strenuous — $6 wilderness permit required via Recreation.gov, Gunnison Route capped at 15 people/day. Not for casual hikers.</div>
+          </div>
         </div>
       </details>
 
@@ -721,42 +803,108 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Uplands Trail</span><span class="conc-type">South Rim &middot; links Rim Rock Trail near the campground to Oak Flat Trail near the Visitor Center</span><span class="conc-hrs">.9 mi &middot; Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Rim Rock Trail</span><span class="conc-type">South Rim &middot; rocky path with stairs connecting South Rim Campground and the Visitor Center</span><span class="conc-hrs">1 mi &middot; Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Oak Flat Trail</span><span class="conc-type">South Rim &middot; loop below the rim through aspen and Gambel oak</span><span class="conc-hrs">1.6 mi RT &middot; Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Chasm View Trail</span><span class="conc-type">North Rim &middot; short walk from North Rim Campground to a dramatic overlook</span><span class="conc-hrs">.3 mi &middot; Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Deadhorse Trail</span><span class="conc-type">North Rim &middot; old road to a former uranium prospect site above the canyon; loop option goes farther</span><span class="conc-hrs">2.6&ndash;6.6 mi RT &middot; Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">North Vista Trail</span><span class="conc-type">North Rim &middot; ridge walk to Exclamation Point, continuing to the summit of Green Mountain</span><span class="conc-hrs">1.6&ndash;3.6 mi &middot; Moderate</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Uplands Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">South Rim &middot; links Rim Rock Trail near the campground to Oak Flat Trail near the Visitor Center</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:14%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">.9 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rim Rock Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">South Rim &middot; rocky path with stairs connecting South Rim Campground and the Visitor Center</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:15%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Oak Flat Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">South Rim &middot; loop below the rim through aspen and Gambel oak</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:24%;background:var(--red)"></div></div>
+            <div class="conc-figure">1.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chasm View Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">North Rim &middot; short walk from North Rim Campground to a dramatic overlook</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:5%;background:#b3e08a"></div></div>
+            <div class="conc-figure">.3 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Deadhorse Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">North Rim &middot; old road to a former uranium prospect site above the canyon; loop option goes farther</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.6&ndash;6.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Vista Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">North Rim &middot; ridge walk to Exclamation Point, continuing to the summit of Green Mountain</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:55%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.6&ndash;3.6 mi</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backcountry Descent Routes<span class="conc-count">6 routes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gunnison Route</span><span class="conc-type">South Rim &middot; recommended for a first inner-canyon descent, still very strenuous</span><span class="conc-hrs">1.5 mi &middot; 1,800 ft loss</span></div>
-          <div class="conc-row"><span class="conc-name">Tomichi Route</span><span class="conc-type">South Rim &middot; the steepest South Rim route</span><span class="conc-hrs">1 mi &middot; 1,960 ft loss</span></div>
-          <div class="conc-row"><span class="conc-name">Warner Route</span><span class="conc-type">South Rim &middot; longest South Rim route; overnight travel highly suggested</span><span class="conc-hrs">2.75 mi &middot; 2,722 ft loss</span></div>
-          <div class="conc-row"><span class="conc-name">Pinyon Draw (S.O.B. Draw)</span><span class="conc-type">North Rim &middot; suggested for a first North Rim descent; 6 designated campsites</span><span class="conc-hrs">1.75 mi &middot; 1,800 ft loss</span></div>
-          <div class="conc-row"><span class="conc-name">Long Draw (Devil's Slide)</span><span class="conc-type">North Rim &middot; 8&ndash;12 ft ledges to climb, including one near-vertical section</span><span class="conc-hrs">1 mi &middot; 1,800 ft loss</span></div>
-          <div class="conc-row"><span class="conc-name">Slide Draw</span><span class="conc-type">North Rim &middot; the most challenging and hazardous route, extremely steep with loose rock</span><span class="conc-hrs">1 mi &middot; 1,620 ft loss</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gunnison Route</span><span class="conc-chip conc-chip--note">1.5 mi &middot; 1,800 ft loss</span></div>
+            <div class="conc-type">South Rim &middot; recommended for a first inner-canyon descent, still very strenuous</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tomichi Route</span><span class="conc-chip conc-chip--note">1 mi &middot; 1,960 ft loss</span></div>
+            <div class="conc-type">South Rim &middot; the steepest South Rim route</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Warner Route</span><span class="conc-chip conc-chip--note">2.75 mi &middot; 2,722 ft loss</span></div>
+            <div class="conc-type">South Rim &middot; longest South Rim route; overnight travel highly suggested</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Pinyon Draw (S.O.B. Draw)</span><span class="conc-chip conc-chip--note">1.75 mi &middot; 1,800 ft loss</span></div>
+            <div class="conc-type">North Rim &middot; suggested for a first North Rim descent; 6 designated campsites</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Long Draw (Devil's Slide)</span><span class="conc-chip conc-chip--note">1 mi &middot; 1,800 ft loss</span></div>
+            <div class="conc-type">North Rim &middot; 8&ndash;12 ft ledges to climb, including one near-vertical section</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Slide Draw</span><span class="conc-chip conc-chip--note">1 mi &middot; 1,620 ft loss</span></div>
+            <div class="conc-type">North Rim &middot; the most challenging and hazardous route, extremely steep with loose rock</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">2 things to know</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">North &amp; South Chasm Walls</span><span class="conc-type">145 routes on the canyon's namesake walls, including the 2,250-ft Painted Wall (Colorado's tallest cliff); free wilderness permit &amp; clean-climbing gear required, not recommended for beginners</span><span class="conc-hrs">145 routes &middot; 5.8&ndash;5.13</span></div>
-          <div class="conc-row"><span class="conc-name">Raptor Nesting Closures</span><span class="conc-type">Select routes close annually to protect nesting raptors</span><span class="conc-hrs">Mar 15&ndash;Jul 15</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North &amp; South Chasm Walls</span><span class="conc-chip conc-chip--note">145 routes &middot; 5.8&ndash;5.13</span></div>
+            <div class="conc-type">145 routes on the canyon's namesake walls, including the 2,250-ft Painted Wall (Colorado's tallest cliff); free wilderness permit &amp; clean-climbing gear required, not recommended for beginners</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Raptor Nesting Closures</span><span class="conc-chip conc-chip--note">Mar 15&ndash;Jul 15</span></div>
+            <div class="conc-type">Select routes close annually to protect nesting raptors</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing the Gunnison River<span class="conc-count">4 things to know</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Gunnison River</span><span class="conc-type">Gold Medal &amp; Wild Trout Water below the dams; Colorado fishing license required, artificial flies or lures only &mdash; no bait</span><span class="conc-hrs">License req.</span></div>
-          <div class="conc-row"><span class="conc-name">Rainbow Trout</span><span class="conc-type">Catch-and-release only, park-wide</span><span class="conc-hrs">Catch &amp; release</span></div>
-          <div class="conc-row"><span class="conc-name">Brown Trout</span><span class="conc-type">May be kept within daily &amp; possession limits</span><span class="conc-hrs">4 daily &middot; 8 poss.</span></div>
-          <div class="conc-row"><span class="conc-name">East Portal Road</span><span class="conc-type">Steep access route down to the river; max vehicle length 22 ft including trailers; closes in winter</span><span class="conc-hrs">16% grade</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gunnison River</span><span class="conc-chip conc-chip--note">License req.</span></div>
+            <div class="conc-type">Gold Medal &amp; Wild Trout Water below the dams; Colorado fishing license required, artificial flies or lures only &mdash; no bait</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rainbow Trout</span><span class="conc-chip conc-chip--note">Catch &amp; release</span></div>
+            <div class="conc-type">Catch-and-release only, park-wide</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Brown Trout</span><span class="conc-chip conc-chip--note">4 daily &middot; 8 poss.</span></div>
+            <div class="conc-type">May be kept within daily &amp; possession limits</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">East Portal Road</span><span class="conc-chip conc-chip--note">16% grade</span></div>
+            <div class="conc-type">Steep access route down to the river; max vehicle length 22 ft including trailers; closes in winter</div>
+          </div>
         </div>
       </details>
 

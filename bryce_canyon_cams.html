@@ -769,38 +769,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--hoodoo-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1416,17 +1447,34 @@
       <details class="conc-group">
         <summary class="conc-summary">Bryce Amphitheater<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Sunrise &amp; Sunset Points</span><span class="conc-type">Easy · classic amphitheater overlooks</span><span class="conc-hrs">Short walks</span></div>
-          <div class="conc-row"><span class="conc-name">Navajo Loop / Queen's Garden</span><span class="conc-type">Moderate · descends among the hoodoos</span><span class="conc-hrs">~2.9 mi combined</span></div>
-          <div class="conc-row"><span class="conc-name">Bryce Point</span><span class="conc-type">Easy · widest amphitheater view</span><span class="conc-hrs">Overlook only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sunrise &amp; Sunset Points</span><span class="conc-chip conc-chip--note">Short walks</span></div>
+            <div class="conc-type">Easy · classic amphitheater overlooks</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Navajo Loop / Queen's Garden</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Moderate · descends among the hoodoos</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~2.9 mi combined</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bryce Point</span><span class="conc-chip conc-chip--note">Overlook only</span></div>
+            <div class="conc-type">Easy · widest amphitheater view</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Southern Scenic Drive<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Rainbow &amp; Yovimpa Points</span><span class="conc-type">Easy · highest viewpoints in the park</span><span class="conc-hrs">End of the scenic drive</span></div>
-          <div class="conc-row"><span class="conc-name">Natural Bridge</span><span class="conc-type">Roadside · large natural arch</span><span class="conc-hrs">Overlook only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rainbow &amp; Yovimpa Points</span><span class="conc-chip conc-chip--note">End of the scenic drive</span></div>
+            <div class="conc-type">Easy · highest viewpoints in the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Natural Bridge</span><span class="conc-chip conc-chip--note">Overlook only</span></div>
+            <div class="conc-type">Roadside · large natural arch</div>
+          </div>
         </div>
       </details>
 
@@ -1443,44 +1491,98 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Rim Trail</span><span class="conc-type">Follows the canyon edge from Fairyland Point to Bryce Point; walk any portion or the whole thing</span><span class="conc-hrs">1&ndash;11 mi · 719 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Mossy Cave Trail</span><span class="conc-type">Short walk to a seasonal waterfall and a moss-lined alcove, on the park's east side near Tropic</span><span class="conc-hrs">0.8 mi RT · 150 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Queen's Garden &amp; Navajo Loop Combo</span><span class="conc-type">The park's classic below-the-rim loop through hoodoo formations, connecting two trailheads</span><span class="conc-hrs">2.9 mi RT · 625 ft · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Tower Bridge Trail</span><span class="conc-type">Descends from Sunrise Point to a natural rock-bridge formation resembling its namesake</span><span class="conc-hrs">3.0 mi RT · 760 ft · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Peekaboo Loop Trail</span><span class="conc-type">Below-the-rim loop through the Wall of Windows and Cathedral formations; shared with horse traffic</span><span class="conc-hrs">5.5 mi RT · 1,560 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Fairyland Loop Trail</span><span class="conc-type">The longest amphitheater loop, passing Tower Bridge and China Wall with far fewer crowds</span><span class="conc-hrs">8.0 mi RT · 1,900 ft · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rim Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Follows the canyon edge from Fairyland Point to Bryce Point; walk any portion or the whole thing</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1&ndash;11 mi · 719 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mossy Cave Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Short walk to a seasonal waterfall and a moss-lined alcove, on the park's east side near Tropic</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:7%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.8 mi RT · 150 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Queen's Garden &amp; Navajo Loop Combo</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">The park's classic below-the-rim loop through hoodoo formations, connecting two trailheads</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:26%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.9 mi RT · 625 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tower Bridge Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Descends from Sunrise Point to a natural rock-bridge formation resembling its namesake</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:27%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.0 mi RT · 760 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Peekaboo Loop Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Below-the-rim loop through the Wall of Windows and Cathedral formations; shared with horse traffic</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:50%;background:var(--red)"></div></div>
+            <div class="conc-figure">5.5 mi RT · 1,560 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fairyland Loop Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">The longest amphitheater loop, passing Tower Bridge and China Wall with far fewer crowds</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:73%;background:var(--red)"></div></div>
+            <div class="conc-figure">8.0 mi RT · 1,900 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Guided Rides — Canyon Trail Rides</span><span class="conc-type">2- and 3-hour rides on a dedicated horse trail through the amphitheater and the Peekaboo Loop &middot; 435/679-8665</span><span class="conc-hrs">Apr&ndash;Oct 31</span></div>
-          <div class="conc-row"><span class="conc-name">Private Stock Rides</span><span class="conc-type">Reserve via Recreation.gov (no walk-ins); up to 10 riders per half-hour slot, 4:30&ndash;7:30 PM; health certificate &amp; proof of ownership required</span><span class="conc-hrs">~May&ndash;Oct</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Guided Rides — Canyon Trail Rides</span><span class="conc-chip conc-chip--note">Apr&ndash;Oct 31</span></div>
+            <div class="conc-type">2- and 3-hour rides on a dedicated horse trail through the amphitheater and the Peekaboo Loop &middot; 435/679-8665</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Private Stock Rides</span><span class="conc-chip conc-chip--note">~May&ndash;Oct</span></div>
+            <div class="conc-type">Reserve via Recreation.gov (no walk-ins); up to 10 riders per half-hour slot, 4:30&ndash;7:30 PM; health certificate &amp; proof of ownership required</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Canyon to Canyon Shared-Use Path</span><span class="conc-type">Paved path linking Bryce Canyon City through the park to Red Canyon in Dixie National Forest</span><span class="conc-hrs">22 mi total</span></div>
-          <div class="conc-row"><span class="conc-name">Final Segment Construction (2026)</span><span class="conc-type">The last 2.3-mi segment from Hwy 63 to Bryce Point is fully closed to bicycles during construction, weekdays 8 AM&ndash;6 PM</span><span class="conc-hrs">Late May&ndash;~Oct 2026</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Canyon to Canyon Shared-Use Path</span><span class="conc-chip conc-chip--note">22 mi total</span></div>
+            <div class="conc-type">Paved path linking Bryce Canyon City through the park to Red Canyon in Dixie National Forest</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Final Segment Construction (2026)</span><span class="conc-chip conc-chip--note">Late May&ndash;~Oct 2026</span></div>
+            <div class="conc-type">The last 2.3-mi segment from Hwy 63 to Bryce Point is fully closed to bicycles during construction, weekdays 8 AM&ndash;6 PM</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing</span><span class="conc-type">Marked routes above the rim; skiing down into the amphitheater is prohibited</span><span class="conc-hrs">Snow-dependent</span></div>
-          <div class="conc-row"><span class="conc-name">Snowshoeing</span><span class="conc-type">Allowed park-wide on all trails; no rental program, but traction devices are sold at the visitor center bookstore</span><span class="conc-hrs">Snow-dependent</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing</span><span class="conc-chip conc-chip--note">Snow-dependent</span></div>
+            <div class="conc-type">Marked routes above the rim; skiing down into the amphitheater is prohibited</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Snowshoeing</span><span class="conc-chip conc-chip--note">Snow-dependent</span></div>
+            <div class="conc-type">Allowed park-wide on all trails; no rental program, but traction devices are sold at the visitor center bookstore</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger &amp; Astronomy Programs<span class="conc-count">2 programs</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Annual Astronomy Festival</span><span class="conc-type">Multi-day June event: daytime solar telescopes, evening speaker talks, public stargazing 10 PM&ndash;midnight, and an astrophotography workshop (15-person cap, registration required)</span><span class="conc-hrs">Free w/ admission</span></div>
-          <div class="conc-row"><span class="conc-name">Full Moon Hikes</span><span class="conc-type">Ranger-led 1&ndash;2 mile moonlit hikes on the night of each month's full moon (except Jan); canceled below 10&deg;F or under cloud cover</span><span class="conc-hrs">Permit via Recreation.gov</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Annual Astronomy Festival</span><span class="conc-chip conc-chip--note">Free w/ admission</span></div>
+            <div class="conc-type">Multi-day June event: daytime solar telescopes, evening speaker talks, public stargazing 10 PM&ndash;midnight, and an astrophotography workshop (15-person cap, registration required)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Full Moon Hikes</span><span class="conc-chip conc-chip--note">Permit via Recreation.gov</span></div>
+            <div class="conc-type">Ranger-led 1&ndash;2 mile moonlit hikes on the night of each month's full moon (except Jan); canceled below 10&deg;F or under cloud cover</div>
+          </div>
         </div>
       </details>
 
@@ -1515,15 +1617,24 @@
       <details class="conc-group">
         <summary class="conc-summary">Bryce Canyon Lodge<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lodge Dining Room</span><span class="conc-type">Sit-down dining</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Gift Shop</span><span class="conc-type">Books · Gifts</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lodge Dining Room</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Sit-down dining</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gift Shop</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Books · Gifts</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">General Store<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">North Campground General Store</span><span class="conc-type">Groceries · Camp supplies</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Campground General Store</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Groceries · Camp supplies</div>
+          </div>
         </div>
       </details>
 

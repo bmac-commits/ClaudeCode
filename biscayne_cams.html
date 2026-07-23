@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--reef-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -507,15 +568,27 @@
       <details class="conc-group">
         <summary class="conc-summary">Coral Reef<span class="conc-count">context</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">The Florida Reef</span><span class="conc-type">NPS: "part of the world's third-longest barrier reef ecosystem" — a 170-mile coral barrier reef tract; the park sits at its northern end</span></div>
-          <div class="conc-row"><span class="conc-name">Reef fish</span><span class="conc-type">Home to over 500 species</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Florida Reef</span></div>
+            <div class="conc-type">NPS: "part of the world's third-longest barrier reef ecosystem" — a 170-mile coral barrier reef tract; the park sits at its northern end</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Reef fish</span></div>
+            <div class="conc-type">Home to over 500 species</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Stiltsville<span class="conc-count">7 structures</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Remaining structures</span><span class="conc-type">Hurricane Andrew (1992) left only 7 buildings standing, none dating to the area's earlier heyday</span></div>
-          <div class="conc-row"><span class="conc-name">Access</span><span class="conc-type">Interior access is permit-only via the Stiltsville Trust; NPS has a cooperative agreement with the Trust for upkeep and education. Visible from the water on boat tours.</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Remaining structures</span></div>
+            <div class="conc-type">Hurricane Andrew (1992) left only 7 buildings standing, none dating to the area's earlier heyday</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Access</span></div>
+            <div class="conc-type">Interior access is permit-only via the Stiltsville Trust; NPS has a cooperative agreement with the Trust for upkeep and education. Visible from the water on boat tours.</div>
+          </div>
         </div>
       </details>
     </div>
@@ -531,51 +604,98 @@
       <details class="conc-group">
         <summary class="conc-summary">Boating<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Open Water</span><span class="conc-type">Over 250 square miles of mostly shallow, tide-dependent water; NPS recommends NOAA chart 11451 for navigation</span><span class="conc-hrs">Boat required</span></div>
-          <div class="conc-row"><span class="conc-name">Personal Watercraft</span><span class="conc-type">Jet skis and other personal watercraft are prohibited throughout the park</span><span class="conc-hrs">Prohibited</span></div>
-          <div class="conc-row"><span class="conc-name">Reef Protection</span><span class="conc-type">Slow-speed zones apply in shallow areas; anchoring on coral is forbidden and mooring buoys are provided at popular sites</span><span class="conc-hrs">Mooring buoys</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Open Water</span><span class="conc-chip conc-chip--note">Boat required</span></div>
+            <div class="conc-type">Over 250 square miles of mostly shallow, tide-dependent water; NPS recommends NOAA chart 11451 for navigation</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Personal Watercraft</span><span class="conc-chip conc-chip--note">Prohibited</span></div>
+            <div class="conc-type">Jet skis and other personal watercraft are prohibited throughout the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Reef Protection</span><span class="conc-chip conc-chip--note">Mooring buoys</span></div>
+            <div class="conc-type">Slow-speed zones apply in shallow areas; anchoring on coral is forbidden and mooring buoys are provided at popular sites</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Snorkeling &amp; Diving<span class="conc-count">Maritime Heritage Trail</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Maritime Heritage Trail</span><span class="conc-type">Six historic shipwrecks plus the 1878 Fowey Rocks Lighthouse; all sites are boat-access only</span><span class="conc-hrs">7 sites · Boat-only</span></div>
-          <div class="conc-row"><span class="conc-name">Lugano</span><span class="conc-type">1913 steamship wreck resting on Long Reef; a popular scuba site</span><span class="conc-hrs">25 ft deep</span></div>
-          <div class="conc-row"><span class="conc-name">Mandalay</span><span class="conc-type">1966 wreck of a two-masted schooner, shallow enough for snorkeling</span><span class="conc-hrs">Snorkel-friendly</span></div>
-          <div class="conc-row"><span class="conc-name">Fowey Rocks Lighthouse</span><span class="conc-type">1878 lighthouse marking the trail's northern end; snorkeling is permitted around the base, but the tower is closed to visitors</span><span class="conc-hrs">Not open to public</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Maritime Heritage Trail</span><span class="conc-chip conc-chip--note">7 sites · Boat-only</span></div>
+            <div class="conc-type">Six historic shipwrecks plus the 1878 Fowey Rocks Lighthouse; all sites are boat-access only</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lugano</span><span class="conc-chip conc-chip--note">25 ft deep</span></div>
+            <div class="conc-type">1913 steamship wreck resting on Long Reef; a popular scuba site</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mandalay</span><span class="conc-chip conc-chip--note">Snorkel-friendly</span></div>
+            <div class="conc-type">1966 wreck of a two-masted schooner, shallow enough for snorkeling</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fowey Rocks Lighthouse</span><span class="conc-chip conc-chip--note">Not open to public</span></div>
+            <div class="conc-type">1878 lighthouse marking the trail's northern end; snorkeling is permitted around the base, but the tower is closed to visitors</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">Valid Florida fishing license required for anglers 16+; extra permits apply for snook, spiny lobster, tarpon, and shore-based shark fishing</span><span class="conc-hrs">FL license + permits</span></div>
-          <div class="conc-row"><span class="conc-name">Species &amp; Limits</span><span class="conc-type">Popular catches include snapper, grouper, tarpon, and bonefish; federal size and bag limits are often stricter than state waters</span><span class="conc-hrs">Federal rules apply</span></div>
-          <div class="conc-row"><span class="conc-name">Closed Areas</span><span class="conc-type">Fishing is prohibited near the Boca Chita and Elliott Key harbors, the visitor center boat basin, and Convoy Point entrance channels</span><span class="conc-hrs">No-fish zones</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">License</span><span class="conc-chip conc-chip--note">FL license + permits</span></div>
+            <div class="conc-type">Valid Florida fishing license required for anglers 16+; extra permits apply for snook, spiny lobster, tarpon, and shore-based shark fishing</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Species &amp; Limits</span><span class="conc-chip conc-chip--note">Federal rules apply</span></div>
+            <div class="conc-type">Popular catches include snapper, grouper, tarpon, and bonefish; federal size and bag limits are often stricter than state waters</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Closed Areas</span><span class="conc-chip conc-chip--note">No-fish zones</span></div>
+            <div class="conc-type">Fishing is prohibited near the Boca Chita and Elliott Key harbors, the visitor center boat basin, and Convoy Point entrance channels</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Kayaking &amp; Canoeing<span class="conc-count">1 note</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mangrove Shoreline</span><span class="conc-type">NPS recommends paddling to explore the mangrove-fringed shorelines and shallow bay waters near Convoy Point</span><span class="conc-hrs">Self-guided</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mangrove Shoreline</span><span class="conc-chip conc-chip--note">Self-guided</span></div>
+            <div class="conc-type">NPS recommends paddling to explore the mangrove-fringed shorelines and shallow bay waters near Convoy Point</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Guided Tours &amp; Charters<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Biscayne National Park Institute</span><span class="conc-type">Official concessioner running snorkel trips to Maritime Heritage Trail wrecks and reefs, Boca Chita lighthouse cruises, sailing, and Jones Lagoon eco-tours; reservations advised</span><span class="conc-hrs">786-335-3644</span></div>
-          <div class="conc-row"><span class="conc-name">Other Authorized Operators</span><span class="conc-type">Eight additional companies are permitted to run snorkeling, diving, boating, and fishing charters in the park</span><span class="conc-hrs">8 operators</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Biscayne National Park Institute</span><span class="conc-chip conc-chip--note">786-335-3644</span></div>
+            <div class="conc-type">Official concessioner running snorkel trips to Maritime Heritage Trail wrecks and reefs, Boca Chita lighthouse cruises, sailing, and Jones Lagoon eco-tours; reservations advised</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Other Authorized Operators</span><span class="conc-chip conc-chip--note">8 operators</span></div>
+            <div class="conc-type">Eight additional companies are permitted to run snorkeling, diving, boating, and fishing charters in the park</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Hiking<span class="conc-count">2 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Convoy Point Jetty Walk</span><span class="conc-type">Flat, self-guided walk along the jetty at the Dante Fascell Visitor Center with 10 interpretive stops</span><span class="conc-hrs">0.8 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Elliott Key Trails</span><span class="conc-type">Boat-access-only island with two hiking trails, including a route along its length</span><span class="conc-hrs">Boat-access only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Convoy Point Jetty Walk</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Flat, self-guided walk along the jetty at the Dante Fascell Visitor Center with 10 interpretive stops</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Elliott Key Trails</span><span class="conc-chip conc-chip--note">Boat-access only</span></div>
+            <div class="conc-type">Boat-access-only island with two hiking trails, including a route along its length</div>
+          </div>
         </div>
       </details>
 
