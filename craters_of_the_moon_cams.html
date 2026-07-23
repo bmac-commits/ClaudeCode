@@ -769,38 +769,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--slate-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1408,25 +1439,60 @@
       <details class="conc-group">
         <summary class="conc-summary">North Loop Stops<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">North Crater Flow Trail</span><span class="conc-type">Easy · youngest lava flow in the park</span><span class="conc-hrs">~3.5 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Devils Orchard Nature Trail</span><span class="conc-type">Easy · paved, wheelchair accessible</span><span class="conc-hrs">~0.5 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Inferno Cone</span><span class="conc-type">Moderate · steep cinder-cone climb, panoramic views</span><span class="conc-hrs">~0.4 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Crater Flow Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">youngest lava flow in the park</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~3.5 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devils Orchard Nature Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">paved, wheelchair accessible</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:14%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~0.5 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Inferno Cone</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">steep cinder-cone climb, panoramic views</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:11%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~0.4 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Spatter Cones &amp; Tree Molds<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Big Craters / Spatter Cones Trail</span><span class="conc-type">Moderate · small volcanic vents</span><span class="conc-hrs">~0.4 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Tree Molds Trail</span><span class="conc-type">Moderate · lava-cast tree impressions</span><span class="conc-hrs">~1.6 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Broken Top Loop</span><span class="conc-type">Strenuous · cinder cone &amp; kipuka loop</span><span class="conc-hrs">~1.8 mi loop</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Big Craters / Spatter Cones Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">small volcanic vents</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:22%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~0.4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tree Molds Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">lava-cast tree impressions</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:89%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~1.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Broken Top Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">cinder cone &amp; kipuka loop</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~1.8 mi loop</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Caves Area (Permit Required)<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Caves Trail</span><span class="conc-type">Moderate · access to Indian Tunnel, Boy Scout, Beauty &amp; Dewdrop caves</span><span class="conc-hrs">~1.6 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Caves Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">access to Indian Tunnel, Boy Scout, Beauty &amp; Dewdrop caves</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~1.6 mi RT</div>
+          </div>
         </div>
       </details>
 
@@ -1443,29 +1509,46 @@
       <details class="conc-group">
         <summary class="conc-summary">Backcountry Wilderness Hiking<span class="conc-count">1 trail</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wilderness Trail to Echo Crater</span><span class="conc-type">Follows a distinct path into the 43,000+ acre Craters of the Moon Wilderness, becoming faint past Echo Crater; most overnight users camp there. No reliable water source anywhere in the wilderness — carry a gallon per person per day</span><span class="conc-hrs">~3 mi to Echo Crater · free permit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wilderness Trail to Echo Crater</span><span class="conc-chip conc-chip--mod">free permit</span></div>
+            <div class="conc-type">Follows a distinct path into the 43,000+ acre Craters of the Moon Wilderness, becoming faint past Echo Crater; most overnight users camp there. No reliable water source anywhere in the wilderness — carry a gallon per person per day</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~3 mi to Echo Crater</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Recreation<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing</span><span class="conc-type">Loop Road is groomed for skiing on a weekly basis (snow-permitting) once winter grooming begins, typically mid-January</span><span class="conc-hrs">Mid-Jan&ndash;spring</span></div>
-          <div class="conc-row"><span class="conc-name">Snowshoeing</span><span class="conc-type">Free snowshoe loans available from the Craters of the Moon Natural History Association at the visitor center</span><span class="conc-hrs">Winter</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing</span><span class="conc-chip conc-chip--note">Mid-Jan&ndash;spring</span></div>
+            <div class="conc-type">Loop Road is groomed for skiing on a weekly basis (snow-permitting) once winter grooming begins, typically mid-January</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Snowshoeing</span><span class="conc-chip conc-chip--note">Winter</span></div>
+            <div class="conc-type">Free snowshoe loans available from the Craters of the Moon Natural History Association at the visitor center</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">1 way</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Loop Road Cycling</span><span class="conc-type">Paved 7-mile Loop Drive stays open to bikes even when snow closes it to cars each winter, alongside hiking, snowshoeing &amp; skiing</span><span class="conc-hrs">7 mi paved · year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Loop Road Cycling</span><span class="conc-chip conc-chip--note">7 mi paved · year-round</span></div>
+            <div class="conc-type">Paved 7-mile Loop Drive stays open to bikes even when snow closes it to cars each winter, alongside hiking, snowshoeing &amp; skiing</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Junior Ranger Program<span class="conc-count">1 option</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Earn a Badge</span><span class="conc-type">Complete an in-person activity booklet from the visitor center, or the "Become a Virtual Junior Ranger" program online, to earn a Craters of the Moon badge</span><span class="conc-hrs">Free · all ages</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Earn a Badge</span><span class="conc-chip conc-chip--note">Free · all ages</span></div>
+            <div class="conc-type">Complete an in-person activity booklet from the visitor center, or the "Become a Virtual Junior Ranger" program online, to earn a Craters of the Moon badge</div>
+          </div>
         </div>
       </details>
 
@@ -1504,7 +1587,10 @@
       <details class="conc-group">
         <summary class="conc-summary">Robert Limbert Visitor Center<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Bookstore &amp; Gift Shop</span><span class="conc-type">Books · Maps · Gifts</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bookstore &amp; Gift Shop</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Books · Maps · Gifts</div>
+          </div>
         </div>
       </details>
 

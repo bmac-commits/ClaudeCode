@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--moss-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -545,34 +606,104 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">11 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Boardwalk Trail</span><span class="conc-type">Elevated loop leading down into the old-growth bottomland hardwood forest; the park's signature, accessible walk</span><span class="conc-hrs">2.6 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Bluff Trail (#1)</span><span class="conc-type">Upland loop north of the Visitor Center through young pine forest</span><span class="conc-hrs">1.8 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Sims Trail (#2)</span><span class="conc-type">Follows an old gravel road from the Bluff Trail to Cedar Creek</span><span class="conc-hrs">3.2 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Weston Lake Trail (#3)</span><span class="conc-type">Great views of Cedar Creek, where otters and wading birds are regularly seen</span><span class="conc-hrs">4.5 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Oakridge Trail (#4)</span><span class="conc-type">Traverses a subtle ridge where a variety of large oak trees grow</span><span class="conc-hrs">7.1 mi RT · Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Boggy Gut Trail (#5)</span><span class="conc-type">Leads to the Congaree River, the lifeblood of the park's natural diversity</span><span class="conc-hrs">11.1 mi RT · Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Kingsnake Trail (#6)</span><span class="conc-type">A favorite among birders for its diverse vegetation and proximity to Cedar Creek</span><span class="conc-hrs">12 mi · Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Bates Ferry Trail (#7)</span><span class="conc-type">Follows a 1920s ferry road south to the Congaree River</span><span class="conc-hrs">2.2 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Longleaf Trail (#8)</span><span class="conc-type">Connects Longleaf Campground to the Harry Hampton Visitor Center</span><span class="conc-hrs">1.3 mi one-way · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Fork Swamp Trail (#9)</span><span class="conc-type">Runs alongside the southern channel of Bates Old River, an oxbow lake</span><span class="conc-hrs">0.6 mi · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Firefly Trail (#10)</span><span class="conc-type">Site of the park's synchronous firefly light show each spring</span><span class="conc-hrs">1.8 mi RT · Easy</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boardwalk Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Elevated loop leading down into the old-growth bottomland hardwood forest; the park's signature, accessible walk</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:22%;background:#b3e08a"></div></div>
+            <div class="conc-figure">2.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bluff Trail (#1)</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Upland loop north of the Visitor Center through young pine forest</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:15%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sims Trail (#2)</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Follows an old gravel road from the Bluff Trail to Cedar Creek</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:27%;background:#b3e08a"></div></div>
+            <div class="conc-figure">3.2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Weston Lake Trail (#3)</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Great views of Cedar Creek, where otters and wading birds are regularly seen</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:38%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">4.5 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Oakridge Trail (#4)</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">Traverses a subtle ridge where a variety of large oak trees grow</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:59%;background:var(--red)"></div></div>
+            <div class="conc-figure">7.1 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boggy Gut Trail (#5)</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">Leads to the Congaree River, the lifeblood of the park's natural diversity</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:93%;background:var(--red)"></div></div>
+            <div class="conc-figure">11.1 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kingsnake Trail (#6)</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">A favorite among birders for its diverse vegetation and proximity to Cedar Creek</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">12 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bates Ferry Trail (#7)</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Follows a 1920s ferry road south to the Congaree River</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:18%;background:#b3e08a"></div></div>
+            <div class="conc-figure">2.2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Longleaf Trail (#8)</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Connects Longleaf Campground to the Harry Hampton Visitor Center</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:11%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.3 mi one-way</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fork Swamp Trail (#9)</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Runs alongside the southern channel of Bates Old River, an oxbow lake</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:5%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">0.6 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Firefly Trail (#10)</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Site of the park's synchronous firefly light show each spring</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:15%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.8 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Paddling<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cedar Creek Canoe Trail</span><span class="conc-type">Marked route winding through the Congaree Wilderness from Bannister's Bridge to the Congaree River; BYO canoe or kayak, no in-park rentals</span><span class="conc-hrs">~15 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Congaree River Blue Trail</span><span class="conc-type">Designated National Recreation Trail from downtown Columbia downstream through the park's old-growth floodplain</span><span class="conc-hrs">50 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Outfitters &amp; Guided Tours</span><span class="conc-type">Columbia-area outfitters (River Runner Outdoor Center, Palmetto Outdoor, J.K. Adventure Guides, Carolina Outdoor Adventures) offer rentals and guided 3-hour tours</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cedar Creek Canoe Trail</span><span class="conc-chip conc-chip--note">~15 mi</span></div>
+            <div class="conc-type">Marked route winding through the Congaree Wilderness from Bannister's Bridge to the Congaree River; BYO canoe or kayak, no in-park rentals</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Congaree River Blue Trail</span><span class="conc-chip conc-chip--note">50 mi</span></div>
+            <div class="conc-type">Designated National Recreation Trail from downtown Columbia downstream through the park's old-growth floodplain</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Outfitters &amp; Guided Tours</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Columbia-area outfitters (River Runner Outdoor Center, Palmetto Outdoor, J.K. Adventure Guides, Carolina Outdoor Adventures) offer rentals and guided 3-hour tours</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">SC Fishing License</span><span class="conc-type">Valid South Carolina license required; all state size and creel limits apply. No fishing within 25 ft of the boardwalk, bridges, or overlooks</span><span class="conc-hrs">License required</span></div>
-          <div class="conc-row"><span class="conc-name">Gear &amp; Boat Rules</span><span class="conc-type">Hand lines, hook-and-line, fly rods, or casting rods only, closely attended; live bait such as minnows and amphibians is prohibited; inboard/outboard motors are banned</span><span class="conc-hrs">No motors</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">SC Fishing License</span><span class="conc-chip conc-chip--note">License required</span></div>
+            <div class="conc-type">Valid South Carolina license required; all state size and creel limits apply. No fishing within 25 ft of the boardwalk, bridges, or overlooks</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gear &amp; Boat Rules</span><span class="conc-chip conc-chip--note">No motors</span></div>
+            <div class="conc-type">Hand lines, hook-and-line, fly rods, or casting rods only, closely attended; live bait such as minnows and amphibians is prohibited; inboard/outboard motors are banned</div>
+          </div>
         </div>
       </details>
 

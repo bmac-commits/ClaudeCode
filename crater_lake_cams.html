@@ -782,25 +782,73 @@
 
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
+    .conc-body {
+      padding: 4px 0;
+    }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--lake-light); white-space: nowrap; }
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── River / Lake Grid ── */
@@ -1345,25 +1393,52 @@
       <details class="conc-group">
         <summary class="conc-summary">Rim Drive &amp; Overlooks<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Rim Drive</span><span class="conc-type">33-mi scenic loop around the caldera, seasonal</span><span class="conc-hrs">~2–3 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">The Pinnacles</span><span class="conc-type">Volcanic pumice &amp; ash spires, east side</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rim Drive</span><span class="conc-chip conc-chip--note">~2–3 hrs</span></div>
+            <div class="conc-type">33-mi scenic loop around the caldera, seasonal</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Pinnacles</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Volcanic pumice &amp; ash spires, east side</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Peaks &amp; Trails<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mount Scott Trail</span><span class="conc-type">Strenuous · highest point, 8,929 ft</span><span class="conc-hrs">~5 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Garfield Peak Trail</span><span class="conc-type">Moderate · sweeping lake views</span><span class="conc-hrs">~3.4 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Watchman Peak Trail</span><span class="conc-type">Moderate · historic fire lookout</span><span class="conc-hrs">~1.6 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mount Scott Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">highest point, 8,929 ft</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~5 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Garfield Peak Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">sweeping lake views</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:68%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~3.4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Watchman Peak Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">historic fire lookout</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:32%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~1.6 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Lake Access<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cleetwood Cove Trail</span><span class="conc-type">Only legal lake-shore access · closed 2026–2028</span><span class="conc-hrs">~2.2 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Wizard Island</span><span class="conc-type">Boat access only · tours suspended</span><span class="conc-hrs">Unavailable through 2028</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cleetwood Cove Trail</span><span class="conc-chip conc-chip--note">~2.2 mi RT</span></div>
+            <div class="conc-type">Only legal lake-shore access · closed 2026–2028</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wizard Island</span><span class="conc-chip conc-chip--note">Unavailable through 2028</span></div>
+            <div class="conc-type">Boat access only · tours suspended</div>
+          </div>
         </div>
       </details>
 
@@ -1380,27 +1455,56 @@
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ranger-Led Snowshoe Walks</span><span class="conc-type">Free 2-hour walks through Rim Village forest &amp; meadow; snowshoes provided, ages 8+, no experience needed, reservations required</span><span class="conc-hrs">1&ndash;2 mi · Nov&ndash;May</span></div>
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing</span><span class="conc-type">Ungroomed backcountry routes along West Rim Drive to lake overlooks and East Rim Drive to Vidae Falls; prohibited inside the caldera</span><span class="conc-hrs">Ungroomed · Nov&ndash;May</span></div>
-          <div class="conc-row"><span class="conc-name">Circling the Lake (Ski Loop)</span><span class="conc-type">Multi-day backcountry ski circuit around the caldera rim; best March&ndash;April, requires winter camping &amp; avalanche skills</span><span class="conc-hrs">31 mi · Permit required</span></div>
-          <div class="conc-row"><span class="conc-name">Sledding</span><span class="conc-type">No designated sled hill &mdash; the open meadow south of Crater Lake Lodge is the popular spot; prohibited in the caldera, on roadways &amp; in parking lots</span><span class="conc-hrs">Nov&ndash;May</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger-Led Snowshoe Walks</span><span class="conc-chip conc-chip--note">1&ndash;2 mi · Nov&ndash;May</span></div>
+            <div class="conc-type">Free 2-hour walks through Rim Village forest &amp; meadow; snowshoes provided, ages 8+, no experience needed, reservations required</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing</span><span class="conc-chip conc-chip--note">Ungroomed · Nov&ndash;May</span></div>
+            <div class="conc-type">Ungroomed backcountry routes along West Rim Drive to lake overlooks and East Rim Drive to Vidae Falls; prohibited inside the caldera</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Circling the Lake (Ski Loop)</span><span class="conc-chip conc-chip--mod">Permit required</span></div>
+            <div class="conc-type">Multi-day backcountry ski circuit around the caldera rim; best March&ndash;April, requires winter camping &amp; avalanche skills</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">31 mi</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sledding</span><span class="conc-chip conc-chip--note">Nov&ndash;May</span></div>
+            <div class="conc-type">No designated sled hill &mdash; the open meadow south of Crater Lake Lodge is the popular spot; prohibited in the caldera, on roadways &amp; in parking lots</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Stream &amp; Creek Fishing</span><span class="conc-type">No license required; only non-organic artificial lures allowed, no live or dead bait. Open on most park streams and Annie Creek outside the south entrance</span><span class="conc-hrs">No license · Year-round</span></div>
-          <div class="conc-row"><span class="conc-name">Lake Fishing</span><span class="conc-type">Wizard Island docks stay open when boats aren't present, but Cleetwood Cove &mdash; the only lake-shore access &mdash; is closed through 2028, limiting lake fishing</span><span class="conc-hrs">Closed access thru 2028</span></div>
-          <div class="conc-row"><span class="conc-name">Protected Species</span><span class="conc-type">Bull trout inhabit some streams and must be released immediately if caught; Sun Creek &amp; Lost Creek are closed to protect them</span><span class="conc-hrs">Catch &amp; release</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Stream &amp; Creek Fishing</span><span class="conc-chip conc-chip--note">No license · Year-round</span></div>
+            <div class="conc-type">No license required; only non-organic artificial lures allowed, no live or dead bait. Open on most park streams and Annie Creek outside the south entrance</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lake Fishing</span><span class="conc-chip conc-chip--note">Closed access thru 2028</span></div>
+            <div class="conc-type">Wizard Island docks stay open when boats aren't present, but Cleetwood Cove &mdash; the only lake-shore access &mdash; is closed through 2028, limiting lake fishing</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Protected Species</span><span class="conc-chip conc-chip--note">Catch &amp; release</span></div>
+            <div class="conc-type">Bull trout inhabit some streams and must be released immediately if caught; Sun Creek &amp; Lost Creek are closed to protect them</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger &amp; Junior Ranger Programs<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ranger Programs</span><span class="conc-type">Daily talks &amp; walks blending science, history &amp; art, offered during peak summer season</span><span class="conc-hrs">Summer · Free</span></div>
-          <div class="conc-row"><span class="conc-name">Junior Ranger Activities</span><span class="conc-type">Family programs held four times a day at Rim Village during summer months</span><span class="conc-hrs">Summer · Free</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger Programs</span><span class="conc-chip conc-chip--note">Summer · Free</span></div>
+            <div class="conc-type">Daily talks &amp; walks blending science, history &amp; art, offered during peak summer season</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Junior Ranger Activities</span><span class="conc-chip conc-chip--note">Summer · Free</span></div>
+            <div class="conc-type">Family programs held four times a day at Rim Village during summer months</div>
+          </div>
         </div>
       </details>
 
@@ -1458,16 +1562,28 @@
       <details class="conc-group">
         <summary class="conc-summary">Rim Village<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Crater Lake Lodge Dining Room</span><span class="conc-type">Historic lodge dining</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Rim Village Café &amp; Gift Shop</span><span class="conc-type">Café · gifts</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Crater Lake Lodge Dining Room</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Historic lodge dining</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rim Village Café &amp; Gift Shop</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Café · gifts</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Mazama Village<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Annie Creek Restaurant &amp; Gift Shop</span><span class="conc-type">Casual dining · gifts</span><span class="conc-hrs">Early Jun – Oct</span></div>
-          <div class="conc-row"><span class="conc-name">Mazama Village Store</span><span class="conc-type">Groceries · camping supplies · gas</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Annie Creek Restaurant &amp; Gift Shop</span><span class="conc-chip conc-chip--note">Early Jun – Oct</span></div>
+            <div class="conc-type">Casual dining · gifts</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mazama Village Store</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Groceries · camping supplies · gas</div>
+          </div>
         </div>
       </details>
 
