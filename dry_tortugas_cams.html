@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--turq-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -532,11 +593,26 @@
       <details class="conc-group">
         <summary class="conc-summary">History<span class="conc-count">context</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Construction</span><span class="conc-type">Built 1846–1875, part of the Third System of US coastal fortifications (Maine to California); NPS calls it "one of the largest forts ever built," though it was never finished or fully armed</span></div>
-          <div class="conc-row"><span class="conc-name">Purpose</span><span class="conc-type">Protected the strategic deepwater shipping lanes between the Gulf and Atlantic coasts</span></div>
-          <div class="conc-row"><span class="conc-name">Civil War</span><span class="conc-type">Union blockade base and prison, mainly for Union deserters</span></div>
-          <div class="conc-row"><span class="conc-name">Dr. Samuel Mudd</span><span class="conc-type">The fort's most famous prisoner — the physician who set John Wilkes Booth's broken leg after Lincoln's assassination</span></div>
-          <div class="conc-row"><span class="conc-name">Abandoned</span><span class="conc-type">By the US Army in 1874</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Construction</span></div>
+            <div class="conc-type">Built 1846–1875, part of the Third System of US coastal fortifications (Maine to California); NPS calls it "one of the largest forts ever built," though it was never finished or fully armed</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Purpose</span></div>
+            <div class="conc-type">Protected the strategic deepwater shipping lanes between the Gulf and Atlantic coasts</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Civil War</span></div>
+            <div class="conc-type">Union blockade base and prison, mainly for Union deserters</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dr. Samuel Mudd</span></div>
+            <div class="conc-type">The fort's most famous prisoner — the physician who set John Wilkes Booth's broken leg after Lincoln's assassination</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Abandoned</span></div>
+            <div class="conc-type">By the US Army in 1874</div>
+          </div>
         </div>
       </details>
     </div>
@@ -584,51 +660,96 @@
       <details class="conc-group">
         <summary class="conc-summary">Wildlife &amp; Birdwatching<span class="conc-count">3 highlights</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Spring Migration</span><span class="conc-type">The islands are a stopover for songbirds crossing between North and South America; nearly 300 bird species have been documented in the park</span><span class="conc-hrs">Best: spring</span></div>
-          <div class="conc-row"><span class="conc-name">Frigatebird &amp; Sooty Tern Colony</span><span class="conc-type">Bush Key hosts the only nesting colonies of magnificent frigatebirds and sooty terns in the continental US; roughly 100,000 sooty terns return to nest each year</span><span class="conc-hrs">Nesting season</span></div>
-          <div class="conc-row"><span class="conc-name">Sea Turtles</span><span class="conc-type">Green and loggerhead sea turtles nest on the park's sandy beaches; five turtle species are commonly found in park waters</span><span class="conc-hrs">Keep your distance</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Spring Migration</span><span class="conc-chip conc-chip--note">Best: spring</span></div>
+            <div class="conc-type">The islands are a stopover for songbirds crossing between North and South America; nearly 300 bird species have been documented in the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Frigatebird &amp; Sooty Tern Colony</span><span class="conc-chip conc-chip--note">Nesting season</span></div>
+            <div class="conc-type">Bush Key hosts the only nesting colonies of magnificent frigatebirds and sooty terns in the continental US; roughly 100,000 sooty terns return to nest each year</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sea Turtles</span><span class="conc-chip conc-chip--note">Keep your distance</span></div>
+            <div class="conc-type">Green and loggerhead sea turtles nest on the park's sandy beaches; five turtle species are commonly found in park waters</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Diving &amp; Snorkel Sites<span class="conc-count">4 sites</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Windjammer (Avanti) Wreck</span><span class="conc-type">Iron-hulled ship that wrecked off Loggerhead Key in 1901; visible from the surface down to about 20 ft</span><span class="conc-hrs">Loggerhead Key</span></div>
-          <div class="conc-row"><span class="conc-name">Little Africa Reef</span><span class="conc-type">Shallow, calm coral reef NPS calls a great spot for snorkelers and, in most conditions, children</span><span class="conc-hrs">Loggerhead Key</span></div>
-          <div class="conc-row"><span class="conc-name">Historic Coaling Pier Pilings</span><span class="conc-type">Late-1800s Navy pier pilings near Garden Key draw grouper, tarpon, and barracuda</span><span class="conc-hrs">Garden Key</span></div>
-          <div class="conc-row"><span class="conc-name">Scuba Diving</span><span class="conc-type">Neither the ferry nor the seaplane can carry compressed dive tanks, so divers must arrive by private or charter boat</span><span class="conc-hrs">Private/charter boat only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Windjammer (Avanti) Wreck</span><span class="conc-chip conc-chip--note">Loggerhead Key</span></div>
+            <div class="conc-type">Iron-hulled ship that wrecked off Loggerhead Key in 1901; visible from the surface down to about 20 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Little Africa Reef</span><span class="conc-chip conc-chip--note">Loggerhead Key</span></div>
+            <div class="conc-type">Shallow, calm coral reef NPS calls a great spot for snorkelers and, in most conditions, children</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Historic Coaling Pier Pilings</span><span class="conc-chip conc-chip--note">Garden Key</span></div>
+            <div class="conc-type">Late-1800s Navy pier pilings near Garden Key draw grouper, tarpon, and barracuda</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Scuba Diving</span><span class="conc-chip conc-chip--note">Private/charter boat only</span></div>
+            <div class="conc-type">Neither the ferry nor the seaplane can carry compressed dive tanks, so divers must arrive by private or charter boat</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">License &amp; Gear</span><span class="conc-type">Anglers 16 and up need a Florida saltwater fishing license; only circle hooks are allowed, and spearfishing and lobstering are prohibited</span><span class="conc-hrs">Hook-and-line only</span></div>
-          <div class="conc-row"><span class="conc-name">Closed Waters</span><span class="conc-type">The Research Natural Area, the Garden Key moat, and areas within 50 ft of historic structures are off-limits to fishing</span><span class="conc-hrs">Boat permit required</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">License &amp; Gear</span><span class="conc-chip conc-chip--note">Hook-and-line only</span></div>
+            <div class="conc-type">Anglers 16 and up need a Florida saltwater fishing license; only circle hooks are allowed, and spearfishing and lobstering are prohibited</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Closed Waters</span><span class="conc-chip conc-chip--note">Boat permit required</span></div>
+            <div class="conc-type">The Research Natural Area, the Garden Key moat, and areas within 50 ft of historic structures are off-limits to fishing</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Paddlesports<span class="conc-count">2 routes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Garden, Bush &amp; Long Key</span><span class="conc-type">Short paddles around the historic core; circling both Bush and Long Key typically takes a few hours. Bring your own kayak or paddleboard — there are no rentals at the park</span><span class="conc-hrs">BYO gear</span></div>
-          <div class="conc-row"><span class="conc-name">Loggerhead Key Crossing</span><span class="conc-type">3 miles west of Garden Key across deep, open water with very strong currents; NPS recommends this route for experienced paddlers only</span><span class="conc-hrs">3 mi crossing</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Garden, Bush &amp; Long Key</span><span class="conc-chip conc-chip--note">BYO gear</span></div>
+            <div class="conc-type">Short paddles around the historic core; circling both Bush and Long Key typically takes a few hours. Bring your own kayak or paddleboard — there are no rentals at the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Loggerhead Key Crossing</span><span class="conc-chip conc-chip--note">3 mi crossing</span></div>
+            <div class="conc-type">3 miles west of Garden Key across deep, open water with very strong currents; NPS recommends this route for experienced paddlers only</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fort Tours<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Self-Guided Tour</span><span class="conc-type">Follow the interpretive signage through Fort Jefferson at your own pace; ask at the visitor center for details</span><span class="conc-hrs">Included with entry</span></div>
-          <div class="conc-row"><span class="conc-name">Ranger-Guided Programs</span><span class="conc-type">When staffing allows, rangers lead fort history tours, ecological moat walks, living history demonstrations, and night sky programs</span><span class="conc-hrs">Check w/ ranger on arrival</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Self-Guided Tour</span><span class="conc-chip conc-chip--note">Included with entry</span></div>
+            <div class="conc-type">Follow the interpretive signage through Fort Jefferson at your own pace; ask at the visitor center for details</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger-Guided Programs</span><span class="conc-chip conc-chip--note">Check w/ ranger on arrival</span></div>
+            <div class="conc-type">When staffing allows, rangers lead fort history tours, ecological moat walks, living history demonstrations, and night sky programs</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Charters &amp; Permitted Tour Guides<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Permitted Operators</span><span class="conc-type">NPS-authorized charter operators run fishing, diving/snorkeling, birdwatching, and eco-tour trips into the park</span><span class="conc-hrs">Permit required</span></div>
-          <div class="conc-row"><span class="conc-name">An Alternative to the Ferry</span><span class="conc-type">NPS describes permitted charters as another option to the daily ferry and seaplane tours for reaching the park</span><span class="conc-hrs">Private charter</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Permitted Operators</span><span class="conc-chip conc-chip--note">Permit required</span></div>
+            <div class="conc-type">NPS-authorized charter operators run fishing, diving/snorkeling, birdwatching, and eco-tour trips into the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">An Alternative to the Ferry</span><span class="conc-chip conc-chip--note">Private charter</span></div>
+            <div class="conc-type">NPS describes permitted charters as another option to the daily ferry and seaplane tours for reaching the park</div>
+          </div>
         </div>
       </details>
 

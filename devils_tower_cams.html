@@ -971,38 +971,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--accent-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1488,24 +1519,42 @@
       <details class="conc-group">
         <summary class="conc-summary">The Tower &amp; Base Trails<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Devils Tower</span><span class="conc-type">867-ft igneous intrusion · sacred site to Northern Plains tribes</span><span class="conc-hrs">5,112 ft summit</span></div>
-          <div class="conc-row"><span class="conc-name">Tower Trail</span><span class="conc-type">Easy paved loop encircling the base</span><span class="conc-hrs">1.3 mi · ~1 hr</span></div>
-          <div class="conc-row"><span class="conc-name">Circle of Sacred Smoke Sculpture</span><span class="conc-type">Bronze artwork &amp; picnic area near visitor center</span><span class="conc-hrs">~15 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devils Tower</span><span class="conc-chip conc-chip--note">5,112 ft summit</span></div>
+            <div class="conc-type">867-ft igneous intrusion · sacred site to Northern Plains tribes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tower Trail</span><span class="conc-chip conc-chip--note">1.3 mi · ~1 hr</span></div>
+            <div class="conc-type">Easy paved loop encircling the base</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Circle of Sacred Smoke Sculpture</span><span class="conc-chip conc-chip--note">~15 min</span></div>
+            <div class="conc-type">Bronze artwork &amp; picnic area near visitor center</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Longer Trails<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Joyner Ridge Trail</span><span class="conc-type">Moderate loop · sweeping Tower views, little light pollution at night</span><span class="conc-hrs">1.5 mi · ~1 hr</span></div>
-          <div class="conc-row"><span class="conc-name">Red Beds Trail</span><span class="conc-type">Moderate loop through red-rock formations &amp; prairie</span><span class="conc-hrs">2.8 mi · ~2 hrs</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Joyner Ridge Trail</span><span class="conc-chip conc-chip--note">1.5 mi · ~1 hr</span></div>
+            <div class="conc-type">Moderate loop · sweeping Tower views, little light pollution at night</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Red Beds Trail</span><span class="conc-chip conc-chip--note">2.8 mi · ~2 hrs</span></div>
+            <div class="conc-type">Moderate loop through red-rock formations &amp; prairie</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wildlife<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Prairie Dog Town</span><span class="conc-type">Black-tailed prairie dog colony near the entrance road</span><span class="conc-hrs">Active dawn–dusk</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Prairie Dog Town</span><span class="conc-chip conc-chip--note">Active dawn–dusk</span></div>
+            <div class="conc-type">Black-tailed prairie dog colony near the entrance road</div>
+          </div>
         </div>
       </details>
 
@@ -1522,27 +1571,54 @@
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">4 details</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Registration</span><span class="conc-type">Free, mandatory self-registration at the climbing kiosk near the Tower Trail before and after every climb</span><span class="conc-hrs">Free · Required</span></div>
-          <div class="conc-row"><span class="conc-name">Route Difficulty</span><span class="conc-type">Traditional crack climbing on mostly gear-protected routes (cams &amp; anchors, few bolts); historic Durrance &amp; Wiessner routes are considered harder than their original ratings</span><span class="conc-hrs">5.7&ndash;5.13</span></div>
-          <div class="conc-row"><span class="conc-name">Voluntary June Closure</span><span class="conc-type">Climbers are asked to voluntarily avoid the Tower throughout June out of respect for Northern Plains tribal ceremonies; NPS reports strong voluntary compliance</span><span class="conc-hrs">June</span></div>
-          <div class="conc-row"><span class="conc-name">Raptor Closures</span><span class="conc-type">Select routes close seasonally each spring to protect nesting prairie falcons and peregrine falcons</span><span class="conc-hrs">Spring, seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Registration</span><span class="conc-chip conc-chip--note">Free · Required</span></div>
+            <div class="conc-type">Free, mandatory self-registration at the climbing kiosk near the Tower Trail before and after every climb</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Route Difficulty</span><span class="conc-chip conc-chip--note">5.7&ndash;5.13</span></div>
+            <div class="conc-type">Traditional crack climbing on mostly gear-protected routes (cams &amp; anchors, few bolts); historic Durrance &amp; Wiessner routes are considered harder than their original ratings</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Voluntary June Closure</span><span class="conc-chip conc-chip--note">June</span></div>
+            <div class="conc-type">Climbers are asked to voluntarily avoid the Tower throughout June out of respect for Northern Plains tribal ceremonies; NPS reports strong voluntary compliance</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Raptor Closures</span><span class="conc-chip conc-chip--note">Spring, seasonal</span></div>
+            <div class="conc-type">Select routes close seasonally each spring to protect nesting prairie falcons and peregrine falcons</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wildlife Viewing<span class="conc-count">2 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">South Side Trail</span><span class="conc-type">Connector trail passing directly through the black-tailed prairie dog town; links to the Red Beds Trail</span><span class="conc-hrs">0.6 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Valley View Trail</span><span class="conc-type">Winds through the prairie dog town with views of the Belle Fourche River; little elevation change</span><span class="conc-hrs">0.6 mi</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Side Trail</span><span class="conc-chip conc-chip--note">0.6 mi</span></div>
+            <div class="conc-type">Connector trail passing directly through the black-tailed prairie dog town; links to the Red Beds Trail</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Valley View Trail</span><span class="conc-chip conc-chip--note">0.6 mi</span></div>
+            <div class="conc-type">Winds through the prairie dog town with views of the Belle Fourche River; little elevation change</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger Programs<span class="conc-count">3 programs</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Pop-Up Stations</span><span class="conc-type">Informal, short ranger talks positioned near the visitor center and along the Tower Trail</span><span class="conc-hrs">Memorial Day&ndash;Labor Day</span></div>
-          <div class="conc-row"><span class="conc-name">Ranger Talks</span><span class="conc-type">Formal presentations at the Tower trailhead pavilion and campground amphitheater; topics change seasonally</span><span class="conc-hrs">Weekends, seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Junior Ranger Program</span><span class="conc-type">Activity booklet from the visitor center; complete pages equal to your age (or all pages if 12+) to earn a badge</span><span class="conc-hrs">All ages</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Pop-Up Stations</span><span class="conc-chip conc-chip--note">Memorial Day&ndash;Labor Day</span></div>
+            <div class="conc-type">Informal, short ranger talks positioned near the visitor center and along the Tower Trail</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger Talks</span><span class="conc-chip conc-chip--note">Weekends, seasonal</span></div>
+            <div class="conc-type">Formal presentations at the Tower trailhead pavilion and campground amphitheater; topics change seasonally</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Junior Ranger Program</span><span class="conc-chip conc-chip--note">All ages</span></div>
+            <div class="conc-type">Activity booklet from the visitor center; complete pages equal to your age (or all pages if 12+) to earn a badge</div>
+          </div>
         </div>
       </details>
 

@@ -972,38 +972,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--amber-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1553,45 +1584,106 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Natural Bridge</span><span class="conc-type">Easy out-and-back to a natural rock span over a wash</span><span class="conc-hrs">1 mi RT · 86 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Golden Canyon</span><span class="conc-type">Badlands canyon walk to Red Cathedral; several route lengths depending on turnaround/loop option</span><span class="conc-hrs">3&ndash;8 mi RT · 535&ndash;834 ft · Mod.&ndash;Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Desolation Canyon</span><span class="conc-type">Narrow, colorful badlands canyon south of Golden Canyon</span><span class="conc-hrs">3.6 mi RT · 600 ft · Mod.&ndash;Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Mosaic Canyon</span><span class="conc-type">Polished marble narrows near Stovepipe Wells; scrambling required higher up</span><span class="conc-hrs">4 mi RT · 1,200 ft · Mod.&ndash;Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Wildrose Peak</span><span class="conc-type">Forested climb above the charcoal kilns in the Panamint Range</span><span class="conc-hrs">8.4 mi RT · 2,200 ft · Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Telescope Peak</span><span class="conc-type">The park's highest summit, 11,049 ft, with views down to Badwater Basin</span><span class="conc-hrs">14 mi RT · 3,000 ft · Difficult</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Natural Bridge</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Easy out-and-back to a natural rock span over a wash</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:7%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1 mi RT · 86 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Golden Canyon</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Strenuous</span></div>
+            <div class="conc-type">Badlands canyon walk to Red Cathedral; several route lengths depending on turnaround/loop option</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:57%;background:var(--red)"></div></div>
+            <div class="conc-figure">3&ndash;8 mi RT · 535&ndash;834 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Desolation Canyon</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Difficult</span></div>
+            <div class="conc-type">Narrow, colorful badlands canyon south of Golden Canyon</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:26%;background:var(--red)"></div></div>
+            <div class="conc-figure">3.6 mi RT · 600 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mosaic Canyon</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Difficult</span></div>
+            <div class="conc-type">Polished marble narrows near Stovepipe Wells; scrambling required higher up</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:29%;background:var(--red)"></div></div>
+            <div class="conc-figure">4 mi RT · 1,200 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wildrose Peak</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">Forested climb above the charcoal kilns in the Panamint Range</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:60%;background:var(--red)"></div></div>
+            <div class="conc-figure">8.4 mi RT · 2,200 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Telescope Peak</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">The park's highest summit, 11,049 ft, with views down to Badwater Basin</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">14 mi RT · 3,000 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Sand Dune Exploring<span class="conc-count">2 dune fields</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mesquite Flat Sand Dunes</span><span class="conc-type">No official trail &mdash; free-roam walking on the dunes; best at sunrise before wind erases footprints</span><span class="conc-hrs">2 mi RT · 185 ft · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Panamint Dunes</span><span class="conc-type">Remote, rarely-visited dune field reached via a rough dirt road plus cross-country walk</span><span class="conc-hrs">8 mi RT · 1,028 ft · Mod. Difficult</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mesquite Flat Sand Dunes</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">No official trail &mdash; free-roam walking on the dunes; best at sunrise before wind erases footprints</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:25%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2 mi RT · 185 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Panamint Dunes</span><span class="conc-chip conc-chip--hard">Mod. Difficult</span></div>
+            <div class="conc-type">Remote, rarely-visited dune field reached via a rough dirt road plus cross-country walk</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">8 mi RT · 1,028 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Scenic Backcountry Drives<span class="conc-count">2 routes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Artists Drive</span><span class="conc-type">Paved, one-way loop through colorful volcanic hills; passes Artist's Palette</span><span class="conc-hrs">9 mi · One-way · Paved</span></div>
-          <div class="conc-row"><span class="conc-name">Titus Canyon Road</span><span class="conc-type">One-way graded dirt road east to west through Leadfield ghost town &amp; narrow canyon walls; last 3 mi two-way</span><span class="conc-hrs">27 mi · 2&ndash;3 hrs · High-clearance rec.</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Artists Drive</span><span class="conc-chip conc-chip--note">9 mi · One-way · Paved</span></div>
+            <div class="conc-type">Paved, one-way loop through colorful volcanic hills; passes Artist's Palette</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Titus Canyon Road</span><span class="conc-chip conc-chip--note">27 mi · 2&ndash;3 hrs · High-clearance rec.</span></div>
+            <div class="conc-type">One-way graded dirt road east to west through Leadfield ghost town &amp; narrow canyon walls; last 3 mi two-way</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">3 route types</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Paved Park Roads</span><span class="conc-type">Bikes allowed on all roads open to vehicles, plus the Visitor Center &ndash; Harmony Borax Works bike path</span><span class="conc-hrs">1 mi path</span></div>
-          <div class="conc-row"><span class="conc-name">Backcountry Dirt Roads</span><span class="conc-type">785+ miles of park roads; popular graded routes include Twenty Mule Team Canyon &amp; Racetrack Road</span><span class="conc-hrs">3&ndash;40 mi routes</span></div>
-          <div class="conc-row"><span class="conc-name">Off-Road Restrictions</span><span class="conc-type">Prohibited off roadways, on trails, in wilderness, or riding abreast</span><span class="conc-hrs">Roads only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Paved Park Roads</span><span class="conc-chip conc-chip--note">1 mi path</span></div>
+            <div class="conc-type">Bikes allowed on all roads open to vehicles, plus the Visitor Center &ndash; Harmony Borax Works bike path</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Backcountry Dirt Roads</span><span class="conc-chip conc-chip--note">3&ndash;40 mi routes</span></div>
+            <div class="conc-type">785+ miles of park roads; popular graded routes include Twenty Mule Team Canyon &amp; Racetrack Road</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Off-Road Restrictions</span><span class="conc-chip conc-chip--note">Roads only</span></div>
+            <div class="conc-type">Prohibited off roadways, on trails, in wilderness, or riding abreast</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback &amp; Stock Use<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Permitted Routes</span><span class="conc-type">Backcountry dirt roads &amp; select trails incl. Wildrose, Ubehebe Peak, Indian Pass, Fall Canyon, Cottonwood/Marble Canyon</span><span class="conc-hrs">Free permit encouraged</span></div>
-          <div class="conc-row"><span class="conc-name">Group &amp; Access Limits</span><span class="conc-type">Max 12 people / 8 stock in wilderness; prohibited on pavement, dune systems &amp; Darwin Falls, Badwater &amp; Telescope Peak trails</span><span class="conc-hrs">12 people · 8 stock max</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Permitted Routes</span><span class="conc-chip conc-chip--note">Free permit encouraged</span></div>
+            <div class="conc-type">Backcountry dirt roads &amp; select trails incl. Wildrose, Ubehebe Peak, Indian Pass, Fall Canyon, Cottonwood/Marble Canyon</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Group &amp; Access Limits</span><span class="conc-chip conc-chip--note">12 people · 8 stock max</span></div>
+            <div class="conc-type">Max 12 people / 8 stock in wilderness; prohibited on pavement, dune systems &amp; Darwin Falls, Badwater &amp; Telescope Peak trails</div>
+          </div>
         </div>
       </details>
 
@@ -1608,30 +1700,66 @@
       <details class="conc-group">
         <summary class="conc-summary">Badwater Road<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Badwater Basin</span><span class="conc-type">Easy boardwalk · lowest point in N. America</span><span class="conc-hrs">-282 ft</span></div>
-          <div class="conc-row"><span class="conc-name">Artist's Palette</span><span class="conc-type">Scenic one-way drive · colorful mineral hills</span><span class="conc-hrs">~30 min</span></div>
-          <div class="conc-row"><span class="conc-name">Devil's Golf Course</span><span class="conc-type">Jagged salt crystal formations</span><span class="conc-hrs">~15 min</span></div>
-          <div class="conc-row"><span class="conc-name">Natural Bridge</span><span class="conc-type">Moderate · 1.4 mi round trip canyon hike</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Badwater Basin</span><span class="conc-chip conc-chip--note">-282 ft</span></div>
+            <div class="conc-type">Easy boardwalk · lowest point in N. America</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Artist's Palette</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Scenic one-way drive · colorful mineral hills</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Devil's Golf Course</span><span class="conc-chip conc-chip--note">~15 min</span></div>
+            <div class="conc-type">Jagged salt crystal formations</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Natural Bridge</span><span class="conc-chip conc-chip--note">~1 hr</span></div>
+            <div class="conc-type">Moderate · 1.4 mi round trip canyon hike</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Central / Furnace Creek Area<span class="conc-count">5 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Zabriskie Point</span><span class="conc-type">Easy overlook · classic badlands sunrise view</span><span class="conc-hrs">~15 min</span></div>
-          <div class="conc-row"><span class="conc-name">Golden Canyon</span><span class="conc-type">Moderate · 3 mi round trip to Red Cathedral</span><span class="conc-hrs">~2 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Dante's View</span><span class="conc-type">Easy overlook · 5,475 ft, views to Telescope Peak</span><span class="conc-hrs">~20 min</span></div>
-          <div class="conc-row"><span class="conc-name">Harmony Borax Works</span><span class="conc-type">Easy · historic 20-mule-team borax site</span><span class="conc-hrs">~20 min</span></div>
-          <div class="conc-row"><span class="conc-name">Mesquite Flat Sand Dunes</span><span class="conc-type">Easy · rolling dunes, best at sunrise/sunset</span><span class="conc-hrs">~1 hr</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Zabriskie Point</span><span class="conc-chip conc-chip--note">~15 min</span></div>
+            <div class="conc-type">Easy overlook · classic badlands sunrise view</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Golden Canyon</span><span class="conc-chip conc-chip--note">~2 hrs</span></div>
+            <div class="conc-type">Moderate · 3 mi round trip to Red Cathedral</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dante's View</span><span class="conc-chip conc-chip--note">~20 min</span></div>
+            <div class="conc-type">Easy overlook · 5,475 ft, views to Telescope Peak</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Harmony Borax Works</span><span class="conc-chip conc-chip--note">~20 min</span></div>
+            <div class="conc-type">Easy · historic 20-mule-team borax site</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mesquite Flat Sand Dunes</span><span class="conc-chip conc-chip--note">~1 hr</span></div>
+            <div class="conc-type">Easy · rolling dunes, best at sunrise/sunset</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Northern Park — High-Clearance / 4WD<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Racetrack Playa</span><span class="conc-type">Sailing stones · rough 27-mi gravel road</span><span class="conc-hrs">4WD required</span></div>
-          <div class="conc-row"><span class="conc-name">Ubehebe Crater</span><span class="conc-type">Easy rim walk · 600 ft volcanic crater</span><span class="conc-hrs">~30 min</span></div>
-          <div class="conc-row"><span class="conc-name">Titus Canyon</span><span class="conc-type">Scenic one-way drive through narrow canyon</span><span class="conc-hrs">High-clearance rec.</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Racetrack Playa</span><span class="conc-chip conc-chip--note">4WD required</span></div>
+            <div class="conc-type">Sailing stones · rough 27-mi gravel road</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ubehebe Crater</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Easy rim walk · 600 ft volcanic crater</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Titus Canyon</span><span class="conc-chip conc-chip--note">High-clearance rec.</span></div>
+            <div class="conc-type">Scenic one-way drive through narrow canyon</div>
+          </div>
         </div>
       </details>
 
@@ -1648,22 +1776,52 @@
       <details class="conc-group">
         <summary class="conc-summary">The Oasis at Death Valley — Furnace Creek<span class="conc-count">7 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">The Ranch General Store</span><span class="conc-type">Groceries · Produce · Beer &amp; Wine · Souvenirs</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">The Inn Dining Room</span><span class="conc-type">Fine Dining</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Inn Pool Café</span><span class="conc-type">Sandwiches · Salads · Poolside</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">The Last Kind Words Saloon</span><span class="conc-type">Western-Themed Bar &amp; Dining</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">1849 Restaurant</span><span class="conc-type">Breakfast · Lunch · Dinner · Town Square</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Ice Cream Parlor</span><span class="conc-type">Soda Fountain · Date Shakes</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Oasis Shoppe</span><span class="conc-type">Jewelry · Western Wear · Native American Art</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Ranch General Store</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Groceries · Produce · Beer &amp; Wine · Souvenirs</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Inn Dining Room</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Fine Dining</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Inn Pool Café</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Sandwiches · Salads · Poolside</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">The Last Kind Words Saloon</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Western-Themed Bar &amp; Dining</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">1849 Restaurant</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Breakfast · Lunch · Dinner · Town Square</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ice Cream Parlor</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Soda Fountain · Date Shakes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Oasis Shoppe</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Jewelry · Western Wear · Native American Art</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Stovepipe Wells Village<span class="conc-count">3 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Stovepipe Wells General Store</span><span class="conc-type">Sundries · Food · Travel Supplies · Adjacent Gas Station</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Toll Road Restaurant</span><span class="conc-type">Seasonal Fare · Breakfast, Lunch &amp; Dinner</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Badwater Saloon</span><span class="conc-type">Full Bar · Appetizers · Lunch &amp; Dinner</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Stovepipe Wells General Store</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Sundries · Food · Travel Supplies · Adjacent Gas Station</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Toll Road Restaurant</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Seasonal Fare · Breakfast, Lunch &amp; Dinner</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Badwater Saloon</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Full Bar · Appetizers · Lunch &amp; Dinner</div>
+          </div>
         </div>
       </details>
 

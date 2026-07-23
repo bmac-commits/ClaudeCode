@@ -171,13 +171,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--leaf-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -557,13 +618,19 @@
       <details class="conc-group">
         <summary class="conc-summary">Brandywine Falls<span class="conc-count">65-ft waterfall</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Boardwalk Overlook</span><span class="conc-type">The park's most photographed spot — accessible boardwalk views of the falls; parking fills quickly on weekends</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boardwalk Overlook</span></div>
+            <div class="conc-type">The park's most photographed spot — accessible boardwalk views of the falls; parking fills quickly on weekends</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">The Ledges<span class="conc-count">sandstone cliffs</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ledges Trail</span><span class="conc-type">2.2-mile loop past massive sandstone outcrops and the Ledges Overlook, one of the best sunset views in the park</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ledges Trail</span></div>
+            <div class="conc-type">2.2-mile loop past massive sandstone outcrops and the Ledges Overlook, one of the best sunset views in the park</div>
+          </div>
         </div>
       </details>
     </div>
@@ -579,56 +646,118 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">4 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Blue Hen Falls Trail</span><span class="conc-type">Rugged out-and-back on the Buckeye Trail from Boston Mill Visitor Center to a cascading waterfall, with steep climbs and staircases both ways</span><span class="conc-hrs">3 mi RT · 580 ft · Steep</span></div>
-          <div class="conc-row"><span class="conc-name">Buckeye Trail — Northern Section</span><span class="conc-type">Rocky, hilly segments of Ohio's cross-state trail as it threads through the park's north end</span><span class="conc-hrs">1.5&ndash;7 mi segments · up to 200 ft</span></div>
-          <div class="conc-row"><span class="conc-name">Buckeye Trail — Southern Section</span><span class="conc-type">Passes the historic Everett Covered Bridge on hilly, moderate-to-challenging terrain near the park's south end</span><span class="conc-hrs">3&ndash;4.1 mi segments · up to 240 ft</span></div>
-          <div class="conc-row"><span class="conc-name">Valley Trail — Southern Section</span><span class="conc-type">Rolling-to-hilly dirt trail linking the Ledges, Kendall Lake &amp; Octagon Shelter areas</span><span class="conc-hrs">2.75&ndash;9.25 mi segments · up to 400 ft</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Blue Hen Falls Trail</span><span class="conc-chip conc-chip--note">3 mi RT · 580 ft · Steep</span></div>
+            <div class="conc-type">Rugged out-and-back on the Buckeye Trail from Boston Mill Visitor Center to a cascading waterfall, with steep climbs and staircases both ways</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Buckeye Trail — Northern Section</span><span class="conc-chip conc-chip--note">1.5&ndash;7 mi segments · up to 200 ft</span></div>
+            <div class="conc-type">Rocky, hilly segments of Ohio's cross-state trail as it threads through the park's north end</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Buckeye Trail — Southern Section</span><span class="conc-chip conc-chip--note">3&ndash;4.1 mi segments · up to 240 ft</span></div>
+            <div class="conc-type">Passes the historic Everett Covered Bridge on hilly, moderate-to-challenging terrain near the park's south end</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Valley Trail — Southern Section</span><span class="conc-chip conc-chip--note">2.75&ndash;9.25 mi segments · up to 400 ft</span></div>
+            <div class="conc-type">Rolling-to-hilly dirt trail linking the Ledges, Kendall Lake &amp; Octagon Shelter areas</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">4 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Towpath Trail</span><span class="conc-type">Flat, crushed-limestone canal towpath shared with walkers &amp; horses; 20 of its 101 total miles run through the park</span><span class="conc-hrs">20 mi in-park · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">East Rim Trails</span><span class="conc-type">Purpose-built singletrack with berms and features for intermediate mountain bikers; Class 1 e-bikes permitted</span><span class="conc-hrs">Intermediate</span></div>
-          <div class="conc-row"><span class="conc-name">Bike &amp; Hike Trail</span><span class="conc-type">Paved Summit Metro Parks trail bordering the park's east side, connecting to Towpath access points</span><span class="conc-hrs">33.5 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Bike Rentals</span><span class="conc-type">Available from private outfitters at trailheads along the Towpath; not operated by the NPS</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Towpath Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Flat, crushed-limestone canal towpath shared with walkers &amp; horses; 20 of its 101 total miles run through the park</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">20 mi in-park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">East Rim Trails</span><span class="conc-chip conc-chip--note">Intermediate</span></div>
+            <div class="conc-type">Purpose-built singletrack with berms and features for intermediate mountain bikers; Class 1 e-bikes permitted</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bike &amp; Hike Trail</span><span class="conc-chip conc-chip--note">33.5 mi</span></div>
+            <div class="conc-type">Paved Summit Metro Parks trail bordering the park's east side, connecting to Towpath access points</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bike Rentals</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Available from private outfitters at trailheads along the Towpath; not operated by the NPS</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Valley Trail (Equestrian)</span><span class="conc-type">The park's longest horse trail, linking multiple trailheads across the southern half</span><span class="conc-hrs">14.5 mi total</span></div>
-          <div class="conc-row"><span class="conc-name">Wetmore &amp; Riding Run Trails</span><span class="conc-type">Two of six designated horse trails; trailer access recommended at Wetmore and Boston trailheads</span><span class="conc-hrs">4.6 mi &amp; 5.6 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Bring Your Own Horse</span><span class="conc-type">No horse rentals or outfitters operate in the park — riders must trailer in their own animals</span><span class="conc-hrs">No rentals</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Valley Trail (Equestrian)</span><span class="conc-chip conc-chip--note">14.5 mi total</span></div>
+            <div class="conc-type">The park's longest horse trail, linking multiple trailheads across the southern half</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wetmore &amp; Riding Run Trails</span><span class="conc-chip conc-chip--note">4.6 mi &amp; 5.6 mi</span></div>
+            <div class="conc-type">Two of six designated horse trails; trailer access recommended at Wetmore and Boston trailheads</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bring Your Own Horse</span><span class="conc-chip conc-chip--note">No rentals</span></div>
+            <div class="conc-type">No horse rentals or outfitters operate in the park — riders must trailer in their own animals</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Paddling the Cuyahoga River<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">River Access Points</span><span class="conc-type">Seven boat launches from Northampton Point to Lock 39 span the roughly 26 miles of river inside the park</span><span class="conc-hrs">26 mi · 7 launches</span></div>
-          <div class="conc-row"><span class="conc-name">Life Jacket Requirement</span><span class="conc-type">USCG-approved life jackets required for all paddlers; children under 10 must wear them at all times</span><span class="conc-hrs">Required</span></div>
-          <div class="conc-row"><span class="conc-name">Known Hazards</span><span class="conc-type">Bedrock ledge near Lock 29 and metal pylons near Lock 39 require portaging; NPS does not maintain the river for recreation — paddle at your own risk</span><span class="conc-hrs">Portage req.</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">River Access Points</span><span class="conc-chip conc-chip--note">26 mi · 7 launches</span></div>
+            <div class="conc-type">Seven boat launches from Northampton Point to Lock 39 span the roughly 26 miles of river inside the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Life Jacket Requirement</span><span class="conc-chip conc-chip--note">Required</span></div>
+            <div class="conc-type">USCG-approved life jackets required for all paddlers; children under 10 must wear them at all times</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Known Hazards</span><span class="conc-chip conc-chip--note">Portage req.</span></div>
+            <div class="conc-type">Bedrock ledge near Lock 29 and metal pylons near Lock 39 require portaging; NPS does not maintain the river for recreation — paddle at your own risk</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ohio Fishing License</span><span class="conc-type">Required for anglers 16 and older; permitted throughout park waters except near docks, bridges &amp; swim beaches</span><span class="conc-hrs">OH license</span></div>
-          <div class="conc-row"><span class="conc-name">Gear Rules</span><span class="conc-type">Hook-and-line only, closely attended; live minnows and amphibians prohibited except in designated waters</span><span class="conc-hrs">Hook &amp; line</span></div>
-          <div class="conc-row"><span class="conc-name">Consumption Advisory</span><span class="conc-type">Ohio EPA advises limiting consumption of larger predatory fish due to mercury; catch-and-release required for unwanted or undersized fish</span><span class="conc-hrs">Advisory</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ohio Fishing License</span><span class="conc-chip conc-chip--note">OH license</span></div>
+            <div class="conc-type">Required for anglers 16 and older; permitted throughout park waters except near docks, bridges &amp; swim beaches</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gear Rules</span><span class="conc-chip conc-chip--note">Hook &amp; line</span></div>
+            <div class="conc-type">Hook-and-line only, closely attended; live minnows and amphibians prohibited except in designated waters</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Consumption Advisory</span><span class="conc-chip conc-chip--note">Advisory</span></div>
+            <div class="conc-type">Ohio EPA advises limiting consumption of larger predatory fish due to mercury; catch-and-release required for unwanted or undersized fish</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cross-Country Ski &amp; Snowshoe Trails</span><span class="conc-type">Nine marked routes from beginner-friendly Ledges Field to the advanced Boston Run Trail; open when snow cover allows</span><span class="conc-hrs">1.4&ndash;19.7 mi routes</span></div>
-          <div class="conc-row"><span class="conc-name">Sledding at Kendall Hills</span><span class="conc-type">Open hillside off Quick Road in Peninsula with dedicated parking; pets prohibited during sledding</span><span class="conc-hrs">Quick Rd, Peninsula</span></div>
-          <div class="conc-row"><span class="conc-name">Boston Mills &amp; Brandywine Ski Resort</span><span class="conc-type">Privately operated downhill skiing, snowboarding &amp; snow tubing on land within the park boundary; not an NPS facility</span><span class="conc-hrs">Private resort</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Ski &amp; Snowshoe Trails</span><span class="conc-chip conc-chip--note">1.4&ndash;19.7 mi routes</span></div>
+            <div class="conc-type">Nine marked routes from beginner-friendly Ledges Field to the advanced Boston Run Trail; open when snow cover allows</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sledding at Kendall Hills</span><span class="conc-chip conc-chip--note">Quick Rd, Peninsula</span></div>
+            <div class="conc-type">Open hillside off Quick Road in Peninsula with dedicated parking; pets prohibited during sledding</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boston Mills &amp; Brandywine Ski Resort</span><span class="conc-chip conc-chip--note">Private resort</span></div>
+            <div class="conc-type">Privately operated downhill skiing, snowboarding &amp; snow tubing on land within the park boundary; not an NPS facility</div>
+          </div>
         </div>
       </details>
 
