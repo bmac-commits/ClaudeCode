@@ -161,13 +161,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--sawgrass-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -588,55 +649,125 @@
       <details class="conc-group">
         <summary class="conc-summary">Loop Road Access<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Tram Tour</span><span class="conc-type">Guided, 2-hour narrated tours — concessioner-operated, reservations recommended</span></div>
-          <div class="conc-row"><span class="conc-name">Bicycle</span><span class="conc-type">Rentals available at the visitor center; most popular way to do the loop</span></div>
-          <div class="conc-row"><span class="conc-name">On Foot</span><span class="conc-type">Full 15-mile loop is a long walk but permitted</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tram Tour</span></div>
+            <div class="conc-type">Guided, 2-hour narrated tours — concessioner-operated, reservations recommended</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bicycle</span></div>
+            <div class="conc-type">Rentals available at the visitor center; most popular way to do the loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">On Foot</span></div>
+            <div class="conc-type">Full 15-mile loop is a long walk but permitted</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Observation Tower<span class="conc-count">landmark</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Halfway Point</span><span class="conc-type">Spiral concrete tower with sweeping views over the sawgrass prairie — the loop's signature landmark</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Halfway Point</span></div>
+            <div class="conc-type">Spiral concrete tower with sweeping views over the sawgrass prairie — the loop's signature landmark</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Anhinga Trail</span><span class="conc-type">Paved/boardwalk loop through sawgrass marsh and sloughs — alligators, anhingas &amp; wading birds right off the boardwalk; near Royal Palm</span><span class="conc-hrs">0.8 mi RT · Easy · Wheelchair accessible</span></div>
-          <div class="conc-row"><span class="conc-name">Gumbo Limbo Trail</span><span class="conc-type">Paved path through a shaded tropical hardwood hammock, steps from the Anhinga trailhead</span><span class="conc-hrs">0.4 mi RT · Easy · Wheelchair accessible</span></div>
-          <div class="conc-row"><span class="conc-name">Pa-hay-okee Overlook</span><span class="conc-type">Boardwalk loop to a raised platform with sweeping views over the sawgrass &quot;river of grass&quot;</span><span class="conc-hrs">0.16 mi RT · Easy · Wheelchair accessible</span></div>
-          <div class="conc-row"><span class="conc-name">Mahogany Hammock Trail</span><span class="conc-type">Boardwalk loop into a tree-island hardwood hammock — a jungle-like pocket surrounded by open prairie</span><span class="conc-hrs">0.5 mi RT · Easy · Wheelchair accessible</span></div>
-          <div class="conc-row"><span class="conc-name">West Lake Trail</span><span class="conc-type">Boardwalk loop through mangrove &amp; buttonwood forest to the edge of West Lake, 7 mi north of Flamingo</span><span class="conc-hrs">0.5 mi RT · Easy · Wheelchair accessible</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Anhinga Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Paved/boardwalk loop through sawgrass marsh and sloughs — alligators, anhingas &amp; wading birds right off the boardwalk; near Royal Palm</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.8 mi RT · Wheelchair accessible</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gumbo Limbo Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Paved path through a shaded tropical hardwood hammock, steps from the Anhinga trailhead</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:50%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.4 mi RT · Wheelchair accessible</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Pa-hay-okee Overlook</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Boardwalk loop to a raised platform with sweeping views over the sawgrass &quot;river of grass&quot;</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:20%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.16 mi RT · Wheelchair accessible</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mahogany Hammock Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Boardwalk loop into a tree-island hardwood hammock — a jungle-like pocket surrounded by open prairie</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:63%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.5 mi RT · Wheelchair accessible</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">West Lake Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Boardwalk loop through mangrove &amp; buttonwood forest to the edge of West Lake, 7 mi north of Flamingo</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:63%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.5 mi RT · Wheelchair accessible</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Paddling — Canoe &amp; Kayak Trails<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Nine Mile Pond</span><span class="conc-type">Marked loop through sawgrass ponds &amp; dwarf cypress, route follows numbered poles; motors prohibited</span><span class="conc-hrs">5-mi loop (3.5-mi shortcut)</span></div>
-          <div class="conc-row"><span class="conc-name">Noble Hammock</span><span class="conc-type">Tight, twisting loop through a maze of small hammocks — good maneuvering skills required; motors prohibited</span><span class="conc-hrs">1.9-mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Hell's Bay</span><span class="conc-type">Mangrove tunnels &amp; open bays toward Lard Can; motors prohibited from the trailhead to Lard Can; overnight camping requires a wilderness permit</span><span class="conc-hrs">Variable distance</span></div>
-          <div class="conc-row"><span class="conc-name">Wilderness Waterway</span><span class="conc-type">Marked backcountry route linking Flamingo to Everglades City through Florida Bay &amp; the Ten Thousand Islands; overnight camping requires a wilderness permit</span><span class="conc-hrs">99 mi</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Nine Mile Pond</span><span class="conc-chip conc-chip--note">5-mi loop (3.5-mi shortcut)</span></div>
+            <div class="conc-type">Marked loop through sawgrass ponds &amp; dwarf cypress, route follows numbered poles; motors prohibited</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Noble Hammock</span><span class="conc-chip conc-chip--note">1.9-mi loop</span></div>
+            <div class="conc-type">Tight, twisting loop through a maze of small hammocks — good maneuvering skills required; motors prohibited</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hell's Bay</span><span class="conc-chip conc-chip--note">Variable distance</span></div>
+            <div class="conc-type">Mangrove tunnels &amp; open bays toward Lard Can; motors prohibited from the trailhead to Lard Can; overnight camping requires a wilderness permit</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wilderness Waterway</span><span class="conc-chip conc-chip--note">99 mi</span></div>
+            <div class="conc-type">Marked backcountry route linking Flamingo to Everglades City through Florida Bay &amp; the Ten Thousand Islands; overnight camping requires a wilderness permit</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">4 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Long Pine Key Trail</span><span class="conc-type">Dirt path through pine rockland ending at Pine Glades Lake; trailhead off the road to Long Pine Key Campground</span><span class="conc-hrs">14 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">L-67 Extension Trail</span><span class="conc-type">Gravel-and-grass road paralleling a canal, about 5 miles east of Shark Valley</span><span class="conc-hrs">6.4 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Rowdy Bend Trail</span><span class="conc-type">Former overgrown roadbed through woodland near Flamingo — good birdwatching</span><span class="conc-hrs">5.2 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Snake Bight Trail</span><span class="conc-type">Multiple ecosystems en route to a birding boardwalk near Flamingo; bikes not permitted on the boardwalk itself</span><span class="conc-hrs">3.2 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Long Pine Key Trail</span><span class="conc-chip conc-chip--note">14 mi RT</span></div>
+            <div class="conc-type">Dirt path through pine rockland ending at Pine Glades Lake; trailhead off the road to Long Pine Key Campground</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">L-67 Extension Trail</span><span class="conc-chip conc-chip--note">6.4 mi RT</span></div>
+            <div class="conc-type">Gravel-and-grass road paralleling a canal, about 5 miles east of Shark Valley</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rowdy Bend Trail</span><span class="conc-chip conc-chip--note">5.2 mi RT</span></div>
+            <div class="conc-type">Former overgrown roadbed through woodland near Flamingo — good birdwatching</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Snake Bight Trail</span><span class="conc-chip conc-chip--note">3.2 mi RT</span></div>
+            <div class="conc-type">Multiple ecosystems en route to a birding boardwalk near Flamingo; bikes not permitted on the boardwalk itself</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Boat &amp; Airboat Tours<span class="conc-count">3 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Airboat Tours</span><span class="conc-type">Coopertown, Everglades Safari Park &amp; Gator Park are the only concessioners authorized to launch into the park, from the south side of Tamiami Trail near Shark Valley — the NPS does not operate airboats itself</span><span class="conc-hrs">Concessioner</span></div>
-          <div class="conc-row"><span class="conc-name">Backcountry Boat Tour</span><span class="conc-type">Narrated cruise up the Buttonwood Canal through Coot Bay &amp; Tarpon Creek into Whitewater Bay — departs Flamingo Marina</span><span class="conc-hrs">90 min</span></div>
-          <div class="conc-row"><span class="conc-name">Florida Bay Boat Tour</span><span class="conc-type">Narrated cruise from Flamingo Marina out into Florida Bay</span><span class="conc-hrs">90 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Airboat Tours</span><span class="conc-chip conc-chip--note">Concessioner</span></div>
+            <div class="conc-type">Coopertown, Everglades Safari Park &amp; Gator Park are the only concessioners authorized to launch into the park, from the south side of Tamiami Trail near Shark Valley — the NPS does not operate airboats itself</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Backcountry Boat Tour</span><span class="conc-chip conc-chip--note">90 min</span></div>
+            <div class="conc-type">Narrated cruise up the Buttonwood Canal through Coot Bay &amp; Tarpon Creek into Whitewater Bay — departs Flamingo Marina</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Florida Bay Boat Tour</span><span class="conc-chip conc-chip--note">90 min</span></div>
+            <div class="conc-type">Narrated cruise from Flamingo Marina out into Florida Bay</div>
+          </div>
         </div>
       </details>
 

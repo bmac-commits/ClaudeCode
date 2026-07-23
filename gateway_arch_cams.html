@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--steel-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -546,19 +607,28 @@
       <details class="conc-group">
         <summary class="conc-summary">Ride to the Top<span class="conc-count">tram</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Tram to the Top</span><span class="conc-type">4-minute capsule tram ride to the observation deck, 630 feet up — panoramic views over the city and river</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tram to the Top</span></div>
+            <div class="conc-type">4-minute capsule tram ride to the observation deck, 630 feet up — panoramic views over the city and river</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Museum at the Gateway Arch<span class="conc-count">free, underground</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Westward Expansion Exhibits</span><span class="conc-type">Covers the Arch's construction and the story of westward migration; includes the documentary "Monument to the Dream"</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Westward Expansion Exhibits</span></div>
+            <div class="conc-type">Covers the Arch's construction and the story of westward migration; includes the documentary "Monument to the Dream"</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Old Courthouse<span class="conc-count">free, reopened 2025</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dred Scott Case Site</span><span class="conc-type">Site of the 1847 Dred and Harriet Scott freedom suit; reopened May 2025 with renovated exhibits</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dred Scott Case Site</span></div>
+            <div class="conc-type">Site of the 1847 Dred and Harriet Scott freedom suit; reopened May 2025 with renovated exhibits</div>
+          </div>
         </div>
       </details>
     </div>
@@ -574,25 +644,46 @@
       <details class="conc-group">
         <summary class="conc-summary">Walking the Grounds<span class="conc-count">on foot</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Grand Staircase</span><span class="conc-type">About 65 steps connecting the Arch grounds down to Leonor K. Sullivan Boulevard along the riverfront</span><span class="conc-hrs">Free</span></div>
-          <div class="conc-row"><span class="conc-name">Accessible Ramps</span><span class="conc-type">Two ramps provide a step-free route between the riverfront boulevard and the Arch grounds</span><span class="conc-hrs">Free</span></div>
-          <div class="conc-row"><span class="conc-name">Grounds Paths</span><span class="conc-type">Paved, fully accessible paths cross the landscaped grounds past ponds and trees; leashed pets are welcome</span><span class="conc-hrs">Free</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grand Staircase</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">About 65 steps connecting the Arch grounds down to Leonor K. Sullivan Boulevard along the riverfront</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Accessible Ramps</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">Two ramps provide a step-free route between the riverfront boulevard and the Arch grounds</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grounds Paths</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">Paved, fully accessible paths cross the landscaped grounds past ponds and trees; leashed pets are welcome</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking &amp; Riverfront Trail<span class="conc-count">self-guided</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Riverfront Trail</span><span class="conc-type">Separated biking and accessible walking path along Leonor K. Sullivan Boulevard, built by Great Rivers Greenway as part of the CityArchRiver project</span><span class="conc-hrs">1.5 mi segment</span></div>
-          <div class="conc-row"><span class="conc-name">Regional Bike Network</span><span class="conc-type">NPS points cyclists to route-planning resources from Great Rivers Greenway, Trailnet &amp; Bike St. Louis for rides connecting beyond the grounds</span><span class="conc-hrs">Self-guided</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Riverfront Trail</span><span class="conc-chip conc-chip--note">1.5 mi segment</span></div>
+            <div class="conc-type">Separated biking and accessible walking path along Leonor K. Sullivan Boulevard, built by Great Rivers Greenway as part of the CityArchRiver project</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Regional Bike Network</span><span class="conc-chip conc-chip--note">Self-guided</span></div>
+            <div class="conc-type">NPS points cyclists to route-planning resources from Great Rivers Greenway, Trailnet &amp; Bike St. Louis for rides connecting beyond the grounds</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Junior Ranger Program<span class="conc-count">ages 5+</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Arch &amp; Old Courthouse Badges</span><span class="conc-type">Free activity booklets available at the Arch visitor center and in the Old Courthouse rotunda; each site has its own badge</span><span class="conc-hrs">Free</span></div>
-          <div class="conc-row"><span class="conc-name">Online Junior Ranger</span><span class="conc-type">An at-home version of the program for visitors who can't complete it in person</span><span class="conc-hrs">Free, online</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Arch &amp; Old Courthouse Badges</span><span class="conc-chip conc-chip--note">Free</span></div>
+            <div class="conc-type">Free activity booklets available at the Arch visitor center and in the Old Courthouse rotunda; each site has its own badge</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Online Junior Ranger</span><span class="conc-chip conc-chip--note">Free, online</span></div>
+            <div class="conc-type">An at-home version of the program for visitors who can't complete it in person</div>
+          </div>
         </div>
       </details>
 
