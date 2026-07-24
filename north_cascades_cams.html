@@ -432,17 +432,73 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
+    .conc-body {
+      padding: 4px 0;
+    }
 
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--turquoise-light); white-space: nowrap; }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     .angler-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
@@ -1035,22 +1091,36 @@
       <details class="conc-group">
         <summary class="conc-summary">Diablo Lake Corridor<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Diablo Lake Overlook</span><span class="conc-type">Famous turquoise water — color comes from glacial "rock flour" suspended in the lake</span><span class="conc-hrs">Roadside</span></div>
-          <div class="conc-row"><span class="conc-name">Ross Lake</span><span class="conc-type">Dam-formed reservoir, popular for boating and remote camping</span><span class="conc-hrs">Varies</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Diablo Lake Overlook</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">Famous turquoise water — color comes from glacial "rock flour" suspended in the lake</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ross Lake</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Dam-formed reservoir, popular for boating and remote camping</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Trails &amp; High Country<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cascade Pass Trailhead</span><span class="conc-type">Strenuous · classic alpine views, seasonal road access</span><span class="conc-hrs">~7.4 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cascade Pass Trailhead</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">classic alpine views, seasonal road access</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">~7.4 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Stehekin Valley<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Stehekin</span><span class="conc-type">Remote village, no road access — see Park Access section above</span><span class="conc-hrs">Varies</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Stehekin</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Remote village, no road access — see Park Access section above</div>
+          </div>
         </div>
       </details>
 
@@ -1067,49 +1137,116 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Thunder Knob Trail</span><span class="conc-type">Popular short climb to a view of Diablo Lake's turquoise water, Mile Post 130</span><span class="conc-hrs">3.7 mi RT · 680 ft · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Diablo Lake Trail</span><span class="conc-type">Forested lakeside route linking Colonial Creek Campground toward Diablo, Mile Post 128</span><span class="conc-hrs">7.6 mi RT · 1,312 ft · Half-day</span></div>
-          <div class="conc-row"><span class="conc-name">Cascade Pass Trail</span><span class="conc-type">Switchbacks to a historic Native American and mining-era pass; trailhead only reachable once Cascade River Road opens, typically late June</span><span class="conc-hrs">7.4 mi RT · 1,700 ft · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Sahale Arm</span><span class="conc-type">Continuation above Cascade Pass to alpine meadows below Sahale Glacier; steep snow can require an ice axe into July</span><span class="conc-hrs">11.8 mi RT · 3,940 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Sourdough Mountain Trail</span><span class="conc-type">Relentless climb to a historic fire lookout high above Diablo Lake, Mile Post 126</span><span class="conc-hrs">10.4 mi RT · 4,870 ft · Difficult</span></div>
-          <div class="conc-row"><span class="conc-name">Easy Pass Trail</span><span class="conc-type">Steep trail to a mountain pass with panoramic vistas, Mile Post 151</span><span class="conc-hrs">7.4 mi RT · 3,000 ft · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Thunder Knob Trail</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Popular short climb to a view of Diablo Lake's turquoise water, Mile Post 130</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:31%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.7 mi RT · 680 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Diablo Lake Trail</span><span class="conc-chip conc-chip--note">7.6 mi RT · 1,312 ft · Half-day</span></div>
+            <div class="conc-type">Forested lakeside route linking Colonial Creek Campground toward Diablo, Mile Post 128</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cascade Pass Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Switchbacks to a historic Native American and mining-era pass; trailhead only reachable once Cascade River Road opens, typically late June</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:63%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">7.4 mi RT · 1,700 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sahale Arm</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Continuation above Cascade Pass to alpine meadows below Sahale Glacier; steep snow can require an ice axe into July</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">11.8 mi RT · 3,940 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sourdough Mountain Trail</span><span class="conc-chip conc-chip--hard">Difficult</span></div>
+            <div class="conc-type">Relentless climb to a historic fire lookout high above Diablo Lake, Mile Post 126</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:88%;background:var(--red)"></div></div>
+            <div class="conc-figure">10.4 mi RT · 4,870 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Easy Pass Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Steep trail to a mountain pass with panoramic vistas, Mile Post 151</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:63%;background:var(--red)"></div></div>
+            <div class="conc-figure">7.4 mi RT · 3,000 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Mountaineering &amp; Climbing<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Forbidden Peak — West Ridge</span><span class="conc-type">Classic technical alpine rock route and one of the park's best-known objectives</span><span class="conc-hrs">Technical · Permit</span></div>
-          <div class="conc-row"><span class="conc-name">Mt. Challenger, Picket Range</span><span class="conc-type">Remote mixed glacier route deep in one of the range's most rugged sub-ranges</span><span class="conc-hrs">Multi-day approach</span></div>
-          <div class="conc-row"><span class="conc-name">Skagit Gorge</span><span class="conc-type">Roadside sport climbing and bouldering along SR-20 between Newhalem and Diablo; new fixed anchor bolts are prohibited park-wide</span><span class="conc-hrs">Roadside access</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Forbidden Peak — West Ridge</span><span class="conc-chip conc-chip--note">Technical · Permit</span></div>
+            <div class="conc-type">Classic technical alpine rock route and one of the park's best-known objectives</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mt. Challenger, Picket Range</span><span class="conc-chip conc-chip--note">Multi-day approach</span></div>
+            <div class="conc-type">Remote mixed glacier route deep in one of the range's most rugged sub-ranges</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Skagit Gorge</span><span class="conc-chip conc-chip--note">Roadside access</span></div>
+            <div class="conc-type">Roadside sport climbing and bouldering along SR-20 between Newhalem and Diablo; new fixed anchor bolts are prohibited park-wide</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Boating — Ross &amp; Diablo Lakes<span class="conc-count">4 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Ross Lake Resort</span><span class="conc-type">Power boat, canoe &amp; kayak rentals plus water-taxi service to trailheads and camps; no road reaches the resort</span><span class="conc-hrs">Seasonal · Jun&ndash;Oct</span></div>
-          <div class="conc-row"><span class="conc-name">Hozomeen Boat Ramps</span><span class="conc-type">Two graded-cement ramps at the lake's north end, reached from the Canadian side</span><span class="conc-hrs">Mid-Jun&ndash;Sep</span></div>
-          <div class="conc-row"><span class="conc-name">Colonial Creek Portage Route</span><span class="conc-type">Paddle 5 miles from Diablo Lake, then portage a gravel road around Ross Dam to reach Ross Lake</span><span class="conc-hrs">5 mi paddle + 1 mi portage</span></div>
-          <div class="conc-row"><span class="conc-name">Boat-In Camping</span><span class="conc-type">Nineteen shoreline camps along Ross Lake with fire rings, vault toilets &amp; bear-proof boxes; permit required</span><span class="conc-hrs">19 camps · Permit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ross Lake Resort</span><span class="conc-chip conc-chip--note">Seasonal · Jun&ndash;Oct</span></div>
+            <div class="conc-type">Power boat, canoe &amp; kayak rentals plus water-taxi service to trailheads and camps; no road reaches the resort</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hozomeen Boat Ramps</span><span class="conc-chip conc-chip--note">Mid-Jun&ndash;Sep</span></div>
+            <div class="conc-type">Two graded-cement ramps at the lake's north end, reached from the Canadian side</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Colonial Creek Portage Route</span><span class="conc-chip conc-chip--note">5 mi paddle + 1 mi portage</span></div>
+            <div class="conc-type">Paddle 5 miles from Diablo Lake, then portage a gravel road around Ross Dam to reach Ross Lake</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Boat-In Camping</span><span class="conc-chip conc-chip--note">19 camps · Permit</span></div>
+            <div class="conc-type">Nineteen shoreline camps along Ross Lake with fire rings, vault toilets &amp; bear-proof boxes; permit required</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">3 waters</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Washington Fishing License</span><span class="conc-type">Required for all anglers; not sold at any park facility — buy through WDFW before arrival</span><span class="conc-hrs">Required</span></div>
-          <div class="conc-row"><span class="conc-name">Gorge, Diablo &amp; Ross Lakes</span><span class="conc-type">Rainbow, eastern brook &amp; cutthroat trout; hook-and-line only</span><span class="conc-hrs">Hook-and-line only</span></div>
-          <div class="conc-row"><span class="conc-name">Skagit &amp; Stehekin Rivers</span><span class="conc-type">Steelhead, cutthroat &amp; rainbow trout; Ruby Creek and parts of Big Beaver Creek are closed to fishing</span><span class="conc-hrs">Seasonal closures</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Washington Fishing License</span><span class="conc-chip conc-chip--note">Required</span></div>
+            <div class="conc-type">Required for all anglers; not sold at any park facility — buy through WDFW before arrival</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Gorge, Diablo &amp; Ross Lakes</span><span class="conc-chip conc-chip--note">Hook-and-line only</span></div>
+            <div class="conc-type">Rainbow, eastern brook &amp; cutthroat trout; hook-and-line only</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Skagit &amp; Stehekin Rivers</span><span class="conc-chip conc-chip--note">Seasonal closures</span></div>
+            <div class="conc-type">Steelhead, cutthroat &amp; rainbow trout; Ruby Creek and parts of Big Beaver Creek are closed to fishing</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backcountry Permits<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Overnight Wilderness Permit</span><span class="conc-type">Required year-round for every overnight trip into the backcountry</span><span class="conc-hrs">Required</span></div>
-          <div class="conc-row"><span class="conc-name">Reservations</span><span class="conc-type">Reserve ahead on Recreation.gov, or pick up a walk-up permit in person</span><span class="conc-hrs">Advance or walk-up</span></div>
-          <div class="conc-row"><span class="conc-name">Wilderness Information Center</span><span class="conc-type">Marblemount trip-planning office &amp; permit pickup location &middot; 360-854-7200</span><span class="conc-hrs">Marblemount</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Overnight Wilderness Permit</span><span class="conc-chip conc-chip--note">Required</span></div>
+            <div class="conc-type">Required year-round for every overnight trip into the backcountry</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Reservations</span><span class="conc-chip conc-chip--note">Advance or walk-up</span></div>
+            <div class="conc-type">Reserve ahead on Recreation.gov, or pick up a walk-up permit in person</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wilderness Information Center</span><span class="conc-chip conc-chip--note">Marblemount</span></div>
+            <div class="conc-type">Marblemount trip-planning office &amp; permit pickup location &middot; 360-854-7200</div>
+          </div>
         </div>
       </details>
 
@@ -1165,15 +1302,24 @@
       <details class="conc-group">
         <summary class="conc-summary">Diablo Lake<span class="conc-count">1 operator</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Skagit Tours</span><span class="conc-type">Seasonal boat tours of Diablo Lake, run in partnership with Seattle City Light</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Skagit Tours</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Seasonal boat tours of Diablo Lake, run in partnership with Seattle City Light</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Stehekin Valley<span class="conc-count">2 operators</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">North Cascades Lodge at Stehekin</span><span class="conc-type">Lodging, dining — accessible only via ferry/floatplane</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Stehekin Valley Ranch</span><span class="conc-type">Rustic lodging, family-style meals</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Cascades Lodge at Stehekin</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Lodging, dining — accessible only via ferry/floatplane</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Stehekin Valley Ranch</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Rustic lodging, family-style meals</div>
+          </div>
         </div>
       </details>
 

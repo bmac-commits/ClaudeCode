@@ -392,17 +392,73 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
+    .conc-body {
+      padding: 4px 0;
+    }
 
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--painted); white-space: nowrap; }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     .moon-card {
@@ -872,24 +928,42 @@
       <details class="conc-group">
         <summary class="conc-summary">Painted Desert (North)<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Painted Desert Inn</span><span class="conc-type">1930s CCC-built National Historic Landmark, Kachina Point overlook</span><span class="conc-hrs">Roadside</span></div>
-          <div class="conc-row"><span class="conc-name">Tawa Point &amp; Kachina Point</span><span class="conc-type">Sweeping badlands overlooks, especially at sunrise/sunset</span><span class="conc-hrs">Easy walk</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Painted Desert Inn</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">1930s CCC-built National Historic Landmark, Kachina Point overlook</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tawa Point &amp; Kachina Point</span><span class="conc-chip conc-chip--note">Easy walk</span></div>
+            <div class="conc-type">Sweeping badlands overlooks, especially at sunrise/sunset</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Historic Route 66<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Route 66 Alignment &amp; 1932 Studebaker</span><span class="conc-type">The only national park containing a Route 66 segment — added to the National Register of Historic Places in Feb 2026</span><span class="conc-hrs">Roadside pull-out</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Route 66 Alignment &amp; 1932 Studebaker</span><span class="conc-chip conc-chip--note">Roadside pull-out</span></div>
+            <div class="conc-type">The only national park containing a Route 66 segment — added to the National Register of Historic Places in Feb 2026</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Petrified Wood &amp; Petroglyphs (South)<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Crystal Forest</span><span class="conc-type">Densest, most colorful petrified log concentration</span><span class="conc-hrs">~0.75 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Newspaper Rock</span><span class="conc-type">650+ ancestral Puebloan petroglyphs, viewed from overlook</span><span class="conc-hrs">Roadside</span></div>
-          <div class="conc-row"><span class="conc-name">Agate House &amp; Long Logs</span><span class="conc-type">Pueblo built from petrified wood blocks</span><span class="conc-hrs">~2.6 mi loop</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Crystal Forest</span><span class="conc-chip conc-chip--note">~0.75 mi loop</span></div>
+            <div class="conc-type">Densest, most colorful petrified log concentration</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Newspaper Rock</span><span class="conc-chip conc-chip--note">Roadside</span></div>
+            <div class="conc-type">650+ ancestral Puebloan petroglyphs, viewed from overlook</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Agate House &amp; Long Logs</span><span class="conc-chip conc-chip--note">~2.6 mi loop</span></div>
+            <div class="conc-type">Pueblo built from petrified wood blocks</div>
+          </div>
         </div>
       </details>
 
@@ -906,31 +980,70 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">8 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Tawa Trail</span><span class="conc-type">Paved path linking the Painted Desert Visitor Center to the Painted Desert Inn</span><span class="conc-hrs">1.2 mi one way · Paved</span></div>
-          <div class="conc-row"><span class="conc-name">Painted Desert Rim Trail</span><span class="conc-type">Unpaved badlands-overlook walk near Tawa &amp; Kachina Points; waterbars and dirt-gravel surface</span><span class="conc-hrs">1 mi RT · Grade to 25.6%</span></div>
-          <div class="conc-row"><span class="conc-name">Puerco Pueblo</span><span class="conc-type">Paved loop past a 100-room ancestral Puebloan village site and petroglyphs</span><span class="conc-hrs">0.3 mi loop · Paved</span></div>
-          <div class="conc-row"><span class="conc-name">Blue Mesa Trail</span><span class="conc-type">Alternately paved and gravel path descending into blue-hued bentonite badlands; steep grade at the start</span><span class="conc-hrs">1 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Crystal Forest Trail</span><span class="conc-type">Paved loop through the park's densest, most colorful petrified log concentration</span><span class="conc-hrs">0.75 mi loop · Grade to 22.5%</span></div>
-          <div class="conc-row"><span class="conc-name">Giant Logs Trail</span><span class="conc-type">Paved trail with stairs behind Rainbow Forest Museum, past some of the park's largest logs</span><span class="conc-hrs">0.4 mi loop</span></div>
-          <div class="conc-row"><span class="conc-name">Long Logs Trail</span><span class="conc-type">First half-mile paved; loops through one of the world's largest concentrations of petrified wood</span><span class="conc-hrs">1.6 mi loop · Grade to 20.5%</span></div>
-          <div class="conc-row"><span class="conc-name">Agate House Trail</span><span class="conc-type">First half-mile paved; leads to a reconstructed pueblo built from petrified wood blocks</span><span class="conc-hrs">2 mi RT · Grade to 14.7%</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tawa Trail</span><span class="conc-chip conc-chip--note">1.2 mi one way · Paved</span></div>
+            <div class="conc-type">Paved path linking the Painted Desert Visitor Center to the Painted Desert Inn</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Painted Desert Rim Trail</span><span class="conc-chip conc-chip--note">1 mi RT · Grade to 25.6%</span></div>
+            <div class="conc-type">Unpaved badlands-overlook walk near Tawa &amp; Kachina Points; waterbars and dirt-gravel surface</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Puerco Pueblo</span><span class="conc-chip conc-chip--note">0.3 mi loop · Paved</span></div>
+            <div class="conc-type">Paved loop past a 100-room ancestral Puebloan village site and petroglyphs</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Blue Mesa Trail</span><span class="conc-chip conc-chip--note">1 mi loop</span></div>
+            <div class="conc-type">Alternately paved and gravel path descending into blue-hued bentonite badlands; steep grade at the start</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Crystal Forest Trail</span><span class="conc-chip conc-chip--note">0.75 mi loop · Grade to 22.5%</span></div>
+            <div class="conc-type">Paved loop through the park's densest, most colorful petrified log concentration</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Giant Logs Trail</span><span class="conc-chip conc-chip--note">0.4 mi loop</span></div>
+            <div class="conc-type">Paved trail with stairs behind Rainbow Forest Museum, past some of the park's largest logs</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Long Logs Trail</span><span class="conc-chip conc-chip--note">1.6 mi loop · Grade to 20.5%</span></div>
+            <div class="conc-type">First half-mile paved; loops through one of the world's largest concentrations of petrified wood</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Agate House Trail</span><span class="conc-chip conc-chip--note">2 mi RT · Grade to 14.7%</span></div>
+            <div class="conc-type">First half-mile paved; leads to a reconstructed pueblo built from petrified wood blocks</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backcountry &amp; Wilderness Hiking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Day Hiking Off-Trail</span><span class="conc-type">Free, no permit needed park-wide; hikers must be back at their vehicle by posted closing time. Devil's Playground is the exception — only 3 permits issued weekly, first-come first-served at Painted Desert VC before noon</span><span class="conc-hrs">Free · No water/shade</span></div>
-          <div class="conc-row"><span class="conc-name">Overnight Backpacking</span><span class="conc-type">Allowed only inside the Petrified Forest National Wilderness Area, at least half a mile from any vehicle; free permit issued same-day at either visitor center until 4:30 pm</span><span class="conc-hrs">Free permit · Same-day only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Day Hiking Off-Trail</span><span class="conc-chip conc-chip--note">Free · No water/shade</span></div>
+            <div class="conc-type">Free, no permit needed park-wide; hikers must be back at their vehicle by posted closing time. Devil's Playground is the exception — only 3 permits issued weekly, first-come first-served at Painted Desert VC before noon</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Overnight Backpacking</span><span class="conc-chip conc-chip--note">Free permit · Same-day only</span></div>
+            <div class="conc-type">Allowed only inside the Petrified Forest National Wilderness Area, at least half a mile from any vehicle; free permit issued same-day at either visitor center until 4:30 pm</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Other Ways to Explore<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Scenic Park Road</span><span class="conc-type">Paved road connecting the Painted Desert and Rainbow Forest entrances, with pull-outs at overlooks and trailheads</span><span class="conc-hrs">28 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Bicycling</span><span class="conc-type">Road cycling is permitted on the paved park road and a few other routes; no rentals or dedicated bike lanes in the park</span><span class="conc-hrs">Park road · No rentals</span></div>
-          <div class="conc-row"><span class="conc-name">Horseback Riding (BYOH)</span><span class="conc-type">No stables or outfitters — bring your own horse. Entry via the Painted Desert Wilderness access trail near Kachina Point, 2 mi north of the visitor center; no maintained trails once inside</span><span class="conc-hrs">Day free · Overnight permit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Scenic Park Road</span><span class="conc-chip conc-chip--note">28 mi</span></div>
+            <div class="conc-type">Paved road connecting the Painted Desert and Rainbow Forest entrances, with pull-outs at overlooks and trailheads</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bicycling</span><span class="conc-chip conc-chip--note">Park road · No rentals</span></div>
+            <div class="conc-type">Road cycling is permitted on the paved park road and a few other routes; no rentals or dedicated bike lanes in the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Horseback Riding (BYOH)</span><span class="conc-chip conc-chip--note">Day free · Overnight permit</span></div>
+            <div class="conc-type">No stables or outfitters — bring your own horse. Entry via the Painted Desert Wilderness access trail near Kachina Point, 2 mi north of the visitor center; no maintained trails once inside</div>
+          </div>
         </div>
       </details>
 
@@ -965,16 +1078,28 @@
       <details class="conc-group">
         <summary class="conc-summary">Painted Desert Visitor Center (North)<span class="conc-count">2 operators</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Painted Desert Oasis Gift Shop</span><span class="conc-type">Operated by Petrified Forest Trading Company — gifts, legally-sourced petrified wood from private land</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Petrified Forest Museum Association Bookstore</span><span class="conc-type">Nonprofit NPS partner — books, maps, educational items</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Painted Desert Oasis Gift Shop</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Operated by Petrified Forest Trading Company — gifts, legally-sourced petrified wood from private land</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Petrified Forest Museum Association Bookstore</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Nonprofit NPS partner — books, maps, educational items</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rainbow Forest Museum (South)<span class="conc-count">2 operators</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Rainbow Forest Lodge Gift Shop</span><span class="conc-type">Operated by Petrified Forest Trading Company — same product line as Painted Desert location</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Petrified Forest Museum Association Bookstore</span><span class="conc-type">Second bookstore location, adjacent to Rainbow Forest Museum</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rainbow Forest Lodge Gift Shop</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Operated by Petrified Forest Trading Company — same product line as Painted Desert location</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Petrified Forest Museum Association Bookstore</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Second bookstore location, adjacent to Rainbow Forest Museum</div>
+          </div>
         </div>
       </details>
 

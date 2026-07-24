@@ -535,17 +535,73 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
+    .conc-body {
+      padding: 4px 0;
+    }
 
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--moss-light); white-space: nowrap; }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     .angler-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
@@ -1084,33 +1140,66 @@
       <details class="conc-group">
         <summary class="conc-summary">Mountains<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hurricane Ridge</span><span class="conc-type">Alpine views · see current-conditions notice above</span><span class="conc-hrs">Varies</span></div>
-          <div class="conc-row"><span class="conc-name">Hurricane Hill Trail</span><span class="conc-type">Moderate · panoramic ridge walk</span><span class="conc-hrs">~3.2 mi RT</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hurricane Ridge</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Alpine views · see current-conditions notice above</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hurricane Hill Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">panoramic ridge walk</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">~3.2 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rainforest<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hall of Mosses Trail</span><span class="conc-type">Easy · iconic moss-draped rainforest loop</span><span class="conc-hrs">~0.8 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Hoh River Trail</span><span class="conc-type">Long-distance · toward Mount Olympus</span><span class="conc-hrs">Up to 17.3 mi one-way</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hall of Mosses Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">iconic moss-draped rainforest loop</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~0.8 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hoh River Trail</span><span class="conc-chip conc-chip--note">Up to 17.3 mi one-way</span></div>
+            <div class="conc-type">Long-distance · toward Mount Olympus</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Coast<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Kalaloch Beach</span><span class="conc-type">Tide pools · driftwood-strewn shoreline</span><span class="conc-hrs">Varies</span></div>
-          <div class="conc-row"><span class="conc-name">Ruby Beach</span><span class="conc-type">Sea stacks · popular sunset spot</span><span class="conc-hrs">~30 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kalaloch Beach</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Tide pools · driftwood-strewn shoreline</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ruby Beach</span><span class="conc-chip conc-chip--note">~30 min</span></div>
+            <div class="conc-type">Sea stacks · popular sunset spot</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Lakes, Falls &amp; South<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lake Crescent</span><span class="conc-type">Deep glacial lake · historic lodge</span><span class="conc-hrs">Varies</span></div>
-          <div class="conc-row"><span class="conc-name">Sol Duc Falls</span><span class="conc-type">Easy · scenic waterfall, near hot springs</span><span class="conc-hrs">~1.6 mi RT</span></div>
-          <div class="conc-row"><span class="conc-name">Staircase</span><span class="conc-type">Old-growth forest, Lake Cushman area</span><span class="conc-hrs">Varies</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lake Crescent</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Deep glacial lake · historic lodge</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sol Duc Falls</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">scenic waterfall, near hot springs</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">~1.6 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Staircase</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Old-growth forest, Lake Cushman area</div>
+          </div>
         </div>
       </details>
 
@@ -1127,39 +1216,88 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hoh River Trail</span><span class="conc-type">Old-growth rainforest route along the Hoh River, flat for the first 13 miles before climbing toward Glacier Meadows below Mount Olympus</span><span class="conc-hrs">17.4 mi one-way · 600&ndash;4,300 ft · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Hurricane Hill Trail</span><span class="conc-type">Paved path from the end of Hurricane Ridge Road to a 360&deg; summit view of the Olympic Range &amp; Vancouver Island</span><span class="conc-hrs">~3 mi RT · 645 ft gain</span></div>
-          <div class="conc-row"><span class="conc-name">Sol Duc Falls Trail</span><span class="conc-type">Level walk through old-growth forest to an overlook of Sol Duc Falls, near the hot springs resort</span><span class="conc-hrs">1 mi RT · Minimal gain</span></div>
-          <div class="conc-row"><span class="conc-name">Ozette Loop (Triangle)</span><span class="conc-type">Boardwalk-and-beach loop from Lake Ozette to the coast via Cape Alava &amp; Sand Point; some headlands need overland routes at high tide</span><span class="conc-hrs">9.2 mi loop · Sea level&ndash;100 ft · Easy · Apr&ndash;Oct</span></div>
-          <div class="conc-row"><span class="conc-name">Marymere Falls Trail</span><span class="conc-type">Old-growth forest walk from Storm King Ranger Station to a 90-ft waterfall near Lake Crescent</span><span class="conc-hrs">0.9 mi one-way</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hoh River Trail</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Old-growth rainforest route along the Hoh River, flat for the first 13 miles before climbing toward Glacier Meadows below Mount Olympus</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">17.4 mi one-way · 600&ndash;4,300 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hurricane Hill Trail</span><span class="conc-chip conc-chip--note">~3 mi RT · 645 ft gain</span></div>
+            <div class="conc-type">Paved path from the end of Hurricane Ridge Road to a 360&deg; summit view of the Olympic Range &amp; Vancouver Island</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sol Duc Falls Trail</span><span class="conc-chip conc-chip--note">1 mi RT · Minimal gain</span></div>
+            <div class="conc-type">Level walk through old-growth forest to an overlook of Sol Duc Falls, near the hot springs resort</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ozette Loop (Triangle)</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Boardwalk-and-beach loop from Lake Ozette to the coast via Cape Alava &amp; Sand Point; some headlands need overland routes at high tide</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:53%;background:#b3e08a"></div></div>
+            <div class="conc-figure">9.2 mi loop · Sea level&ndash;100 ft · Apr&ndash;Oct</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Marymere Falls Trail</span><span class="conc-chip conc-chip--note">0.9 mi one-way</span></div>
+            <div class="conc-type">Old-growth forest walk from Storm King Ranger Station to a 90-ft waterfall near Lake Crescent</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Beaches &amp; Tidepooling<span class="conc-count">3 spots</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Kalaloch Beach 4</span><span class="conc-type">One of the park's most popular tidepools &mdash; anemones, sea stars &amp; urchins in the rocky pools</span><span class="conc-hrs">Tide under 1 ft best</span></div>
-          <div class="conc-row"><span class="conc-name">Hole in the Wall</span><span class="conc-type">Sea-arch formation reached from Rialto Beach parking; arrive 30+ min before the lowest tide</span><span class="conc-hrs">1.5 mi hike each way</span></div>
-          <div class="conc-row"><span class="conc-name">Ruby Beach</span><span class="conc-type">Sea stacks &amp; driftwood-strewn shoreline, also good for tidepooling at low tide</span><span class="conc-hrs">Coast</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kalaloch Beach 4</span><span class="conc-chip conc-chip--note">Tide under 1 ft best</span></div>
+            <div class="conc-type">One of the park's most popular tidepools &mdash; anemones, sea stars &amp; urchins in the rocky pools</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hole in the Wall</span><span class="conc-chip conc-chip--note">1.5 mi hike each way</span></div>
+            <div class="conc-type">Sea-arch formation reached from Rialto Beach parking; arrive 30+ min before the lowest tide</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ruby Beach</span><span class="conc-chip conc-chip--note">Coast</span></div>
+            <div class="conc-type">Sea stacks &amp; driftwood-strewn shoreline, also good for tidepooling at low tide</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing &amp; Hot Springs<span class="conc-count">4 details</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Sol Duc Hot Springs</span><span class="conc-type">Concession-run mineral soaking pools, plus lodging &amp; camping in the Sol Duc Valley</span><span class="conc-hrs">Late Mar&ndash;late Oct</span></div>
-          <div class="conc-row"><span class="conc-name">License Requirement</span><span class="conc-type">No WA state license needed inside the park, except when fishing the Pacific Ocean from shore; free catch record card required for salmon/steelhead</span><span class="conc-hrs">Ocean shore is the exception</span></div>
-          <div class="conc-row"><span class="conc-name">General Season</span><span class="conc-type">Most rivers &amp; lakes; Lake Ozette &amp; high-elevation lakes open earlier</span><span class="conc-hrs">Jun 1&ndash;Oct 31 · Ozette last Sat in Apr</span></div>
-          <div class="conc-row"><span class="conc-name">Popular Waters</span><span class="conc-type">Hoh, Sol Duc, Bogachiel &amp; Quinault rivers; Lake Crescent (2-oz weight limit) &amp; Lake Ozette</span><span class="conc-hrs">Mostly catch-and-release</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sol Duc Hot Springs</span><span class="conc-chip conc-chip--note">Late Mar&ndash;late Oct</span></div>
+            <div class="conc-type">Concession-run mineral soaking pools, plus lodging &amp; camping in the Sol Duc Valley</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">License Requirement</span><span class="conc-chip conc-chip--note">Ocean shore is the exception</span></div>
+            <div class="conc-type">No WA state license needed inside the park, except when fishing the Pacific Ocean from shore; free catch record card required for salmon/steelhead</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">General Season</span><span class="conc-chip conc-chip--note">Jun 1&ndash;Oct 31 · Ozette last Sat in Apr</span></div>
+            <div class="conc-type">Most rivers &amp; lakes; Lake Ozette &amp; high-elevation lakes open earlier</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Popular Waters</span><span class="conc-chip conc-chip--note">Mostly catch-and-release</span></div>
+            <div class="conc-type">Hoh, Sol Duc, Bogachiel &amp; Quinault rivers; Lake Crescent (2-oz weight limit) &amp; Lake Ozette</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hurricane Ridge Ski &amp; Snowboard Area</span><span class="conc-type">Two rope tows, a poma lift &amp; a tubing park, run by the volunteer Hurricane Ridge Winter Sports Club</span><span class="conc-hrs">Sat&ndash;Sun &amp; Mon holidays · 10am&ndash;4pm</span></div>
-          <div class="conc-row"><span class="conc-name">Ranger-Led Snowshoe Walks</span><span class="conc-type">Guided walks introducing winter ecology; snowshoes provided</span><span class="conc-hrs">Sat&ndash;Sun 1:30pm · Under 1 mi · 130 ft gain</span></div>
-          <div class="conc-row"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-type">Routes from open meadows near the ridge to steep backcountry terrain</span><span class="conc-hrs">Check NWAC beyond the ridge</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hurricane Ridge Ski &amp; Snowboard Area</span><span class="conc-chip conc-chip--note">Sat&ndash;Sun &amp; Mon holidays · 10am&ndash;4pm</span></div>
+            <div class="conc-type">Two rope tows, a poma lift &amp; a tubing park, run by the volunteer Hurricane Ridge Winter Sports Club</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger-Led Snowshoe Walks</span><span class="conc-chip conc-chip--note">Sat&ndash;Sun 1:30pm · Under 1 mi · 130 ft gain</span></div>
+            <div class="conc-type">Guided walks introducing winter ecology; snowshoes provided</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cross-Country Skiing &amp; Snowshoeing</span><span class="conc-chip conc-chip--note">Check NWAC beyond the ridge</span></div>
+            <div class="conc-type">Routes from open meadows near the ridge to steep backcountry terrain</div>
+          </div>
         </div>
       </details>
 
@@ -1231,16 +1369,28 @@
       <details class="conc-group">
         <summary class="conc-summary">Lake Crescent Area<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Lake Crescent Lodge</span><span class="conc-type">Historic lodge · dining</span><span class="conc-hrs">Seasonal</span></div>
-          <div class="conc-row"><span class="conc-name">Log Cabin Resort</span><span class="conc-type">Cabins · store</span><span class="conc-hrs">Check current status</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lake Crescent Lodge</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Historic lodge · dining</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Log Cabin Resort</span><span class="conc-chip conc-chip--note">Check current status</span></div>
+            <div class="conc-type">Cabins · store</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Coast &amp; Hot Springs<span class="conc-count">2 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Kalaloch Lodge</span><span class="conc-type">Oceanfront lodge · dining</span><span class="conc-hrs">Year-round</span></div>
-          <div class="conc-row"><span class="conc-name">Sol Duc Hot Springs Resort</span><span class="conc-type">Hot springs · cabins</span><span class="conc-hrs">Seasonal</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Kalaloch Lodge</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Oceanfront lodge · dining</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sol Duc Hot Springs Resort</span><span class="conc-chip conc-chip--note">Seasonal</span></div>
+            <div class="conc-type">Hot springs · cabins</div>
+          </div>
         </div>
       </details>
 

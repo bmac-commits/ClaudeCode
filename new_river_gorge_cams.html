@@ -126,13 +126,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--steel-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     .transport-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
     .transport-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
@@ -507,13 +568,19 @@
       <details class="conc-group">
         <summary class="conc-summary">Canyon Rim Visitor Center<span class="conc-count">best bridge view</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Overlook Boardwalk</span><span class="conc-type">Short walk to the classic postcard view of the bridge and gorge</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Overlook Boardwalk</span></div>
+            <div class="conc-type">Short walk to the classic postcard view of the bridge and gorge</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Bridge Day<span class="conc-count">3rd Saturday in October</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">BASE Jumping Event</span><span class="conc-type">The only day BASE jumping off the bridge is permitted — one of the largest extreme-sports gatherings in the world</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">BASE Jumping Event</span></div>
+            <div class="conc-type">The only day BASE jumping off the bridge is permitted — one of the largest extreme-sports gatherings in the world</div>
+          </div>
         </div>
       </details>
     </div>
@@ -529,45 +596,94 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">3 highlights</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Long Point Trail</span><span class="conc-type">Gentle walk through field and forest to a rock outcrop with the classic panoramic view of the New River Gorge Bridge; one exposed cliff-edge section near the end</span><span class="conc-hrs">1.6 mi one-way &middot; Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Endless Wall Trail</span><span class="conc-type">Cliffside path through rich forest, crossing Fern Creek and zig-zagging along the rim with sweeping views nearly 1,000 ft above the river</span><span class="conc-hrs">2.4 mi one-way &middot; Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Park Trail System</span><span class="conc-type">Nearly 100 miles of trails wind through the gorge, from short overlook walks to longer backcountry routes</span><span class="conc-hrs">~100 mi total</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Long Point Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Gentle walk through field and forest to a rock outcrop with the classic panoramic view of the New River Gorge Bridge; one exposed cliff-edge section near the end</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:67%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.6 mi one-way</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Endless Wall Trail</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Cliffside path through rich forest, crossing Fern Creek and zig-zagging along the rim with sweeping views nearly 1,000 ft above the river</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.4 mi one-way</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Park Trail System</span><span class="conc-chip conc-chip--note">~100 mi total</span></div>
+            <div class="conc-type">Nearly 100 miles of trails wind through the gorge, from short overlook walks to longer backcountry routes</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Established Routes</span><span class="conc-type">Over 1,400 established climbs on sandstone cliffs lining the gorge, most rated 5.9 and harder</span><span class="conc-hrs">1,400+ routes</span></div>
-          <div class="conc-row"><span class="conc-name">Best Season</span><span class="conc-type">Climbing happens year-round, but cooler, drier conditions make late spring and fall the most popular windows</span><span class="conc-hrs">Late Apr&ndash;mid-Jun &amp; mid-Sep&ndash;late Oct</span></div>
-          <div class="conc-row"><span class="conc-name">Motorized Drills</span><span class="conc-type">Use of motorized drills for bolting is by permit only</span><span class="conc-hrs">Permit required</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Established Routes</span><span class="conc-chip conc-chip--note">1,400+ routes</span></div>
+            <div class="conc-type">Over 1,400 established climbs on sandstone cliffs lining the gorge, most rated 5.9 and harder</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Best Season</span><span class="conc-chip conc-chip--note">Late Apr&ndash;mid-Jun &amp; mid-Sep&ndash;late Oct</span></div>
+            <div class="conc-type">Climbing happens year-round, but cooler, drier conditions make late spring and fall the most popular windows</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Motorized Drills</span><span class="conc-chip conc-chip--note">Permit required</span></div>
+            <div class="conc-type">Use of motorized drills for bolting is by permit only</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Whitewater Rafting<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Upper (Southern) New</span><span class="conc-type">Big, powerful river with long pools and relatively easy rapids; runnable year-round</span><span class="conc-hrs">Class I&ndash;III</span></div>
-          <div class="conc-row"><span class="conc-name">Lower Gorge (Northern New)</span><span class="conc-type">Large boulders and powerful currents through the Lower Gorge — among the biggest whitewater in the East</span><span class="conc-hrs">Class III&ndash;V</span></div>
-          <div class="conc-row"><span class="conc-name">Guided &amp; Private Trips</span><span class="conc-type">NPS doesn't run its own tours; a number of licensed commercial outfitters offer guided trips, and experienced boaters may paddle independently</span><span class="conc-hrs">Season: Apr&ndash;Oct</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Upper (Southern) New</span><span class="conc-chip conc-chip--note">Class I&ndash;III</span></div>
+            <div class="conc-type">Big, powerful river with long pools and relatively easy rapids; runnable year-round</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lower Gorge (Northern New)</span><span class="conc-chip conc-chip--note">Class III&ndash;V</span></div>
+            <div class="conc-type">Large boulders and powerful currents through the Lower Gorge — among the biggest whitewater in the East</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Guided &amp; Private Trips</span><span class="conc-chip conc-chip--note">Season: Apr&ndash;Oct</span></div>
+            <div class="conc-type">NPS doesn't run its own tours; a number of licensed commercial outfitters offer guided trips, and experienced boaters may paddle independently</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Mountain Biking<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Trail Network</span><span class="conc-type">About 65 miles of park trails are open to bikes, ranging from rail-trail cruising to technical singletrack</span><span class="conc-hrs">~65 mi open</span></div>
-          <div class="conc-row"><span class="conc-name">Arrowhead Trail</span><span class="conc-type">The longest bike-legal trail in the park</span><span class="conc-hrs">13.0 mi</span></div>
-          <div class="conc-row"><span class="conc-name">Long Point Trail (bike)</span><span class="conc-type">Same corridor as the hiking route; bikes must be walked the final 0.2 mi to the overlook</span><span class="conc-hrs">1.4 mi rideable</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Trail Network</span><span class="conc-chip conc-chip--note">~65 mi open</span></div>
+            <div class="conc-type">About 65 miles of park trails are open to bikes, ranging from rail-trail cruising to technical singletrack</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Arrowhead Trail</span><span class="conc-chip conc-chip--note">13.0 mi</span></div>
+            <div class="conc-type">The longest bike-legal trail in the park</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Long Point Trail (bike)</span><span class="conc-chip conc-chip--note">1.4 mi rideable</span></div>
+            <div class="conc-type">Same corridor as the hiking route; bikes must be walked the final 0.2 mi to the overlook</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">3 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">License</span><span class="conc-type">West Virginia fishing license required (annual or 3-day tourist option); a trout tag is required for trout</span><span class="conc-hrs">License + trout tag</span></div>
-          <div class="conc-row"><span class="conc-name">Species</span><span class="conc-type">Smallmouth, largemouth &amp; striped bass, walleye, muskellunge and catfish in the New River; tributaries stocked with trout</span><span class="conc-hrs">Warm-water &amp; trout</span></div>
-          <div class="conc-row"><span class="conc-name">Catch-and-Release Water</span><span class="conc-type">Glade Creek (trout) and the New River from the I-64 bridge at Sandstone to Grandview Sandbar (black bass) are catch-and-release only</span><span class="conc-hrs">C&amp;R zones</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">License</span><span class="conc-chip conc-chip--note">License + trout tag</span></div>
+            <div class="conc-type">West Virginia fishing license required (annual or 3-day tourist option); a trout tag is required for trout</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Species</span><span class="conc-chip conc-chip--note">Warm-water &amp; trout</span></div>
+            <div class="conc-type">Smallmouth, largemouth &amp; striped bass, walleye, muskellunge and catfish in the New River; tributaries stocked with trout</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Catch-and-Release Water</span><span class="conc-chip conc-chip--note">C&amp;R zones</span></div>
+            <div class="conc-type">Glade Creek (trout) and the New River from the I-64 bridge at Sandstone to Grandview Sandbar (black bass) are catch-and-release only</div>
+          </div>
         </div>
       </details>
 

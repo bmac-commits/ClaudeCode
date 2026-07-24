@@ -1063,38 +1063,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--glacier-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Stargazing Card ── */
@@ -1699,47 +1730,80 @@
       <details class="conc-group">
         <summary class="conc-summary">Paradise<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Skyline Trail</span><span class="conc-type">Moderate-strenuous · 5.5 mi loop, iconic views of the summit</span><span class="conc-hrs">~3-4 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Paradise Meadows</span><span class="conc-type">Famous subalpine wildflower meadows, peak bloom late July–Aug</span><span class="conc-hrs">Varies</span></div>
-          <div class="conc-row"><span class="conc-name">Jackson Visitor Center</span><span class="conc-type">Main south-side visitor center, ~5,400 ft</span><span class="conc-hrs">Daily</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Skyline Trail</span><span class="conc-chip conc-chip--note">~3-4 hrs</span></div>
+            <div class="conc-type">Moderate-strenuous · 5.5 mi loop, iconic views of the summit</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Paradise Meadows</span><span class="conc-chip conc-chip--note">Varies</span></div>
+            <div class="conc-type">Famous subalpine wildflower meadows, peak bloom late July–Aug</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jackson Visitor Center</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Main south-side visitor center, ~5,400 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Sunrise<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Sunrise Visitor Area</span><span class="conc-type">Highest point in the park reachable by vehicle, ~6,400 ft · NE side</span><span class="conc-hrs">Summer only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sunrise Visitor Area</span><span class="conc-chip conc-chip--note">Summer only</span></div>
+            <div class="conc-type">Highest point in the park reachable by vehicle, ~6,400 ft · NE side</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Longmire<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Longmire Historic District</span><span class="conc-type">Original park headquarters area, National Register district</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">Longmire Museum</span><span class="conc-type">Park history &amp; natural history exhibits</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">National Park Inn</span><span class="conc-type">Only in-park lodging open year-round</span><span class="conc-hrs">Year-round</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Longmire Historic District</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Original park headquarters area, National Register district</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Longmire Museum</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Park history &amp; natural history exhibits</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">National Park Inn</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Only in-park lodging open year-round</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Carbon River / Mowich (vehicle-inaccessible)<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Carbon River Rainforest</span><span class="conc-type">Temperate rainforest zone, NW side · only reachable via Wonderland Trail on foot</span><span class="conc-hrs">Trail access only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Carbon River Rainforest</span><span class="conc-chip conc-chip--note">Trail access only</span></div>
+            <div class="conc-type">Temperate rainforest zone, NW side · only reachable via Wonderland Trail on foot</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ohanapecosh / Grove of the Patriarchs<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Grove of the Patriarchs Trail</span><span class="conc-type">Closed since Nov 2021 flood damage to its suspension bridge — not expected before summer 2027</span><span class="conc-hrs">Closed</span></div>
-          <div class="conc-row"><span class="conc-name">Eastside Trail / Silver Falls</span><span class="conc-type">Parking lot &amp; restrooms remain open in this area</span><span class="conc-hrs">Open</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Grove of the Patriarchs Trail</span><span class="conc-chip conc-chip--note">Closed</span></div>
+            <div class="conc-type">Closed since Nov 2021 flood damage to its suspension bridge — not expected before summer 2027</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Eastside Trail / Silver Falls</span><span class="conc-chip conc-chip--note">Open</span></div>
+            <div class="conc-type">Parking lot &amp; restrooms remain open in this area</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wonderland Trail<span class="conc-count">1 stop</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wonderland Trail</span><span class="conc-type">Famous ~93-mile trail encircling the entire mountain, typically 10-14 days</span><span class="conc-hrs">Permit req.</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wonderland Trail</span><span class="conc-chip conc-chip--note">Permit req.</span></div>
+            <div class="conc-type">Famous ~93-mile trail encircling the entire mountain, typically 10-14 days</div>
+          </div>
         </div>
       </details>
 
@@ -1756,57 +1820,128 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Nisqually Vista Trail</span><span class="conc-type">Paved, family-friendly loop from the Paradise area with views of Nisqually Glacier</span><span class="conc-hrs">1.2 mi loop · 45 min · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Naches Peak Loop</span><span class="conc-type">Clockwise loop from Tipsoo Lake along the Pacific Crest Trail near Chinook Pass; subalpine meadows and late-summer huckleberries</span><span class="conc-hrs">3.5 mi loop · 500 ft · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Rampart Ridge</span><span class="conc-type">Loop above Longmire through old-growth forest to ridge-top views</span><span class="conc-hrs">4.6 mi · 2.5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Comet Falls &amp; Van Trump Park</span><span class="conc-type">Steady climb to the base of a 320-ft waterfall, one of the park's tallest; trailhead parking often full</span><span class="conc-hrs">3.8 mi RT · 900 ft · Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Skyline Trail</span><span class="conc-type">Clockwise loop from Paradise past Panorama Point, the Stevens-Van Trump Memorial &amp; Myrtle Falls; close-up views of Nisqually Glacier</span><span class="conc-hrs">5.5 mi loop · 1,700 ft · Mod.–Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Tolmie Peak</span><span class="conc-type">Fire-lookout hike from the Mowich Lake area, reachable only via the Wonderland Trail on foot since the Fairfax Bridge closure</span><span class="conc-hrs">6.5 mi · 4 hrs</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Nisqually Vista Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Paved, family-friendly loop from the Paradise area with views of Nisqually Glacier</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:22%;background:#b3e08a"></div></div>
+            <div class="conc-figure">1.2 mi loop · 45 min</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Naches Peak Loop</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Clockwise loop from Tipsoo Lake along the Pacific Crest Trail near Chinook Pass; subalpine meadows and late-summer huckleberries</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:64%;background:#b3e08a"></div></div>
+            <div class="conc-figure">3.5 mi loop · 500 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rampart Ridge</span><span class="conc-chip conc-chip--note">4.6 mi · 2.5 hrs</span></div>
+            <div class="conc-type">Loop above Longmire through old-growth forest to ridge-top views</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Comet Falls &amp; Van Trump Park</span><span class="conc-chip conc-chip--mod">Mod.</span></div>
+            <div class="conc-type">Steady climb to the base of a 320-ft waterfall, one of the park's tallest; trailhead parking often full</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:69%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">3.8 mi RT · 900 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Skyline Trail</span><span class="conc-chip conc-chip--hard">Mod.&ndash;Strenuous</span></div>
+            <div class="conc-type">Clockwise loop from Paradise past Panorama Point, the Stevens-Van Trump Memorial &amp; Myrtle Falls; close-up views of Nisqually Glacier</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">5.5 mi loop · 1,700 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Tolmie Peak</span><span class="conc-chip conc-chip--note">6.5 mi · 4 hrs</span></div>
+            <div class="conc-type">Fire-lookout hike from the Mowich Lake area, reachable only via the Wonderland Trail on foot since the Fairfax Bridge closure</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Mountaineering &amp; Summit Climbing<span class="conc-count">Permit required</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Disappointment Cleaver–Ingraham Direct</span><span class="conc-type">Most-climbed route to the 14,410-ft summit; over 9,000 ft of elevation gain and 10+ miles round trip, requiring technical glacier-travel rope skills</span><span class="conc-hrs">14,410 ft · Permit</span></div>
-          <div class="conc-row"><span class="conc-name">Other Routes</span><span class="conc-type">Emmons-Winthrop, Kautz Glacier &amp; Liberty Ridge among 20+ established climbing routes</span><span class="conc-hrs">Technical</span></div>
-          <div class="conc-row"><span class="conc-name">Climbing Registration (Summer, May 22–Sep 30)</span><span class="conc-type">Online cost-recovery registration plus nightly wilderness camping fee; walk-up registration available 24 hrs ahead</span><span class="conc-hrs">$82 + $12/night</span></div>
-          <div class="conc-row"><span class="conc-name">Climbing Registration (Winter, Sep 15–May 21)</span><span class="conc-type">Self-registration online via Pay.gov, or at the Paradise Old Station kiosk on arrival</span><span class="conc-hrs">$82/person</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Disappointment Cleaver–Ingraham Direct</span><span class="conc-chip conc-chip--note">14,410 ft · Permit</span></div>
+            <div class="conc-type">Most-climbed route to the 14,410-ft summit; over 9,000 ft of elevation gain and 10+ miles round trip, requiring technical glacier-travel rope skills</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Other Routes</span><span class="conc-chip conc-chip--note">Technical</span></div>
+            <div class="conc-type">Emmons-Winthrop, Kautz Glacier &amp; Liberty Ridge among 20+ established climbing routes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Climbing Registration (Summer, May 22–Sep 30)</span><span class="conc-chip conc-chip--note">$82 + $12/night</span></div>
+            <div class="conc-type">Online cost-recovery registration plus nightly wilderness camping fee; walk-up registration available 24 hrs ahead</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Climbing Registration (Winter, Sep 15–May 21)</span><span class="conc-chip conc-chip--note">$82/person</span></div>
+            <div class="conc-type">Self-registration online via Pay.gov, or at the Paradise Old Station kiosk on arrival</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wildflower Viewing<span class="conc-count">Seasonal</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Paradise Meadows</span><span class="conc-type">Among the most famous subalpine wildflower displays in the Cascades, ringing the historic Paradise Inn</span><span class="conc-hrs">Peak late Jul–early Aug</span></div>
-          <div class="conc-row"><span class="conc-name">Fall Color</span><span class="conc-type">Huckleberry meadows and subalpine foliage turn red and gold as the bloom fades</span><span class="conc-hrs">Peaks in September</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Paradise Meadows</span><span class="conc-chip conc-chip--note">Peak late Jul&ndash;early Aug</span></div>
+            <div class="conc-type">Among the most famous subalpine wildflower displays in the Cascades, ringing the historic Paradise Inn</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Fall Color</span><span class="conc-chip conc-chip--note">Peaks in September</span></div>
+            <div class="conc-type">Huckleberry meadows and subalpine foliage turn red and gold as the bloom fades</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Winter Sports<span class="conc-count">3 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Paradise Snowplay Area</span><span class="conc-type">The only park location for sledding; plastic/soft-sided sleds &amp; discs only — no wood or metal, and snowshoeing/skiing aren't permitted inside the snowplay zone</span><span class="conc-hrs">Winter season</span></div>
-          <div class="conc-row"><span class="conc-name">Ranger-Guided Snowshoe Walks</span><span class="conc-type">Free 2-hour guided walks from Paradise on weekends &amp; holiday periods</span><span class="conc-hrs">11 AM &amp; 1:30 PM</span></div>
-          <div class="conc-row"><span class="conc-name">Winter Road Access</span><span class="conc-type">Nisqually entrance to Paradise is the only road plowed for winter access; crews aim to open the Longmire–Paradise gate by 9 AM daily</span><span class="conc-hrs">Daily plowing</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Paradise Snowplay Area</span><span class="conc-chip conc-chip--note">Winter season</span></div>
+            <div class="conc-type">The only park location for sledding; plastic/soft-sided sleds &amp; discs only — no wood or metal, and snowshoeing/skiing aren't permitted inside the snowplay zone</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Ranger-Guided Snowshoe Walks</span><span class="conc-chip conc-chip--note">11 AM &amp; 1:30 PM</span></div>
+            <div class="conc-type">Free 2-hour guided walks from Paradise on weekends &amp; holiday periods</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Winter Road Access</span><span class="conc-chip conc-chip--note">Daily plowing</span></div>
+            <div class="conc-type">Nisqually entrance to Paradise is the only road plowed for winter access; crews aim to open the Longmire–Paradise gate by 9 AM daily</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing &amp; Boating<span class="conc-count">3 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Catch &amp; Release Native Trout</span><span class="conc-type">All native fish must be released; non-native kokanee salmon &amp; brook trout may be kept</span><span class="conc-hrs">No state license req.</span></div>
-          <div class="conc-row"><span class="conc-name">Mowich Lake</span><span class="conc-type">One of the few park waters open to non-motorized boating and fishing</span><span class="conc-hrs">Kayaks · canoes · rafts</span></div>
-          <div class="conc-row"><span class="conc-name">Motorized Boating</span><span class="conc-type">Prohibited park-wide on all lakes and rivers</span><span class="conc-hrs">Not permitted</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Catch &amp; Release Native Trout</span><span class="conc-chip conc-chip--note">No state license req.</span></div>
+            <div class="conc-type">All native fish must be released; non-native kokanee salmon &amp; brook trout may be kept</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mowich Lake</span><span class="conc-chip conc-chip--note">Kayaks · canoes · rafts</span></div>
+            <div class="conc-type">One of the few park waters open to non-motorized boating and fishing</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Motorized Boating</span><span class="conc-chip conc-chip--note">Not permitted</span></div>
+            <div class="conc-type">Prohibited park-wide on all lakes and rivers</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Backpacking &amp; Wilderness Permits<span class="conc-count">3 facts</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wonderland Trail Permit</span><span class="conc-type">Wilderness permit with reserved campsites required for the full ~93-mile circuit; demand exceeds capacity most of the season</span><span class="conc-hrs">Lottery in Feb</span></div>
-          <div class="conc-row"><span class="conc-name">Wilderness Permit Fees</span><span class="conc-type">Reservation fee plus a per-person, per-night camping fee, for up to 13 consecutive nights</span><span class="conc-hrs">$6 + $12/night</span></div>
-          <div class="conc-row"><span class="conc-name">Walk-Up Permits</span><span class="conc-type">About one-third of campsites are held back for walk-up requests, available up to a day ahead at ranger stations</span><span class="conc-hrs">Subject to availability</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wonderland Trail Permit</span><span class="conc-chip conc-chip--note">Lottery in Feb</span></div>
+            <div class="conc-type">Wilderness permit with reserved campsites required for the full ~93-mile circuit; demand exceeds capacity most of the season</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wilderness Permit Fees</span><span class="conc-chip conc-chip--note">$6 + $12/night</span></div>
+            <div class="conc-type">Reservation fee plus a per-person, per-night camping fee, for up to 13 consecutive nights</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Walk-Up Permits</span><span class="conc-chip conc-chip--note">Subject to availability</span></div>
+            <div class="conc-type">About one-third of campsites are held back for walk-up requests, available up to a day ahead at ranger stations</div>
+          </div>
         </div>
       </details>
 
@@ -1823,10 +1958,22 @@
       <details class="conc-group">
         <summary class="conc-summary">Rainier Guest Services<span class="conc-count">4 locations</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Paradise Inn</span><span class="conc-type">121 rooms · historic 1917 lodge</span><span class="conc-hrs">~May 18–Sep 30</span></div>
-          <div class="conc-row"><span class="conc-name">Jackson Visitor Center Café</span><span class="conc-type">Concessions &amp; café at Paradise</span><span class="conc-hrs">Daily</span></div>
-          <div class="conc-row"><span class="conc-name">National Park Inn</span><span class="conc-type">Only in-park lodging open year-round · Longmire</span><span class="conc-hrs">Year-round</span></div>
-          <div class="conc-row"><span class="conc-name">Sunrise Day Lodge</span><span class="conc-type">Snack bar &amp; gift shop</span><span class="conc-hrs">Summer only</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Paradise Inn</span><span class="conc-chip conc-chip--note">~May 18–Sep 30</span></div>
+            <div class="conc-type">121 rooms · historic 1917 lodge</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Jackson Visitor Center Café</span><span class="conc-chip conc-chip--note">Daily</span></div>
+            <div class="conc-type">Concessions &amp; café at Paradise</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">National Park Inn</span><span class="conc-chip conc-chip--note">Year-round</span></div>
+            <div class="conc-type">Only in-park lodging open year-round · Longmire</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sunrise Day Lodge</span><span class="conc-chip conc-chip--note">Summer only</span></div>
+            <div class="conc-type">Snack bar &amp; gift shop</div>
+          </div>
         </div>
       </details>
 
