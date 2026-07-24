@@ -160,13 +160,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--clay-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -522,54 +583,122 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">6 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Wind Canyon Trail</span><span class="conc-type">Short South Unit trail along the rim of a canyon carved by the Little Missouri River</span><span class="conc-hrs">0.4 mi RT · 20 min · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Buck Hill</span><span class="conc-type">Short but steep South Unit climb to one of the highest points reachable by trail, popular for sunrise and sunset</span><span class="conc-hrs">0.2 mi RT · 15 min · Easy, steep</span></div>
-          <div class="conc-row"><span class="conc-name">Painted Canyon Nature Trail</span><span class="conc-type">Descends from the Painted Canyon Visitor Center into the badlands; remember the climb back up</span><span class="conc-hrs">0.9 mi RT · 45 min · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Caprock Coulee Nature Trail</span><span class="conc-type">North Unit trail winding through badlands terrain and dry washes</span><span class="conc-hrs">1.5 mi RT · 1 hr · Easy&ndash;Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Petrified Forest Loop</span><span class="conc-type">Remote South Unit loop reaching one of the park's ancient petrified forest areas</span><span class="conc-hrs">10.3 mi loop · 5&ndash;6 hrs · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Achenbach Trail</span><span class="conc-type">North Unit backcountry route with two Little Missouri River crossings and steep climbs; backcountry permit needed for overnight use</span><span class="conc-hrs">18 mi RT · 10&ndash;12 hrs · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Wind Canyon Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Short South Unit trail along the rim of a canyon carved by the Little Missouri River</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:2%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.4 mi RT · 20 min</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Buck Hill</span><span class="conc-chip conc-chip--easy">Easy, steep</span></div>
+            <div class="conc-type">Short but steep South Unit climb to one of the highest points reachable by trail, popular for sunrise and sunset</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:1%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.2 mi RT · 15 min</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Painted Canyon Nature Trail</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">Descends from the Painted Canyon Visitor Center into the badlands; remember the climb back up</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:5%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">0.9 mi RT · 45 min</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Caprock Coulee Nature Trail</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">North Unit trail winding through badlands terrain and dry washes</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:8%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1.5 mi RT · 1 hr</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Petrified Forest Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Remote South Unit loop reaching one of the park's ancient petrified forest areas</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:57%;background:var(--red)"></div></div>
+            <div class="conc-figure">10.3 mi loop · 5&ndash;6 hrs</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Achenbach Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">North Unit backcountry route with two Little Missouri River crossings and steep climbs; backcountry permit needed for overnight use</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">18 mi RT · 10&ndash;12 hrs</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Scenic Drives<span class="conc-count">2 units</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">South Unit Scenic Drive</span><span class="conc-type">Out-and-back paved route from the South Unit Visitor Center in Medora past badlands overlooks and trailheads</span><span class="conc-hrs">24 mi out-and-back · From Medora</span></div>
-          <div class="conc-row"><span class="conc-name">North Unit Scenic Drive</span><span class="conc-type">Roundtrip drive climbing out of the river canyon to River Bend Overlook, then along the rim to Oxbow Overlook; nearly all paved</span><span class="conc-hrs">28 mi RT · ~1 hr 15 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">South Unit Scenic Drive</span><span class="conc-chip conc-chip--note">24 mi out-and-back · From Medora</span></div>
+            <div class="conc-type">Out-and-back paved route from the South Unit Visitor Center in Medora past badlands overlooks and trailheads</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">North Unit Scenic Drive</span><span class="conc-chip conc-chip--note">28 mi RT · ~1 hr 15 min</span></div>
+            <div class="conc-type">Roundtrip drive climbing out of the river canyon to River Bend Overlook, then along the rim to Oxbow Overlook; nearly all paved</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Wildlife Viewing<span class="conc-count">4 highlights</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Bison &amp; Feral Horses</span><span class="conc-type">Bison are visible on park roads throughout the day; feral horses roam along the South Unit Scenic Drive</span><span class="conc-hrs">South Unit roads</span></div>
-          <div class="conc-row"><span class="conc-name">Prairie Dog Towns</span><span class="conc-type">Large towns visible from the South Unit road; the North Unit town is reached via a roughly 1-mile hike from the Caprock Coulee parking area</span><span class="conc-hrs">Both units</span></div>
-          <div class="conc-row"><span class="conc-name">Golden Eagles</span><span class="conc-type">Frequently spotted over the Little Missouri River floodplain and from River Bend Overlook</span><span class="conc-hrs">North Unit</span></div>
-          <div class="conc-row"><span class="conc-name">Elk</span><span class="conc-type">Best viewed in early morning while feeding on grasslands near the Buck Hill area</span><span class="conc-hrs">South Unit · Dawn</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bison &amp; Feral Horses</span><span class="conc-chip conc-chip--note">South Unit roads</span></div>
+            <div class="conc-type">Bison are visible on park roads throughout the day; feral horses roam along the South Unit Scenic Drive</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Prairie Dog Towns</span><span class="conc-chip conc-chip--note">Both units</span></div>
+            <div class="conc-type">Large towns visible from the South Unit road; the North Unit town is reached via a roughly 1-mile hike from the Caprock Coulee parking area</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Golden Eagles</span><span class="conc-chip conc-chip--note">North Unit</span></div>
+            <div class="conc-type">Frequently spotted over the Little Missouri River floodplain and from River Bend Overlook</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Elk</span><span class="conc-chip conc-chip--note">South Unit · Dawn</span></div>
+            <div class="conc-type">Best viewed in early morning while feeding on grasslands near the Buck Hill area</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Backcountry Trail Riding</span><span class="conc-type">Permitted on backcountry trails and cross-country in both units; not allowed on nature trails, roadways, or in developed campgrounds. Guided rides are no longer offered</span><span class="conc-hrs">Self-guided only</span></div>
-          <div class="conc-row"><span class="conc-name">Roundup Group Horse Camp</span><span class="conc-type">Equestrian camping area in the South Unit; free backcountry permits available for overnight rides in either unit</span><span class="conc-hrs">South Unit</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Backcountry Trail Riding</span><span class="conc-chip conc-chip--note">Self-guided only</span></div>
+            <div class="conc-type">Permitted on backcountry trails and cross-country in both units; not allowed on nature trails, roadways, or in developed campgrounds. Guided rides are no longer offered</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Roundup Group Horse Camp</span><span class="conc-chip conc-chip--note">South Unit</span></div>
+            <div class="conc-type">Equestrian camping area in the South Unit; free backcountry permits available for overnight rides in either unit</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Bicycling<span class="conc-count">2 rules</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Park Roads</span><span class="conc-type">All paved and dirt park roads are open to cyclists; off-road cycling and hiking trails are closed to bikes</span><span class="conc-hrs">Roads only</span></div>
-          <div class="conc-row"><span class="conc-name">Maah Daah Hey Trail</span><span class="conc-type">Bicycles are prohibited on this trail where it crosses both units; cyclists must detour via the Buffalo Gap Trail (South) or existing roads (North)</span><span class="conc-hrs">No bikes</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Park Roads</span><span class="conc-chip conc-chip--note">Roads only</span></div>
+            <div class="conc-type">All paved and dirt park roads are open to cyclists; off-road cycling and hiking trails are closed to bikes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Maah Daah Hey Trail</span><span class="conc-chip conc-chip--note">No bikes</span></div>
+            <div class="conc-type">Bicycles are prohibited on this trail where it crosses both units; cyclists must detour via the Buffalo Gap Trail (South) or existing roads (North)</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Elkhorn Ranch Unit<span class="conc-count">2 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Cabin Site Trail</span><span class="conc-type">Mowed pathway from the parking area to the foundation stones of Roosevelt's "home ranch" cabin</span><span class="conc-hrs">0.7 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Getting There</span><span class="conc-type">Remote unit off unpaved roads; the final 3 miles often require 4-wheel drive or high clearance, especially after rain or snow. No cell signal on site</span><span class="conc-hrs">High-clearance rec.</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Cabin Site Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Mowed pathway from the parking area to the foundation stones of Roosevelt's "home ranch" cabin</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.7 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Getting There</span><span class="conc-chip conc-chip--note">High-clearance rec.</span></div>
+            <div class="conc-type">Remote unit off unpaved roads; the final 3 miles often require 4-wheel drive or high clearance, especially after rain or snow. No cell signal on site</div>
+          </div>
         </div>
       </details>
 

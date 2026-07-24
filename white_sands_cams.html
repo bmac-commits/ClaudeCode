@@ -159,13 +159,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--gypsum-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     footer { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 0.72rem; color: var(--text-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -517,13 +578,19 @@
       <details class="conc-group">
         <summary class="conc-summary">Sledding<span class="conc-count">signature activity</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dune Sledding</span><span class="conc-type">Round plastic snow-saucer sleds work best on gypsum sand; sold at the visitor center gift shop, or bring your own</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dune Sledding</span></div>
+            <div class="conc-type">Round plastic snow-saucer sleds work best on gypsum sand; sold at the visitor center gift shop, or bring your own</div>
+          </div>
         </div>
       </details>
       <details class="conc-group">
         <summary class="conc-summary">Sunset Viewing<span class="conc-count">seasonal hours</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dunes Drive</span><span class="conc-type">Park stays open later than typical hours around sunset — a signature White Sands experience as the gypsum catches the light</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dunes Drive</span></div>
+            <div class="conc-type">Park stays open later than typical hours around sunset — a signature White Sands experience as the gypsum catches the light</div>
+          </div>
         </div>
       </details>
     </div>
@@ -539,36 +606,82 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">5 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Interdune Boardwalk</span><span class="conc-type">Elevated, fully accessible boardwalk where the desert scrub meets the dunefield — the park's only wheelchair- and stroller-friendly trail</span><span class="conc-hrs">0.4 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Playa Trail</span><span class="conc-type">Level walk to a small playa, explaining how these dry lakebeds form habitat amid the dunes</span><span class="conc-hrs">0.5 mi RT · Easy</span></div>
-          <div class="conc-row"><span class="conc-name">Dune Life Nature Trail</span><span class="conc-type">Family-friendly loop with two dune climbs and 14 trailside signs on the plants and animals living in the dunefield</span><span class="conc-hrs">1 mi loop · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Backcountry Camping Loop Trail</span><span class="conc-type">Steep dunes and loose sand into the heart of the dunefield; day-hikers welcome even without a camping permit</span><span class="conc-hrs">2 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Alkali Flat Trail</span><span class="conc-type">Red diamond markers lead across the park's biggest, barest dunes to the edge of the ancient lakebed; despite the name, it is not flat</span><span class="conc-hrs">5 mi RT · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Interdune Boardwalk</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Elevated, fully accessible boardwalk where the desert scrub meets the dunefield — the park's only wheelchair- and stroller-friendly trail</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:8%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.4 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Playa Trail</span><span class="conc-chip conc-chip--easy">Easy</span></div>
+            <div class="conc-type">Level walk to a small playa, explaining how these dry lakebeds form habitat amid the dunes</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:10%;background:#b3e08a"></div></div>
+            <div class="conc-figure">0.5 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dune Life Nature Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Family-friendly loop with two dune climbs and 14 trailside signs on the plants and animals living in the dunefield</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:20%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">1 mi loop</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Backcountry Camping Loop Trail</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Steep dunes and loose sand into the heart of the dunefield; day-hikers welcome even without a camping permit</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:40%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Alkali Flat Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Red diamond markers lead across the park's biggest, barest dunes to the edge of the ancient lakebed; despite the name, it is not flat</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">5 mi RT</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Ranger &amp; Full Moon Programs<span class="conc-count">4 programs</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Sunset Stroll</span><span class="conc-type">Leisurely, one-hour ranger-guided walk across the dunes</span><span class="conc-hrs">Fri&ndash;Sun</span></div>
-          <div class="conc-row"><span class="conc-name">Moonlight Hike</span><span class="conc-type">1.5&ndash;2 hr ranger-led hike from the Dune Life Nature Trail on nights around the full moon; ticketed via Recreation.gov, $8 (ages 16+) / $4 (15 &amp; under)</span><span class="conc-hrs">Mar&ndash;Nov</span></div>
-          <div class="conc-row"><span class="conc-name">Full Moon Night</span><span class="conc-type">Free amphitheater program with live music and ranger talks; park closing time extends two hours on these evenings</span><span class="conc-hrs">May&ndash;Oct</span></div>
-          <div class="conc-row"><span class="conc-name">Lake Lucero Tour</span><span class="conc-type">Three-hour ranger-guided tour to the playa where the gypsum dunes originate, over unmaintained terrain; ticketed via Recreation.gov, $8 (ages 16+) / $4 (15 &amp; under)</span><span class="conc-hrs">Monthly</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Sunset Stroll</span><span class="conc-chip conc-chip--note">Fri&ndash;Sun</span></div>
+            <div class="conc-type">Leisurely, one-hour ranger-guided walk across the dunes</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Moonlight Hike</span><span class="conc-chip conc-chip--note">Mar&ndash;Nov</span></div>
+            <div class="conc-type">1.5&ndash;2 hr ranger-led hike from the Dune Life Nature Trail on nights around the full moon; ticketed via Recreation.gov, $8 (ages 16+) / $4 (15 &amp; under)</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Full Moon Night</span><span class="conc-chip conc-chip--note">May&ndash;Oct</span></div>
+            <div class="conc-type">Free amphitheater program with live music and ranger talks; park closing time extends two hours on these evenings</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Lake Lucero Tour</span><span class="conc-chip conc-chip--note">Monthly</span></div>
+            <div class="conc-type">Three-hour ranger-guided tour to the playa where the gypsum dunes originate, over unmaintained terrain; ticketed via Recreation.gov, $8 (ages 16+) / $4 (15 &amp; under)</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">Dunes Drive only</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Dunes Drive Cycling</span><span class="conc-type">Bikes are permitted on Dunes Drive but not on hiking trails or off-trail in the backcountry; first five miles are paved</span><span class="conc-hrs">8 mi one-way</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dunes Drive Cycling</span><span class="conc-chip conc-chip--note">8 mi one-way</span></div>
+            <div class="conc-type">Bikes are permitted on Dunes Drive but not on hiking trails or off-trail in the backcountry; first five miles are paved</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Picnicking<span class="conc-count">3 areas</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Picnic Areas</span><span class="conc-type">Three established areas along Dunes Drive with 62 tables total, first-come, first-served, plus two tables at the visitor center entrance</span><span class="conc-hrs">62 tables</span></div>
-          <div class="conc-row"><span class="conc-name">Group Picnic Area</span><span class="conc-type">Available by advance reservation for larger gatherings</span><span class="conc-hrs">Reservation</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Picnic Areas</span><span class="conc-chip conc-chip--note">62 tables</span></div>
+            <div class="conc-type">Three established areas along Dunes Drive with 62 tables total, first-come, first-served, plus two tables at the visitor center entrance</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Group Picnic Area</span><span class="conc-chip conc-chip--note">Reservation</span></div>
+            <div class="conc-type">Available by advance reservation for larger gatherings</div>
+          </div>
         </div>
       </details>
 

@@ -271,13 +271,74 @@
     .conc-chevron { margin-left: auto; font-size: 0.75rem; color: var(--rock); transition: transform 0.2s; }
     .conc-group[open] .conc-chevron { transform: rotate(180deg); }
     .conc-group[open] .conc-summary { border-bottom: 1px solid var(--border); }
-    .conc-body { padding: 4px 0; }
-    .conc-row { display: flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .conc-body {
+      padding: 4px 0;
+    }
+
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
+    .conc-row {
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
     .conc-row:last-child { border-bottom: none; }
-    .conc-name { font-size: 0.89rem; font-weight: 500; color: var(--text); min-width: 170px; }
-    .conc-type { font-size: 0.76rem; color: var(--rock); flex: 1; }
-    .conc-hrs { font-size: 0.84rem; color: var(--ridge-light); white-space: nowrap; }
-    @media (max-width: 500px) { .conc-name { min-width: 120px; } .conc-type { display: none; } }
+
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conc-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conc-type {
+      font-size: 0.72rem;
+      color: var(--rock);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
 
     /* ── Stargazing Card ── */
     .moon-card {
@@ -780,18 +841,36 @@
       <details class="conc-group">
         <summary class="conc-summary">Central District<span class="conc-count">4 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Hawksbill Summit</span><span class="conc-type">Highest point in the park · shortest route (Lower Hawksbill) 1.7 mi RT, 690 ft gain, moderate</span><span class="conc-hrs">4,051 ft</span></div>
-          <div class="conc-row"><span class="conc-name">Dark Hollow Falls</span><span class="conc-type">1.6 mi round trip · shortest waterfall hike from Skyline Drive</span><span class="conc-hrs">~1.5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Stony Man</span><span class="conc-type">1.6 mi round trip, easy · second-highest peak, big views</span><span class="conc-hrs">~1.5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Whiteoak Canyon</span><span class="conc-type">4.6 mi RT to Upper Falls, moderate-strenuous · +2.7 mi RT more for Lower Falls</span><span class="conc-hrs">3–5 hrs</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Hawksbill Summit</span><span class="conc-chip conc-chip--note">4,051 ft</span></div>
+            <div class="conc-type">Highest point in the park · shortest route (Lower Hawksbill) 1.7 mi RT, 690 ft gain, moderate</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Dark Hollow Falls</span><span class="conc-chip conc-chip--note">~1.5 hrs</span></div>
+            <div class="conc-type">1.6 mi round trip · shortest waterfall hike from Skyline Drive</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Stony Man</span><span class="conc-chip conc-chip--note">~1.5 hrs</span></div>
+            <div class="conc-type">1.6 mi round trip, easy · second-highest peak, big views</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Whiteoak Canyon</span><span class="conc-chip conc-chip--note">3–5 hrs</span></div>
+            <div class="conc-type">4.6 mi RT to Upper Falls, moderate-strenuous · +2.7 mi RT more for Lower Falls</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">North &amp; South Districts<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Overall Run Falls</span><span class="conc-type">93 ft drop, the tallest waterfall in the park · accessible from Mathews Arm Campground</span><span class="conc-hrs">Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Blackrock Summit</span><span class="conc-type">1 mi circuit, easy · boulder-strewn summit, South District</span><span class="conc-hrs">~45 min</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Overall Run Falls</span><span class="conc-chip conc-chip--note">Moderate</span></div>
+            <div class="conc-type">93 ft drop, the tallest waterfall in the park · accessible from Mathews Arm Campground</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Blackrock Summit</span><span class="conc-chip conc-chip--note">~45 min</span></div>
+            <div class="conc-type">1 mi circuit, easy · boulder-strewn summit, South District</div>
+          </div>
         </div>
       </details>
 
@@ -808,39 +887,68 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking<span class="conc-count">Signature trail</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Old Rag Circuit</span><span class="conc-type">Rock-scramble loop up the Ridge Trail and down via the Saddle Trail &amp; Weakley Hollow Fire Road — the park's signature hike; day-use ticket required Mar 1&ndash;Nov 30</span><span class="conc-hrs">9.4 mi · 2,348 ft · Very Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Old Rag Circuit</span><span class="conc-chip conc-chip--hard">Very Strenuous</span></div>
+            <div class="conc-type">Rock-scramble loop up the Ridge Trail and down via the Saddle Trail &amp; Weakley Hollow Fire Road — the park's signature hike; day-use ticket required Mar 1&ndash;Nov 30</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">9.4 mi · 2,348 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Skyline Drive<span class="conc-count">Scenic byway</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Full-Length Drive</span><span class="conc-type">National scenic byway tracing the crest of the Blue Ridge, Front Royal to Rockfish Gap; open 24/7 except during winter storms &amp; high wind</span><span class="conc-hrs">105 mi · 35 mph limit</span></div>
-          <div class="conc-row"><span class="conc-name">Entrance Stations</span><span class="conc-type">Four vehicle access points: Front Royal (Mile 0), Thornton Gap (Mile 31.5), Swift Run Gap (Mile 65.5) &amp; Rockfish Gap (Mile 104.6)</span><span class="conc-hrs">~3 hrs end-to-end</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Full-Length Drive</span><span class="conc-chip conc-chip--note">105 mi · 35 mph limit</span></div>
+            <div class="conc-type">National scenic byway tracing the crest of the Blue Ridge, Front Royal to Rockfish Gap; open 24/7 except during winter storms &amp; high wind</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Entrance Stations</span><span class="conc-chip conc-chip--note">~3 hrs end-to-end</span></div>
+            <div class="conc-type">Four vehicle access points: Front Royal (Mile 0), Thornton Gap (Mile 31.5), Swift Run Gap (Mile 65.5) &amp; Rockfish Gap (Mile 104.6)</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Horseback Riding<span class="conc-count">2 options</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Guided Trail Rides</span><span class="conc-type">Park concessioner rides depart from Skyland; book via GoShenandoah.com</span><span class="conc-hrs">Spring&ndash;fall</span></div>
-          <div class="conc-row"><span class="conc-name">Bring Your Own Horse</span><span class="conc-type">Yellow-blazed trails only; riders must carry the park's Horse Use Regulations and stick to graveled trails when the ground is soft</span><span class="conc-hrs">180+ mi of trail</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Guided Trail Rides</span><span class="conc-chip conc-chip--note">Spring&ndash;fall</span></div>
+            <div class="conc-type">Park concessioner rides depart from Skyland; book via GoShenandoah.com</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Bring Your Own Horse</span><span class="conc-chip conc-chip--note">180+ mi of trail</span></div>
+            <div class="conc-type">Yellow-blazed trails only; riders must carry the park's Horse Use Regulations and stick to graveled trails when the ground is soft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Fishing<span class="conc-count">90+ streams</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Mountain Streams</span><span class="conc-type">Native brook trout plus introduced brown &amp; rainbow trout across ~70 fish-bearing streams; artificial single-hook lures only, no organic bait</span><span class="conc-hrs">VA license req. (16+)</span></div>
-          <div class="conc-row"><span class="conc-name">Catch &amp; Release</span><span class="conc-type">All streams catch-and-release except 16 designated harvest streams, incl. the Piney, Thornton &amp; Rose rivers; brown/rainbow under 7 in. must be released</span><span class="conc-hrs">1 line per angler</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Mountain Streams</span><span class="conc-chip conc-chip--note">VA license req. (16+)</span></div>
+            <div class="conc-type">Native brook trout plus introduced brown &amp; rainbow trout across ~70 fish-bearing streams; artificial single-hook lures only, no organic bait</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Catch &amp; Release</span><span class="conc-chip conc-chip--note">1 line per angler</span></div>
+            <div class="conc-type">All streams catch-and-release except 16 designated harvest streams, incl. the Piney, Thornton &amp; Rose rivers; brown/rainbow under 7 in. must be released</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Biking<span class="conc-count">2 ways</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Skyline Drive &amp; Paved Areas</span><span class="conc-type">All bike classes, including e-bikes, are permitted; federal rule requires riding single-file at all times</span><span class="conc-hrs">Park-wide</span></div>
-          <div class="conc-row"><span class="conc-name">Rapidan Fire Road</span><span class="conc-type">The only unpaved route open to bikes — a gravel spur near Big Meadows, turnaround marked by sign</span><span class="conc-hrs">~1 mi</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Skyline Drive &amp; Paved Areas</span><span class="conc-chip conc-chip--note">Park-wide</span></div>
+            <div class="conc-type">All bike classes, including e-bikes, are permitted; federal rule requires riding single-file at all times</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Rapidan Fire Road</span><span class="conc-chip conc-chip--note">~1 mi</span></div>
+            <div class="conc-type">The only unpaved route open to bikes — a gravel spur near Big Meadows, turnaround marked by sign</div>
+          </div>
         </div>
       </details>
 
