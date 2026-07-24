@@ -768,38 +768,69 @@
       padding: 4px 0;
     }
 
+    /* "Effort meter" row: name + chip on top, one-line description below,
+       and — only where a real distance/elevation figure exists — a bar
+       scaled against the longest item in its own category, so relative
+       effort reads at a glance instead of requiring every stat to be read
+       and compared by hand. Categories with no distance dimension (hours,
+       season windows, permit rules) skip the bar and use the chip alone. */
     .conc-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 8px 14px 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
     .conc-row:last-child { border-bottom: none; }
 
+    .conc-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .conc-name {
-      font-size: 0.89rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--text);
-      min-width: 170px;
+      flex: 1;
+      min-width: 0;
     }
 
     .conc-type {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--rock);
-      flex: 1;
-    }
-
-    .conc-hrs {
-      font-size: 0.84rem;
-      color: var(--gold-light);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    @media (max-width: 500px) {
-      .conc-name { min-width: 120px; }
-      .conc-type { display: none; }
+    .conc-chip {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .conc-chip--easy { background: rgba(143,194,92,0.18); color: #b3e08a; }
+    .conc-chip--mod  { background: rgba(240,193,90,0.16); color: var(--yellow); }
+    .conc-chip--hard { background: rgba(240,119,106,0.16); color: var(--red); }
+    .conc-chip--note { background: var(--surface2); color: var(--text-dim); }
+
+    .conc-meter {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--surface2);
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    .conc-meter-fill { height: 100%; border-radius: 4px; }
+
+    .conc-figure {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── Cave Status Cards ── */
@@ -1346,14 +1377,14 @@
       <details class="conc-group">
         <summary class="conc-summary">East Side — Pinnacles Campground<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Pinnacles Park Store</span><span class="conc-type">Books, souvenirs, water &amp; camp basics · run by Western National Parks Association</span><span class="conc-hrs">Daily 9am–4pm</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Pinnacles Park Store</span><span class="conc-chip conc-chip--note">Daily 9am–4pm</span></div><div class="conc-type">Books, souvenirs, water &amp; camp basics · run by Western National Parks Association</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">West Side — Chaparral Area<span class="conc-count">1 location</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">West Pinnacles Visitor Contact Station Store</span><span class="conc-type">Small WNPA store · books, souvenirs &amp; safety essentials — no food service</span><span class="conc-hrs">Daily 9am–3pm</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">West Pinnacles Visitor Contact Station Store</span><span class="conc-chip conc-chip--note">Daily 9am–3pm</span></div><div class="conc-type">Small WNPA store · books, souvenirs &amp; safety essentials — no food service</div></div>
         </div>
       </details>
 
@@ -1374,17 +1405,17 @@
       <details class="conc-group">
         <summary class="conc-summary">East Side<span class="conc-count">3 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">High Peaks Trail</span><span class="conc-type">Strenuous · 6 mi loop w/ Condor Gulch · steep, exposed spires</span><span class="conc-hrs">~4–5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Bear Gulch Cave &amp; Reservoir</span><span class="conc-type">Moderate · talus cave, see cave status above</span><span class="conc-hrs">~1.5 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Condor Viewing — Juniper Canyon Jct.</span><span class="conc-type">Best viewpoint atop the High Peaks switchbacks</span><span class="conc-hrs">Varies</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">High Peaks Trail</span><span class="conc-chip conc-chip--note">~4–5 hrs</span></div><div class="conc-type">Strenuous · 6 mi loop w/ Condor Gulch · steep, exposed spires</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Bear Gulch Cave &amp; Reservoir</span><span class="conc-chip conc-chip--note">~1.5 hrs</span></div><div class="conc-type">Moderate · talus cave, see cave status above</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Condor Viewing — Juniper Canyon Jct.</span><span class="conc-chip conc-chip--note">Varies</span></div><div class="conc-type">Best viewpoint atop the High Peaks switchbacks</div></div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">West Side — Chaparral Area<span class="conc-count">2 stops</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Balconies Cave</span><span class="conc-type">Moderate · talus cave, see cave status above</span><span class="conc-hrs">~1–2 hrs</span></div>
-          <div class="conc-row"><span class="conc-name">Rock Climbing Routes</span><span class="conc-type">Volcanic breccia routes · raptor nesting closures Jan–Jul in some areas</span><span class="conc-hrs">Varies</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Balconies Cave</span><span class="conc-chip conc-chip--note">~1–2 hrs</span></div><div class="conc-type">Moderate · talus cave, see cave status above</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Rock Climbing Routes</span><span class="conc-chip conc-chip--note">Varies</span></div><div class="conc-type">Volcanic breccia routes · raptor nesting closures Jan–Jul in some areas</div></div>
         </div>
       </details>
 
@@ -1401,23 +1432,58 @@
       <details class="conc-group">
         <summary class="conc-summary">Hiking Trails<span class="conc-count">7 trails</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Moses Spring to Rim Trail Loop</span><span class="conc-type">Short loop past Bear Gulch Reservoir and the talus-cave rock formations, east side</span><span class="conc-hrs">2.2 mi RT · 500 ft · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Condor Gulch to High Peaks Loop</span><span class="conc-type">Panoramic High Peaks views with condor-viewing opportunities along a steep, narrow corridor</span><span class="conc-hrs">5.3 mi RT · 1,300 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">High Peaks to Bear Gulch Loop</span><span class="conc-type">Classic loop connecting the High Peaks spires with Bear Gulch Reservoir; wildflowers in spring</span><span class="conc-hrs">6.7 mi RT · 1,425 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Old Pinnacles Trail to Balconies Cave</span><span class="conc-type">Popular east-side approach past the Machete Ridge rock formations; flashlight needed in the cave</span><span class="conc-hrs">5.3 mi RT · Moderate</span></div>
-          <div class="conc-row"><span class="conc-name">Balconies Cliffs–Cave Loop</span><span class="conc-type">West-side loop featuring Balconies Cave exploration</span><span class="conc-hrs">2.4 mi RT · 100 ft · Easy–Mod.</span></div>
-          <div class="conc-row"><span class="conc-name">Juniper Canyon Loop</span><span class="conc-type">Switchback climb from Chaparral to the High Peaks; the primary west-side approach</span><span class="conc-hrs">4.3 mi RT · 1,215 ft · Strenuous</span></div>
-          <div class="conc-row"><span class="conc-name">Chalone Peak Trail</span><span class="conc-type">Longest maintained trail in the park, climbing to the park's high point</span><span class="conc-hrs">9 mi RT · 2,040 ft · Strenuous</span></div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Moses Spring to Rim Trail Loop</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Short loop past Bear Gulch Reservoir and the talus-cave rock formations, east side</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:24%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.2 mi RT · 500 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Condor Gulch to High Peaks Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Panoramic High Peaks views with condor-viewing opportunities along a steep, narrow corridor</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:59%;background:var(--red)"></div></div>
+            <div class="conc-figure">5.3 mi RT · 1,300 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">High Peaks to Bear Gulch Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Classic loop connecting the High Peaks spires with Bear Gulch Reservoir; wildflowers in spring</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:74%;background:var(--red)"></div></div>
+            <div class="conc-figure">6.7 mi RT · 1,425 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Old Pinnacles Trail to Balconies Cave</span><span class="conc-chip conc-chip--mod">Moderate</span></div>
+            <div class="conc-type">Popular east-side approach past the Machete Ridge rock formations; flashlight needed in the cave</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:59%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">5.3 mi RT</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Balconies Cliffs–Cave Loop</span><span class="conc-chip conc-chip--mod">Easy&ndash;Mod.</span></div>
+            <div class="conc-type">West-side loop featuring Balconies Cave exploration</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:27%;background:var(--yellow)"></div></div>
+            <div class="conc-figure">2.4 mi RT · 100 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Juniper Canyon Loop</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Switchback climb from Chaparral to the High Peaks; the primary west-side approach</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:48%;background:var(--red)"></div></div>
+            <div class="conc-figure">4.3 mi RT · 1,215 ft</div>
+          </div>
+          <div class="conc-row">
+            <div class="conc-row-top"><span class="conc-name">Chalone Peak Trail</span><span class="conc-chip conc-chip--hard">Strenuous</span></div>
+            <div class="conc-type">Longest maintained trail in the park, climbing to the park's high point</div>
+            <div class="conc-meter"><div class="conc-meter-fill" style="width:100%;background:var(--red)"></div></div>
+            <div class="conc-figure">9 mi RT · 2,040 ft</div>
+          </div>
         </div>
       </details>
 
       <details class="conc-group">
         <summary class="conc-summary">Rock Climbing<span class="conc-count">4 notes</span><span class="conc-chevron">▾</span></summary>
         <div class="conc-body">
-          <div class="conc-row"><span class="conc-name">Named Climbing Areas</span><span class="conc-type">The Balconies, Elephant Rock, Chockstone Dome &amp; Machete Ridge — accessed from the Chaparral parking area on the west side</span><span class="conc-hrs">Volcanic breccia</span></div>
-          <div class="conc-row"><span class="conc-name">Route Types</span><span class="conc-type">Toprope routes suit beginners; multi-pitch routes on formations like Machete Ridge challenge experienced climbers. Rock is notably weak — helmets required</span><span class="conc-hrs">Year-round</span></div>
-          <div class="conc-row"><span class="conc-name">Raptor Nesting Closures</span><span class="conc-type">Sensitive climbing areas close seasonally to protect nesting peregrine &amp; prairie falcons; check current advisories before climbing</span><span class="conc-hrs">Jan–Jul (some areas)</span></div>
-          <div class="conc-row"><span class="conc-name">Guides &amp; Fees</span><span class="conc-type">No separate climbing permit needed; hired guides must hold an NPS-issued guiding permit. Standard park entrance fee applies</span><span class="conc-hrs">No climbing fee</span></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Named Climbing Areas</span><span class="conc-chip conc-chip--note">Volcanic breccia</span></div><div class="conc-type">The Balconies, Elephant Rock, Chockstone Dome &amp; Machete Ridge — accessed from the Chaparral parking area on the west side</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Route Types</span><span class="conc-chip conc-chip--note">Year-round</span></div><div class="conc-type">Toprope routes suit beginners; multi-pitch routes on formations like Machete Ridge challenge experienced climbers. Rock is notably weak — helmets required</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Raptor Nesting Closures</span><span class="conc-chip conc-chip--note">Jan–Jul (some areas)</span></div><div class="conc-type">Sensitive climbing areas close seasonally to protect nesting peregrine &amp; prairie falcons; check current advisories before climbing</div></div>
+          <div class="conc-row"><div class="conc-row-top"><span class="conc-name">Guides &amp; Fees</span><span class="conc-chip conc-chip--note">No climbing fee</span></div><div class="conc-type">No separate climbing permit needed; hired guides must hold an NPS-issued guiding permit. Standard park entrance fee applies</div></div>
         </div>
       </details>
 
